@@ -1,0 +1,83 @@
+const ContactoView = {
+    render: function() {
+        return `
+            <div class="view">
+                <h2 style="color: var(--celeste-oscuro); margin-bottom:20px;">Contáctanos</h2>
+                <div class="split-container">
+                    <div class="contact-info-panel">
+                        <h3 style="font-size: 24px; margin-bottom: 15px;">¡Estamos para servirte!</h3>
+                        <p style="opacity: 0.9; margin-bottom: 30px;">Si tienes alguna duda o quieres unirte a nuestra comunidad, no dudes en contactarnos directamente a través de WhatsApp o redes sociales.</p>
+                        
+                        <a href="https://wa.me/584126413737" target="_blank" rel="noopener noreferrer" class="contact-info-item" style="text-decoration: none; color: white;">
+                            ${Icons.whatsapp}
+                            <div>
+                                <strong>Victor M. Aguillon</strong><br>
+                                <span style="font-size: 14px; opacity: 0.8;">+58 412-6413737</span>
+                            </div>
+                        </a>
+                        
+                        <a href="https://wa.me/584127212080" target="_blank" rel="noopener noreferrer" class="contact-info-item" style="text-decoration: none; color: white;">
+                            ${Icons.whatsapp}
+                            <div>
+                                <strong>Evanyelina Valbuena</strong><br>
+                                <span style="font-size: 14px; opacity: 0.8;">+58 412-7212080</span>
+                            </div>
+                        </a>
+
+                        <a href="https://instagram.com/juvemar_" target="_blank" rel="noopener noreferrer" class="contact-info-item" style="text-decoration: none; color: white;">
+                            ${Icons.instagram}
+                            <div>
+                                <strong>Juvemar</strong><br>
+                                <span style="font-size: 14px; opacity: 0.8;">@juvemar_</span>
+                            </div>
+                        </a>
+
+                        <a href="https://instagram.com/samuellourdes_" target="_blank" rel="noopener noreferrer" class="contact-info-item" style="text-decoration: none; color: white;">
+                            ${Icons.instagram}
+                            <div>
+                                <strong>El Llamado de Samuel</strong><br>
+                                <span style="font-size: 14px; opacity: 0.8;">@samuellourdes_</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div style="padding: 20px;">
+                        <h4 style="color: var(--celeste-oscuro); margin-bottom: 15px;">Envíanos un mensaje</h4>
+                        <form id="contact-form">
+                            <div class="form-group"><label>Nombre:</label><input type="text" id="contact-name" autocomplete="name" required></div>
+                            <div class="form-group"><label>Correo Electrónico:</label><input type="email" id="contact-email" autocomplete="email" required></div>
+                            <div class="form-group"><label>Mensaje:</label><textarea id="contact-message" rows="5" maxlength="1000" required></textarea></div>
+                            <button type="submit" class="btn btn-primary btn-block">Enviar Mensaje</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        `;
+    },
+    init: function() {
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('contact-name').value;
+            const email = document.getElementById('contact-email').value;
+            const message = document.getElementById('contact-message').value;
+            
+            LumenUI.showToast('Enviando mensaje...', 'success');
+            
+            fetch('https://formsubmit.co/ajax/juvemar08@gmail.com', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({ _subject: `Nuevo mensaje de contacto de ${name}`, name: name, email: email, message: message })
+            }).then(response => response.json())
+              .then(data => {
+                  if(data.success === 'true' || data.success === true) {
+                      LumenUI.showToast('¡Mensaje enviado con éxito!', 'success');
+                      document.getElementById('contact-form').reset();
+                      LumenData.saveNotification(`Nuevo mensaje de contacto de ${name}. Revisa tu correo.`, true);
+                  } else {
+                      LumenUI.showToast('Error al enviar el mensaje', 'error');
+                  }
+              })
+              .catch(() => LumenUI.showToast('Error de conexión', 'error'));
+        });
+    }
+};

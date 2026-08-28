@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMEN </title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='7' fill='%23005F8A'/><path d='M6 6 L6 18 L15 18 L15 15.5 L8.8 15.5 L8.8 6 Z' fill='white'/><path d='M7.4 1 C 5.8 3 4.5 5 4.5 7 C 4.5 9.5 6 10.5 7.4 10.5 C 8.8 10.5 10.3 9.5 10.3 7 C 10.3 5 9 3 7.4 1 Z' fill='%23FFD700'/></svg>" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="LUMEN">
+    <meta name="theme-color" content="#005F8A">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <a href="#app-container" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:10001;padding:12px 20px;background:var(--celeste-primario);color:white;font-weight:600;border-radius:0 0 12px 0;">Saltar al contenido principal</a>
+
+    <div id="preloader">
+        <div class="loader-logo">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="24" height="24" rx="7" fill="url(#lumenLogoGrad)"/>
+                <defs><linearGradient id="lumenLogoGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop stop-color="#00A2E8"/><stop offset="1" stop-color="#005F8A"/></linearGradient></defs>
+                <path d="M6 6 L6 18 L15 18 L15 15.5 L8.8 15.5 L8.8 6 Z" fill="white"/>
+                <path d="M7.4 1 C 5.8 3 4.5 5 4.5 7 C 4.5 9.5 6 10.5 7.4 10.5 C 8.8 10.5 10.3 9.5 10.3 7 C 10.3 5 9 3 7.4 1 Z" fill="#FFD700"/>
+            </svg>
+        </div>
+        <h1 class="loader-text">LUMEN</h1>
+        <p>Iluminando el camino...</p>
+    </div>
+
+   <header class="navbar">
+        <div class="logo" onclick="LumenRouter.navigateTo('landing')">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="border-radius: 7px;">
+                <rect width="24" height="24" rx="7" fill="url(#lumenNavGrad)"/>
+                <defs><linearGradient id="lumenNavGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop stop-color="#00A2E8"/><stop offset="1" stop-color="#005F8A"/></linearGradient></defs>
+                <path d="M6 6 L6 18 L15 18 L15 15.5 L8.8 15.5 L8.8 6 Z" fill="white"/>
+                <path d="M7.4 1 C 5.8 3 4.5 5 4.5 7 C 4.5 9.5 6 10.5 7.4 10.5 C 8.8 10.5 10.3 9.5 10.3 7 C 10.3 5 9 3 7.4 1 Z" fill="#FFD700"/>
+            </svg>
+            LUMEN
+        </div>
+        
+        <ul class="nav-links">
+            <li><a href="#inicio" class="nav-link" data-view="inicio">Inicio</a></li>
+            <li><a href="#nosotros" class="nav-link" data-view="nosotros">Nosotros</a></li>
+            <li><a href="#actividades" class="nav-link" data-view="actividades">Actividades</a></li>
+            <li><a href="#devocional" class="nav-link" data-view="devocional">Devocional</a></li>
+            <li><a href="#blog" class="nav-link" data-view="blog">Blog</a></li>
+            <li><a href="#recursos" class="nav-link" data-view="recursos" id="recursos-nav-link" style="display:none;">Recursos</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-trigger" onclick="event.preventDefault(); document.getElementById('comunidad-dropdown').classList.toggle('active');">Comunidad 
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </a>
+                <div class="dropdown-content" id="comunidad-dropdown">
+                    <a href="#notificaciones" class="nav-link has-badge" data-view="notificaciones" id="notificaciones-nav-link" onclick="document.getElementById('comunidad-dropdown').classList.remove('active')">Avisos <span id="notif-badge" class="notif-badge" style="display:none;"></span></a>
+                    <a href="#intenciones" class="nav-link" data-view="intenciones" id="intenciones-nav-link" onclick="document.getElementById('comunidad-dropdown').classList.remove('active')">Intenciones</a>
+                    <a href="#encuestas" class="nav-link" data-view="encuestas" id="encuestas-nav-link" onclick="document.getElementById('comunidad-dropdown').classList.remove('active')">Encuestas</a>
+                </div>
+            </li>
+            <li id="admin-nav-link" style="display:none;"><a href="#gestion" class="nav-link" data-view="gestion">Gestión</a></li>
+            <li><a href="#contacto" class="nav-link" data-view="contacto">Contacto</a></li>
+        </ul>
+        
+        <div class="user-zone">
+            <button class="theme-toggle-btn" onclick="LumenUI.toggleDarkMode()" aria-label="Cambiar tema claro/oscuro">
+                <svg id="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                <svg id="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" style="display:none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </button>
+            <div id="user-data-zone"></div>
+            <!-- Botón Hamburguesa (Solo Móvil) -->
+            <button class="mobile-menu-btn" onclick="LumenUI.toggleDrawer()" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="side-drawer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+        </div>
+    </header>
+
+
+    <main id="app-container"></main>
+
+    <!-- MENÚ LATERAL MÓVIL (Drawer) -->
+    <div class="drawer-overlay" id="drawer-overlay" onclick="LumenUI.toggleDrawer()"></div>
+    <aside class="side-drawer" id="side-drawer" role="dialog" aria-modal="true" aria-label="Menú de navegación">
+        <h3>Menú</h3>
+        <a href="#inicio" class="drawer-link" data-view="inicio" onclick="LumenUI.toggleDrawer()">Inicio</a>
+        <a href="#nosotros" class="drawer-link" data-view="nosotros" onclick="LumenUI.toggleDrawer()">Nosotros</a>
+        <a href="#actividades" class="drawer-link" data-view="actividades" onclick="LumenUI.toggleDrawer()">Actividades</a>
+        <a href="#devocional" class="drawer-link" data-view="devocional" onclick="LumenUI.toggleDrawer()">Devocional</a>
+        <a href="#blog" class="drawer-link" data-view="blog" onclick="LumenUI.toggleDrawer()">Blog</a>
+        <a href="#recursos" class="drawer-link" id="drawer-recursos-link" data-view="recursos" onclick="LumenUI.toggleDrawer()">Recursos</a>
+        <a href="#notificaciones" class="drawer-link has-badge" id="drawer-notif-link" data-view="notificaciones" onclick="LumenUI.toggleDrawer()">Avisos <span class="notif-badge drawer-notif-badge" style="display:none;"></span></a>
+        <a href="#intenciones" class="drawer-link" id="drawer-intenciones-link" data-view="intenciones" onclick="LumenUI.toggleDrawer()">Intenciones</a>
+        <a href="#encuestas" class="drawer-link" id="drawer-encuestas-link" data-view="encuestas" onclick="LumenUI.toggleDrawer()">Encuestas</a>
+        <a href="#gestion" class="drawer-link" id="drawer-admin-link" style="display:none;" data-view="gestion" onclick="LumenUI.toggleDrawer()">Gestión</a>
+        <a href="#contacto" class="drawer-link" data-view="contacto" onclick="LumenUI.toggleDrawer()">Contacto</a>
+    </aside>
+
+    <!-- Botón Volver Arriba -->
+    <div id="scroll-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+
+    <!-- Banner Instalación PWA -->
+    <div id="pwa-install-banner" style="display:none;">
+        <span>📱 ¡Instala LUMEN en tu celular!</span>
+        <button id="pwa-install-btn">Instalar</button>
+        <span onclick="document.getElementById('pwa-install-banner').style.display='none';" style="cursor:pointer; margin-left:10px;">✖</span>
+    </div>
+
+    <!-- Modal de Confirmación Elegante -->
+    <div class="modal-overlay" id="confirm-modal">
+        <div class="modal" style="max-width: 400px; text-align: center;">
+            <h3 id="confirm-title" style="color:var(--celeste-oscuro); margin-bottom:15px;">¿Estás seguro?</h3>
+            <p id="confirm-message" style="color:var(--texto-gris); margin-bottom:25px;"></p>
+            <div style="display:flex; gap:15px; justify-content:center;">
+                <button class="btn btn-outline" onclick="LumenUI.closeModal('confirm-modal')">Cancelar</button>
+                <button class="btn btn-danger" id="confirm-accept-btn">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modales existentes -->
+    <div class="modal-overlay" id="registration-modal">
+        <div class="modal glass">
+            <span class="modal-close" onclick="LumenUI.closeModal('registration-modal')">&times;</span>
+            <h2 id="modal-title">Inscripción a Evento</h2>
+            <form id="registration-form">
+                <div class="form-group"><label>Nombre Completo:</label><input type="text" id="reg-name" required></div>
+                <div class="form-group"><label>Teléfono / WhatsApp:</label><input type="tel" id="reg-phone" required></div>
+                <button type="submit" class="btn btn-primary btn-block">Confirmar Inscripción</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="login-modal">
+        <div class="modal glass">
+            <span class="modal-close" onclick="LumenUI.closeModal('login-modal')">&times;</span>
+            <div id="login-view">
+                <h2>Iniciar Sesión</h2>
+                <form id="login-form">
+                    <div class="form-group"><label>Correo Electrónico:</label><input type="email" id="login-email" required></div>
+                    <div class="form-group"><label>Contraseña:</label><input type="password" id="login-password" required></div>
+                    <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+                    <p class="modal-footer-text"><a href="#" onclick="event.preventDefault(); LumenUI.toggleForgotPassword(true)">¿Olvidaste tu contraseña?</a></p>
+                    <p class="modal-footer-text">¿No tienes cuenta? <a href="#" onclick="event.preventDefault(); LumenUI.closeModal('login-modal'); LumenUI.openModal('register-modal')">Regístrate aquí</a></p>
+                </form>
+            </div>
+            <div id="forgot-password-view" style="display:none;">
+                <h2>Recuperar Contraseña</h2>
+                <form id="forgot-form">
+                    <div class="form-group"><label>Correo Electrónico:</label><input type="email" id="forgot-email" required></div>
+                    <button type="submit" class="btn btn-primary btn-block">Enviar Enlace</button>
+                    <p class="modal-footer-text"><a href="#" onclick="event.preventDefault(); LumenUI.toggleForgotPassword(false)">Volver a Iniciar Sesión</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="register-modal">
+        <div class="modal glass modal-wide">
+            <span class="modal-close" onclick="LumenUI.closeModal('register-modal')">&times;</span>
+            <h2>Únete a LUMEN</h2>
+            <form id="register-form">
+                <div class="form-grid-2">
+                    <div class="form-group"><label>Nombre y Apellido: *</label><input type="text" id="reg-fullname" required></div>
+                    <div class="form-group"><label>Edad: *</label><input type="number" id="reg-age" min="10" max="30" required oninput="LumenUI.toggleGuardianFields(this.value)"></div>
+                </div>
+                <div class="form-grid-2">
+                    <div class="form-group"><label>Fecha de cumpleaños: *</label><input type="text" id="reg-birthdate" placeholder="DD/MM/YYYY" required></div>
+                    <div class="form-group"><label>Dirección: *</label><input type="text" id="reg-sector" required></div>
+                </div>
+                <div class="form-group"><label>Número telefónico: *</label><input type="tel" id="reg-phone-user" required></div>
+                <div class="form-group">
+                    <label>¿Ya formas parte de Juvemar o eres nuevo/a? *</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item"><input type="radio" name="juvemar-status" id="juvemar-nuevo" value="Nuevo" onchange="LumenUI.toggleJuvemarFields()"><label for="juvemar-nuevo">Soy nuevo/a (Usuario Global)</label></div>
+                        <div class="checkbox-item"><input type="radio" name="juvemar-status" id="juvemar-si" value="Pertenece" onchange="LumenUI.toggleJuvemarFields()"><label for="juvemar-si">Sí, ya soy parte de Juvemar</label></div>
+                    </div>
+                    <div id="juvemar-time-wrap" class="sub-input" style="display:none; margin-top:10px;">
+                        <label>¿Desde qué fecha exacta? (Mes y Año)</label>
+                        <input type="month" id="juvemar-time-text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Sacramentos hechos (Marca los que tienes): *</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item"><input type="checkbox" id="sac-bautismo"><label for="sac-bautismo">Bautismo</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="sac-comunion"><label for="sac-comunion">Primera comunión</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="sac-confirmacion"><label for="sac-confirmacion">Confirmación</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="sac-ninguno"><label for="sac-ninguno">Ninguno</label></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>¿Has vivido alguna experiencia kerigmatica (Samuel, Emaús, etc)? *</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item"><input type="radio" name="kerigma" id="kerigma-samuel" value="Samuel" onchange="LumenUI.toggleKerigmaFields()"><label for="kerigma-samuel">Samuel.</label></div>
+                        <div id="samuel-parroquia-wrap" class="sub-input" style="display:none;">
+                            <label>¿Hiciste Samuel en la Parroquia?</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item"><input type="checkbox" id="samuel-si" onchange="LumenUI.toggleSamuelEdition(this.checked)"><label for="samuel-si">Sí</label></div>
+                            </div>
+                            <div id="samuel-edition-wrap" style="display:none; margin-top: 10px;">
+                                <label>¿En qué edición?</label>
+                                <input type="text" id="samuel-edition-text" placeholder="Ej: Primera, Segunda, etc.">
+                            </div>
+                        </div>
+                        <div class="checkbox-item"><input type="radio" name="kerigma" id="kerigma-emaus" value="Emaús" onchange="LumenUI.toggleKerigmaFields()"><label for="kerigma-emaus">Emaús.</label></div>
+                        <div class="checkbox-item"><input type="radio" name="kerigma" id="kerigma-otra" value="Otra experiencia" onchange="LumenUI.toggleKerigmaFields()"><label for="kerigma-otra">Otra experiencia.</label></div>
+                        <div id="kerigma-otra-wrap" class="sub-input" style="display:none;">
+                            <label>En caso de ser otra, escriba cuál.</label>
+                            <input type="text" id="kerigma-otra-text">
+                        </div>
+                        <div class="checkbox-item"><input type="radio" name="kerigma" id="kerigma-no" value="No he vivido nada similar" onchange="LumenUI.toggleKerigmaFields()"><label for="kerigma-no">No he vivido nada similar.</label></div>
+                    </div>
+                </div>
+                <div id="guardian-fields" class="guardian-box" style="display: none;">
+                    <p>Datos del Representante (Menor de 18)</p>
+                    <div class="form-group"><label>Nombre y Apellido: *</label><input type="text" id="reg-guardian-name"></div>
+                    <div class="form-group"><label>Teléfono: *</label><input type="tel" id="reg-guardian-phone"></div>
+                </div>
+                <div class="form-grid-2">
+                    <div class="form-group"><label>Correo Electrónico: *</label><input type="email" id="reg-email" required></div>
+                    <div class="form-group"><label>Contraseña (Mínimo 6): *</label><input type="password" id="reg-pass" required min="6"></div>
+                    <div class="form-group"><label>Repetir Contraseña: *</label><input type="password" id="reg-pass2" required></div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Crear Cuenta</button>
+                <p class="modal-footer-text">¿Ya tienes cuenta? <a href="#" onclick="event.preventDefault(); LumenUI.closeModal('register-modal'); LumenUI.openModal('login-modal')">Inicia sesión</a></p>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="admin-modal">
+        <div class="modal glass modal-wide">
+            <span class="modal-close" onclick="LumenUI.closeModal('admin-modal')">&times;</span>
+            <h2 id="admin-modal-title">Gestionar</h2>
+            <div id="admin-modal-content"></div>
+        </div>
+    </div>
+
+    <div id="toast-container" aria-live="polite" aria-atomic="false"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    
+    <script src="js/firebase.js"></script>
+    <script src="js/santoral.js"></script>
+    <script src="js/devocional_data.js"></script>
+    <script src="js/frases_santos.js"></script>
+    <script src="js/icons.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/views/landing.js"></script>
+    <script src="js/views/inicio.js"></script>
+    <script src="js/views/nosotros.js"></script>
+    <script src="js/views/actividades.js"></script>
+    <script src="js/views/detalle.js"></script>
+    <script src="js/views/devocional.js"></script>
+    <script src="js/views/recursos.js"></script>
+    <script src="js/views/perfil.js"></script>
+    <script src="js/views/notificaciones.js"></script>
+    <script src="js/views/intenciones.js"></script>
+    <script src="js/views/encuestas.js"></script>
+    <script src="js/views/blog.js"></script>
+    <script src="js/views/gestion.js"></script>
+    <script src="js/views/contacto.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
