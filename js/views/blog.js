@@ -13,14 +13,18 @@ const BlogView = {
         `;
     },
     init: function() {
-        db.ref('blog').limitToLast(20).on('value', (snapshot) => {
-            const data = snapshot.val() || {};
+        this.loadArticles();
+    },
+    loadArticles: function() {
+        let q = supabase.from('articulos').select('*').order('timestamp', { ascending: false }).limit(20);
+        if (!LumenAuth.isAdmin) q = q.eq('status', 'approved');
+        q.then(({ data, error }) => {
             const list = document.getElementById('blog-list');
             if (!list) return;
-
-            const articles = Object.keys(data).map(k => ({ id: k, ...data[k] })).reverse();
-            const approvedArticles = articles.filter(a => a.status === 'approved');
-
+            if (error) { list.innerHTML = `<div class="state-container">${Icons.alert}<h3>Error al cargar</h3></div>`; return; }
+            const articles = data || [];
+            const approvedArticles = articles.filter(a => LumenAuth.isAdmin ? a.status !== 'pending' || true : a.status === 'approved');
+            
             if (LumenAuth.isAdmin) {
                 const pending = articles.filter(a => a.status === 'pending');
                 if (pending.length > 0) {
@@ -49,10 +53,10 @@ const BlogView = {
             const date = new Date(a.timestamp).toLocaleDateString('es-VE', { day: 'numeric', month: 'long', year: 'numeric' });
             html += `
                 <div class="card reveal" style="cursor: pointer;" onclick="BlogView.viewArticle('${a.id}')">
-                    ${a.imageUrl ? `<img src="${a.imageUrl}" alt="${a.title}" loading="lazy" width="400" height="200" style="width:100%; height: 200px; object-fit: cover;">` : ''}
+                    ${a.image_url ? `<img src="${a.image_url}" alt="${a.title}" loading="lazy" width="400" height="200" style="width:100%; height: 200px; object-fit: cover;">` : ''}
                     <div class="card-header">${Icons.book}<h3>${a.title}</h3></div>
                     <div class="card-body">
-                        <p style="font-size: 14px; color: var(--texto-gris); margin-bottom: 10px;">Por ${a.authorName} | ${date}</p>
+                        <p style="font-size: 14px; color: var(--texto-gris); margin-bottom: 10px;">Por ${a.author_name} | ${date}</p>
                         <p>${a.content.substring(0, 120)}...</p>
                         <button class="btn btn-outline btn-block" style="margin-top: 15px;">Leer más</button>
                     </div>
@@ -62,15 +66,15 @@ const BlogView = {
         return html;
     },
     viewArticle: function(id) {
-        db.ref('blog/' + id).once('value').then(snap => {
-            const a = snap.val();
+        supabase.from('articulos').select('*').eq('id', id).single().then(({ data, error }) => {
+            const a = data;
             if (!a) return;
             const date = new Date(a.timestamp).toLocaleDateString('es-VE', { day: 'numeric', month: 'long', year: 'numeric' });
             const contentHTML = `
                 <div style="text-align: left;">
-                    ${a.imageUrl ? `<img src="${a.imageUrl}" alt="${a.title}" style="width:100%; height: 250px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;">` : ''}
+                    ${a.image_url ? `<img src="${a.image_url}" alt="${a.title}" style="width:100%; height: 250px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;">` : ''}
                     <h2 style="color: var(--celeste-oscuro); margin-bottom: 10px;">${a.title}</h2>
-                    <p style="font-size: 14px; color: var(--texto-gris); margin-bottom: 20px;">Por <strong>${a.authorName}</strong> | ${date}</p>
+                    <p style="font-size: 14px; color: var(--texto-gris); margin-bottom: 20px;">Por <strong>${a.author_name}</strong> | ${date}</p>
                     <div style="white-space: pre-wrap; line-height: 1.8; color: var(--texto-oscuro); font-size: 16px;">${a.content}</div>
                 </div>
             `;
@@ -97,14 +101,15 @@ const BlogView = {
         const authorName = LumenAuth.userProfile?.nombre || 'Usuario';
         const authorEmail = LumenAuth.currentUser?.email || '';
 
-        db.ref('blog').push({
-            title, imageUrl, content,
-            authorName,
-            authorEmail,
-            authorUid: LumenAuth.currentUser.uid,
+        supabase.from('articulos').insert({
+            title, image_url: imageUrl, content,
+            author_name: authorName,
+            author_email: authorEmail,
+            author_uid: LumenAuth.currentUser.id,
             timestamp: Date.now(),
             status: 'pending'
-        }).then(() => {
+        }).then(({ error }) => {
+            if (error) { console.error(error); LumenUI.showToast('Error al enviar el artículo. Inténtalo de nuevo.', 'error'); return; }
             LumenUI.closeModal('admin-modal');
             LumenUI.showToast('Artículo enviado a revisión. Te notificaremos su aprobación, ¡gracias!', 'success');
             LumenData.saveNotification(`Nuevo artículo de blog pendiente: ${title}`, true);

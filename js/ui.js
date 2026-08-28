@@ -66,7 +66,12 @@ const LumenUI = {
         'auth/network-request-failed': 'Problema de conexión. Revisa tu internet e inténtalo de nuevo.',
         'auth/requires-recent-login': 'Por seguridad, vuelve a iniciar sesión antes de continuar.',
         'auth/operation-not-allowed': 'Esta opción no está disponible por ahora.',
-        'auth/account-exists-with-different-credential': 'Ya hay una cuenta con ese correo, pero con otro método de acceso.'
+        'auth/account-exists-with-different-credential': 'Ya hay una cuenta con ese correo, pero con otro método de acceso.',
+        'Invalid login credentials': 'El correo o la contraseña son incorrectos.',
+        'Email not confirmed': 'Aún no confirmas tu correo. Revisa tu bandeja de entrada.',
+        'User already registered': 'Ya existe una cuenta con este correo. Inicia sesión o usa otro.',
+        'Password should be at least 6 characters': 'La contraseña es muy corta. Usa al menos 6 caracteres.',
+        'Rate limit exceeded': 'Demasiados intentos. Espera un momento y vuelve a intentarlo.'
     },
     defaultError: 'Ocurrió un problema. Inténtalo de nuevo.',
     getErrorMessage: function(err) {
@@ -228,8 +233,9 @@ const LumenUI = {
             if (evento.requisito_edad === 'nacido_desde' && birthDate < limitDate) return this.showToast('Requisito: Nacidos desde ' + evento.requisito_fecha, 'error');
         }
 
-        db.ref(`inscripciones/${eventId}/${LumenAuth.currentUser.uid}`).once('value').then(snap => {
-            if (snap.exists()) { this.showToast('Ya estás inscrito.', 'error'); } 
+        const uid = LumenAuth.currentUser.id;
+        supabase.from('inscripciones').select('*').eq('evento_id', eventId).eq('user_id', uid).maybeSingle().then(({ data }) => {
+            if (data) { this.showToast('Ya estás inscrito.', 'error'); } 
             else {
                 document.getElementById('modal-title').innerText = `Inscripción: ${evento.titulo}`;
                 const form = document.getElementById('registration-form');
@@ -313,14 +319,17 @@ safeListener('registration-form', 'submit', function(e) {
     const eventId = this.getAttribute('data-event-id');
     const name = document.getElementById('reg-name').value;
     const phone = document.getElementById('reg-phone').value;
-    const uid = LumenAuth.currentUser.uid;
+    const uid = LumenAuth.currentUser.id;
     const eventTitle = document.getElementById('modal-title').innerText.replace('Inscripción: ', '');
     const submitBtn = this.querySelector('button[type="submit"]');
     
     LumenUI.setLoading(submitBtn, 'Inscribiendo');
 
-    db.ref(`inscripciones/${eventId}/${uid}`).set({ nombre: name, telefono: phone, fecha: new Date().toISOString() })
-      .then(() => fetch('https://formsubmit.co/ajax/juvemar08@gmail.com', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ _subject: `Nueva Inscripción: ${eventTitle}`, name: name, phone: phone, message: `${name} se ha inscrito a "${eventTitle}". Tel: ${phone}` }) }))
+    supabase.from('inscripciones').upsert({ evento_id: eventId, user_id: uid, nombre: name, telefono: phone, fecha: new Date().toISOString() }, { onConflict: 'evento_id,user_id' })
+      .then(({ error }) => {
+          if (error) throw error;
+          return fetch('https://formsubmit.co/ajax/juvemar08@gmail.com', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ _subject: `Nueva Inscripción: ${eventTitle}`, name: name, phone: phone, message: `${name} se ha inscrito a "${eventTitle}". Tel: ${phone}` }) });
+      })
       .then(response => response.json())
       .then(() => { 
           LumenUI.closeModal('registration-modal'); 

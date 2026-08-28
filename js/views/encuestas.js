@@ -16,63 +16,78 @@ const EncuestasView = {
         `;
     },
     init: function() {
-        db.ref('encuestas').limitToLast(10).on('value', (snapshot) => {
-            const data = snapshot.val() || {};
+        this.loadEncuestas();
+        this.subscribe();
+    },
+    loadEncuestas: function() {
+        supabase.from('encuestas').select('*').order('timestamp', { ascending: false }).limit(10).then(({ data, error }) => {
             const list = document.getElementById('encuestas-list');
             if (!list) return;
-
-            const encuestas = Object.keys(data).map(k => ({ id: k, ...data[k] })).reverse();
-            
+            if (error) { list.innerHTML = `<div class="state-container">${Icons.alert}<h3>Error al cargar</h3></div>`; return; }
+            const encuestas = data || [];
             if (encuestas.length === 0) {
                 list.innerHTML = `<div class="state-container">${Icons.empty_box}<h3>No hay encuestas</h3><p>Crea una encuesta para que la comunidad decida.</p></div>`;
                 return;
             }
-
-            let html = '';
-            encuestas.forEach(enc => {
-                const totalVotes = enc.votes ? Object.keys(enc.votes).length : 0;
-                const userVote = enc.votes && LumenAuth.currentUser ? enc.votes[LumenAuth.currentUser.uid] : null;
-                const isAdmin = LumenAuth.isAdmin;
-                
-                let optionsHTML = '';
-                enc.options.forEach((opt, index) => {
-                    const votesForOpt = enc.votes ? Object.values(enc.votes).filter(v => v === index).length : 0;
-                    const percentage = totalVotes > 0 ? (votesForOpt / totalVotes * 100).toFixed(0) : 0;
+            Promise.all(encuestas.map(e => this.loadVotes(e.id))).then(votesMaps => {
+                let html = '';
+                encuestas.forEach((enc, idx) => {
+                    const votes = votesMaps[idx] || [];
+                    const totalVotes = votes.length;
+                    const myVote = LumenAuth.currentUser ? votes.find(v => v.user_id === LumenAuth.currentUser.id) : null;
+                    const userVote = myVote ? myVote.option_index : null;
+                    const isAdmin = LumenAuth.isAdmin;
                     
-                    if (userVote !== null || isAdmin) {
-                        optionsHTML += `
-                            <div class="poll-result-item">
-                                <div class="poll-result-header">
-                                    <span>${opt} ${userVote === index ? '✓' : ''}</span>
-                                    <span>${percentage}% (${votesForOpt})</span>
+                    let optionsHTML = '';
+                    (enc.options || []).forEach((opt, index) => {
+                        const votesForOpt = votes.filter(v => v.option_index === index).length;
+                        const percentage = totalVotes > 0 ? (votesForOpt / totalVotes * 100).toFixed(0) : 0;
+                        
+                        if (userVote !== null || isAdmin) {
+                            optionsHTML += `
+                                <div class="poll-result-item">
+                                    <div class="poll-result-header">
+                                        <span>${opt} ${userVote === index ? '✓' : ''}</span>
+                                        <span>${percentage}% (${votesForOpt})</span>
+                                    </div>
+                                    <div class="poll-results-bar">
+                                        <div class="poll-results-fill" style="width: ${percentage}%"></div>
+                                    </div>
                                 </div>
-                                <div class="poll-results-bar">
-                                    <div class="poll-results-fill" style="width: ${percentage}%"></div>
+                            `;
+                        } else {
+                            optionsHTML += `
+                                <div class="poll-option" onclick="EncuestasView.vote('${enc.id}', ${index})">
+                                    <input type="radio" name="poll-${enc.id}" value="${index}">
+                                    <label>${opt}</label>
                                 </div>
-                            </div>
-                        `;
-                    } else {
-                        optionsHTML += `
-                            <div class="poll-option" onclick="EncuestasView.vote('${enc.id}', ${index})">
-                                <input type="radio" name="poll-${enc.id}" value="${index}">
-                                <label>${opt}</label>
-                            </div>
-                        `;
-                    }
-                });
+                            `;
+                        }
+                    });
 
-                html += `
-                    <div class="card">
-                        <div class="card-header">${Icons.bell}<h3>${enc.question}</h3></div>
-                        <div class="card-body">
-                            ${optionsHTML}
-                            <p style="font-size: 12px; color: var(--texto-gris); margin-top: 10px;">Total de votos: ${totalVotes}</p>
+                    html += `
+                        <div class="card">
+                            <div class="card-header">${Icons.bell}<h3>${enc.question}</h3></div>
+                            <div class="card-body">
+                                ${optionsHTML}
+                                <p style="font-size: 12px; color: var(--texto-gris); margin-top: 10px;">Total de votos: ${totalVotes}</p>
+                            </div>
                         </div>
-                    </div>
-                `;
+                    `;
+                });
+                list.innerHTML = html;
             });
-            list.innerHTML = html;
         });
+    },
+    loadVotes: function(encuestaId) {
+        return supabase.from('encuesta_votos').select('user_id, option_index').eq('encuesta_id', encuestaId).then(({ data, error }) => data || []);
+    },
+    subscribe: function() {
+        supabase
+            .channel('lumen-encuestas')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'encuestas' }, () => this.loadEncuestas())
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'encuesta_votos' }, () => this.loadEncuestas())
+            .subscribe();
     },
     showAddForm: function() {
         const formHTML = `
@@ -96,13 +111,14 @@ const EncuestasView = {
         
         if (document.getElementById('poll-opt-3').value) options.push(document.getElementById('poll-opt-3').value);
 
-        db.ref('encuestas').push({ question, options, votes: {}, timestamp: Date.now() })
+        supabase.from('encuestas').insert({ question, options, timestamp: Date.now() })
             .then(() => { LumenUI.closeModal('admin-modal'); LumenUI.showToast('Encuesta creada', 'success'); })
             .catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
     },
     vote: function(pollId, optionIndex) {
         if (!LumenAuth.currentUser) return;
-        db.ref(`encuestas/${pollId}/votes/${LumenAuth.currentUser.uid}`).set(optionIndex)
+        const uid = LumenAuth.currentUser.id;
+        supabase.from('encuesta_votos').upsert({ encuesta_id: pollId, user_id: uid, option_index: optionIndex }, { onConflict: 'encuesta_id,user_id' })
             .then(() => LumenUI.showToast('Voto registrado', 'success'))
             .catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
     }

@@ -5,14 +5,14 @@ const PerfilView = {
         if (!LumenAuth.currentUser) return `<div class="state-container"><h3>Acceso Denegado</h3><p>Debes iniciar sesión.</p></div>`;
         
         const user = LumenAuth.userProfile || {};
-        const picUrl = user.photoURL || `https://via.placeholder.com/150/005F8A/ffffff?text=${user.nombre ? user.nombre.charAt(0) : 'L'}`;
+        const picUrl = user.photo_url || `https://via.placeholder.com/150/005F8A/ffffff?text=${user.nombre ? user.nombre.charAt(0) : 'L'}`;
         
         let juvemarInfo = user.juvemar_status || 'No especificado';
         if (user.juvemar_status === 'Pertenece' && user.juvemar_tiempo) juvemarInfo = `Pertenece desde ${user.juvemar_tiempo}`;
 
         let progress = 0;
         if (user.nombre) progress += 20;
-        if (user.photoURL) progress += 20;
+        if (user.photo_url) progress += 20;
         if (user.telefono) progress += 20;
         if (user.direccion) progress += 20;
         if (user.sacramentos && user.sacramentos.length > 0) progress += 20;
@@ -86,7 +86,7 @@ const PerfilView = {
     
     showEditForm: function() {
         const user = LumenAuth.userProfile || {};
-        const picUrl = user.photoURL || `https://via.placeholder.com/100/005F8A/ffffff?text=${user.nombre ? user.nombre.charAt(0) : 'L'}`;
+        const picUrl = user.photo_url || `https://via.placeholder.com/100/005F8A/ffffff?text=${user.nombre ? user.nombre.charAt(0) : 'L'}`;
         
         const formHTML = `
             <form onsubmit="PerfilView.saveEdit(event)">
@@ -143,19 +143,30 @@ const PerfilView = {
         if (!this.cropper) return LumenUI.showToast('Primero selecciona una imagen.', 'error');
         const canvas = this.cropper.getCroppedCanvas({ width: 600, height: 600, fillColor: '#fff', imageSmoothingEnabled: true, imageSmoothingQuality: 'high' });
         if (!canvas) return LumenUI.showToast('No se pudo recortar la imagen. Intenta con otra.', 'error');
-        const compressedBase64 = canvas.toDataURL('image/jpeg', 0.9);
-        document.getElementById('ep-pic-preview').src = compressedBase64;
+        const uid = LumenAuth.currentUser.id;
+        document.getElementById('ep-pic-preview').src = canvas.toDataURL('image/jpeg', 0.9);
         document.getElementById('ep-pic-preview').style.display = 'block';
         document.getElementById('cropper-area').style.display = 'none';
         document.getElementById('crop-save-btn').style.display = 'none';
         this.cropper.destroy();
         this.cropper = null;
-        db.ref('users/' + LumenAuth.currentUser.uid + '/photoURL').set(compressedBase64)
-            .then(() => {
-                LumenAuth.userProfile.photoURL = compressedBase64;
-                LumenAuth.updateUI();
-                LumenUI.showToast('Foto de perfil actualizada en alta calidad', 'success');
-            });
+
+        // Subir a Supabase Storage
+        canvas.toBlob((blob) => {
+            const filePath = `${uid}/photo.jpg`;
+            supabase.storage.from('avatars').upload(filePath, blob, { contentType: 'image/jpeg', upsert: true })
+                .then(({ error }) => {
+                    if (error) throw error;
+                    const { data: { publicUrl } } = supabase.storage.from('avatars').getPublicUrl(filePath);
+                    return supabase.from('profiles').update({ photo_url: publicUrl }).eq('id', uid);
+                })
+                .then(() => {
+                    LumenAuth.userProfile.photo_url = supabase.storage.from('avatars').getPublicUrl(`${uid}/photo.jpg`).data.publicUrl;
+                    LumenAuth.updateUI();
+                    LumenUI.showToast('Foto de perfil actualizada en alta calidad', 'success');
+                })
+                .catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
+        }, 'image/jpeg', 0.9);
     },
     saveEdit: function(e) {
         e.preventDefault();
@@ -168,7 +179,7 @@ const PerfilView = {
             nacimiento: document.getElementById('ep-birthdate').value, direccion: document.getElementById('ep-address').value,
             telefono: document.getElementById('ep-phone').value, sacramentos: sacramentos
         };
-        db.ref('users/' + LumenAuth.currentUser.uid).update(data)
+        supabase.from('profiles').update(data).eq('id', LumenAuth.currentUser.id)
             .then(() => {
                 LumenAuth.userProfile = { ...LumenAuth.userProfile, ...data };
                 LumenAuth.updateUI(); LumenUI.closeModal('admin-modal');

@@ -24,7 +24,9 @@ const GestionView = {
             </div>
         `;
     },
-    init: function() { this.renderContent(); },
+    init: function() {
+        if (!LumenData.users) { LumenData.loadUsers().then(() => this.renderContent()); } else { this.renderContent(); }
+    },
     changeTab: function(tab) { 
         Object.values(gestionCharts).forEach(chart => chart.destroy());
         gestionCharts = {};
@@ -41,6 +43,10 @@ const GestionView = {
         else if (currentGestionTab === 'cumpleanos') container.innerHTML = this.renderCumpleanos();
         else if (currentGestionTab === 'blog') container.innerHTML = this.renderBlog();
     },
+    ensureUsers: function(cb) {
+        if (LumenData.users) return cb();
+        LumenData.loadUsers().then(() => cb());
+    },
 
     // --- BLOG GESTIÓN ---
     renderBlog: function() {
@@ -56,7 +62,7 @@ const GestionView = {
             html += `
                 <div class="attendance-card" style="flex-direction: column; align-items: flex-start; margin-bottom: 15px;">
                     <h4>${a.title}</h4>
-                    <p style="font-size: 12px; color: var(--texto-gris); margin-bottom: 10px;">Por ${a.authorName}</p>
+                    <p style="font-size: 12px; color: var(--texto-gris); margin-bottom: 10px;">Por ${a.author_name}</p>
                     <p style="font-size: 14px; margin-bottom: 15px;">${a.content.substring(0, 150)}...</p>
                     <div style="display: flex; gap: 10px;">
                         <button class="btn btn-primary" onclick="GestionView.approveArticle('${a.id}')">Aprobar</button>
@@ -74,7 +80,7 @@ const GestionView = {
                 <div class="attendance-card" style="margin-bottom: 10px;">
                     <div class="mini-event-info">
                         <h4>${a.title}</h4>
-                        <p>Por ${a.authorName}</p>
+                        <p>Por ${a.author_name}</p>
                     </div>
                     <button class="btn btn-danger" style="margin-left: auto;" onclick="GestionView.deleteArticle('${a.id}')">Eliminar</button>
                 </div>
@@ -84,15 +90,16 @@ const GestionView = {
         return html;
     },
     approveArticle: function(id) {
-        db.ref('blog/' + id).update({ status: 'approved' }).then(() => {
+        supabase.from('articulos').update({ status: 'approved' }).eq('id', id).then(({ error }) => {
+            if (error) return LumenUI.showToast(LumenUI.getErrorMessage(error), 'error');
             LumenUI.showToast('Artículo aprobado y publicado', 'success');
-            db.ref('blog/' + id).once('value').then(snap => {
-                const a = snap.val();
-                if (a && a.authorEmail) {
-                    fetch('https://formsubmit.co/ajax/' + a.authorEmail, {
+            LumenData.loadBlog();
+            supabase.from('articulos').select('*').eq('id', id).single().then(({ data: a }) => {
+                if (a && a.author_email) {
+                    fetch('https://formsubmit.co/ajax/' + a.author_email, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                        body: JSON.stringify({ _subject: 'Tu artículo fue publicado en LUMEN', titulo: a.title, mensaje: `¡Hola ${a.authorName || ''}! Tu artículo "${a.title}" fue aprobado y ya está publicado en el blog de LUMEN. ¡Gracias por compartir!` })
+                        body: JSON.stringify({ _subject: 'Tu artículo fue publicado en LUMEN', titulo: a.title, mensaje: `¡Hola ${a.author_name || ''}! Tu artículo "${a.title}" fue aprobado y ya está publicado en el blog de LUMEN. ¡Gracias por compartir!` })
                     }).catch(() => {});
                 }
             });
@@ -101,7 +108,11 @@ const GestionView = {
     deleteArticle: function(id) {
         LumenUI.showConfirm("¿Eliminar este artículo permanentemente?").then(confirmed => {
             if(confirmed) {
-                db.ref('blog/' + id).remove().then(() => LumenUI.showToast('Artículo eliminado', 'success'));
+                supabase.from('articulos').delete().eq('id', id).then(({ error }) => {
+                    if (error) return LumenUI.showToast(LumenUI.getErrorMessage(error), 'error');
+                    LumenUI.showToast('Artículo eliminado', 'success');
+                    LumenData.loadBlog();
+                });
             }
         });
     },
@@ -109,7 +120,6 @@ const GestionView = {
     // --- ESTADÍSTICAS ---
     renderStats: function() {
         if (!LumenData.users) {
-            db.ref('users').on('value', (snap) => { LumenData.users = snap.val() || {}; this.renderContent(); });
             return `<div class="state-container"><div class="skeleton-card" style="height:300px; width:100%;"></div></div>`;
         }
         const users = Object.values(LumenData.users).filter(u => u.status === 'approved' || u.role === 'admin');
@@ -166,7 +176,6 @@ const GestionView = {
     // --- CENSO CON BUSCADOR ---
     renderUsuarios: function() {
         if (!LumenData.users) {
-            db.ref('users').on('value', (snap) => { LumenData.users = snap.val() || {}; this.renderContent(); });
             return `<div class="state-container"><div class="skeleton-card" style="height:300px; width:100%;"></div></div>`;
         }
         
@@ -225,6 +234,7 @@ const GestionView = {
             let guardianPhone = u.representante_telefono || 'N/A';
             let statusBadge = u.status === 'pending' ? '<span class="table-badge pending">Pendiente</span>' : '<span class="table-badge approved">Aprobado</span>';
             let approveBtn = u.status === 'pending' ? `<button class="btn btn-edit" onclick="GestionView.approveUser('${uid}')">Aprobar</button>` : '';
+            let coordBtn = (u.status === 'approved' && u.role !== 'admin') ? `<button class="btn btn-edit" onclick="GestionView.makeAdmin('${uid}')">Coordinador</button>` : '';
             
             rowsHTML += `
                 <tr>
@@ -238,7 +248,7 @@ const GestionView = {
                     <td>${u.direccion || 'N/A'}</td>
                     <td>${guardian}</td>
                     <td>${guardianPhone}</td>
-                    <td>${statusBadge} ${approveBtn}</td>
+                    <td>${statusBadge} ${approveBtn} ${coordBtn}</td>
                 </tr>
             `;
         });
@@ -267,10 +277,23 @@ const GestionView = {
     approveUser: function(uid) {
         LumenUI.showConfirm("¿Seguro que deseas aprobar a este usuario?").then(confirmed => {
             if (confirmed) {
-                db.ref('users/' + uid).update({ status: 'approved' }).then(() => {
+                supabase.from('profiles').update({ status: 'approved' }).eq('id', uid).then(() => {
                     LumenUI.showToast('Usuario aprobado con éxito', 'success');
-                    this.renderCensusRows(Object.keys(LumenData.users));
+                    LumenData.loadUsers().then(() => this.renderCensusRows(Object.keys(LumenData.users)));
                 });
+            }
+        });
+    },
+
+    makeAdmin: function(uid) {
+        LumenUI.showConfirm("¿Ascender a este usuario como Coordinador (admin)?").then(confirmed => {
+            if (confirmed) {
+                supabase.from('profiles').update({ role: 'admin', status: 'approved' }).eq('id', uid)
+                    .then(() => {
+                        LumenUI.showToast('Ahora es Coordinador', 'success');
+                        LumenData.loadUsers().then(() => this.renderCensusRows(Object.keys(LumenData.users)));
+                    })
+                    .catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
             }
         });
     },
@@ -282,27 +305,34 @@ const GestionView = {
         LumenData.eventos.forEach(ev => { eventOptions += `<option value="${ev.id}">${ev.titulo}</option>`; });
         return `<div style="background:var(--blanco); padding:20px; border-radius:12px; box-shadow:var(--sombra-media); margin-bottom:20px;"><div class="form-group" style="margin:0;"><label>Selecciona actividad para ver inscritos:</label><select id="inscritos-event-select" onchange="GestionView.loadInscritosList(this.value)">${eventOptions}</select></div></div><div id="inscritos-list-container"></div>`;
     },
+    profileMap: {},
     loadInscritosList: function(eventId) {
         const container = document.getElementById('inscritos-list-container');
         if (!eventId) { container.innerHTML = ''; return; }
         
-        db.ref(`inscripciones/${eventId}`).once('value').then(snap => {
-            const inscritos = snap.val() || {};
+        supabase.from('inscripciones').select('*').eq('evento_id', eventId).then(({ data, error }) => {
+            const inscritos = data || [];
             let usersHTML = '';
-            if (Object.keys(inscritos).length === 0) usersHTML = '<p>No hay inscritos aún.</p>';
+            if (inscritos.length === 0) usersHTML = '<p>No hay inscritos aún.</p>';
             
-            Object.keys(inscritos).forEach(uid => {
-                const u = LumenData.users?.[uid] || inscritos[uid];
-                usersHTML += `
-                    <div class="attendance-card" style="flex-direction: column; align-items: flex-start; gap: 5px;">
-                        <h4>${u.nombre}</h4>
-                        <p style="font-size: 12px; color: var(--texto-gris);">Tel: ${u.telefono}</p>
-                        ${LumenData.users?.[uid]?.representante_nombre ? `<p style="font-size: 12px; color: var(--error);">Representante: ${LumenData.users[uid].representante_nombre} (${LumenData.users[uid].representante_telefono})</p>` : ''}
-                    </div>
-                `;
+            Promise.all(inscritos.map(ins => this.getProfile(ins.user_id))).then(profiles => {
+                inscritos.forEach((ins, i) => {
+                    const u = profiles[i] || ins;
+                    usersHTML += `
+                        <div class="attendance-card" style="flex-direction: column; align-items: flex-start; gap: 5px;">
+                            <h4>${u.nombre || ins.nombre || 'Sin nombre'}</h4>
+                            <p style="font-size: 12px; color: var(--texto-gris);">Tel: ${u.telefono || ins.telefono || 'N/A'}</p>
+                            ${u.representante_nombre ? `<p style="font-size: 12px; color: var(--error);">Representante: ${u.representante_nombre} (${u.representante_telefono})</p>` : ''}
+                        </div>
+                    `;
+                });
+                container.innerHTML = `<h3 style="margin: 20px 0 10px;">Lista de Inscritos (${inscritos.length})</h3><div class="attendance-list">${usersHTML}</div>`;
             });
-            container.innerHTML = `<h3 style="margin: 20px 0 10px;">Lista de Inscritos (${Object.keys(inscritos).length})</h3><div class="attendance-list">${usersHTML}</div>`;
         });
+    },
+    getProfile: function(uid) {
+        if (LumenData.users && LumenData.users[uid]) return Promise.resolve(LumenData.users[uid]);
+        return supabase.from('profiles').select('*').eq('id', uid).maybeSingle().then(({ data }) => data || {});
     },
 
     // --- MATRIZ DE ASISTENCIA MENSUAL CON WHATSAPP ---
@@ -381,16 +411,18 @@ const GestionView = {
         
         if (columns.length === 0) return LumenUI.showToast('No hay actividades en este mes', 'error');
         
-        const matrixRef = `asistencia_matrix/${currentMatrixYear}-${currentMatrixMonth}`;
-        db.ref(matrixRef).once('value').then(snap => {
-            const attendance = snap.val() || {};
+        const mes = `${currentMatrixYear}-${currentMatrixMonth}`;
+        supabase.from('asistencia').select('*').eq('mes', mes).then(({ data, error }) => {
+            const rows = data || [];
             let absentees = [];
             
             activeUsers.forEach(uid => {
                 const u = LumenData.users[uid];
+                if (!u) return;
                 let missedAny = false;
                 columns.forEach(col => {
-                    if (!attendance[uid] || !attendance[uid][col.id]) missedAny = true;
+                    const present = rows.some(r => r.user_id === uid && r.col_id === col.id);
+                    if (!present) missedAny = true;
                 });
                 if (missedAny) absentees.push(u.nombre);
             });
@@ -411,7 +443,7 @@ const GestionView = {
     },
     loadMatrixData: function() {
         if (!LumenData.users) {
-            db.ref('users').on('value', (snap) => { LumenData.users = snap.val() || {}; this.loadMatrixData(); });
+            LumenData.loadUsers().then(() => this.loadMatrixData());
             return;
         }
 
@@ -427,14 +459,14 @@ const GestionView = {
         columns.forEach(col => { tableHTML += `<th>${col.name}</th>`; });
         tableHTML += `</tr></thead><tbody>`;
 
-        const matrixRef = `asistencia_matrix/${currentMatrixYear}-${currentMatrixMonth}`;
-        db.ref(matrixRef).once('value').then(snap => {
-            const attendance = snap.val() || {};
+        const mes = `${currentMatrixYear}-${currentMatrixMonth}`;
+        supabase.from('asistencia').select('*').eq('mes', mes).then(({ data, error }) => {
+            const rows = data || [];
             activeUsers.forEach(uid => {
                 const u = LumenData.users[uid];
                 tableHTML += `<tr><td>${u.nombre}</td>`;
                 columns.forEach(col => {
-                    const isChecked = attendance[uid] && attendance[uid][col.id] ? 'checked' : '';
+                    const isChecked = rows.some(r => r.user_id === uid && r.col_id === col.id) ? 'checked' : '';
                     tableHTML += `<td><input type="checkbox" class="matrix-checkbox" ${isChecked} onchange="GestionView.saveMatrixCell('${uid}', '${col.id}', this.checked)"></td>`;
                 });
                 tableHTML += `</tr>`;
@@ -444,9 +476,12 @@ const GestionView = {
         });
     },
     saveMatrixCell: function(uid, colId, isChecked) {
-        const matrixRef = `asistencia_matrix/${currentMatrixYear}-${currentMatrixMonth}/${uid}/${colId}`;
-        if (isChecked) db.ref(matrixRef).set(true);
-        else db.ref(matrixRef).remove();
+        const mes = `${currentMatrixYear}-${currentMatrixMonth}`;
+        if (isChecked) {
+            supabase.from('asistencia').upsert({ user_id: uid, mes: mes, col_id: colId, presente: true }, { onConflict: 'user_id,mes,col_id' }).catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
+        } else {
+            supabase.from('asistencia').delete().eq('user_id', uid).eq('mes', mes).eq('col_id', colId).catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
+        }
     },
     exportMatrixExcel: function() {
         if (!LumenData.users) return LumenUI.showToast('No hay datos de usuarios', 'error');
@@ -457,18 +492,18 @@ const GestionView = {
 
         if (columns.length === 0) return LumenUI.showToast('No hay actividades en este mes para exportar', 'error');
 
-        const matrixRef = `asistencia_matrix/${currentMatrixYear}-${currentMatrixMonth}`;
-        db.ref(matrixRef).once('value').then(snap => {
-            const attendance = snap.val() || {};
-            let data = [];
+        const mes = `${currentMatrixYear}-${currentMatrixMonth}`;
+        supabase.from('asistencia').select('*').eq('mes', mes).then(({ data, error }) => {
+            const rows = data || [];
+            let excel = [];
             activeUsers.forEach(uid => {
                 const u = LumenData.users[uid];
                 let row = { "Nombre": u.nombre };
-                columns.forEach(col => { row[col.name] = attendance[uid] && attendance[uid][col.id] ? 'X' : ''; });
-                data.push(row);
+                columns.forEach(col => { row[col.name] = rows.some(r => r.user_id === uid && r.col_id === col.id) ? 'X' : ''; });
+                excel.push(row);
             });
 
-            const ws = XLSX.utils.json_to_sheet(data);
+            const ws = XLSX.utils.json_to_sheet(excel);
             const wb = XLSX.utils.book_new();
             const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
             XLSX.utils.book_append_sheet(wb, ws, `Asistencia ${monthNames[currentMatrixMonth-1]}`);
@@ -499,7 +534,6 @@ const GestionView = {
     // --- CUMPLEAÑOS ---
     renderCumpleanos: function() {
         if (!LumenData.users) {
-            db.ref('users').on('value', (snap) => { LumenData.users = snap.val() || {}; this.renderContent(); });
             return `<div class="state-container"><div class="skeleton-card" style="height:200px; width:100%;"></div></div>`;
         }
         const currentMonth = new Date().getMonth() + 1; 
@@ -539,12 +573,13 @@ GestionView.renderContent = function() {
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 const text = document.getElementById('manual-aviso-text').value;
-                db.ref('notifications').push({
+                supabase.from('notificaciones').insert({
                     text: text, forAdmin: false, timestamp: Date.now(), manual: true
                 }).then(() => {
                     LumenUI.showToast('Aviso enviado a toda la comunidad', 'success');
                     document.getElementById('manual-aviso-text').value = '';
-                });
+                    LumenData.loadNotifications();
+                }).catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
             });
         }
     }

@@ -50,42 +50,8 @@ const IntencionesView = {
         `;
     },
     init: function() {
-        db.ref('intenciones').limitToLast(50).on('value', (snapshot) => {
-            const data = snapshot.val() || {};
-            const list = document.getElementById('intenciones-list');
-            if (!list) return;
-
-            const intenciones = Object.keys(data).map(k => ({ id: k, ...data[k] })).reverse();
-            
-            if (intenciones.length === 0) {
-                list.innerHTML = `<div class="state-container">${Icons.empty_box}<h3>No hay intenciones</h3><p>Sé el primero en compartir una.</p></div>`;
-                return;
-            }
-
-            let html = '';
-            intenciones.forEach(int => {
-                const date = new Date(int.timestamp).toLocaleDateString('es-VE', { day: 'numeric', month: 'short' });
-                const likesCount = int.likes ? Object.keys(int.likes).length : 0;
-                const userLiked = int.likes && LumenAuth.currentUser && int.likes[LumenAuth.currentUser.uid];
-                
-                html += `
-                    <div class="card reveal">
-                        <div class="card-body">
-                            <p style="color: var(--texto-oscuro); font-weight: 500; margin-bottom: 10px;">${int.text}</p>
-                            <small style="color: var(--texto-gris);">Por ${int.authorName} - ${date}</small>
-                        </div>
-                        <div class="card-footer" style="justify-content: center;">
-                            <button class="btn ${userLiked ? 'btn-primary' : 'btn-outline'}" style="padding: 8px 15px; font-size: 13px;" onclick="IntencionesView.toggleLike('${int.id}')">
-                                ${Icons.heart} ${likesCount} Rezo por ti
-                            </button>
-                        </div>
-                    </div>
-                `;
-            });
-            list.innerHTML = html;
-            LumenRouter.initScrollReveal();
-        });
-
+        this.loadIntenciones();
+        this.subscribe();
         const form = document.getElementById('intencion-form');
         if (form) {
             const textarea = document.getElementById('intencion-text');
@@ -99,24 +65,76 @@ const IntencionesView = {
                 e.preventDefault();
                 const text = document.getElementById('intencion-text').value;
                 if (!LumenAuth.userProfile) return LumenUI.showToast("Inicia sesión", "error");
-                
-                db.ref('intenciones').push({
-                    text: text, authorName: LumenAuth.userProfile.nombre,
-                    authorUid: LumenAuth.currentUser.uid, timestamp: Date.now(), likes: {}
-                }).then(() => {
+                const uid = LumenAuth.currentUser.id;
+                supabase.from('intenciones').insert({
+                    text: text, author_name: LumenAuth.userProfile.nombre,
+                    author_uid: uid, timestamp: Date.now()
+                }).then(({ error }) => {
+                    if (error) return LumenUI.showToast(LumenUI.getErrorMessage(error), 'error');
                     document.getElementById('intencion-text').value = '';
                     LumenUI.showToast('Intención compartida. La comunidad está orando por ti.', 'success');
                 }).catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
             });
         }
     },
+    loadIntenciones: function() {
+        supabase.from('intenciones').select('*').order('timestamp', { ascending: false }).limit(50).then(({ data, error }) => {
+            const list = document.getElementById('intenciones-list');
+            if (!list) return;
+            if (error) { list.innerHTML = `<div class="state-container">${Icons.alert}<h3>Error al cargar</h3></div>`; return; }
+            const intenciones = data || [];
+            if (intenciones.length === 0) {
+                list.innerHTML = `<div class="state-container">${Icons.empty_box}<h3>No hay intenciones</h3><p>Sé el primero en compartir una.</p></div>`;
+                return;
+            }
+            Promise.all(intenciones.map(i => this.loadLikes(i.id))).then(likeMaps => {
+                let html = '';
+                intenciones.forEach((int, idx) => {
+                    const likes = likeMaps[idx] || [];
+                    const date = new Date(int.timestamp).toLocaleDateString('es-VE', { day: 'numeric', month: 'short' });
+                    const likesCount = likes.length;
+                    const userLiked = LumenAuth.currentUser && likes.some(l => l.user_id === LumenAuth.currentUser.id);
+                    html += `
+                        <div class="card reveal">
+                            <div class="card-body">
+                                <p style="color: var(--texto-oscuro); font-weight: 500; margin-bottom: 10px;">${int.text}</p>
+                                <small style="color: var(--texto-gris);">Por ${int.author_name} - ${date}</small>
+                            </div>
+                            <div class="card-footer" style="justify-content: center;">
+                                <button class="btn ${userLiked ? 'btn-primary' : 'btn-outline'}" style="padding: 8px 15px; font-size: 13px;" onclick="IntencionesView.toggleLike('${int.id}')">
+                                    ${Icons.heart} ${likesCount} Rezo por ti
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                list.innerHTML = html;
+                LumenRouter.initScrollReveal();
+            });
+        });
+    },
+    loadLikes: function(intencionId) {
+        return supabase.from('intencion_likes').select('user_id').eq('intencion_id', intencionId).then(({ data, error }) => data || []);
+    },
+    subscribe: function() {
+        supabase
+            .channel('lumen-intenciones')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'intenciones' }, () => this.loadIntenciones())
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'intencion_likes' }, () => this.loadIntenciones())
+            .subscribe();
+    },
     toggleLike: function(intencionId) {
         if (!LumenUI.requireMember()) return;
-        const uid = LumenAuth.currentUser.uid;
-        const ref = db.ref(`intenciones/${intencionId}/likes/${uid}`);
-        ref.once('value').then(snap => {
-            if (snap.exists()) ref.remove();
-            else ref.set(true);
+        const uid = LumenAuth.currentUser.id;
+        supabase.from('intencion_likes').select('user_id').eq('intencion_id', intencionId).eq('user_id', uid).maybeSingle().then(({ data, error }) => {
+            if (data) {
+                supabase.from('intencion_likes').delete().eq('intencion_id', intencionId).eq('user_id', uid).then(() => this.loadIntenciones());
+            } else {
+                supabase.from('intencion_likes').insert({ intencion_id: intencionId, user_id: uid }).then(({ error: e }) => {
+                    if (e) return LumenUI.showToast(LumenUI.getErrorMessage(e), 'error');
+                    this.loadIntenciones();
+                });
+            }
         }).catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
     }
 };

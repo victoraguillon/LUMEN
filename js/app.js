@@ -94,10 +94,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 5000);
     }
 
-    try {
-        if (typeof firebase !== 'undefined') { LumenData.init(); LumenAuth.init(); }
-        else { console.error("Firebase no está cargando."); }
-    } catch (error) { console.error("Error al inicializar:", error); }
+    if (typeof supabase === 'undefined') {
+        console.error("Supabase no está cargando.");
+    } else {
+        try { LumenData.init(); } catch (error) { console.error("Error al inicializar datos:", error); }
+        try { LumenAuth.init(); } catch (error) { console.error("Error al inicializar auth:", error); }
+    }
 
     document.querySelectorAll('.nav-link, .drawer-link').forEach(link => {
         link.addEventListener('click', (e) => {
