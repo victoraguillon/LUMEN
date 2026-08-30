@@ -521,13 +521,9 @@ const GestionView = {
             <div class="card">
                 <div class="card-body">
                     <h3>Enviar Aviso General</h3>
-                    <p style="font-size: 14px; color: var(--texto-gris); margin-bottom: 15px;">Llegará instantáneamente al buzón de notificaciones de todos los jóvenes.</p>
+                    <p style="font-size: 14px; color: var(--texto-gris); margin-bottom: 15px;">Llegará al buzón de notificaciones y como push al teléfono de todos los que tengan notificaciones activadas.</p>
                     <form id="manual-aviso-form">
                         <div class="form-group"><textarea id="manual-aviso-text" rows="4" required placeholder="Ej: Mañana no hay reunión por el clima. ¡Dios los bendiga!"></textarea></div>
-                        <div class="checkbox-item" style="margin-bottom: 15px;">
-                            <input type="checkbox" id="manual-aviso-push" checked>
-                            <label for="manual-aviso-push">Enviar también <strong>notificación push al teléfono</strong> de quienes tengan notificaciones activadas</label>
-                        </div>
                         <button type="submit" class="btn btn-primary btn-block">Enviar Aviso a la Comunidad</button>
                     </form>
                 </div>
@@ -594,14 +590,24 @@ GestionView.renderContent = function() {
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 const text = document.getElementById('manual-aviso-text').value;
-                const withPush = document.getElementById('manual-aviso-push') ? document.getElementById('manual-aviso-push').checked : false;
                 supabase.from('notificaciones').insert({
                     texto: text, for_admin: false, timestamp: Date.now(), manual: true
-                }).then(() => {
-                    if (withPush && typeof LumenPush !== 'undefined' && LumenPush.enviarPush) {
-                        LumenPush.enviarPush({ mode: 'all', title: 'LUMEN · Aviso de la comunidad', body: text, url: '/notificaciones' });
+                }).select().single().then(({ data, error }) => {
+                    if (error) throw error;
+                    const avisoId = data ? data.id : null;
+                    if (typeof LumenPush !== 'undefined' && LumenPush.enviarPush) {
+                        LumenPush.enviarPush({ mode: 'all', title: 'LUMEN · Aviso de la comunidad', body: text, url: '/notificaciones', avisoId }).then(res => {
+                            if (res && res.ok && res.result && res.result.sent > 0) {
+                                LumenUI.showToast(`Aviso enviado y entregado en ${res.result.sent} teléfono${res.result.sent === 1 ? '' : 's'}.`, 'success');
+                            } else if (res && res.ok) {
+                                LumenUI.showToast('Aviso guardado. (Nadie con notificaciones activas aún.)', 'success');
+                            } else {
+                                LumenUI.showToast('Aviso guardado, pero el push no pudo enviarse desde aquí. Se programará automáticamente.', 'error');
+                            }
+                        });
+                    } else {
+                        LumenUI.showToast('Aviso enviado a la comunidad.', 'success');
                     }
-                    LumenUI.showToast('Aviso enviado a toda la comunidad', 'success');
                     document.getElementById('manual-aviso-text').value = '';
                     LumenData.loadNotifications();
                 }).catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));

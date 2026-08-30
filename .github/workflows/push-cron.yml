@@ -1,0 +1,30 @@
+name: Lumen Push Cron
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Llamar a send-push (modo cron)
+        env:
+          CRON_SECRET: ${{ secrets.LUMEN_PUSH_CRON_SECRET }}
+        run: |
+          code=$(curl -s -o /tmp/lumen_push_resp.json -w '%{http_code}' -X POST \
+            -H 'Content-Type: application/json' \
+            -H "x-cron-secret: ${CRON_SECRET}" \
+            -d '{"mode":"cron"}' \
+            'https://etioxnigysbxitiaveyp.functions.supabase.co/send-push')
+          echo "HTTP $code"
+          cat /tmp/lumen_push_resp.json
+          if [ "$code" != "200" ]; then
+            echo "::error::send-push respondió $code"
+            exit 1
+          fi

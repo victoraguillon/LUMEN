@@ -176,9 +176,11 @@ async function pushToSubscriptions(subs, payload) {
   return { sent, failed, gone };
 }
 
-// ---------- modo cron: hitos 5d/1d/1h ----------
+// ---------- modo cron: hitos 5d/1d/1h + avisos pendientes ----------
 async function runCron() {
   const nowMs = Date.now();
+
+  // A) Hitos de recordatorio (5d / 1d / 1h)
   const { data: eventos, error: evErr } = await sb
     .from("eventos")
     .select("id,titulo,fecha_inicio,notifs_sent")
@@ -192,22 +194,49 @@ async function runCron() {
     const m = milestoneDue(ev, nowMs);
     if (m) due.push({ ev, ...m });
   }
-  if (due.length === 0) return { mode: "cron", hits: 0 };
 
-  const avisos = due.map((d) => ({ texto: d.texto, for_admin: false, manual: false, timestamp: nowMs }));
-  const { error: notifErr } = await sb.from("notificaciones").insert(avisos);
-  if (notifErr) throw new Error("notificaciones: " + notifErr.message);
+  let hits = 0;
+  if (due.length > 0) {
+    const avisos = due.map((d) => ({ texto: d.texto, for_admin: false, manual: false, timestamp: nowMs }));
+    const { error: notifErr } = await sb.from("notificaciones").insert(avisos);
+    if (notifErr) throw new Error("notificaciones: " + notifErr.message);
 
-  for (const d of due) {
-    const sent = Array.isArray(d.ev.notifs_sent) ? d.ev.notifs_sent : [];
-    if (!sent.includes(d.hito)) sent.push(d.hito);
-    await sb.from("eventos").update({ notifs_sent: sent }).eq("id", d.ev.id);
+    for (const d of due) {
+      const sent = Array.isArray(d.ev.notifs_sent) ? d.ev.notifs_sent : [];
+      if (!sent.includes(d.hito)) sent.push(d.hito);
+      await sb.from("eventos").update({ notifs_sent: sent }).eq("id", d.ev.id);
+    }
+    hits = due.length;
   }
 
-  const subs = await listSubscriptions();
-  const push = await pushToSubscriptions(subs, { title: "LUMEN · Recordatorio", body: due.map((d) => d.texto.replace(/"/g, "")).join(" · "), url: "/actividades" });
+  // B) Avisos del coordinador pendientes (manual=true, aún sin push)
+  //    Fallback robusto: si el admin envió el aviso sin estar conectado,
+  //    este cron lo entrega (GitHub Actions cada ~5 min, sin pg_net).
+  const { data: pendientes, error: pendErr } = await sb
+    .from("notificaciones")
+    .select("id,texto")
+    .eq("manual", true)
+    .is("pushed_at", null)
+    .limit(50);
+  if (pendErr) throw new Error("pendientes: " + pendErr.message);
 
-  return { mode: "cron", hits: due.length, avisos: due.map((d) => d.hito), push };
+  const subs = await listSubscriptions();
+  let push = { sent: 0, failed: 0, gone: 0 };
+
+  if (due.length > 0) {
+    push = await pushToSubscriptions(subs, { title: "LUMEN · Recordatorio", body: due.map((d) => d.texto.replace(/"/g, "")).join(" · "), url: "/actividades" });
+  }
+
+  if ((pendientes || []).length > 0) {
+    const body = pendientes.map((n) => n.texto.replace(/"/g, "")).join(" · ");
+    const r = await pushToSubscriptions(subs, { title: "LUMEN · Aviso", body, url: "/notificaciones" });
+    push.sent += r.sent; push.failed += r.failed; push.gone += r.gone;
+    if (r.sent > 0) {
+      await sb.from("notificaciones").update({ pushed_at: new Date().toISOString() }).in("id", pendientes.map((n) => n.id));
+    }
+  }
+
+  return { mode: "cron", hits, pendientes: (pendientes || []).length, push };
 }
 
 async function listSubscriptions() {
@@ -272,6 +301,11 @@ Deno.serve(async (req) => {
       if (profile.role !== "admin") return json({ error: "Solo coordinadores" }, 403);
       const subs = await listSubscriptions();
       const res = await pushToSubscriptions(subs, { title: title || "LUMEN · Aviso", body: text, url });
+      // Marcar el aviso como enviado (dedupe con el flujo cron de GitHub Actions)
+      const avisoId = body.avisoId;
+      if (avisoId && res.sent > 0) {
+        try { await sb.from("notificaciones").update({ pushed_at: new Date().toISOString() }).eq("id", avisoId); } catch (e) { /* best-effort */ }
+      }
       return json({ mode: "all", ...res });
     }
 

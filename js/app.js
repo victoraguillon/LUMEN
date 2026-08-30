@@ -131,27 +131,33 @@ document.addEventListener('DOMContentLoaded', () => {
         if (android) android.style.display = platform === 'android' ? 'block' : 'none';
     };
 
-    document.getElementById('pwa-help-btn').onclick = () => {
-        showPwaHelp(isIOS ? 'ios' : 'android');
-        if (deferredPrompt) deferredPrompt = null;
-    };
+    // Botón "Instalar": en Android dispara el prompt nativo; en iOS (sin prompt
+    // nativo) y en cualquier caso sin prompt → abre los pasos para instalar.
+    const installBtn = document.getElementById('pwa-install-btn');
+    if (installBtn) {
+        installBtn.textContent = isIOS ? 'Cómo instalar' : 'Instalar';
+        installBtn.onclick = async () => {
+            if (deferredPrompt && !isIOS) {
+                deferredPrompt.prompt();
+                try { await deferredPrompt.userChoice; } finally {
+                    document.getElementById('pwa-install-banner').style.display = 'none';
+                    deferredPrompt = null;
+                }
+            } else {
+                showPwaHelp(isIOS ? 'ios' : 'android');
+            }
+        };
+    }
+    const helpBtn = document.getElementById('pwa-help-btn');
+    if (helpBtn) {
+        helpBtn.onclick = () => showPwaHelp(isIOS ? 'ios' : 'android');
+    }
 
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
         androidPromptSeen = true;
         showPwaBanner();
-        const pwaBtn = document.getElementById('pwa-install-btn');
-        if (pwaBtn) {
-            pwaBtn.onclick = async () => {
-                if (!deferredPrompt) { showPwaHelp('android'); return; }
-                deferredPrompt.prompt();
-                try { await deferredPrompt.userChoice; } finally {
-                    document.getElementById('pwa-install-banner').style.display = 'none';
-                    deferredPrompt = null;
-                }
-            };
-        }
     });
 
     window.addEventListener('appinstalled', () => {
