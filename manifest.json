@@ -1,6 +1,7 @@
 {
   "name": "LUMEN - Juvemar",
   "short_name": "LUMEN",
+  "id": "./",
   "description": "Plataforma de la juventud parroquial Juvemar: actividades, avisos, intenciones y comunidad.",
   "lang": "es",
   "start_url": "./",

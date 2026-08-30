@@ -34,37 +34,56 @@ const LumenPush = {
                 ms
             ))
         ]);
+
+        // Registra /sw.js y devuelve el registro SI tiene worker activo
+        const ensureActive = async () => {
+            const reg = await navigator.serviceWorker.getRegistration().catch(() => null);
+            if (reg && reg.active) return reg;
+            const fresh = await navigator.serviceWorker.register('/sw.js', { scope: '/', updateViaCache: 'none' });
+            try {
+                return await waitReady(3500); // espera instalación+activación (skipWaiting)
+            } catch (e) {}
+            return (fresh && fresh.active) ? fresh : null;
+        };
+
         try {
             return await waitReady(5000);
         } catch (e) {
             if (!(e && e.name === 'TimeoutError')) throw e;
-            // ready colgado: si hay registro ACTIVO, suscribimos desde ahí; si no,
-            // (re)registramos el SW en el acto y esperamos su activación.
-            let reg = await navigator.serviceWorker.getRegistration().catch(() => null);
-            if (!(reg && reg.active)) {
-                reg = await navigator.serviceWorker
-                    .register('js/service-worker.js', { scope: '/', updateViaCache: 'none' })
-                    .then((r) => r)
-                    .catch(() => null) || reg;
-                if (reg) {
-                    try { reg = await waitReady(3000); } catch (e2) {}
+            // ready colgado: registramos/activamos en el acto y reportamos el motivo real
+            try {
+                const reg = await ensureActive();
+                if (reg && reg.active) {
+                    console.warn('[LumenPush] SW se activó con retardo', reg.active.scriptURL);
+                    return reg;
                 }
+            } catch (rErr) {
+                console.error('[LumenPush] register', rErr);
+                const msg = rErr && rErr.name ? (rErr.name + ': ' + (rErr.message || '')) : String(rErr);
+                LumenUI.showToast('Fallo al registrar el Service Worker: ' + msg, 'error');
+                if (rErr) rErr.swRegister = true;
+                throw rErr;
             }
-            if (reg && reg.active) {
-                console.warn('[LumenPush] ready lento; usando registro activo', reg.active.scriptURL);
-                return reg;
-            }
+            LumenUI.showToast('El Service Worker se está instalando todavía. Reintenta en unos segundos.', 'error');
             throw e;
         }
     },
     abrirAyudaInstalacion: function() {
         if (typeof LumenUI !== 'undefined' && LumenUI.openModal) LumenUI.openModal('pwa-help-modal');
     },
-    // Registra el paso exacto del diagnóstico en profiles.push_diag (best-effort)
+    // Registra el paso exacto del diagnóstico en profiles.push_diag (traza append-only).
+    // Un nuevo intento de activación (paso 'permiso') reinicia la traza; se guardan
+    // las últimas ~15 etapas para ver la cadena completa sin SQL.
     escribirDiag: async function(datos) {
         if (!LumenAuth.currentUser) return;
         try {
-            await supabase.from('profiles').update({ push_diag: datos }).eq('id', LumenAuth.currentUser.id);
+            const { data } = await supabase.from('profiles').select('push_diag').eq('id', LumenAuth.currentUser.id).maybeSingle();
+            let trail = (data && Array.isArray(data.push_diag)) ? data.push_diag : [];
+            if (datos && datos.paso === 'permiso') trail = [];
+            trail.push(datos);
+            if (trail.length > 15) trail = trail.slice(-15);
+            await supabase.from('profiles').update({ push_diag: trail }).eq('id', LumenAuth.currentUser.id);
+            return trail;
         } catch (e) { console.error('[LumenPush] diag', e); }
     },
     puedeRecargarUnaVez: function() {
@@ -148,13 +167,9 @@ const LumenPush = {
             return true;
         } catch (e) {
             console.error('[LumenPush] registrar', e);
+            if (e && e.swRegister) return false; // ya se tostreó el motivo del fallo de registro
             const name = e && e.name;
-            let estadoSW = null;
-            if (name === 'TimeoutError') {
-                const reg = await navigator.serviceWorker.getRegistration().catch(() => null);
-                estadoSW = reg ? { url: (reg.active && reg.active.scriptURL) || (reg.installing && reg.installing.scriptURL) || (reg.waiting && reg.waiting.scriptURL) || '', active: !!reg.active, installing: !!reg.installing, waiting: !!reg.waiting } : null;
-            }
-            await this.escribirDiag({ ...(diag || {}), paso: 'subscribe-error', name, msg: e && e.message, estadoSW, control: !!navigator.serviceWorker.controller });
+            await this.escribirDiag({ ...(diag || {}), paso: 'subscribe-error', name, msg: e && e.message, control: !!navigator.serviceWorker.controller });
             if (name === 'NotAllowedError') {
                 LumenUI.showToast(this.esIOS()
                     ? 'El permiso no fue concedido. Revisa Ajustes → ' + (this.esStandalone() ? 'LUMEN' : 'Safari') + ' → Notificaciones.'
@@ -162,8 +177,7 @@ const LumenPush = {
             } else if (this.esIOS() && this.puedeRecargarUnaVez()) {
                 return this.reintentarConRecarga();
             } else {
-                const extra = estadoSW && !estadoSW.active ? ' Si sigue sin funcionar: borra la app LUMEN del iPhone y vuelve a añadirla desde Safari.' : '';
-                LumenUI.showToast('Error al suscribir (' + (name || 'desconocido') + ').' + extra, 'error');
+                LumenUI.showToast('Error al suscribir (' + (name || 'desconocido') + ').', 'error');
             }
             return false;
         }

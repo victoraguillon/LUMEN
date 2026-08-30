@@ -80,14 +80,14 @@ const LumenRouter = {
     }
 };
 
-// Bootstrap determinista del Service Worker (v3):
-// 1) Solo des-registra SW LEGACY (raíz /sw.js y /js/sw.js). NUNCA toca el SW actual:
-//    des-registrarlo en cada carga impedía que tomase el control y provocaba el
-//    timeout de serviceWorker.ready en iOS (estadoSW null + control false).
-// 2) Registra el SW único js/service-worker.js con updateViaCache:'none' (idempotente).
+// Bootstrap determinista del Service Worker (v4):
+// 1) Des-registra SOLO SW legacy que quede en /js/ (js/sw.js o js/service-worker.js).
+//    NUNCA toca el SW actual (raíz /sw.js): des-registrarlo en cada carga impedía
+//    que tomase control y provocaba el timeout de serviceWorker.ready.
+// 2) Registra el SW único /sw.js con scope '/' y updateViaCache:'none' (idempotente).
 // 3) iOS requiere página CONTROLADA por el SW para push: si aún no lo está, recarga
-//    una sola vez (guardia). El SW usa skipWaiting + clients.claim, así que tras la
-//    recarga queda controlado.
+//    una sola vez (guardia). El SW usa skipWaiting + clients.claim.
+// 4) Cualquier fallo de register() se reporta en la tostada con su motivo real.
 const initServiceWorker = async () => {
     if (!('serviceWorker' in navigator)) return;
     try {
@@ -95,41 +95,33 @@ const initServiceWorker = async () => {
         for (const reg of (registrations || [])) {
             const url = (reg.active && reg.active.scriptURL) || (reg.installing && reg.installing.scriptURL) || (reg.waiting && reg.waiting.scriptURL) || '';
             const path = url.replace(location.origin, '');
-            if (path === '/sw.js' || path === '/js/sw.js') {
+            if (path === '/js/sw.js' || path === '/js/service-worker.js') {
                 try { await reg.unregister(); } catch (e) {}
             }
         }
-        await navigator.serviceWorker.register('js/service-worker.js', { scope: '/', updateViaCache: 'none' });
-
+        const reg = await navigator.serviceWorker.register('/sw.js', { scope: '/', updateViaCache: 'none' });
+        if (typeof LumenPush !== 'undefined' && LumenPush.escribirDiag && LumenAuth && LumenAuth.currentUser) {
+            LumenPush.escribirDiag({
+                t: Date.now(), paso: 'sw-bootstrap',
+                control: !!navigator.serviceWorker.controller,
+                url: (reg.active && reg.active.scriptURL) || null,
+                activo: !!reg.active, instalando: !!reg.installing, esperando: !!reg.waiting
+            });
+        }
         if (!navigator.serviceWorker.controller && sessionStorage.getItem('lumen_sw_reload') !== '1') {
             sessionStorage.setItem('lumen_sw_reload', '1');
             location.reload();
             return;
         }
-
-        // Diagnóstico best-effort: estado final del SW en profiles.push_diag
-        (async () => {
-            try {
-                const sw = await navigator.serviceWorker.getRegistration();
-                if (sw) {
-                    const info = {
-                        t: Date.now(),
-                        paso: 'sw-bootstrap',
-                        control: !!navigator.serviceWorker.controller,
-                        url: (sw.active && sw.active.scriptURL) || null,
-                        activo: !!sw.active,
-                        instalando: !!sw.installing,
-                        esperando: !!sw.waiting
-                    };
-                    console.info('[LumenPush] sw-bootstrap', info);
-                    if (typeof LumenPush !== 'undefined' && LumenPush.escribirDiag && LumenAuth && LumenAuth.currentUser) {
-                        LumenPush.escribirDiag(info);
-                    }
-                }
-            } catch (e) {}
-        })();
     } catch (error) {
-        console.error('Error en initServiceWorker:', error);
+        console.error('[initServiceWorker]', error);
+        const msg = (error && error.name ? error.name + ': ' + (error.message || '') : String(error));
+        if (typeof LumenUI !== 'undefined' && LumenUI.showToast) {
+            LumenUI.showToast('Fallo al registrar el Service Worker: ' + msg, 'error');
+        }
+        if (typeof LumenPush !== 'undefined' && LumenPush.escribirDiag && LumenAuth && LumenAuth.currentUser) {
+            LumenPush.escribirDiag({ t: Date.now(), paso: 'sw-registro-error', name: error && error.name, msg: error && error.message });
+        }
     }
 };
 

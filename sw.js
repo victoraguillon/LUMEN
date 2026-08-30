@@ -1,7 +1,7 @@
-// LUMEN - Service Worker único (v3)
-// Nombre de archivo NUEVO (js/service-worker.js) para que iOS registre una
-// instancia fresca y se desatasque de los SW legacy (/sw.js y /js/sw.js).
-const CACHE = "lumen-cache-v3";
+// LUMEN - Service Worker único (v4) en la RAÍZ (/sw.js)
+// Un solo SW en la ruta estándar que todos los navegadores (iOS y Chrome)
+// manejan mejor. CACHE v4 nueva: limpia cualquier caché anterior.
+const CACHE = "lumen-cache-v4";
 
 self.addEventListener("install", () => {
   self.skipWaiting();
