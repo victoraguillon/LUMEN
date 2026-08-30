@@ -150,6 +150,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const helpBtn = document.getElementById('pwa-help-btn');
     if (helpBtn) {
+        // En iOS el único botón es "Cómo instalar" (abre los pasos); el botón
+        // "Cómo" sería redundante, así que se oculta.
+        if (isIOS) helpBtn.style.display = 'none';
         helpBtn.onclick = () => showPwaHelp(isIOS ? 'ios' : 'android');
     }
 
