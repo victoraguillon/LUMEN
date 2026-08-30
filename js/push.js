@@ -27,22 +27,32 @@ const LumenPush = {
         return bytes;
     },
     getSW: async function() {
+        const waitReady = (ms) => Promise.race([
+            navigator.serviceWorker.ready,
+            new Promise((_, reject) => setTimeout(
+                () => reject(Object.assign(new Error('El Service Worker no respondió en ' + (ms / 1000) + 's.'), { name: 'TimeoutError' })),
+                ms
+            ))
+        ]);
         try {
-            return await Promise.race([
-                navigator.serviceWorker.ready,
-                new Promise((_, reject) => setTimeout(
-                    () => reject(Object.assign(new Error('El Service Worker no respondió en 5s.'), { name: 'TimeoutError' })),
-                    5000
-                ))
-            ]);
+            return await waitReady(5000);
         } catch (e) {
-            if (e && e.name === 'TimeoutError') {
-                // El ready quedó atascado: si existe un registro ACTIVO, suscribimos desde ahí
-                const reg = await navigator.serviceWorker.getRegistration().catch(() => null);
-                if (reg && reg.active) {
-                    console.warn('[LumenPush] ready atascado; usando registro activo', reg.active.scriptURL);
-                    return reg;
+            if (!(e && e.name === 'TimeoutError')) throw e;
+            // ready colgado: si hay registro ACTIVO, suscribimos desde ahí; si no,
+            // (re)registramos el SW en el acto y esperamos su activación.
+            let reg = await navigator.serviceWorker.getRegistration().catch(() => null);
+            if (!(reg && reg.active)) {
+                reg = await navigator.serviceWorker
+                    .register('js/service-worker.js', { scope: '/', updateViaCache: 'none' })
+                    .then((r) => r)
+                    .catch(() => null) || reg;
+                if (reg) {
+                    try { reg = await waitReady(3000); } catch (e2) {}
                 }
+            }
+            if (reg && reg.active) {
+                console.warn('[LumenPush] ready lento; usando registro activo', reg.active.scriptURL);
+                return reg;
             }
             throw e;
         }

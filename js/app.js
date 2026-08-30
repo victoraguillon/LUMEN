@@ -81,21 +81,53 @@ const LumenRouter = {
 };
 
 // Bootstrap determinista del Service Worker (v3):
-// 1) Des-registra CUALQUIER sw legacy (/sw.js de la raíz o /js/sw.js) que quede atascado.
-// 2) Registra el SW único js/service-worker.js con updateViaCache:'none'.
-// 3) iOS requiere página CONTROLADA por el SW para push: si aún no lo está, recarga una vez.
+// 1) Solo des-registra SW LEGACY (raíz /sw.js y /js/sw.js). NUNCA toca el SW actual:
+//    des-registrarlo en cada carga impedía que tomase el control y provocaba el
+//    timeout de serviceWorker.ready en iOS (estadoSW null + control false).
+// 2) Registra el SW único js/service-worker.js con updateViaCache:'none' (idempotente).
+// 3) iOS requiere página CONTROLADA por el SW para push: si aún no lo está, recarga
+//    una sola vez (guardia). El SW usa skipWaiting + clients.claim, así que tras la
+//    recarga queda controlado.
 const initServiceWorker = async () => {
     if (!('serviceWorker' in navigator)) return;
     try {
         const registrations = await navigator.serviceWorker.getRegistrations();
         for (const reg of (registrations || [])) {
-            try { await reg.unregister(); } catch (e) {}
+            const url = (reg.active && reg.active.scriptURL) || (reg.installing && reg.installing.scriptURL) || (reg.waiting && reg.waiting.scriptURL) || '';
+            const path = url.replace(location.origin, '');
+            if (path === '/sw.js' || path === '/js/sw.js') {
+                try { await reg.unregister(); } catch (e) {}
+            }
         }
         await navigator.serviceWorker.register('js/service-worker.js', { scope: '/', updateViaCache: 'none' });
+
         if (!navigator.serviceWorker.controller && sessionStorage.getItem('lumen_sw_reload') !== '1') {
             sessionStorage.setItem('lumen_sw_reload', '1');
             location.reload();
+            return;
         }
+
+        // Diagnóstico best-effort: estado final del SW en profiles.push_diag
+        (async () => {
+            try {
+                const sw = await navigator.serviceWorker.getRegistration();
+                if (sw) {
+                    const info = {
+                        t: Date.now(),
+                        paso: 'sw-bootstrap',
+                        control: !!navigator.serviceWorker.controller,
+                        url: (sw.active && sw.active.scriptURL) || null,
+                        activo: !!sw.active,
+                        instalando: !!sw.installing,
+                        esperando: !!sw.waiting
+                    };
+                    console.info('[LumenPush] sw-bootstrap', info);
+                    if (typeof LumenPush !== 'undefined' && LumenPush.escribirDiag && LumenAuth && LumenAuth.currentUser) {
+                        LumenPush.escribirDiag(info);
+                    }
+                }
+            } catch (e) {}
+        })();
     } catch (error) {
         console.error('Error en initServiceWorker:', error);
     }
