@@ -73,12 +73,14 @@ async function buildVapidJwk() {
     ext: true,
   };
 }
-async function signVapid() {
+async function signVapid(aud) {
   const jwk = await buildVapidJwk();
   const key = await crypto.subtle.importKey("jwk", jwk, { name: "ECDSA", namedCurve: "P-256" }, false, ["sign"]);
   const header = { alg: "ES256", typ: "JWT" };
   const now = Math.floor(Date.now() / 1000);
-  const payload = { aud: "https://fcm.googleapis.com", exp: now + 12 * 3600, sub: VAPID_SUBJECT };
+  // aud = origen del push service al que entregamos. Apple (web.push.apple.com),
+  // FCM (fcm.googleapis.com) y Mozilla (push.mozilla.org) lo exigen exacto.
+  const payload = { aud: aud || "https://fcm.googleapis.com", exp: now + 12 * 3600, sub: VAPID_SUBJECT };
   const token = `${b64urlEncode(enc.encode(JSON.stringify(header)))}.${b64urlEncode(enc.encode(JSON.stringify(payload)))}`;
   const sig = await crypto.subtle.sign({ name: "ECDSA", hash: "SHA-256" }, key, enc.encode(token));
   return `${token}.${b64urlEncode(new Uint8Array(sig))}`;
@@ -125,7 +127,7 @@ async function deliver(sub) {
     if (payloadText.length > MAX_PAYLOAD) payloadText = JSON.stringify({ title: sub.payload.title, body: "", url: sub.payload.url });
   } catch { payloadText = "{}"; }
   const body = await encryptPush(sub, payloadText);
-  const jwt = await signVapid();
+  const jwt = await signVapid(new URL(sub.endpoint).origin);
   const res = await fetch(sub.endpoint, {
     method: "POST",
     headers: {
@@ -138,6 +140,7 @@ async function deliver(sub) {
   });
   if (res.status === 404 || res.status === 410) return { ok: false, gone: true };
   if (res.status >= 200 && res.status < 300) return { ok: true };
+  console.error("[send-push] entrega rechazada", res.status, new URL(sub.endpoint).host);
   return { ok: false, status: res.status };
 }
 

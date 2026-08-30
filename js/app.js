@@ -80,6 +80,27 @@ const LumenRouter = {
     }
 };
 
+// Bootstrap determinista del Service Worker (v3):
+// 1) Des-registra CUALQUIER sw legacy (/sw.js de la raíz o /js/sw.js) que quede atascado.
+// 2) Registra el SW único js/service-worker.js con updateViaCache:'none'.
+// 3) iOS requiere página CONTROLADA por el SW para push: si aún no lo está, recarga una vez.
+const initServiceWorker = async () => {
+    if (!('serviceWorker' in navigator)) return;
+    try {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        for (const reg of (registrations || [])) {
+            try { await reg.unregister(); } catch (e) {}
+        }
+        await navigator.serviceWorker.register('js/service-worker.js', { scope: '/', updateViaCache: 'none' });
+        if (!navigator.serviceWorker.controller && sessionStorage.getItem('lumen_sw_reload') !== '1') {
+            sessionStorage.setItem('lumen_sw_reload', '1');
+            location.reload();
+        }
+    } catch (error) {
+        console.error('Error en initServiceWorker:', error);
+    }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => { const preloader = document.getElementById('preloader'); if (preloader) preloader.classList.add('hidden'); }, 1500);
 
@@ -176,25 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => { if (!androidPromptSeen) showPwaBanner(); }, 4000);
     }
 
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            // 1) Des-registrar el SW LEGACY de la raíz (/sw.js) si sigue activo en el cliente
-            navigator.serviceWorker.getRegistrations().then(list => {
-                let rootRemoved = false;
-                (list || []).forEach(reg => {
-                    const script = (reg.active && reg.active.scriptURL) || (reg.installing && reg.installing.scriptURL) || '';
-                    const path = script.replace(location.origin, '');
-                    if (path === '/sw.js') { rootRemoved = true; reg.unregister(); }
-                });
-                // 2) Registrar el SW real (js/sw.js), mismo scope. Si quita el root, debe esperar
-                if (rootRemoved) {
-                    setTimeout(() => navigator.serviceWorker.register('js/sw.js', { scope: './' }).catch(err => console.error('Error registrando SW:', err)), 500);
-                } else {
-                    navigator.serviceWorker.register('js/sw.js', { scope: './' }).catch(err => console.error('Error registrando SW:', err));
-                }
-            });
-        });
-    }
+    initServiceWorker();
 
     LumenRouter.navigateTo('landing');
 });

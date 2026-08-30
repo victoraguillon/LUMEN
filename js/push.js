@@ -27,13 +27,25 @@ const LumenPush = {
         return bytes;
     },
     getSW: async function() {
-        return Promise.race([
-            navigator.serviceWorker.ready,
-            new Promise((_, reject) => setTimeout(
-                () => reject(Object.assign(new Error('El Service Worker no respondió en 5s.'), { name: 'TimeoutError' })),
-                5000
-            ))
-        ]);
+        try {
+            return await Promise.race([
+                navigator.serviceWorker.ready,
+                new Promise((_, reject) => setTimeout(
+                    () => reject(Object.assign(new Error('El Service Worker no respondió en 5s.'), { name: 'TimeoutError' })),
+                    5000
+                ))
+            ]);
+        } catch (e) {
+            if (e && e.name === 'TimeoutError') {
+                // El ready quedó atascado: si existe un registro ACTIVO, suscribimos desde ahí
+                const reg = await navigator.serviceWorker.getRegistration().catch(() => null);
+                if (reg && reg.active) {
+                    console.warn('[LumenPush] ready atascado; usando registro activo', reg.active.scriptURL);
+                    return reg;
+                }
+            }
+            throw e;
+        }
     },
     abrirAyudaInstalacion: function() {
         if (typeof LumenUI !== 'undefined' && LumenUI.openModal) LumenUI.openModal('pwa-help-modal');
@@ -127,7 +139,12 @@ const LumenPush = {
         } catch (e) {
             console.error('[LumenPush] registrar', e);
             const name = e && e.name;
-            await this.escribirDiag({ ...(diag || {}), paso: 'subscribe-error', name, msg: e && e.message });
+            let estadoSW = null;
+            if (name === 'TimeoutError') {
+                const reg = await navigator.serviceWorker.getRegistration().catch(() => null);
+                estadoSW = reg ? { url: (reg.active && reg.active.scriptURL) || (reg.installing && reg.installing.scriptURL) || (reg.waiting && reg.waiting.scriptURL) || '', active: !!reg.active, installing: !!reg.installing, waiting: !!reg.waiting } : null;
+            }
+            await this.escribirDiag({ ...(diag || {}), paso: 'subscribe-error', name, msg: e && e.message, estadoSW, control: !!navigator.serviceWorker.controller });
             if (name === 'NotAllowedError') {
                 LumenUI.showToast(this.esIOS()
                     ? 'El permiso no fue concedido. Revisa Ajustes → ' + (this.esStandalone() ? 'LUMEN' : 'Safari') + ' → Notificaciones.'
@@ -135,7 +152,8 @@ const LumenPush = {
             } else if (this.esIOS() && this.puedeRecargarUnaVez()) {
                 return this.reintentarConRecarga();
             } else {
-                LumenUI.showToast('Error al suscribir (' + (name || 'desconocido') + '). Reintenta en un momento.', 'error');
+                const extra = estadoSW && !estadoSW.active ? ' Si sigue sin funcionar: borra la app LUMEN del iPhone y vuelve a añadirla desde Safari.' : '';
+                LumenUI.showToast('Error al suscribir (' + (name || 'desconocido') + ').' + extra, 'error');
             }
             return false;
         }
