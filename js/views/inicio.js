@@ -9,7 +9,7 @@ const InicioView = {
                 upcomingHTML = '<p style="color:var(--texto-gris); font-size:14px; margin:0;">No hay actividades programadas.</p>';
             } else {
                 upcomingPublic.forEach(ev => {
-                    let dateStr = ev.tipo === 'recurrente' ? ev.dia.substring(0,3) : (ev.fecha_inicio ? LumenUI.formatDate(ev.fecha_inicio).split(' ')[0] : 'Pronto');
+                    let dateStr = ev.tipo === 'recurrente' ? (ev.dia || '').substring(0,3) : (ev.fecha_inicio ? LumenUI.formatDate(ev.fecha_inicio).split(' ')[0] : 'Pronto');
                     upcomingHTML += `
                         <div class="mini-event-card" onclick="LumenData.selectedEventId='${ev.id}'; LumenRouter.navigateTo('detalle')" style="cursor:pointer; flex-direction:column; align-items:flex-start; gap:5px;">
                             <div style="display:flex; gap:15px; width:100%; align-items:center;">
@@ -18,8 +18,8 @@ const InicioView = {
                                     <small>${ev.tipo === 'recurrente' ? 'Semanal' : 'Único'}</small>
                                 </div>
                                 <div class="mini-event-info">
-                                    <h4>${ev.titulo}</h4>
-                                    <p>${ev.descripcion.substring(0, 40)}...</p>
+                                    <h4>${LumenUI.escapeHTML(ev.titulo)}</h4>
+                                    <p>${LumenUI.escapeHTML((ev.descripcion || '').substring(0, 40))}...</p>
                                 </div>
                             </div>
                         </div>
@@ -93,7 +93,7 @@ const InicioView = {
         }
 
         const user = LumenAuth.userProfile || {};
-        const firstName = user.nombre?.split(' ')[0] || 'Hermano(a)';
+        const firstName = LumenUI.escapeHTML((user.nombre?.split(' ')[0] || 'Hermano(a)'));
         
         // Saludo Dinámico
         const hour = new Date().getHours();
@@ -139,7 +139,7 @@ const InicioView = {
                 birthdayHTML = `
                     <div class="bento-box reveal" style="border-left: 5px solid #ef4444; background: rgba(239,68,68,0.05); grid-column: span 2;">
                         <div class="bento-title" style="color: #ef4444;">🎉 ¡Hoy es un día especial!</div>
-                        <p style="font-size: 16px; color: var(--texto-oscuro); margin:0;">Hoy cumple años: <strong>${celebrants.map(c => c.nombre).join(', ')}</strong>. ¡Dedícale un momento de oración y envíale un saludo!</p>
+                        <p style="font-size: 16px; color: var(--texto-oscuro); margin:0;">Hoy cumple años: <strong>${LumenUI.escapeHTML(celebrants.map(c => c.nombre).join(', '))}</strong>. ¡Dedícale un momento de oración y envíale un saludo!</p>
                     </div>
                 `;
             }
@@ -151,7 +151,7 @@ const InicioView = {
             upcomingEventsHTML = '<p style="color:var(--texto-gris); font-size:14px; margin:0;">No hay actividades programadas.</p>';
         } else {
             upcoming.forEach(ev => {
-                let dateStr = ev.tipo === 'recurrente' ? ev.dia.substring(0,3) : (ev.fecha_inicio ? LumenUI.formatDate(ev.fecha_inicio).split(' ')[0] : 'Pronto');
+                let dateStr = ev.tipo === 'recurrente' ? (ev.dia || '').substring(0,3) : (ev.fecha_inicio ? LumenUI.formatDate(ev.fecha_inicio).split(' ')[0] : 'Pronto');
                 
                 // Lógica Countdown
                 let countdownHTML = '';
@@ -171,8 +171,8 @@ const InicioView = {
                                 <small>${ev.tipo === 'recurrente' ? 'Semanal' : 'Único'}</small>
                             </div>
                             <div class="mini-event-info">
-                                <h4>${ev.titulo}</h4>
-                                <p>${ev.descripcion.substring(0, 40)}...</p>
+                                <h4>${LumenUI.escapeHTML(ev.titulo)}</h4>
+                                <p>${LumenUI.escapeHTML((ev.descripcion || '').substring(0, 40))}...</p>
                             </div>
                         </div>
                         ${countdownHTML}

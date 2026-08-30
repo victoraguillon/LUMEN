@@ -47,7 +47,7 @@ const EncuestasView = {
                             optionsHTML += `
                                 <div class="poll-result-item">
                                     <div class="poll-result-header">
-                                        <span>${opt} ${userVote === index ? '✓' : ''}</span>
+                                        <span>${LumenUI.escapeHTML(opt)} ${userVote === index ? '✓' : ''}</span>
                                         <span>${percentage}% (${votesForOpt})</span>
                                     </div>
                                     <div class="poll-results-bar">
@@ -59,7 +59,7 @@ const EncuestasView = {
                             optionsHTML += `
                                 <div class="poll-option" onclick="EncuestasView.vote('${enc.id}', ${index})">
                                     <input type="radio" name="poll-${enc.id}" value="${index}">
-                                    <label>${opt}</label>
+                                    <label>${LumenUI.escapeHTML(opt)}</label>
                                 </div>
                             `;
                         }
@@ -67,7 +67,7 @@ const EncuestasView = {
 
                     html += `
                         <div class="card">
-                            <div class="card-header">${Icons.bell}<h3>${enc.question}</h3></div>
+                            <div class="card-header">${Icons.bell}<h3>${LumenUI.escapeHTML(enc.question)}</h3></div>
                             <div class="card-body">
                                 ${optionsHTML}
                                 <p style="font-size: 12px; color: var(--texto-gris); margin-top: 10px;">Total de votos: ${totalVotes}</p>

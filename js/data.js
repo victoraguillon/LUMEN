@@ -81,6 +81,7 @@ const LumenData = {
         });
     },
     checkScheduledNotifications: function() {
+        if (!LumenAuth.currentUser) return;
         const now = new Date();
         this.eventos.forEach(ev => {
             if (ev.tipo === 'unico' && ev.fecha_inicio) {
@@ -117,5 +118,5 @@ const LumenData = {
     },
     updateResource: function(category, id, resource) { return supabase.from('recursos').update({ ...resource, categoria: category }).eq('id', id); },
     deleteResource: function(category, id) { return supabase.from('recursos').delete().eq('id', id); },
-    saveNotification: function(text, forAdmin) { return supabase.from('notificaciones').insert({ text: text, forAdmin: forAdmin, timestamp: Date.now() }).then(({ error }) => { if (error) console.error('[LUMEN] saveNotification', error); }); }
+    saveNotification: function(text, forAdmin) { return supabase.rpc('send_notification', { p_texto: text, p_for_admin: !!forAdmin }).then(({ error }) => { if (error) console.error('[LUMEN] saveNotification', error); }); }
 };

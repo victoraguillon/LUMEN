@@ -29,7 +29,7 @@ const RecursosView = {
             
             // Lógica de Búsqueda
             if (resourceSearchQuery) {
-                filteredResources = filteredResources.filter(r => r.titulo.toLowerCase().includes(resourceSearchQuery.toLowerCase()));
+                filteredResources = filteredResources.filter(r => (r.titulo || '').toLowerCase().includes(resourceSearchQuery.toLowerCase()));
             }
 
             if (filteredResources.length === 0) {
@@ -39,18 +39,18 @@ const RecursosView = {
                 filteredResources.forEach(res => {
                     // Selección de icono según tipo
                     let icon = Icons.book;
-                    if (res.tipo.toLowerCase().includes('video')) icon = Icons.megaphone;
-                    else if (res.tipo.toLowerCase().includes('audio') || res.tipo.toLowerCase().includes('música')) icon = Icons.music;
+                    if ((res.tipo || '').toLowerCase().includes('video')) icon = Icons.megaphone;
+                    else if ((res.tipo || '').toLowerCase().includes('audio') || (res.tipo || '').toLowerCase().includes('música')) icon = Icons.music;
                     
                     cardsHTML += `
                         <div class="resource-grid-card reveal" onclick="RecursosView.showResourceDetails('${res.id}')">
                             ${icon}
-                            <h4>${res.titulo}</h4>
-                            <p>${res.tipo}</p>
+                            <h4>${LumenUI.escapeHTML(res.titulo)}</h4>
+                            <p>${LumenUI.escapeHTML(res.tipo)}</p>
                         </div>
                     `;
                 });
-                content = `<input type="text" class="search-bar" placeholder="🔍 Buscar recurso..." onkeyup="RecursosView.search(this.value)" value="${resourceSearchQuery}"><div class="resource-grid">${cardsHTML}</div>`;
+                content = `<input type="text" class="search-bar" placeholder="🔍 Buscar recurso..." onkeyup="RecursosView.search(this.value)" value="${LumenUI.escapeHTML(resourceSearchQuery)}"><div class="resource-grid">${cardsHTML}</div>`;
             }
         }
 
@@ -85,9 +85,9 @@ const RecursosView = {
         ` : '';
         const contentHTML = `
             <div style="text-align:center; padding:10px;">
-                <h3 style="color:var(--celeste-oscuro); margin-bottom:10px;">${res.titulo}</h3>
-                <p style="color:var(--texto-gris); margin-bottom:20px;">Formato: ${res.tipo}</p>
-                <a href="${res.url}" target="_blank" class="btn btn-primary btn-block">${Icons.download} Ver / Descargar</a>
+                <h3 style="color:var(--celeste-oscuro); margin-bottom:10px;">${LumenUI.escapeHTML(res.titulo)}</h3>
+                <p style="color:var(--texto-gris); margin-bottom:20px;">Formato: ${LumenUI.escapeHTML(res.tipo)}</p>
+                <a href="${LumenUI.escapeHTML(res.url)}" target="_blank" rel="noopener" class="btn btn-primary btn-block">${Icons.download} Ver / Descargar</a>
                 ${adminActions}
             </div>
         `;
@@ -102,10 +102,10 @@ const RecursosView = {
         const res = key ? LumenData.recursos[currentResourceTab][key] : {};
         const formHTML = `
             <form onsubmit="RecursosView.saveResource(event, '${key || ''}')">
-                <div class="form-group"><label>Título:</label><input type="text" id="res-title" value="${res.titulo || ''}" required></div>
-                <div class="form-group"><label>Categoría:</label><input type="text" id="res-cat" value="${currentResourceTab}" required></div>
-                <div class="form-group"><label>Tipo (PDF, Video, Audio):</label><input type="text" id="res-type" value="${res.tipo || ''}" required></div>
-                <div class="form-group"><label>Enlace (URL Google Drive, YouTube, etc.):</label><input type="url" id="res-url" value="${res.url || ''}" placeholder="https://..." required></div>
+                <div class="form-group"><label>Título:</label><input type="text" id="res-title" value="${LumenUI.escapeHTML(res.titulo || '')}" required></div>
+                <div class="form-group"><label>Categoría:</label><input type="text" id="res-cat" value="${LumenUI.escapeHTML(currentResourceTab)}" required></div>
+                <div class="form-group"><label>Tipo (PDF, Video, Audio):</label><input type="text" id="res-type" value="${LumenUI.escapeHTML(res.tipo || '')}" required></div>
+                <div class="form-group"><label>Enlace (URL Google Drive, YouTube, etc.):</label><input type="url" id="res-url" value="${LumenUI.escapeHTML(res.url || '')}" placeholder="https://..." required></div>
                 <button type="submit" class="btn btn-primary btn-block">Guardar Recurso</button>
             </form>
         `;

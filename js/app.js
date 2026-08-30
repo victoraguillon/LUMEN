@@ -135,5 +135,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('js/sw.js', { scope: './' }).catch(err => console.error('Error registrando SW:', err));
+        });
+    }
+
     LumenRouter.navigateTo('landing');
 });

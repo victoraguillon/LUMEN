@@ -1,5 +1,6 @@
 const LumenUI = {
     audioCtx: null,
+    escapeHTML: function(str) { return String(str ?? '').replace(/[&<>"']/g, function(c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); },
     playSound: function() {
         try {
             if (!this.audioCtx) this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -41,7 +42,7 @@ const LumenUI = {
         const toast = document.createElement('div');
         toast.className = `toast ${type}`;
         toast.setAttribute('role', 'status');
-        toast.innerHTML = `${type === 'success' ? Icons.check_circle : Icons.alert} <span>${message}</span>`;
+        toast.innerHTML = `${type === 'success' ? Icons.check_circle : Icons.alert} <span>${this.escapeHTML(message)}</span>`;
         const container = document.getElementById('toast-container');
         if (container.firstElementChild) {
             container.firstElementChild.remove();
@@ -201,7 +202,7 @@ const LumenUI = {
         let unread = 0;
         if (LumenData.notifications) {
             LumenData.notifications.forEach(n => {
-                if (n.timestamp > lastRead && (LumenAuth.isAdmin || n.forAdmin === false)) unread++;
+                if (n.timestamp > lastRead && (LumenAuth.isAdmin || n.for_admin === false)) unread++;
             });
         }
         const show = unread > 0;

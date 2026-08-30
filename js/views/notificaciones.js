@@ -9,7 +9,7 @@ const NotificacionesView = {
 
         let notifs = [];
         if (LumenData.notifications) {
-            notifs = LumenData.notifications.filter(n => LumenAuth.isAdmin || n.forAdmin === false).reverse();
+            notifs = LumenData.notifications.filter(n => LumenAuth.isAdmin || n.for_admin === false).reverse();
         }
 
         let html = `
@@ -26,13 +26,13 @@ const NotificacionesView = {
             notifs.forEach(n => {
                 // Lógica de colores según el texto de la notificación
                 let itemClass = 'admin-notif'; // Azul por defecto
-                if (n.text.toLowerCase().includes('recurso')) itemClass = 'recurso-notif';
-                if (n.text.toLowerCase().includes('recordatorio') || n.text.toLowerCase().includes('mañana') || n.text.toLowerCase().includes('atención')) itemClass = 'recordatorio-notif';
+                if ((n.texto || '').toLowerCase().includes('recurso')) itemClass = 'recurso-notif';
+                if ((n.texto || '').toLowerCase().includes('recordatorio') || (n.texto || '').toLowerCase().includes('mañana') || (n.texto || '').toLowerCase().includes('atención')) itemClass = 'recordatorio-notif';
                 
                 html += `
                     <div class="timeline-item ${itemClass} reveal">
                         <div class="timeline-time">${new Date(n.timestamp).toLocaleString()}</div>
-                        <div class="timeline-text">${n.text}</div>
+                        <div class="timeline-text">${LumenUI.escapeHTML(n.texto)}</div>
                     </div>
                 `;
             });

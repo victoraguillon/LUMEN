@@ -53,11 +53,11 @@ const BlogView = {
             const date = new Date(a.timestamp).toLocaleDateString('es-VE', { day: 'numeric', month: 'long', year: 'numeric' });
             html += `
                 <div class="card reveal" style="cursor: pointer;" onclick="BlogView.viewArticle('${a.id}')">
-                    ${a.image_url ? `<img src="${a.image_url}" alt="${a.title}" loading="lazy" width="400" height="200" style="width:100%; height: 200px; object-fit: cover;">` : ''}
-                    <div class="card-header">${Icons.book}<h3>${a.title}</h3></div>
+                    ${a.image_url ? `<img src="${LumenUI.escapeHTML(a.image_url)}" alt="${LumenUI.escapeHTML(a.titulo)}" loading="lazy" width="400" height="200" style="width:100%; height: 200px; object-fit: cover;">` : ''}
+                    <div class="card-header">${Icons.book}<h3>${LumenUI.escapeHTML(a.titulo)}</h3></div>
                     <div class="card-body">
-                        <p style="font-size: 14px; color: var(--texto-gris); margin-bottom: 10px;">Por ${a.author_name} | ${date}</p>
-                        <p>${a.content.substring(0, 120)}...</p>
+                        <p style="font-size: 14px; color: var(--texto-gris); margin-bottom: 10px;">Por ${LumenUI.escapeHTML(a.author_name)} | ${date}</p>
+                        <p>${LumenUI.escapeHTML((a.contenido || '').substring(0, 120))}...</p>
                         <button class="btn btn-outline btn-block" style="margin-top: 15px;">Leer más</button>
                     </div>
                 </div>
@@ -72,10 +72,10 @@ const BlogView = {
             const date = new Date(a.timestamp).toLocaleDateString('es-VE', { day: 'numeric', month: 'long', year: 'numeric' });
             const contentHTML = `
                 <div style="text-align: left;">
-                    ${a.image_url ? `<img src="${a.image_url}" alt="${a.title}" style="width:100%; height: 250px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;">` : ''}
-                    <h2 style="color: var(--celeste-oscuro); margin-bottom: 10px;">${a.title}</h2>
-                    <p style="font-size: 14px; color: var(--texto-gris); margin-bottom: 20px;">Por <strong>${a.author_name}</strong> | ${date}</p>
-                    <div style="white-space: pre-wrap; line-height: 1.8; color: var(--texto-oscuro); font-size: 16px;">${a.content}</div>
+                    ${a.image_url ? `<img src="${LumenUI.escapeHTML(a.image_url)}" alt="${LumenUI.escapeHTML(a.titulo)}" style="width:100%; height: 250px; object-fit: cover; border-radius: 12px; margin-bottom: 20px;">` : ''}
+                    <h2 style="color: var(--celeste-oscuro); margin-bottom: 10px;">${LumenUI.escapeHTML(a.titulo)}</h2>
+                    <p style="font-size: 14px; color: var(--texto-gris); margin-bottom: 20px;">Por <strong>${LumenUI.escapeHTML(a.author_name)}</strong> | ${date}</p>
+                    <div style="white-space: pre-wrap; line-height: 1.8; color: var(--texto-oscuro); font-size: 16px;">${LumenUI.escapeHTML(a.contenido)}</div>
                 </div>
             `;
             LumenUI.openAdminModal('Artículo', contentHTML);
@@ -102,7 +102,7 @@ const BlogView = {
         const authorEmail = LumenAuth.currentUser?.email || '';
 
         supabase.from('articulos').insert({
-            title, image_url: imageUrl, content,
+            titulo: title, image_url: imageUrl, contenido: content,
             author_name: authorName,
             author_email: authorEmail,
             author_uid: LumenAuth.currentUser.id,
@@ -112,7 +112,7 @@ const BlogView = {
             if (error) { console.error(error); LumenUI.showToast('Error al enviar el artículo. Inténtalo de nuevo.', 'error'); return; }
             LumenUI.closeModal('admin-modal');
             LumenUI.showToast('Artículo enviado a revisión. Te notificaremos su aprobación, ¡gracias!', 'success');
-            LumenData.saveNotification(`Nuevo artículo de blog pendiente: ${title}`, true);
+            LumenData.saveNotification(`Nuevo artículo de blog pendiente: ${title}`, false);
             fetch('https://formsubmit.co/ajax/juvemar08@gmail.com', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },

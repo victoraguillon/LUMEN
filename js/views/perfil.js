@@ -5,7 +5,7 @@ const PerfilView = {
         if (!LumenAuth.currentUser) return `<div class="state-container"><h3>Acceso Denegado</h3><p>Debes iniciar sesión.</p></div>`;
         
         const user = LumenAuth.userProfile || {};
-        const picUrl = user.photo_url || `https://via.placeholder.com/150/005F8A/ffffff?text=${user.nombre ? user.nombre.charAt(0) : 'L'}`;
+        const picUrl = user.photo_url || `https://via.placeholder.com/150/005F8A/ffffff?text=${user.nombre ? encodeURIComponent(user.nombre.charAt(0)) : 'L'}`;
         
         let juvemarInfo = user.juvemar_status || 'No especificado';
         if (user.juvemar_status === 'Pertenece' && user.juvemar_tiempo) juvemarInfo = `Pertenece desde ${user.juvemar_tiempo}`;
@@ -30,8 +30,8 @@ const PerfilView = {
             <div class="view">
                 <div class="profile-header-card">
                     <img src="${picUrl}" alt="Perfil" class="profile-avatar-large">
-                    <h2 class="profile-name-large">${user.nombre || 'Usuario'} ${roleBadge}</h2>
-                    <p class="profile-email-large">${user.email}</p>
+                    <h2 class="profile-name-large">${LumenUI.escapeHTML(user.nombre || 'Usuario')} ${roleBadge}</h2>
+                    <p class="profile-email-large">${LumenUI.escapeHTML(user.email)}</p>
                     
                     <div style="width: 100%; max-width: 300px; margin: 20px auto 0;">
                         <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
@@ -55,28 +55,28 @@ const PerfilView = {
                 <div class="info-grid">
                     <div class="info-card">
                         <h4>${Icons.users} Datos Personales</h4>
-                        <p><strong>Edad:</strong> ${user.edad || 'N/A'}</p>
-                        <p><strong>Nacimiento:</strong> ${user.nacimiento || 'N/A'}</p>
-                        <p><strong>Dirección:</strong> ${user.direccion || 'N/A'}</p>
-                        <p><strong>Teléfono:</strong> ${user.telefono || 'N/A'}</p>
-                        <p><strong>Juvemar:</strong> ${juvemarInfo}</p>
+                        <p><strong>Edad:</strong> ${LumenUI.escapeHTML(user.edad) || 'N/A'}</p>
+                        <p><strong>Nacimiento:</strong> ${LumenUI.escapeHTML(user.nacimiento) || 'N/A'}</p>
+                        <p><strong>Dirección:</strong> ${LumenUI.escapeHTML(user.direccion) || 'N/A'}</p>
+                        <p><strong>Teléfono:</strong> ${LumenUI.escapeHTML(user.telefono) || 'N/A'}</p>
+                        <p><strong>Juvemar:</strong> ${LumenUI.escapeHTML(juvemarInfo)}</p>
                     </div>
                     <div class="info-card">
                         <h4>${Icons.cross} Vida Sacramental</h4>
                         <ul>
-                            ${(user.sacramentos || []).map(s => `<li>${s}</li>`).join('') || '<li>No especificado</li>'}
+                            ${(user.sacramentos || []).map(s => `<li>${LumenUI.escapeHTML(s)}</li>`).join('') || '<li>No especificado</li>'}
                         </ul>
                     </div>
                     <div class="info-card">
                         <h4>${Icons.book} Experiencias</h4>
-                        <p><strong>Kerigma:</strong> ${user.kerigma || 'N/A'} ${user.samuel_parroquia ? `(${user.samuel_parroquia})` : ''}</p>
-                        ${user.kerigma_otra ? `<p><strong>Otra:</strong> ${user.kerigma_otra}</p>` : ''}
+                        <p><strong>Kerigma:</strong> ${LumenUI.escapeHTML(user.kerigma) || 'N/A'} ${user.samuel_parroquia ? `(${LumenUI.escapeHTML(user.samuel_parroquia)})` : ''}</p>
+                        ${user.kerigma_otra ? `<p><strong>Otra:</strong> ${LumenUI.escapeHTML(user.kerigma_otra)}</p>` : ''}
                     </div>
                     ${user.representante_nombre ? `
                     <div class="info-card" style="border-left-color: #f39c12;">
                         <h4>${Icons.alert} Representante</h4>
-                        <p><strong>Nombre:</strong> ${user.representante_nombre}</p>
-                        <p><strong>Teléfono:</strong> ${user.representante_telefono}</p>
+                        <p><strong>Nombre:</strong> ${LumenUI.escapeHTML(user.representante_nombre)}</p>
+                        <p><strong>Teléfono:</strong> ${LumenUI.escapeHTML(user.representante_telefono)}</p>
                     </div>
                     ` : ''}
                 </div>
@@ -86,7 +86,7 @@ const PerfilView = {
     
     showEditForm: function() {
         const user = LumenAuth.userProfile || {};
-        const picUrl = user.photo_url || `https://via.placeholder.com/100/005F8A/ffffff?text=${user.nombre ? user.nombre.charAt(0) : 'L'}`;
+        const picUrl = user.photo_url || `https://via.placeholder.com/100/005F8A/ffffff?text=${user.nombre ? encodeURIComponent(user.nombre.charAt(0)) : 'L'}`;
         
         const formHTML = `
             <form onsubmit="PerfilView.saveEdit(event)">
@@ -98,14 +98,14 @@ const PerfilView = {
                     <button type="button" id="crop-save-btn" class="btn btn-primary" style="display:none; margin-top:15px;" onclick="PerfilView.cropAndSave()">Guardar Foto Recortada</button>
                 </div>
                 <div class="form-grid-2">
-                    <div class="form-group"><label>Nombre y Apellido: *</label><input type="text" id="ep-name" value="${user.nombre || ''}" required></div>
-                    <div class="form-group"><label>Edad: *</label><input type="number" id="ep-age" value="${user.edad || ''}" min="10" max="30" required></div>
+                    <div class="form-group"><label>Nombre y Apellido: *</label><input type="text" id="ep-name" value="${LumenUI.escapeHTML(user.nombre || '')}" required></div>
+                    <div class="form-group"><label>Edad: *</label><input type="number" id="ep-age" value="${LumenUI.escapeHTML(user.edad || '')}" min="10" max="30" required></div>
                 </div>
                 <div class="form-grid-2">
-                    <div class="form-group"><label>Fecha de cumpleaños (DD/MM/YYYY): *</label><input type="text" id="ep-birthdate" value="${user.nacimiento || ''}" required></div>
-                    <div class="form-group"><label>Dirección: *</label><input type="text" id="ep-address" value="${user.direccion || ''}" required></div>
+                    <div class="form-group"><label>Fecha de cumpleaños (DD/MM/YYYY): *</label><input type="text" id="ep-birthdate" value="${LumenUI.escapeHTML(user.nacimiento || '')}" required></div>
+                    <div class="form-group"><label>Dirección: *</label><input type="text" id="ep-address" value="${LumenUI.escapeHTML(user.direccion || '')}" required></div>
                 </div>
-                <div class="form-group"><label>Número telefónico: *</label><input type="tel" id="ep-phone" value="${user.telefono || ''}" required></div>
+                <div class="form-group"><label>Número telefónico: *</label><input type="tel" id="ep-phone" value="${LumenUI.escapeHTML(user.telefono || '')}" required></div>
                 <div class="form-group">
                     <label>Sacramentos hechos:</label>
                     <div class="checkbox-group">

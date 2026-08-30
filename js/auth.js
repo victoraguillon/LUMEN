@@ -55,8 +55,9 @@ const LumenAuth = {
         const drawerRecursosLink = document.getElementById('drawer-recursos-link');
         
         if (this.currentUser) {
-            const picUrl = this.userProfile?.photo_url || `https://via.placeholder.com/100/005F8A/ffffff?text=${this.userProfile?.nombre ? this.userProfile.nombre.charAt(0) : 'L'}`;
-            userDataZone.innerHTML = `<div class="user-profile-btn" onclick="LumenRouter.navigateTo('perfil')"><img src="${picUrl}" alt="Perfil"><span>${this.userProfile?.nombre || 'Usuario'}</span></div>`;
+            const avatarLetter = this.userProfile?.nombre ? this.userProfile.nombre.charAt(0) : 'L';
+            const picUrl = this.userProfile?.photo_url ? encodeURI(this.userProfile.photo_url) : `https://via.placeholder.com/100/005F8A/ffffff?text=${encodeURIComponent(avatarLetter)}`;
+            userDataZone.innerHTML = `<div class="user-profile-btn" onclick="LumenRouter.navigateTo('perfil')"><img src="${picUrl}" alt="Perfil"><span>${LumenUI.escapeHTML(this.userProfile?.nombre || 'Usuario')}</span></div>`;
             
             const isMember = this.isMember;
 
@@ -126,7 +127,7 @@ const LumenAuth = {
             .then(({ data }) => {
                 if (role === 'miembro') {
                     fetch('https://formsubmit.co/ajax/juvemar08@gmail.com', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ _subject: `Nuevo Registro Juvemar: ${name}`, email: email, message: `${name} requiere aprobación.` }) }).catch(err => console.error(err));
-                    LumenData.saveNotification(`Nuevo registro Juvemar: ${name} requiere aprobación.`, true);
+                    LumenData.saveNotification(`Nuevo registro Juvemar: ${name} requiere aprobación.`, false);
                     LumenUI.showToast("Registro exitoso. Espera aprobación del coordinador.", 'success');
                 } else {
                     LumenUI.showToast("¡Bienvenido a LUMEN! Ya puedes explorar la plataforma.", 'success');
@@ -139,19 +140,49 @@ const LumenAuth = {
     logout: function() { supabase.auth.signOut().then(() => LumenUI.showToast('Sesión cerrada', 'success')); },
     deleteAccount: function() {
         if (!this.currentUser) return;
+        const uid = this.currentUser.id;
         LumenUI.showConfirm("¿Seguro que quieres eliminar tu cuenta? Esta acción no se puede deshacer.").then(confirmed => {
-            if(confirmed) {
-                const uid = this.currentUser.id;
-                supabase.from('profiles').delete().eq('id', uid)
-                    .then(() => supabase.auth.admin ? supabase.auth.admin.deleteUser(uid) : supabase.auth.getUser())
-                    .then(() => {
-                        // Fallback: cerrar sesión (el borrado real del auth requiere admin/server)
-                        supabase.auth.signOut();
-                        LumenUI.showToast("Cuenta eliminada.", "success");
-                        this.currentUser = null; this.userProfile = null; this.isAdmin = false;
-                        this.updateUI(); LumenRouter.navigateTo('landing');
-                    }).catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), "error"));
-            }
+            if (!confirmed) return;
+            supabase.auth.getSession()
+                .then(({ data }) => {
+                    const token = data.session?.access_token;
+                    return fetch(`${supabaseConfig.url}/auth/v1/user`, {
+                        method: 'DELETE',
+                        headers: {
+                            apikey: supabaseConfig.anonKey,
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
+                })
+                .then(res => {
+                    if (!res.ok) {
+                        return res.json().catch(() => ({})).then(body => {
+                            throw new Error(body.msg || body.message || `Estado ${res.status}`);
+                        });
+                    }
+                    return res.json();
+                })
+                .then(() => supabase.from('profiles').delete().eq('id', uid))
+                .then(() => {
+                    supabase.auth.signOut();
+                    this.currentUser = null; this.userProfile = null; this.isAdmin = false;
+                    this.updateUI(); LumenRouter.navigateTo('landing');
+                    LumenUI.showToast("Cuenta eliminada.", "success");
+                })
+                .catch(err => {
+                    supabase.rpc('eliminar_mi_cuenta')
+                        .then(({ error }) => {
+                            if (error) throw new Error('No fue posible eliminar la cuenta. Contacta a un coordinador.');
+                            return supabase.from('profiles').delete().eq('id', uid);
+                        })
+                        .then(() => {
+                            supabase.auth.signOut();
+                            this.currentUser = null; this.userProfile = null; this.isAdmin = false;
+                            this.updateUI(); LumenRouter.navigateTo('landing');
+                            LumenUI.showToast("Cuenta eliminada.", "success");
+                        })
+                        .catch(() => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
+                });
         });
     },
     requestAdmin: function() {
@@ -160,7 +191,7 @@ const LumenAuth = {
             return LumenUI.showToast('Debes ser miembro activo de Juvemar para solicitar ser coordinador.', 'error');
         }
         fetch('https://formsubmit.co/ajax/juvemar08@gmail.com', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ _subject: `Solicitud Admin LUMEN`, email: this.currentUser.email, message: `${this.userProfile.nombre} solicita ser admin. UID: ${this.currentUser.id}` }) })
-        .then(() => { LumenUI.showToast('Solicitud enviada.', 'success'); LumenData.saveNotification(`${this.userProfile.nombre} solicitó ser coordinador.`, true); })
+        .then(() => { LumenUI.showToast('Solicitud enviada.', 'success'); LumenData.saveNotification(`${this.userProfile.nombre} solicitó ser coordinador.`, false); })
         .catch(() => LumenUI.showToast('Error al enviar', 'error'));
     },
     requestJuvemarMembership: function() {
@@ -169,7 +200,7 @@ const LumenAuth = {
             if(confirmed) {
                 supabase.from('profiles').update({ role: 'miembro', status: 'pending' }).eq('id', this.currentUser.id)
                     .then(() => {
-                        LumenData.saveNotification(`${this.userProfile.nombre} solicitó ingresar a Juvemar.`, true);
+                        LumenData.saveNotification(`${this.userProfile.nombre} solicitó ingresar a Juvemar.`, false);
                         LumenUI.showToast('Solicitud enviada. Tu cuenta quedará en espera hasta ser aprobada.', 'success');
                         supabase.auth.signOut();
                     })

@@ -61,9 +61,9 @@ const GestionView = {
         pending.forEach(a => {
             html += `
                 <div class="attendance-card" style="flex-direction: column; align-items: flex-start; margin-bottom: 15px;">
-                    <h4>${a.title}</h4>
-                    <p style="font-size: 12px; color: var(--texto-gris); margin-bottom: 10px;">Por ${a.author_name}</p>
-                    <p style="font-size: 14px; margin-bottom: 15px;">${a.content.substring(0, 150)}...</p>
+                    <h4>${LumenUI.escapeHTML(a.titulo)}</h4>
+                    <p style="font-size: 12px; color: var(--texto-gris); margin-bottom: 10px;">Por ${LumenUI.escapeHTML(a.author_name)}</p>
+                    <p style="font-size: 14px; margin-bottom: 15px;">${LumenUI.escapeHTML((a.contenido || '').substring(0, 150))}...</p>
                     <div style="display: flex; gap: 10px;">
                         <button class="btn btn-primary" onclick="GestionView.approveArticle('${a.id}')">Aprobar</button>
                         <button class="btn btn-danger" onclick="GestionView.deleteArticle('${a.id}')">Eliminar</button>
@@ -79,8 +79,8 @@ const GestionView = {
             html += `
                 <div class="attendance-card" style="margin-bottom: 10px;">
                     <div class="mini-event-info">
-                        <h4>${a.title}</h4>
-                        <p>Por ${a.author_name}</p>
+                        <h4>${LumenUI.escapeHTML(a.titulo)}</h4>
+                        <p>Por ${LumenUI.escapeHTML(a.author_name)}</p>
                     </div>
                     <button class="btn btn-danger" style="margin-left: auto;" onclick="GestionView.deleteArticle('${a.id}')">Eliminar</button>
                 </div>
@@ -99,7 +99,7 @@ const GestionView = {
                     fetch('https://formsubmit.co/ajax/' + a.author_email, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                        body: JSON.stringify({ _subject: 'Tu artículo fue publicado en LUMEN', titulo: a.title, mensaje: `¡Hola ${a.author_name || ''}! Tu artículo "${a.title}" fue aprobado y ya está publicado en el blog de LUMEN. ¡Gracias por compartir!` })
+                        body: JSON.stringify({ _subject: 'Tu artículo fue publicado en LUMEN', titulo: a.titulo, mensaje: `¡Hola ${a.author_name || ''}! Tu artículo "${a.titulo}" fue aprobado y ya está publicado en el blog de LUMEN. ¡Gracias por compartir!` })
                     }).catch(() => {});
                 }
             });
@@ -238,16 +238,16 @@ const GestionView = {
             
             rowsHTML += `
                 <tr>
-                    <td><strong>${u.nombre}</strong> ${ageBadge} ${roleBadge}</td>
-                    <td>${u.edad || 'N/A'}</td>
-                    <td>${u.nacimiento || 'N/A'}</td>
-                    <td>${sacramentos}</td>
-                    <td>${juvemarInfo}</td>
-                    <td>${u.telefono || 'N/A'}</td>
-                    <td>${u.email || 'N/A'}</td>
-                    <td>${u.direccion || 'N/A'}</td>
-                    <td>${guardian}</td>
-                    <td>${guardianPhone}</td>
+                    <td><strong>${LumenUI.escapeHTML(u.nombre)}</strong> ${ageBadge} ${roleBadge}</td>
+                    <td>${LumenUI.escapeHTML(u.edad) || 'N/A'}</td>
+                    <td>${LumenUI.escapeHTML(u.nacimiento) || 'N/A'}</td>
+                    <td>${LumenUI.escapeHTML(sacramentos)}</td>
+                    <td>${LumenUI.escapeHTML(juvemarInfo)}</td>
+                    <td>${LumenUI.escapeHTML(u.telefono) || 'N/A'}</td>
+                    <td>${LumenUI.escapeHTML(u.email) || 'N/A'}</td>
+                    <td>${LumenUI.escapeHTML(u.direccion) || 'N/A'}</td>
+                    <td>${LumenUI.escapeHTML(guardian)}</td>
+                    <td>${LumenUI.escapeHTML(guardianPhone)}</td>
                     <td>${statusBadge} ${approveBtn} ${coordBtn}</td>
                 </tr>
             `;
@@ -302,7 +302,7 @@ const GestionView = {
     renderInscritos: function() {
         if (LumenData.state.eventos !== 'ideal') return `<div class="state-container">${Icons.empty_box}<h3>No hay actividades</h3></div>`;
         let eventOptions = '<option value="">Selecciona una actividad...</option>';
-        LumenData.eventos.forEach(ev => { eventOptions += `<option value="${ev.id}">${ev.titulo}</option>`; });
+        LumenData.eventos.forEach(ev => { eventOptions += `<option value="${ev.id}">${LumenUI.escapeHTML(ev.titulo)}</option>`; });
         return `<div style="background:var(--blanco); padding:20px; border-radius:12px; box-shadow:var(--sombra-media); margin-bottom:20px;"><div class="form-group" style="margin:0;"><label>Selecciona actividad para ver inscritos:</label><select id="inscritos-event-select" onchange="GestionView.loadInscritosList(this.value)">${eventOptions}</select></div></div><div id="inscritos-list-container"></div>`;
     },
     profileMap: {},
@@ -320,9 +320,9 @@ const GestionView = {
                     const u = profiles[i] || ins;
                     usersHTML += `
                         <div class="attendance-card" style="flex-direction: column; align-items: flex-start; gap: 5px;">
-                            <h4>${u.nombre || ins.nombre || 'Sin nombre'}</h4>
-                            <p style="font-size: 12px; color: var(--texto-gris);">Tel: ${u.telefono || ins.telefono || 'N/A'}</p>
-                            ${u.representante_nombre ? `<p style="font-size: 12px; color: var(--error);">Representante: ${u.representante_nombre} (${u.representante_telefono})</p>` : ''}
+                            <h4>${LumenUI.escapeHTML(u.nombre || ins.nombre || 'Sin nombre')}</h4>
+                            <p style="font-size: 12px; color: var(--texto-gris);">Tel: ${LumenUI.escapeHTML(u.telefono || ins.telefono || 'N/A')}</p>
+                            ${u.representante_nombre ? `<p style="font-size: 12px; color: var(--error);">Representante: ${LumenUI.escapeHTML(u.representante_nombre)} (${LumenUI.escapeHTML(u.representante_telefono)})</p>` : ''}
                         </div>
                     `;
                 });
@@ -456,7 +456,7 @@ const GestionView = {
         }
 
         let tableHTML = `<table class="matrix-table"><thead><tr><th>Nombre</th>`;
-        columns.forEach(col => { tableHTML += `<th>${col.name}</th>`; });
+        columns.forEach(col => { tableHTML += `<th>${LumenUI.escapeHTML(col.name)}</th>`; });
         tableHTML += `</tr></thead><tbody>`;
 
         const mes = `${currentMatrixYear}-${currentMatrixMonth}`;
@@ -464,7 +464,7 @@ const GestionView = {
             const rows = data || [];
             activeUsers.forEach(uid => {
                 const u = LumenData.users[uid];
-                tableHTML += `<tr><td>${u.nombre}</td>`;
+                tableHTML += `<tr><td>${LumenUI.escapeHTML(u.nombre)}</td>`;
                 columns.forEach(col => {
                     const isChecked = rows.some(r => r.user_id === uid && r.col_id === col.id) ? 'checked' : '';
                     tableHTML += `<td><input type="checkbox" class="matrix-checkbox" ${isChecked} onchange="GestionView.saveMatrixCell('${uid}', '${col.id}', this.checked)"></td>`;
@@ -547,7 +547,7 @@ const GestionView = {
                     celebrantsHTML += `
                         <div class="attendance-card" style="border-left-color: #e74c3c;">
                             <div class="mini-event-date" style="background: #ffe0e0; color: #c0392b;"><span>${day}</span><small>MES</small></div>
-                            <div class="mini-event-info"><h4>${u.nombre}</h4><p>Cumple años este mes</p></div>
+                            <div class="mini-event-info"><h4>${LumenUI.escapeHTML(u.nombre)}</h4><p>Cumple años este mes</p></div>
                         </div>
                     `;
                 }
@@ -574,7 +574,7 @@ GestionView.renderContent = function() {
                 e.preventDefault();
                 const text = document.getElementById('manual-aviso-text').value;
                 supabase.from('notificaciones').insert({
-                    text: text, forAdmin: false, timestamp: Date.now(), manual: true
+                    texto: text, for_admin: false, timestamp: Date.now(), manual: true
                 }).then(() => {
                     LumenUI.showToast('Aviso enviado a toda la comunidad', 'success');
                     document.getElementById('manual-aviso-text').value = '';

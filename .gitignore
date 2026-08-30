@@ -44,6 +44,9 @@ node_modules/
 # Optional REPL history
 .node_repl_history
 
+# SQL database scripts (no se despliegan, se ejecutan en Supabase)
+sql/
+
 # Output of 'npm pack'
 *.tgz
 

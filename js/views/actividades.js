@@ -43,12 +43,12 @@ const ActividadesView = {
 
                     cardsHTML += `
                         <div class="card reveal">
-                            ${evento.imageUrl ? `<img src="${evento.imageUrl}" alt="${evento.titulo}" loading="lazy" width="400" height="180" style="width:100%; height: 180px; object-fit: cover;">` : ''}
-                            <div class="card-header">${Icons.calendar}<h3>${evento.titulo}</h3></div>
+                            ${evento.image_url ? `<img src="${LumenUI.escapeHTML(evento.image_url)}" alt="${LumenUI.escapeHTML(evento.titulo)}" loading="lazy" width="400" height="180" style="width:100%; height: 180px; object-fit: cover;">` : ''}
+                            <div class="card-header">${Icons.calendar}<h3>${LumenUI.escapeHTML(evento.titulo)}</h3></div>
                             <div class="card-body">
                                 <span class="card-badge ${badgeClass}">${badgeText}</span>
-                                <p><strong>Fecha:</strong> ${fechaText}</p>
-                                <p>${evento.descripcion.substring(0, 60)}...</p>
+                                <p><strong>Fecha:</strong> ${LumenUI.escapeHTML(fechaText)}</p>
+                                <p>${LumenUI.escapeHTML((evento.descripcion || '').substring(0, 60))}...</p>
                                 <button class="btn btn-primary btn-block" onclick="LumenData.selectedEventId='${evento.id}'; LumenRouter.navigateTo('detalle')">Ver Detalle</button>
                                 ${adminButtons}
                             </div>
@@ -70,14 +70,14 @@ const ActividadesView = {
         const formHTML = `
             <form onsubmit="ActividadesView.saveActivity(event, '${id || ''}')">
                 <div class="edit-avatar-section" style="margin-bottom: 20px;">
-                    <img src="${evento.imageUrl || 'https://via.placeholder.com/400x200/005F8A/ffffff?text=Foto+Actividad'}" id="act-pic-preview" alt="Foto" style="width: 100%; height: 150px; border-radius: 12px; object-fit: cover;">
+                    <img src="${evento.image_url || 'https://via.placeholder.com/400x200/005F8A/ffffff?text=Foto+Actividad'}" id="act-pic-preview" alt="Foto" style="width: 100%; height: 150px; border-radius: 12px; object-fit: cover;">
                     <label for="act-upload-pic" class="btn btn-edit" style="margin-top: 10px;">${Icons.edit} Subir/Recortar Foto</label>
                     <input type="file" id="act-upload-pic" accept="image/*" style="display:none" onchange="ActividadesView.handlePicUpload(event)">
                     <div id="cropper-area"></div>
                     <button type="button" id="act-crop-btn" class="btn btn-primary" style="display:none; margin-top:10px;" onclick="ActividadesView.cropAndSave('act')">Guardar Foto</button>
-                    <input type="hidden" id="act-image-url" value="${evento.imageUrl || ''}">
+                    <input type="hidden" id="act-image-url" value="${LumenUI.escapeHTML(evento.image_url || '')}">
                 </div>
-                <div class="form-group"><label>Título:</label><input type="text" id="act-title" value="${evento.titulo || ''}" required></div>
+                <div class="form-group"><label>Título:</label><input type="text" id="act-title" value="${LumenUI.escapeHTML(evento.titulo || '')}" required></div>
                 <div class="form-group">
                     <label>Tipo de Actividad:</label>
                     <select id="act-type" onchange="ActividadesView.toggleFechaFields(this.value)">
@@ -86,16 +86,16 @@ const ActividadesView = {
                     </select>
                 </div>
                 <div id="unico-fields" style="display:${evento.tipo === 'recurrente' ? 'none' : 'block'};">
-                    <div class="form-group"><label>Fecha y Hora de Inicio:</label><input type="datetime-local" id="act-start-date" value="${evento.fecha_inicio || ''}"></div>
-                    <div class="form-group"><label>Fecha y Hora de Fin:</label><input type="datetime-local" id="act-end-date" value="${evento.fecha_fin || ''}"></div>
+                    <div class="form-group"><label>Fecha y Hora de Inicio:</label><input type="datetime-local" id="act-start-date" value="${LumenUI.escapeHTML(evento.fecha_inicio || '')}"></div>
+                    <div class="form-group"><label>Fecha y Hora de Fin:</label><input type="datetime-local" id="act-end-date" value="${LumenUI.escapeHTML(evento.fecha_fin || '')}"></div>
                 </div>
                 <div id="recurrente-fields" style="display:${evento.tipo === 'recurrente' ? 'block' : 'none'};">
                     <div class="form-grid-2">
-                        <div class="form-group"><label>Día de la semana:</label><input type="text" id="act-day" value="${evento.dia || 'Sábado'}"></div>
-                        <div class="form-group"><label>Hora:</label><input type="time" id="act-time" value="${evento.hora || '16:00'}"></div>
+                        <div class="form-group"><label>Día de la semana:</label><input type="text" id="act-day" value="${LumenUI.escapeHTML(evento.dia || 'Sábado')}"></div>
+                        <div class="form-group"><label>Hora:</label><input type="time" id="act-time" value="${LumenUI.escapeHTML(evento.hora || '16:00')}"></div>
                     </div>
                 </div>
-                <div class="form-group"><label>Ubicación (Texto o URL Google Maps):</label><input type="text" id="act-location" value="${evento.ubicacion || ''}" placeholder="Ej: Salón Parroquial"></div>
+                <div class="form-group"><label>Ubicación (Texto o URL Google Maps):</label><input type="text" id="act-location" value="${LumenUI.escapeHTML(evento.ubicacion || '')}" placeholder="Ej: Salón Parroquial"></div>
                 <div class="form-group">
                     <label>Requisitos de Edad:</label>
                     <select id="act-req-edad" onchange="ActividadesView.toggleReqFields(this.value)">
@@ -109,12 +109,12 @@ const ActividadesView = {
                 </div>
                 <div id="req-fecha-wrap" class="sub-input" style="display:${(evento.requisito_edad === 'nacido_antes' || evento.requisito_edad === 'nacido_desde') ? 'block' : 'none'}; margin-bottom: 15px;">
                     <label>Fecha límite de nacimiento (Ej: 2006-01-01)</label>
-                    <input type="date" id="act-req-fecha" value="${evento.requisito_fecha || ''}">
+                    <input type="date" id="act-req-fecha" value="${LumenUI.escapeHTML(evento.requisito_fecha || '')}">
                 </div>
                 <div id="req-rango-wrap" class="sub-input" style="display:${evento.requisito_edad === 'rango_edad' ? 'block' : 'none'}; margin-bottom: 15px;">
                     <div class="form-grid-2">
-                        <div class="form-group"><label>Edad Mínima:</label><input type="number" id="act-req-min-edad" value="${evento.requisito_min_edad || ''}"></div>
-                        <div class="form-group"><label>Edad Máxima:</label><input type="number" id="act-req-max-edad" value="${evento.requisito_max_edad || ''}"></div>
+                        <div class="form-group"><label>Edad Mínima:</label><input type="number" id="act-req-min-edad" value="${LumenUI.escapeHTML(evento.requisito_min_edad || '')}"></div>
+                        <div class="form-group"><label>Edad Máxima:</label><input type="number" id="act-req-max-edad" value="${LumenUI.escapeHTML(evento.requisito_max_edad || '')}"></div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -126,10 +126,10 @@ const ActividadesView = {
                 </div>
                 <div id="cost-wrap" class="sub-input" style="display:${evento.costo ? 'block' : 'none'}; margin-bottom: 15px;">
                     <label>Describa el monto o aporte:</label>
-                    <input type="text" id="act-cost" value="${evento.costo || ''}" placeholder="Ej: $5 o 1kg de comida no perecedera">
+                    <input type="text" id="act-cost" value="${LumenUI.escapeHTML(evento.costo || '')}" placeholder="Ej: $5 o 1kg de comida no perecedera">
                 </div>
-                <div class="form-group"><label>Requisitos Adicionales:</label><textarea id="act-req-text" rows="2" placeholder="Traer Biblia, ropa cómoda...">${evento.requisitos_texto || ''}</textarea></div>
-                <div class="form-group"><label>Descripción:</label><textarea id="act-desc" rows="3" required>${evento.descripcion || ''}</textarea></div>
+                <div class="form-group"><label>Requisitos Adicionales:</label><textarea id="act-req-text" rows="2" placeholder="Traer Biblia, ropa cómoda...">${LumenUI.escapeHTML(evento.requisitos_texto || '')}</textarea></div>
+                <div class="form-group"><label>Descripción:</label><textarea id="act-desc" rows="3" required>${LumenUI.escapeHTML(evento.descripcion || '')}</textarea></div>
                 <button type="submit" class="btn btn-primary btn-block">Guardar Actividad</button>
             </form>
         `;
@@ -198,7 +198,7 @@ const ActividadesView = {
             ubicacion: document.getElementById('act-location').value,
             requisitos_edad: document.getElementById('act-req-edad').value,
             requisitos_texto: document.getElementById('act-req-text').value,
-            imageUrl: document.getElementById('act-image-url').value
+            image_url: document.getElementById('act-image-url').value
         };
         
         if (document.getElementById('act-has-cost').value === 'si') {

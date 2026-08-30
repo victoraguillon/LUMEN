@@ -67,7 +67,7 @@ const IntencionesView = {
                 if (!LumenAuth.userProfile) return LumenUI.showToast("Inicia sesión", "error");
                 const uid = LumenAuth.currentUser.id;
                 supabase.from('intenciones').insert({
-                    text: text, author_name: LumenAuth.userProfile.nombre,
+                    texto: text, author_name: LumenAuth.userProfile.nombre,
                     author_uid: uid, timestamp: Date.now()
                 }).then(({ error }) => {
                     if (error) return LumenUI.showToast(LumenUI.getErrorMessage(error), 'error');
@@ -97,8 +97,8 @@ const IntencionesView = {
                     html += `
                         <div class="card reveal">
                             <div class="card-body">
-                                <p style="color: var(--texto-oscuro); font-weight: 500; margin-bottom: 10px;">${int.text}</p>
-                                <small style="color: var(--texto-gris);">Por ${int.author_name} - ${date}</small>
+                                <p style="color: var(--texto-oscuro); font-weight: 500; margin-bottom: 10px;">${LumenUI.escapeHTML(int.texto)}</p>
+                                <small style="color: var(--texto-gris);">Por ${LumenUI.escapeHTML(int.author_name)} - ${date}</small>
                             </div>
                             <div class="card-footer" style="justify-content: center;">
                                 <button class="btn ${userLiked ? 'btn-primary' : 'btn-outline'}" style="padding: 8px 15px; font-size: 13px;" onclick="IntencionesView.toggleLike('${int.id}')">
