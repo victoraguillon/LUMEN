@@ -287,7 +287,7 @@ const LumenUI = {
         const onMove = (e) => {
             if (!drawer.classList.contains('active')) return;
             currentX = e.clientX;
-            const diff = startX - currentX;
+            let diff = startX - currentX;
             if (!dragging && Math.abs(diff) < 8) return; // espera a movimiento real
             dragging = true;
             if (diff < 0) diff = 0; // no tirar del borde derecho
