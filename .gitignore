@@ -47,6 +47,9 @@ node_modules/
 # SQL database scripts (no se despliegan, se ejecutan en Supabase)
 sql/
 
+# Edge Functions (se despliegan con supabase CLI, no se sirven por Vercel)
+funciones/
+
 # Output of 'npm pack'
 *.tgz
 

@@ -17,18 +17,20 @@ const ActividadesView = {
             // Chips de Filtro
             let chipsHTML = `
                 <div class="filter-chips reveal">
-                    <div class="chip ${activeFilter === 'Todos' ? 'active' : ''}" onclick="ActividadesView.setFilter('Todos')">Todos</div>
+                    <div class="chip ${activeFilter === 'Todos' ? 'active' : ''}" onclick="ActividadesView.setFilter('Todos')">Próximas</div>
+                    <div class="chip ${activeFilter === 'historial' ? 'active' : ''}" onclick="ActividadesView.setFilter('historial')">Historial</div>
                     <div class="chip ${activeFilter === 'unico' ? 'active' : ''}" onclick="ActividadesView.setFilter('unico')">Únicos</div>
                     <div class="chip ${activeFilter === 'recurrente' ? 'active' : ''}" onclick="ActividadesView.setFilter('recurrente')">Recurrentes</div>
                 </div>
             `;
 
             let cardsHTML = '';
-            // Filtrar eventos
-            const filteredEvents = LumenData.eventos.filter(ev => activeFilter === 'Todos' || ev.tipo === activeFilter);
+            // Filtrar: 'Todos' = próximas (recurrentes + únicos futuros), 'historial' = únicos ya finalizados
+            const baseList = activeFilter === 'historial' ? LumenData.historialEventos() : LumenData.upcomingEventos();
+            const filteredEvents = baseList.filter(ev => activeFilter === 'Todos' || activeFilter === 'historial' || ev.tipo === activeFilter);
             
             if (filteredEvents.length === 0) {
-                cardsHTML = `<div class="state-container">${Icons.empty_box}<h3>No hay actividades de este tipo</h3></div>`;
+                cardsHTML = `<div class="state-container">${Icons.empty_box}<h3>${activeFilter === 'historial' ? 'Aún no hay actividades finalizadas' : 'No hay actividades de este tipo'}</h3></div>`;
             } else {
                 filteredEvents.forEach(evento => {
                     let adminButtons = LumenAuth.isAdmin ? `
@@ -39,7 +41,9 @@ const ActividadesView = {
                     ` : '';
                     let badgeClass = evento.tipo === 'recurrente' ? 'badge-recurring' : 'badge-unique';
                     let badgeText = evento.tipo === 'recurrente' ? 'Semanal' : 'Único';
+                    const fueFinalizada = evento.tipo === 'unico' && evento.fecha_fin && new Date(evento.fecha_fin) < new Date();
                     let fechaText = evento.tipo === 'recurrente' ? `Todos los ${evento.dia} a las ${evento.hora}` : (evento.fecha_inicio ? new Date(evento.fecha_inicio).toLocaleDateString('es-VE') : 'Pronto');
+                    if (fueFinalizada) fechaText += ` · Finalizada`;
 
                     cardsHTML += `
                         <div class="card reveal">
@@ -59,7 +63,7 @@ const ActividadesView = {
             content = `${chipsHTML}<div class="cards-grid">${cardsHTML}</div>`;
         }
 
-        return `<div class="view"><h2 class="reveal" style="color: var(--celeste-oscuro); margin-bottom:20px;">Próximas Actividades</h2><div class="reveal">${adminButton}</div>${content}</div>`;
+        return `<div class="view"><h2 class="reveal" style="color: var(--celeste-oscuro); margin-bottom:20px;">Actividades</h2><p class="reveal" style="color:var(--texto-gris); margin-top:-10px; margin-bottom:15px;">${activeFilter === 'historial' ? 'Actividades únicas ya realizadas.' : 'Próximas actividades y encuentros.'}</p><div class="reveal">${adminButton}</div>${content}</div>`;
     },
     setFilter: function(filter) {
         activeFilter = filter;

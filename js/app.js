@@ -86,19 +86,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof LumenUI !== 'undefined' && LumenUI.initDarkMode) LumenUI.initDarkMode();
     if (typeof LumenUI !== 'undefined' && LumenUI.initDrawerGestures) LumenUI.initDrawerGestures();
 
-    if ("Notification" in window && Notification.permission === "default") {
-        setTimeout(() => {
-            Notification.requestPermission().then(permission => {
-                if (permission === "granted") console.log("Notificaciones activadas.");
-            });
-        }, 5000);
-    }
+    // Push: se habilita SOLO cuando el usuario lo pide desde la tarjeta "Activa Notificaciones"
+    // (Ya no se pide permiso automáticamente al abrir la app).
 
     if (typeof supabase === 'undefined') {
         console.error("Supabase no está cargando.");
     } else {
         try { LumenData.init(); } catch (error) { console.error("Error al inicializar datos:", error); }
         try { LumenAuth.init(); } catch (error) { console.error("Error al inicializar auth:", error); }
+        if (typeof LumenPush !== 'undefined' && LumenPush.init) { try { LumenPush.init(); } catch (error) { console.error("Error al inicializar push:", error); } }
     }
 
     document.querySelectorAll('.nav-link, .drawer-link').forEach(link => {
@@ -117,27 +113,77 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    let deferredPrompt;
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    let deferredPrompt = null;
+    let androidPromptSeen = false;
+
+    const showPwaBanner = () => {
+        const banner = document.getElementById('pwa-install-banner');
+        if (banner && !isStandalone && localStorage.getItem('lumen_pwa_dismissed') !== '1') banner.style.display = 'flex';
+    };
+    const showPwaHelp = (platform) => {
+        const helpModal = document.getElementById('pwa-help-modal');
+        const ios = document.getElementById('pwa-help-ios');
+        const android = document.getElementById('pwa-help-android');
+        if (helpModal) LumenUI.openModal('pwa-help-modal');
+        if (ios) ios.style.display = platform === 'ios' ? 'block' : 'none';
+        if (android) android.style.display = platform === 'android' ? 'block' : 'none';
+    };
+
+    document.getElementById('pwa-help-btn').onclick = () => {
+        showPwaHelp(isIOS ? 'ios' : 'android');
+        if (deferredPrompt) deferredPrompt = null;
+    };
+
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        const pwaBanner = document.getElementById('pwa-install-banner');
+        androidPromptSeen = true;
+        showPwaBanner();
         const pwaBtn = document.getElementById('pwa-install-btn');
-        if (pwaBanner) pwaBanner.style.display = 'flex';
         if (pwaBtn) {
-            pwaBtn.onclick = () => {
+            pwaBtn.onclick = async () => {
+                if (!deferredPrompt) { showPwaHelp('android'); return; }
                 deferredPrompt.prompt();
-                deferredPrompt.userChoice.then(() => {
-                    pwaBanner.style.display = 'none';
+                try { await deferredPrompt.userChoice; } finally {
+                    document.getElementById('pwa-install-banner').style.display = 'none';
                     deferredPrompt = null;
-                });
+                }
             };
         }
     });
 
+    window.addEventListener('appinstalled', () => {
+        const banner = document.getElementById('pwa-install-banner');
+        if (banner) banner.style.display = 'none';
+        deferredPrompt = null;
+    });
+
+    // Banner proactivo: iOS no dispara beforeinstallprompt ni has iOS y no instalado
+    if (isIOS && !isStandalone) {
+        setTimeout(showPwaBanner, 4000);
+    } else if (!isStandalone) {
+        setTimeout(() => { if (!androidPromptSeen) showPwaBanner(); }, 4000);
+    }
+
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('js/sw.js', { scope: './' }).catch(err => console.error('Error registrando SW:', err));
+            // 1) Des-registrar el SW LEGACY de la raíz (/sw.js) si sigue activo en el cliente
+            navigator.serviceWorker.getRegistrations().then(list => {
+                let rootRemoved = false;
+                (list || []).forEach(reg => {
+                    const script = (reg.active && reg.active.scriptURL) || (reg.installing && reg.installing.scriptURL) || '';
+                    const path = script.replace(location.origin, '');
+                    if (path === '/sw.js') { rootRemoved = true; reg.unregister(); }
+                });
+                // 2) Registrar el SW real (js/sw.js), mismo scope. Si quita el root, debe esperar
+                if (rootRemoved) {
+                    setTimeout(() => navigator.serviceWorker.register('js/sw.js', { scope: './' }).catch(err => console.error('Error registrando SW:', err)), 500);
+                } else {
+                    navigator.serviceWorker.register('js/sw.js', { scope: './' }).catch(err => console.error('Error registrando SW:', err));
+                }
+            });
         });
     }
 

@@ -521,9 +521,13 @@ const GestionView = {
             <div class="card">
                 <div class="card-body">
                     <h3>Enviar Aviso General</h3>
-                    <p style="font-size: 14px; color: var(--texto-gris); margin-bottom: 15px;">Este mensaje llegará instantáneamente al buzón de notificaciones de todos los jóvenes.</p>
+                    <p style="font-size: 14px; color: var(--texto-gris); margin-bottom: 15px;">Llegará instantáneamente al buzón de notificaciones de todos los jóvenes.</p>
                     <form id="manual-aviso-form">
                         <div class="form-group"><textarea id="manual-aviso-text" rows="4" required placeholder="Ej: Mañana no hay reunión por el clima. ¡Dios los bendiga!"></textarea></div>
+                        <div class="checkbox-item" style="margin-bottom: 15px;">
+                            <input type="checkbox" id="manual-aviso-push" checked>
+                            <label for="manual-aviso-push">Enviar también <strong>notificación push al teléfono</strong> de quienes tengan notificaciones activadas</label>
+                        </div>
                         <button type="submit" class="btn btn-primary btn-block">Enviar Aviso a la Comunidad</button>
                     </form>
                 </div>
@@ -531,32 +535,49 @@ const GestionView = {
         `;
     },
 
-    // --- CUMPLEAÑOS ---
+    // --- CUMPLEAÑOS (año completo + próximos destacados) ---
     renderCumpleanos: function() {
-        if (!LumenData.users) {
-            return `<div class="state-container"><div class="skeleton-card" style="height:200px; width:100%;"></div></div>`;
-        }
-        const currentMonth = new Date().getMonth() + 1; 
-        let celebrantsHTML = '';
-        
-        Object.values(LumenData.users).forEach(u => {
-            if (u.nacimiento) {
-                const parts = u.nacimiento.split('/'); 
-                if (parts.length === 3 && parseInt(parts[1]) === currentMonth) {
-                    const day = parts[0];
-                    celebrantsHTML += `
-                        <div class="attendance-card" style="border-left-color: #e74c3c;">
-                            <div class="mini-event-date" style="background: #ffe0e0; color: #c0392b;"><span>${day}</span><small>MES</small></div>
-                            <div class="mini-event-info"><h4>${LumenUI.escapeHTML(u.nombre)}</h4><p>Cumple años este mes</p></div>
-                        </div>
-                    `;
-                }
+        return `
+            <h3 style="margin: 20px 0 10px;">Cumpleaños del Año</h3>
+            <p style="font-size: 13px; color: var(--texto-gris); margin-bottom: 15px;">Próximos cumpleaños (hoy y siguientes 7 días) resaltados en rojo.</p>
+            <div id="cumpleanos-list" class="attendance-list">
+                <div class="state-container"><div class="skeleton-card" style="height:200px; width:100%;"></div></div>
+            </div>
+        `;
+    },
+    loadCumpleanos: function() {
+        const container = document.getElementById('cumpleanos-list');
+        if (!container) return;
+        LumenData.loadBirthdays(400).then(list => {
+            if (list.length === 0) {
+                container.innerHTML = '<p>No hay cumpleaños registrados.</p>';
+                return;
             }
+            const mesesNombres = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+            const monthAbrev = ["ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC"];
+            const orden = [...list].sort((a, b) => (a.mes - b.mes) || (a.dia - b.dia));
+            let html = '';
+            let lastMonth = -1;
+            orden.forEach(c => {
+                const proximos = c.en_dias >= 0 && c.en_dias <= 7;
+                if (c.mes !== lastMonth) {
+                    html += `<h4 style="margin: 20px 0 10px; color: var(--celeste-oscuro);">${mesesNombres[c.mes - 1] || ''}</h4>`;
+                    lastMonth = c.mes;
+                }
+                html += `
+                    <div class="attendance-card" style="${proximos ? 'border-left-color: #e74c3c; background: rgba(231,76,60,0.06);' : ''}">
+                        <div class="mini-event-date" style="background: ${proximos ? '#ffe0e0' : 'var(--celeste-suave, #e0f2fe)'}; color: ${proximos ? '#c0392b' : 'var(--celeste-oscuro)'};">
+                            <span>${c.dia}</span><small>${monthAbrev[c.mes - 1] || ''}</small>
+                        </div>
+                        <div class="mini-event-info">
+                            <h4>${LumenUI.escapeHTML(c.nombre)}</h4>
+                            <p>${c.edad ? c.edad + ' años' : 'Edad no registrada'} ${proximos ? '· <strong style="color:#e74c3c;">' + (c.en_dias === 0 ? '¡HOY ES SU CUMPLEAÑOS! 🎉' : 'en ' + c.en_dias + ' día' + (c.en_dias === 1 ? '' : 's')) + '</strong>' : ''}</p>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
         });
-
-        if (celebrantsHTML === '') celebrantsHTML = '<p>No hay cumpleaños este mes.</p>';
-
-        return `<h3 style="margin: 20px 0;">Cumpleaños del Mes (${currentMonth})</h3><div class="attendance-list">${celebrantsHTML}</div>`;
     }
 };
 
@@ -573,14 +594,20 @@ GestionView.renderContent = function() {
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 const text = document.getElementById('manual-aviso-text').value;
+                const withPush = document.getElementById('manual-aviso-push') ? document.getElementById('manual-aviso-push').checked : false;
                 supabase.from('notificaciones').insert({
                     texto: text, for_admin: false, timestamp: Date.now(), manual: true
                 }).then(() => {
+                    if (withPush && typeof LumenPush !== 'undefined' && LumenPush.enviarPush) {
+                        LumenPush.enviarPush({ mode: 'all', title: 'LUMEN · Aviso de la comunidad', body: text, url: '/notificaciones' });
+                    }
                     LumenUI.showToast('Aviso enviado a toda la comunidad', 'success');
                     document.getElementById('manual-aviso-text').value = '';
                     LumenData.loadNotifications();
                 }).catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
             });
         }
+    } else if (currentGestionTab === 'cumpleanos') {
+        this.loadCumpleanos();
     }
 };

@@ -23,17 +23,38 @@ const LumenData = {
     loadEventos: function() {
         supabase.from('eventos').select('*').order('created_at', { ascending: true }).then(({ data, error }) => {
             if (error) { this.state.eventos = 'error'; this.updateViewIfActive('actividades'); return; }
-            if (data && data.length > 0) { this.eventos = data; this.state.eventos = 'ideal'; this.checkExpiredActivities(); this.checkScheduledNotifications(); }
+            if (data && data.length > 0) { this.eventos = data; this.state.eventos = 'ideal'; }
             else { this.eventos = []; this.state.eventos = 'empty'; }
             this.updateViewIfActive('actividades');
             if (LumenRouter.currentView === 'detalle') LumenRouter.navigateTo('detalle');
         });
     },
-    subscribeEventos: function() {
-        supabase
-            .channel('lumen-eventos')
-            .on('postgres_changes', { event: '*', schema: 'public', table: 'eventos' }, () => this.loadEventos())
-            .subscribe();
+    // Eventos ordenados por fecha: únicos por fecha_inicio, recurrentes por creación
+    sortedEventos: function() {
+        return [...this.eventos].sort((a, b) => {
+            const ta = a.tipo === 'unico' && a.fecha_inicio ? new Date(a.fecha_inicio).getTime() : (new Date(a.created_at || 0).getTime() || 0);
+            const tb = b.tipo === 'unico' && b.fecha_inicio ? new Date(b.fecha_inicio).getTime() : (new Date(b.created_at || 0).getTime() || 0);
+            return ta - tb;
+        });
+    },
+    // Próximas: recurrentes siempre + únicos que aún no empezaron
+    upcomingEventos: function(limit) {
+        const now = Date.now();
+        const list = this.sortedEventos().filter(ev => {
+            if (ev.tipo === 'recurrente') return true;
+            if (!ev.fecha_inicio) return false;
+            return new Date(ev.fecha_inicio).getTime() >= now;
+        });
+        return typeof limit === 'number' ? list.slice(0, limit) : list;
+    },
+    // Historial: únicos ya finalizados (más reciente primero)
+    historialEventos: function() {
+        const now = Date.now();
+        return this.sortedEventos().filter(ev => ev.tipo === 'unico' && ev.fecha_inicio && new Date(ev.fecha_inicio).getTime() < now).reverse();
+    },
+    // Cumpleaños por ventana de días (0 = hoy). Requiere RPC cumpleanos_list (migración 4)
+    loadBirthdays: function(dias) {
+        return supabase.rpc('cumpleanos_list', { p_dias: typeof dias === 'number' ? dias : 0 }).then(({ data, error }) => error ? [] : (data || []));
     },
     loadRecursos: function() {
         return supabase.from('recursos').select('*').order('created_at', { ascending: true }).then(({ data, error }) => {
@@ -69,35 +90,8 @@ const LumenData = {
             if (['gestion', 'inicio'].includes(v)) LumenRouter.navigateTo(v);
         });
     },
-    checkExpiredActivities: function() {
-        const now = new Date();
-        const toDelete = [];
-        this.eventos.forEach(ev => {
-            if (ev.tipo === 'unico' && ev.fecha_fin) {
-                if (new Date(ev.fecha_fin) < now) {
-                    supabase.from('eventos').delete().eq('id', ev.id).then(() => {});
-                }
-            }
-        });
-    },
-    checkScheduledNotifications: function() {
-        if (!LumenAuth.currentUser) return;
-        const now = new Date();
-        this.eventos.forEach(ev => {
-            if (ev.tipo === 'unico' && ev.fecha_inicio) {
-                const inicio = new Date(ev.fecha_inicio);
-                const diffMs = inicio - now;
-                const diffDays = diffMs / (1000 * 60 * 60 * 24);
-                const diffHours = diffMs / (1000 * 60 * 60);
-                let sentNotifs = ev.notifs_sent || [];
-                let needsUpdate = false;
-                if (diffDays <= 5 && diffDays > 1 && !sentNotifs.includes('5days')) { this.saveNotification(`Recuerda: "${ev.titulo}" es en 5 días.`, false); sentNotifs.push('5days'); needsUpdate = true; }
-                if (diffDays <= 1 && diffHours > 1 && !sentNotifs.includes('1day')) { this.saveNotification(`Mañana es "${ev.titulo}".`, false); sentNotifs.push('1day'); needsUpdate = true; }
-                if (diffHours <= 1 && diffHours > 0 && !sentNotifs.includes('1hour')) { this.saveNotification(`¡ATENCIÓN! "${ev.titulo}" en 1 hora.`, false); sentNotifs.push('1hour'); needsUpdate = true; }
-                if (needsUpdate) supabase.from('eventos').update({ notifs_sent: sentNotifs }).eq('id', ev.id).then(() => {});
-            }
-        });
-    },
+    checkExpiredActivities: function() {},
+    checkScheduledNotifications: function() {},
     updateViewIfActive: function(viewName) { if (document.querySelector('.nav-link.active')?.getAttribute('data-view') === viewName) LumenRouter.navigateTo(viewName); },
     saveActivity: function(activity) {
         return supabase.from('eventos').insert(activity).select('*').single().then(({ data, error }) => {

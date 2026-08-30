@@ -1,9 +1,35 @@
 const InicioView = {
+    init: function() {
+        // Cumpleañero de hoy (vía RPC, no depende de RLS de profiles)
+        this.loadHoyBirthday();
+        // Refrescar estado de notificaciones push
+        if (typeof LumenPush !== 'undefined' && LumenPush.aplicarEstadoUI) LumenPush.aplicarEstadoUI();
+    },
+    loadHoyBirthday: function() {
+        if (!LumenAuth.currentUser) return;
+        LumenData.loadBirthdays(0).then(list => {
+            const container = document.getElementById('cumple-hoy-box');
+            if (!container) return;
+            const hoy = new Date();
+            const todayDay = String(hoy.getDate()).padStart(2, '0');
+            const todayMonth = String(hoy.getMonth() + 1).padStart(2, '0');
+            const celebrantes = list.filter(c => String(c.mes) === todayMonth && String(c.dia).padStart(2, '0') === todayDay);
+            if (celebrantes.length === 0) {
+                container.style.display = 'none';
+                return;
+            }
+            container.style.display = '';
+            container.innerHTML = `
+                <div class="bento-title" style="color: #ef4444;">🎉 ¡Hoy es un día especial!</div>
+                <p style="font-size: 16px; color: var(--texto-oscuro); margin:0;">Hoy cumple años: <strong>${LumenUI.escapeHTML(celebrantes.map(c => c.nombre).join(', '))}</strong>. ¡Dedícale un momento de oración y envíale un saludo!</p>
+            `;
+        });
+    },
     render: function() {
         const isMember = LumenAuth.isMember;
 
         if (!LumenAuth.currentUser) {
-            const upcomingPublic = LumenData.eventos.slice(0, 3);
+            const upcomingPublic = LumenData.upcomingEventos(3);
             let upcomingHTML = '';
             if (upcomingPublic.length === 0) {
                 upcomingHTML = '<p style="color:var(--texto-gris); font-size:14px; margin:0;">No hay actividades programadas.</p>';
@@ -124,29 +150,8 @@ const InicioView = {
         const dayOfMonth = new Date().getDate();
         const fraseDelDia = (typeof FRASES_SANTOS !== 'undefined' && FRASES_SANTOS.length) ? FRASES_SANTOS[(dayOfMonth - 1) % FRASES_SANTOS.length] : { frase: "Dios nos ama y nos acompaña siempre.", autor: "Lumen" };
 
-        let birthdayHTML = '';
-        const todayDate = new Date();
-        const todayDay = String(todayDate.getDate()).padStart(2, '0');
-        const todayMonth = String(todayDate.getMonth() + 1).padStart(2, '0');
-        
-        if (LumenData.users) {
-            const celebrants = Object.values(LumenData.users).filter(u => {
-                if (!u.nacimiento) return false;
-                const parts = u.nacimiento.split('/');
-                return parts[0] === todayDay && parts[1] === todayMonth;
-            });
-            if (celebrants.length > 0) {
-                birthdayHTML = `
-                    <div class="bento-box reveal" style="border-left: 5px solid #ef4444; background: rgba(239,68,68,0.05); grid-column: span 2;">
-                        <div class="bento-title" style="color: #ef4444;">🎉 ¡Hoy es un día especial!</div>
-                        <p style="font-size: 16px; color: var(--texto-oscuro); margin:0;">Hoy cumple años: <strong>${LumenUI.escapeHTML(celebrants.map(c => c.nombre).join(', '))}</strong>. ¡Dedícale un momento de oración y envíale un saludo!</p>
-                    </div>
-                `;
-            }
-        }
-
         let upcomingEventsHTML = '';
-        const upcoming = LumenData.eventos.slice(0, 3);
+        const upcoming = LumenData.upcomingEventos(3);
         if (upcoming.length === 0) {
             upcomingEventsHTML = '<p style="color:var(--texto-gris); font-size:14px; margin:0;">No hay actividades programadas.</p>';
         } else {
@@ -234,7 +239,16 @@ const InicioView = {
                         <button class="btn btn-outline btn-block" style="margin-top:auto;" onclick="LumenRouter.navigateTo('actividades')">Ver todas</button>
                     </div>
 
-                    ${birthdayHTML}
+                    <div class="bento-box bento-wide reveal" id="cumple-hoy-box" style="border-left: 5px solid #ef4444; background: rgba(239,68,68,0.05); display:none;"></div>
+
+                    <div class="bento-box reveal" data-push-card>
+                        <div class="bento-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                            Activa Notificaciones
+                        </div>
+                        <p>Recibe los recordatorios de las actividades y los avisos importantes directamente en tu teléfono.</p>
+                        <button class="btn btn-primary btn-block" style="margin-top:auto;" data-push-action onclick="LumenPush.activarNotificaciones()">🔔 Activar Avisos en mi Teléfono</button>
+                    </div>
 
                     <div class="bento-box reveal reveal-delay-2">
                         <div class="bento-title">

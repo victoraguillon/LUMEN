@@ -19,6 +19,9 @@ const EncuestasView = {
         this.loadEncuestas();
         this.subscribe();
     },
+    destroy: function() {
+        if (this.channel) { try { this.channel.unsubscribe(); } catch (e) {} this.channel = null; }
+    },
     loadEncuestas: function() {
         supabase.from('encuestas').select('*').order('timestamp', { ascending: false }).limit(10).then(({ data, error }) => {
             const list = document.getElementById('encuestas-list');
@@ -83,7 +86,8 @@ const EncuestasView = {
         return supabase.from('encuesta_votos').select('user_id, option_index').eq('encuesta_id', encuestaId).then(({ data, error }) => data || []);
     },
     subscribe: function() {
-        supabase
+        if (this.channel) return;
+        this.channel = supabase
             .channel('lumen-encuestas')
             .on('postgres_changes', { event: '*', schema: 'public', table: 'encuestas' }, () => this.loadEncuestas())
             .on('postgres_changes', { event: '*', schema: 'public', table: 'encuesta_votos' }, () => this.loadEncuestas())

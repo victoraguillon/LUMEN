@@ -326,9 +326,12 @@ safeListener('registration-form', 'submit', function(e) {
     
     LumenUI.setLoading(submitBtn, 'Inscribiendo');
 
-    supabase.from('inscripciones').upsert({ evento_id: eventId, user_id: uid, nombre: name, telefono: phone, fecha: new Date().toISOString() }, { onConflict: 'evento_id,user_id' })
+    supabase.from('inscripciones').insert({ evento_id: eventId, user_id: uid, nombre: name, telefono: phone, fecha: new Date().toISOString() })
       .then(({ error }) => {
           if (error) throw error;
+          if (typeof LumenPush !== 'undefined' && LumenPush.enviarPush) {
+              LumenPush.enviarPush({ mode: 'self', title: '¡Inscripción confirmada!', body: `Te has inscrito a "${eventTitle}". Recibirás un recordatorio antes de que comience.`, url: '/actividades' });
+          }
           return fetch('https://formsubmit.co/ajax/juvemar08@gmail.com', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ _subject: `Nueva Inscripción: ${eventTitle}`, name: name, phone: phone, message: `${name} se ha inscrito a "${eventTitle}". Tel: ${phone}` }) });
       })
       .then(response => response.json())

@@ -117,11 +117,15 @@ const IntencionesView = {
         return supabase.from('intencion_likes').select('user_id').eq('intencion_id', intencionId).then(({ data, error }) => data || []);
     },
     subscribe: function() {
-        supabase
+        if (this.channel) return;
+        this.channel = supabase
             .channel('lumen-intenciones')
             .on('postgres_changes', { event: '*', schema: 'public', table: 'intenciones' }, () => this.loadIntenciones())
             .on('postgres_changes', { event: '*', schema: 'public', table: 'intencion_likes' }, () => this.loadIntenciones())
             .subscribe();
+    },
+    destroy: function() {
+        if (this.channel) { try { this.channel.unsubscribe(); } catch (e) {} this.channel = null; }
     },
     toggleLike: function(intencionId) {
         if (!LumenUI.requireMember()) return;
