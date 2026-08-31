@@ -521,7 +521,7 @@ const GestionView = {
             <div class="card">
                 <div class="card-body">
                     <h3>Enviar Aviso General</h3>
-                    <p style="font-size: 14px; color: var(--texto-gris); margin-bottom: 15px;">Llegará al buzón de notificaciones y como push al teléfono de todos los que tengan notificaciones activadas.</p>
+                    <p style="font-size: 14px; color: var(--texto-gris); margin-bottom: 15px;">Llegará al buzón de notificaciones y como notificación en los dispositivos de quienes tengan activadas.</p>
                     <form id="manual-aviso-form">
                         <div class="form-group"><textarea id="manual-aviso-text" rows="4" required placeholder="Ej: Mañana no hay reunión por el clima. ¡Dios los bendiga!"></textarea></div>
                         <button type="submit" class="btn btn-primary btn-block">Enviar Aviso a la Comunidad</button>
@@ -598,7 +598,7 @@ GestionView.renderContent = function() {
                     if (typeof LumenPush !== 'undefined' && LumenPush.enviarPush) {
                         LumenPush.enviarPush({ mode: 'all', title: 'LUMEN · Aviso de la comunidad', body: text, url: '/notificaciones', avisoId }).then(res => {
                             if (res && res.ok && res.result && res.result.sent > 0) {
-                                LumenUI.showToast(`Aviso enviado y entregado en ${res.result.sent} teléfono${res.result.sent === 1 ? '' : 's'}.`, 'success');
+                                LumenUI.showToast(`Aviso enviado y entregado en ${res.result.sent} dispositivo${res.result.sent === 1 ? '' : 's'}.`, 'success');
                             } else if (res && res.ok) {
                                 LumenUI.showToast('Aviso guardado. (Nadie con notificaciones activas aún.)', 'success');
                             } else {

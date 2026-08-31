@@ -207,7 +207,35 @@ export async function runCron() {
     }
   }
 
-  return { mode: "cron", hits, pendientes: (pendientes || []).length, push, ping: await recientesSinRecibo(60) };
+  const cumple = { hoy: 0, push: { sent: 0, failed: 0, gone: 0 } };
+  try {
+    const br = await neg(await sb.rpc("cumpleanos_list", { p_dias: 0 }));
+    const celeb = (br || []).filter((c) => Number(c.en_dias) === 0);
+    if (celeb.length > 0) {
+      const names = celeb.map((c) => c.nombre);
+      const texto =
+        names.length === 1
+          ? `🎉 Hoy cumple años: ${names[0]}. ¡Envíale un saludo!`
+          : `🎉 Hoy cumplen años: ${names.join(", ")}. ¡Envíenles un saludo!`;
+      const inicioDelDia = new Date();
+      inicioDelDia.setHours(0, 0, 0, 0);
+      const dup = await neg(
+        await sb.from("notificaciones").select("id").eq("texto", texto).gte("timestamp", inicioDelDia.getTime()).limit(1)
+      );
+      if (!dup || dup.length === 0) {
+        await neg(await sb.from("notificaciones").insert({ texto, for_admin: false, manual: false, timestamp: Date.now() }));
+        const r = await pushToSubscriptions(subs, { title: "LUMEN · Cumpleaños 🎉", body: texto.replace(/"/g, ""), url: "/actividades" });
+        cumple.hoy = celeb.length;
+        Object.assign(cumple.push, r);
+      } else {
+        cumple.hoy = 0;
+      }
+    }
+  } catch (e) {
+    console.error("[send-push] cumpleaños", e.message);
+  }
+
+  return { mode: "cron", hits, pendientes: (pendientes || []).length, push, cumple, ping: await recientesSinRecibo(60) };
 }
 
 // ---------- envíos solicitados por la app ----------

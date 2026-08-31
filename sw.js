@@ -1,13 +1,56 @@
-// LUMEN - Service Worker único (v6) en la RAÍZ (/sw.js)
-// Un solo SW en la ruta estándar que todos los navegadores (iOS y Chrome)
-// manejan mejor. CACHE v6 nueva: limpia cualquier caché anterior.
-const CACHE = "lumen-cache-v6";
+// LUMEN - Service Worker único (v7) en la RAÍZ (/sw.js)
+// v7: precache del "shell" de la app (cache-first → apertura instantánea);
+// el resto del mismo origen se sirve cache-first con actualización en segundo
+// plano y respaldo en caché. Navegaciones: network-first con fallback offline.
+const CACHE = "lumen-cache-v7";
 
-// Endpoint de eco: la función confirma el recibo (diagnóstico de entrega).
+// Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";
 
-self.addEventListener("install", () => {
-  self.skipWaiting();
+const SHELL = [
+  "/",
+  "/index.html",
+  "/manifest.json",
+  "/css/styles.css",
+  "/js/supabase.js",
+  "/js/icons.js",
+  "/js/ui.js",
+  "/js/auth.js",
+  "/js/data.js",
+  "/js/push.js",
+  "/js/app.js",
+  "/js/santoral.js",
+  "/js/devocional_data.js",
+  "/js/frases_santos.js",
+  "/js/views/landing.js",
+  "/js/views/inicio.js",
+  "/js/views/nosotros.js",
+  "/js/views/actividades.js",
+  "/js/views/detalle.js",
+  "/js/views/devocional.js",
+  "/js/views/recursos.js",
+  "/js/views/perfil.js",
+  "/js/views/notificaciones.js",
+  "/js/views/intenciones.js",
+  "/js/views/encuestas.js",
+  "/js/views/blog.js",
+  "/js/views/gestion.js",
+  "/js/views/contacto.js",
+  "/assets/icons/icon-192.png",
+  "/assets/icons/icon-512.png",
+  "/assets/icons/icon-512-maskable.png",
+];
+
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    Promise.all(
+      SHELL.map((p) =>
+        fetch(p)
+          .then((res) => (res && res.ok ? caches.open(CACHE).then((c) => c.put(p, res)) : null))
+          .catch(() => null)
+      )
+    ).then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener("activate", (event) => {
@@ -22,16 +65,35 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET" || !req.url.startsWith(self.location.origin)) return;
+
+  // Navegaciones: red primero (HTML siempre fresco), caché como respaldo.
+  if (req.mode === "navigate") {
+    event.respondWith(
+      fetch(req)
+        .then((res) => {
+          const clone = res.clone();
+          caches.open(CACHE).then((c) => c.put(req, clone));
+          return res;
+        })
+        .catch(() => caches.match("/"))
+    );
+    return;
+  }
+
+  // Assets/datos: cache-first con actualización en segundo plano.
   event.respondWith(
-    fetch(req)
-      .then((res) => {
-        const clone = res.clone();
-        caches.open(CACHE).then((c) => c.put(req, clone));
-        return res;
-      })
-      .catch(() =>
-        caches.match(req, { ignoreSearch: true }).then((hit) => hit || caches.match("/"))
-      )
+    caches.match(req, { ignoreSearch: true }).then((hit) => {
+      const online = fetch(req)
+        .then((res) => {
+          if (res && res.status === 200) {
+            const clone = res.clone();
+            caches.open(CACHE).then((c) => c.put(req, clone));
+          }
+          return res;
+        })
+        .catch(() => null);
+      return hit || online;
+    })
   );
 });
 

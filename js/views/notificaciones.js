@@ -37,6 +37,9 @@ const NotificacionesView = {
                 `;
             });
             html += '</div>';
+            if (notifs.length >= LumenData.notifTake) {
+                html += '<div style="text-align:center; margin-top:24px;"><button class="btn btn-outline" style="padding:10px 22px;" onclick="LumenData.loadMoreNotifications()">Cargar más avisos</button></div>';
+            }
         }
 
         return `<div class="view">${html}</div>`;

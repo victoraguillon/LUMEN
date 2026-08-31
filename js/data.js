@@ -1,5 +1,5 @@
 const LumenData = {
-    eventos: [], recursos: {}, notifications: [], blogArticles: [], users: null, state: { eventos: 'loading', recursos: 'loading' }, selectedEventId: null,
+    eventos: [], recursos: {}, notifications: [], blogArticles: [], users: null, state: { eventos: 'loading', recursos: 'loading' }, selectedEventId: null, notifTake: 20,
     init: function() {
         this.loadEventos();
         this.loadRecursos();
@@ -69,11 +69,15 @@ const LumenData = {
         });
     },
     loadNotifications: function() {
-        return supabase.from('notificaciones').select('*').order('timestamp', { ascending: false }).limit(20).then(({ data, error }) => {
+        return supabase.from('notificaciones').select('*').order('timestamp', { ascending: false }).limit(this.notifTake).then(({ data, error }) => {
             this.notifications = data && data.length > 0 ? data : [];
             this.updateViewIfActive('notificaciones');
             LumenUI.updateNotifBadge();
         });
+    },
+    loadMoreNotifications: function() {
+        this.notifTake += 20;
+        return this.loadNotifications();
     },
     loadBlog: function() {
         return supabase.from('articulos').select('*').order('timestamp', { ascending: false }).limit(50).then(({ data, error }) => {

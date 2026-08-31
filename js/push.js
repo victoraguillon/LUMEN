@@ -1,7 +1,7 @@
 // LumenPush: suscripción y envío de notificaciones push.
 // El envío lo resuelve el servidor Node.js (api/send-push de Vercel) con web-push.
 const LumenPush = {
-    DEFAULT_BTN_TEXT: '🔔 Activar Avisos en mi Teléfono',
+    DEFAULT_BTN_TEXT: '🔔 Activar Avisos',
 
     init: function() {
         if (!this.supported()) return;
@@ -53,11 +53,11 @@ const LumenPush = {
                 return false;
             }
             if (perm !== 'granted') {
-                LumenUI.showToast('Necesitamos tu permiso para avisarte. Si no apareció la ventana, revisa los Ajustes del teléfono.', 'error');
+                LumenUI.showToast('Necesitamos tu permiso para avisarte. Si no apareció la ventana, revisa los Ajustes del dispositivo.', 'error');
                 return false;
             }
             const ok = await this.registrarSuscripcion();
-            if (ok) LumenUI.showToast('¡Notificaciones activadas! Recibirás avisos en tu teléfono.', 'success');
+            if (ok) LumenUI.showToast('¡Notificaciones activadas! Recibirás los avisos en este dispositivo.', 'success');
             return ok;
         } catch (e) {
             console.error('[LumenPush] activar', e);

@@ -80,6 +80,80 @@ const LumenRouter = {
     }
 };
 
+// Instalador PWA: beforeinstallprompt se captura AL INICIO del script (sin esperar
+// DOMContentLoaded) para no perder el evento. El botón del banner usa el prompt
+// guardado (instalación real); si el navegador aún no habilitó la instalación,
+// abre la guía paso a paso del navegador actual.
+const LumenInstall = {
+    deferredPrompt: null,
+    captured: false,
+
+    initEvents: function() {
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            this.deferredPrompt = e;
+            this.captured = true;
+            this.mostrarBanner();
+        });
+        window.addEventListener('appinstalled', () => {
+            const banner = document.getElementById('pwa-install-banner');
+            if (banner) banner.style.display = 'none';
+            this.deferredPrompt = null;
+            if (typeof LumenUI !== 'undefined' && LumenUI.showToast) {
+                LumenUI.showToast('LUMEN se instaló en este dispositivo. 🎉', 'success');
+            }
+            if (typeof LumenPush !== 'undefined' && LumenPush.aplicarEstadoUI) {
+                LumenPush.aplicarEstadoUI();
+            }
+        });
+    },
+
+    esStandalone: function() {
+        return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    },
+
+    esIOS: function() {
+        return /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    },
+
+    mostrarBanner: function() {
+        const banner = document.getElementById('pwa-install-banner');
+        if (banner && !this.esStandalone() && localStorage.getItem('lumen_pwa_dismissed') !== '1') banner.style.display = 'flex';
+    },
+
+    mostrarGuia: function() {
+        const modal = document.getElementById('pwa-help-modal');
+        const ios = document.getElementById('pwa-help-ios');
+        const android = document.getElementById('pwa-help-android');
+        if (modal && typeof LumenUI !== 'undefined' && LumenUI.openModal) LumenUI.openModal('pwa-help-modal');
+        if (ios) ios.style.display = this.esIOS() ? 'block' : 'none';
+        if (android) android.style.display = this.esIOS() ? 'none' : 'block';
+    },
+
+    install: async function() {
+        const btn = document.getElementById('pwa-install-btn');
+        if (btn) btn.disabled = true;
+        try {
+            if (this.deferredPrompt && !this.esIOS()) {
+                this.deferredPrompt.prompt();
+                const choice = await this.deferredPrompt.userChoice;
+                this.deferredPrompt = null;
+                const banner = document.getElementById('pwa-install-banner');
+                if (banner) banner.style.display = 'none';
+                if (!choice || choice.outcome !== 'accepted') this.mostrarGuia();
+            } else {
+                this.mostrarGuia();
+            }
+        } catch (e) {
+            this.mostrarGuia();
+        } finally {
+            if (btn) btn.disabled = false;
+        }
+    }
+};
+
+LumenInstall.initEvents();
+
 // Bootstrap determinista del Service Worker (v4):
 // 1) Des-registra SOLO SW legacy que quede en /js/ (js/sw.js o js/service-worker.js).
 //    NUNCA toca el SW actual (raíz /sw.js): des-registrarlo en cada carga impedía
@@ -100,14 +174,6 @@ const initServiceWorker = async () => {
             }
         }
         const reg = await navigator.serviceWorker.register('/sw.js', { scope: '/', updateViaCache: 'none' });
-        if (typeof LumenPush !== 'undefined' && LumenPush.escribirDiag && LumenAuth && LumenAuth.currentUser) {
-            LumenPush.escribirDiag({
-                t: Date.now(), paso: 'sw-bootstrap',
-                control: !!navigator.serviceWorker.controller,
-                url: (reg.active && reg.active.scriptURL) || null,
-                activo: !!reg.active, instalando: !!reg.installing, esperando: !!reg.waiting
-            });
-        }
         if (!navigator.serviceWorker.controller && sessionStorage.getItem('lumen_sw_reload') !== '1') {
             sessionStorage.setItem('lumen_sw_reload', '1');
             location.reload();
@@ -118,9 +184,6 @@ const initServiceWorker = async () => {
         const msg = (error && error.name ? error.name + ': ' + (error.message || '') : String(error));
         if (typeof LumenUI !== 'undefined' && LumenUI.showToast) {
             LumenUI.showToast('Fallo al registrar el Service Worker: ' + msg, 'error');
-        }
-        if (typeof LumenPush !== 'undefined' && LumenPush.escribirDiag && LumenAuth && LumenAuth.currentUser) {
-            LumenPush.escribirDiag({ t: Date.now(), paso: 'sw-registro-error', name: error && error.name, msg: error && error.message });
         }
     }
 };
@@ -158,67 +221,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    let deferredPrompt = null;
-    let androidPromptSeen = false;
+    const isStandalone = LumenInstall.esStandalone();
+    const isIOS = LumenInstall.esIOS();
+    const showPwaBanner = () => LumenInstall.mostrarBanner();
 
-    const showPwaBanner = () => {
-        const banner = document.getElementById('pwa-install-banner');
-        if (banner && !isStandalone && localStorage.getItem('lumen_pwa_dismissed') !== '1') banner.style.display = 'flex';
-    };
-    const showPwaHelp = (platform) => {
-        const helpModal = document.getElementById('pwa-help-modal');
-        const ios = document.getElementById('pwa-help-ios');
-        const android = document.getElementById('pwa-help-android');
-        if (helpModal) LumenUI.openModal('pwa-help-modal');
-        if (ios) ios.style.display = platform === 'ios' ? 'block' : 'none';
-        if (android) android.style.display = platform === 'android' ? 'block' : 'none';
-    };
-
-    // Botón "Instalar": en Android dispara el prompt nativo; en iOS (sin prompt
-    // nativo) y en cualquier caso sin prompt → abre los pasos para instalar.
+    // Botón "Instalar": si el navegador capturó beforeinstallprompt, instala de
+    // verdad (Chrome/Android). Sin prompt → abre la guía del navegador actual.
+    // En iOS el único botón es "Cómo instalar" (no existe prompt nativo).
     const installBtn = document.getElementById('pwa-install-btn');
     if (installBtn) {
         installBtn.textContent = isIOS ? 'Cómo instalar' : 'Instalar';
-        installBtn.onclick = async () => {
-            if (deferredPrompt && !isIOS) {
-                deferredPrompt.prompt();
-                try { await deferredPrompt.userChoice; } finally {
-                    document.getElementById('pwa-install-banner').style.display = 'none';
-                    deferredPrompt = null;
-                }
-            } else {
-                showPwaHelp(isIOS ? 'ios' : 'android');
-            }
-        };
+        installBtn.onclick = () => LumenInstall.install();
     }
     const helpBtn = document.getElementById('pwa-help-btn');
     if (helpBtn) {
-        // En iOS el único botón es "Cómo instalar" (abre los pasos); el botón
-        // "Cómo" sería redundante, así que se oculta.
         if (isIOS) helpBtn.style.display = 'none';
-        helpBtn.onclick = () => showPwaHelp(isIOS ? 'ios' : 'android');
+        helpBtn.onclick = () => LumenInstall.mostrarGuia();
     }
 
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        androidPromptSeen = true;
-        showPwaBanner();
-    });
-
-    window.addEventListener('appinstalled', () => {
-        const banner = document.getElementById('pwa-install-banner');
-        if (banner) banner.style.display = 'none';
-        deferredPrompt = null;
-    });
-
-    // Banner proactivo: iOS no dispara beforeinstallprompt ni has iOS y no instalado
+    // Banner proactivo: iOS no dispara beforeinstallprompt; en otros navegadores
+    // aparece solo si el evento no se capturó aún (sin duplicar el del evento).
     if (isIOS && !isStandalone) {
         setTimeout(showPwaBanner, 4000);
     } else if (!isStandalone) {
-        setTimeout(() => { if (!androidPromptSeen) showPwaBanner(); }, 4000);
+        setTimeout(() => { if (!LumenInstall.captured) showPwaBanner(); }, 4000);
     }
 
     initServiceWorker();
