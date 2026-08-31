@@ -104,8 +104,50 @@ const DevocionalView = {
                     </section>
                 </div>
 
+                <!-- REZA CON LUMEN — ACCESOS DE ORACIÓN -->
+                <section class="ora-section reveal reveal-delay-4" aria-label="Reza con LUMEN">
+                    <div class="ora-header">
+                        <h3>Reza con LUMEN</h3>
+                        <p>Elige cómo orar hoy; cada camino te acerca más a Dios.</p>
+                    </div>
+                    <div class="ora-grid">
+                        <a href="#/oraciones" class="ora-card" style="--tone:#3d8bfd;" onclick="LumenRouter.navigateTo('oraciones')" aria-label="Ir a Oraciones">
+                            <span class="ora-icon">${LumenIcons.oraciones}</span>
+                            <span class="ora-info">
+                                <strong>Oraciones</strong>
+                                <small>con texto, audio y recordatorios</small>
+                            </span>
+                            <span class="ora-arrow">${Icons.chevron_right || LumenIcons.chevron_right}</span>
+                        </a>
+                        <a href="#/rosario" class="ora-card" style="--tone:#0e7490;" onclick="LumenRouter.navigateTo('rosario')" aria-label="Ir a Rosario">
+                            <span class="ora-icon">${LumenIcons.rosario}</span>
+                            <span class="ora-info">
+                                <strong>Rosario</strong>
+                                <small>misterios y guía paso a paso</small>
+                            </span>
+                            <span class="ora-arrow">${Icons.chevron_right || LumenIcons.chevron_right}</span>
+                        </a>
+                        <a href="#/novenas" class="ora-card" style="--tone:#d97706;" onclick="LumenRouter.navigateTo('novenas')" aria-label="Ir a Novenas">
+                            <span class="ora-icon">${LumenIcons.novenas}</span>
+                            <span class="ora-info">
+                                <strong>Novenas</strong>
+                                <small>nueve días de espera en oración</small>
+                            </span>
+                            <span class="ora-arrow">${Icons.chevron_right || LumenIcons.chevron_right}</span>
+                        </a>
+                        <a href="#/examen" class="ora-card" style="--tone:#7c3aed;" onclick="LumenRouter.navigateTo('examen')" aria-label="Ir a Examen de Conciencia">
+                            <span class="ora-icon">${LumenIcons.examen}</span>
+                            <span class="ora-info">
+                                <strong>Examen de Conciencia</strong>
+                                <small>una pausa para mirar tu día</small>
+                            </span>
+                            <span class="ora-arrow">${Icons.chevron_right || LumenIcons.chevron_right}</span>
+                        </a>
+                    </div>
+                </section>
+
                 <!-- ORACION COMPACTA -->
-                <div class="prayer-compact reveal reveal-delay-4">
+                <div class="prayer-compact reveal reveal-delay-5">
                     <div class="prayer-compact-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
                     </div>
@@ -117,7 +159,7 @@ const DevocionalView = {
                 </div>
 
                 <!-- CALENDARIO SANTORIAL -->
-                <section class="saint-calendar reveal reveal-delay-5" aria-label="Calendario del santoral">
+                <section class="saint-calendar reveal reveal-delay-6" aria-label="Calendario del santoral">
                     <div class="saint-calendar-header">
                         <h4 id="cal-month-label">${monthNames[this._calendarMonth]} ${this._calendarYear}</h4>
                         <div style="display:flex; gap:6px;">

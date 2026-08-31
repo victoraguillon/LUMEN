@@ -53,7 +53,7 @@ const NovenasView = {
             const cards = NOVENAS_DATA.map(function(n) {
                 const pct = this._novPct(n.id);
                 return `<button class="formacion-card reveal" onclick="NovenasView.open('${n.id}')">
-                    <span class="fc-icon">🕯️</span>
+                    <span class="fc-icon">${LumenIcons.novenas}</span>
                     <span class="fc-body">
                         <span class="fc-title">${n.title}</span>
                         <span class="fc-desc">${n.description}</span>
@@ -107,7 +107,7 @@ const NovenasView = {
         <div class="view">
             <header class="formacion-mhead reveal">
                 <button class="btn btn-icon" onclick="NovenasView.back()" aria-label="Volver a novenas">←</button>
-                <div class="fm-title"><span class="fm-mod">🕯️ ${nov.title}</span>
+                <div class="fm-title"><span class="fm-mod">${LumenIcons.novenas}${nov.title}</span>
                     <span class="fm-progress"><i id="novena-bar" style="width:${pct}%"></i></span>
                 </div>
                 <div class="fm-actions">${this.favHeart('novenas', nov.id, nov.title, 'Novenas')}</div>

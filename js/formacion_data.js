@@ -25,10 +25,10 @@ const FORMACION_DATA = {
         "Misión universal para toda la humanidad"
        ],
        "references": [
-        "Mateo 16:18-19",
-        "Mateo 28:19-20",
-        "Hechos 2:42",
-        "Efesios 2:20"
+        "Mateo 16,18-19",
+        "Mateo 28,19-20",
+        "Hechos 2,42",
+        "Efesios 2,20"
        ]
       },
       {
@@ -43,10 +43,10 @@ const FORMACION_DATA = {
         "Protege del error en fe y moral"
        ],
        "references": [
-        "Mateo 16:19",
-        "Juan 21:15-17",
-        "Lucas 10:16",
-        "1 Timoteo 3:15"
+        "Mateo 16,19",
+        "Juan 21,15-17",
+        "Lucas 10,16",
+        "1 Timoteo 3,15"
        ]
       },
       {
@@ -61,8 +61,8 @@ const FORMACION_DATA = {
         "Se iluminan y complementan mutuamente"
        ],
        "references": [
-        "2 Timoteo 3:16",
-        "2 Tesalonicenses 2:15",
+        "2 Timoteo 3,16",
+        "2 Tesalonicenses 2,15",
         "CIC 80-82",
         "Dei Verbum 9-10"
        ]
@@ -79,10 +79,10 @@ const FORMACION_DATA = {
         "Son dones divinos, no logros humanos"
        ],
        "references": [
-        "Efesios 4:4-6",
-        "Efesios 5:25-27",
-        "Mateo 28:19",
-        "Efesios 2:20"
+        "Efesios 4,4-6",
+        "Efesios 5,25-27",
+        "Mateo 28,19",
+        "Efesios 2,20"
        ]
       }
      ]
@@ -96,7 +96,7 @@ const FORMACION_DATA = {
       {
        "id": "trinity-love",
        "title": "Dios es Amor",
-       "content": "\"Dios es amor\" (1 Jn 4:8). Esta es la verdad más fundamental sobre Dios y la clave para entender toda la revelación cristiana. El amor no es simplemente algo que Dios hace, sino lo que Dios es en su misma esencia.\n\nEste amor se revela perfectamente en la Trinidad: el Padre ama eternamente al Hijo, el Hijo responde con amor perfecto al Padre, y este amor mutuo es el Espíritu Santo. En la Trinidad vemos que Dios no es soledad sino comunión perfecta de amor.\n\nDios no necesitaba crear el mundo, pero lo hizo por amor, para compartir su vida y felicidad con nosotros. Todo lo que existe es fruto del amor desbordante de Dios.",
+       "content": "\"Dios es amor\" (1 Jn 4,8). Esta es la verdad más fundamental sobre Dios y la clave para entender toda la revelación cristiana. El amor no es simplemente algo que Dios hace, sino lo que Dios es en su misma esencia.\n\nEste amor se revela perfectamente en la Trinidad: el Padre ama eternamente al Hijo, el Hijo responde con amor perfecto al Padre, y este amor mutuo es el Espíritu Santo. En la Trinidad vemos que Dios no es soledad sino comunión perfecta de amor.\n\nDios no necesitaba crear el mundo, pero lo hizo por amor, para compartir su vida y felicidad con nosotros. Todo lo que existe es fruto del amor desbordante de Dios.",
        "keyPoints": [
         "Dios ES amor, no solo ama",
         "La Trinidad es comunión perfecta de amor",
@@ -105,10 +105,10 @@ const FORMACION_DATA = {
         "El amor divino es gratuito y eterno"
        ],
        "references": [
-        "1 Juan 4:7-21",
-        "Juan 3:16",
-        "Romanos 8:35-39",
-        "Efesios 3:17-19"
+        "1 Juan 4,7-21",
+        "Juan 3,16",
+        "Romanos 8,35-39",
+        "Efesios 3,17-19"
        ]
       },
       {
@@ -123,10 +123,10 @@ const FORMACION_DATA = {
         "Nada puede separarte de su amor"
        ],
        "references": [
-        "Jeremías 1:5",
-        "Isaías 43:1",
-        "Lucas 12:7",
-        "Romanos 8:38-39"
+        "Jeremías 1,5",
+        "Isaías 43,1",
+        "Lucas 12,7",
+        "Romanos 8,38-39"
        ]
       },
       {
@@ -141,10 +141,10 @@ const FORMACION_DATA = {
         "Murió por nosotros siendo aún pecadores"
        ],
        "references": [
-        "Juan 3:16",
-        "Romanos 5:8",
-        "Juan 15:13",
-        "1 Juan 4:9-10"
+        "Juan 3,16",
+        "Romanos 5,8",
+        "Juan 15,13",
+        "1 Juan 4,9-10"
        ]
       },
       {
@@ -159,10 +159,10 @@ const FORMACION_DATA = {
         "Se vive sirviendo a los más necesitados"
        ],
        "references": [
-        "Mateo 22:37-39",
-        "1 Juan 4:19",
-        "Juan 14:15",
-        "Mateo 25:31-46"
+        "Mateo 22,37-39",
+        "1 Juan 4,19",
+        "Juan 14,15",
+        "Mateo 25,31-46"
        ]
       }
      ]
@@ -185,10 +185,10 @@ const FORMACION_DATA = {
         "Nos da paz, fortaleza y esperanza"
        ],
        "references": [
-        "Mateo 6:9-13",
-        "Lucas 18:1",
-        "1 Tesalonicenses 5:17",
-        "Filipenses 4:6-7"
+        "Mateo 6,9-13",
+        "Lucas 18,1",
+        "1 Tesalonicenses 5,17",
+        "Filipenses 4,6-7"
        ]
       },
       {
@@ -203,10 +203,10 @@ const FORMACION_DATA = {
         "Haz de la lectura un hábito diario"
        ],
        "references": [
-        "2 Timoteo 3:16",
-        "Hebreos 4:12",
-        "Salmo 119:105",
-        "Juan 8:31-32"
+        "2 Timoteo 3,16",
+        "Hebreos 4,12",
+        "Salmo 119,105",
+        "Juan 8,31-32"
        ]
       },
       {
@@ -221,10 +221,10 @@ const FORMACION_DATA = {
         "La Misa dominical es obligatoria"
        ],
        "references": [
-        "Lucas 22:19",
-        "1 Corintios 11:23-26",
+        "Lucas 22,19",
+        "1 Corintios 11,23-26",
         "CIC 1322-1419",
-        "Hechos 2:46"
+        "Hechos 2,46"
        ]
       },
       {
@@ -240,9 +240,9 @@ const FORMACION_DATA = {
        ],
        "references": [
         "CIC 1-3",
-        "Juan 8:32",
-        "Hechos 17:11",
-        "1 Pedro 3:15"
+        "Juan 8,32",
+        "Hechos 17,11",
+        "1 Pedro 3,15"
        ]
       }
      ]
@@ -265,10 +265,10 @@ const FORMACION_DATA = {
         "María es nuestra Madre celestial"
        ],
        "references": [
-        "Gálatas 4:4-7",
-        "Efesios 2:19",
-        "Hebreos 12:1",
-        "Juan 19:26-27"
+        "Gálatas 4,4-7",
+        "Efesios 2,19",
+        "Hebreos 12,1",
+        "Juan 19,26-27"
        ]
       },
       {
@@ -283,10 +283,10 @@ const FORMACION_DATA = {
         "Los sacerdotes son pastores para cuidarte"
        ],
        "references": [
-        "Hechos 2:42-47",
-        "Efesios 4:11-16",
-        "1 Pedro 5:2-4",
-        "Hebreos 13:17"
+        "Hechos 2,42-47",
+        "Efesios 4,11-16",
+        "1 Pedro 5,2-4",
+        "Hebreos 13,17"
        ]
       },
       {
@@ -301,10 +301,10 @@ const FORMACION_DATA = {
         "El servicio nace del amor y da alegría"
        ],
        "references": [
-        "Marcos 10:43-44",
-        "Mateo 25:40",
-        "Gálatas 5:13",
-        "Hechos 20:35"
+        "Marcos 10,43-44",
+        "Mateo 25,40",
+        "Gálatas 5,13",
+        "Hechos 20,35"
        ]
       },
       {
@@ -319,10 +319,10 @@ const FORMACION_DATA = {
         "Aprovecha oportunidades naturales para compartir"
        ],
        "references": [
-        "Marcos 16:15",
-        "Mateo 5:14-16",
-        "1 Pedro 3:15",
-        "Hechos 1:8"
+        "Marcos 16,15",
+        "Mateo 5,14-16",
+        "1 Pedro 3,15",
+        "Hechos 1,8"
        ]
       }
      ]
@@ -345,10 +345,10 @@ const FORMACION_DATA = {
         "Cada santo es modelo e inspiración única"
        ],
        "references": [
-        "Apocalipsis 7:9-17",
-        "Hebreos 12:1",
-        "1 Corintios 12:12-27",
-        "Apocalipsis 5:8"
+        "Apocalipsis 7,9-17",
+        "Hebreos 12,1",
+        "1 Corintios 12,12-27",
+        "Apocalipsis 5,8"
        ]
       },
       {
@@ -363,10 +363,10 @@ const FORMACION_DATA = {
         "Intercede por nosotros ante Cristo"
        ],
        "references": [
-        "Lucas 1:26-38",
-        "Juan 19:26-27",
-        "Apocalipsis 12:1",
-        "Lucas 1:48"
+        "Lucas 1,26-38",
+        "Juan 19,26-27",
+        "Apocalipsis 12,1",
+        "Lucas 1,48"
        ]
       },
       {
@@ -381,10 +381,10 @@ const FORMACION_DATA = {
         "Expresión de la comunión entre cielo y tierra"
        ],
        "references": [
-        "Santiago 5:16",
-        "Romanos 15:30",
-        "Efesios 6:18-19",
-        "1 Timoteo 2:1-4"
+        "Santiago 5,16",
+        "Romanos 15,30",
+        "Efesios 6,18-19",
+        "1 Timoteo 2,1-4"
        ]
       },
       {
@@ -399,10 +399,10 @@ const FORMACION_DATA = {
         "Los santos son compañeros de viaje hacia Dios"
        ],
        "references": [
-        "Mateo 5:48",
-        "1 Tesalonicenses 4:3",
-        "Efesios 1:4",
-        "Levítico 19:2"
+        "Mateo 5,48",
+        "1 Tesalonicenses 4,3",
+        "Efesios 1,4",
+        "Levítico 19,2"
        ]
       }
      ]
@@ -436,7 +436,7 @@ const FORMACION_DATA = {
        "references": [
         "CIC 50-95",
         "Dei Verbum",
-        "Hebreos 1:1-2"
+        "Hebreos 1,1-2"
        ]
       },
       {
@@ -452,8 +452,8 @@ const FORMACION_DATA = {
        ],
        "references": [
         "CIC 232-267",
-        "Mateo 28:19",
-        "Juan 14:16-17",
+        "Mateo 28,19",
+        "Juan 14,16-17",
         "Concilio de Nicea"
        ]
       },
@@ -472,13 +472,13 @@ const FORMACION_DATA = {
         "CIC 279-349",
         "Génesis 1-2",
         "Salmo 104",
-        "Colosenses 1:16"
+        "Colosenses 1,16"
        ]
       },
       {
        "id": "incarnation",
        "title": "La Encarnación",
-       "content": "\"Y el Verbo se hizo carne y habitó entre nosotros\" (Jn 1:14). En Jesucristo, el Hijo eterno de Dios asumió la naturaleza humana sin dejar de ser Dios. Es verdadero Dios y verdadero hombre.\n\nLa Encarnación fue necesaria para nuestra salvación: solo Dios podía salvarnos, pero como hombre, Cristo pudo representarnos y ofrecerse como sacrificio por nuestros pecados.",
+       "content": "\"Y el Verbo se hizo carne y habitó entre nosotros\" (Jn 1,14). En Jesucristo, el Hijo eterno de Dios asumió la naturaleza humana sin dejar de ser Dios. Es verdadero Dios y verdadero hombre.\n\nLa Encarnación fue necesaria para nuestra salvación: solo Dios podía salvarnos, pero como hombre, Cristo pudo representarnos y ofrecerse como sacrificio por nuestros pecados.",
        "keyPoints": [
         "Cristo es verdadero Dios y verdadero hombre",
         "Una sola Persona divina en dos naturalezas",
@@ -488,8 +488,8 @@ const FORMACION_DATA = {
        ],
        "references": [
         "CIC 422-483",
-        "Juan 1:14",
-        "Filipenses 2:6-11",
+        "Juan 1,14",
+        "Filipenses 2,6-11",
         "Concilio de Calcedonia"
        ]
       }
@@ -531,9 +531,9 @@ const FORMACION_DATA = {
        ],
        "references": [
         "CIC 1212-1419",
-        "Romanos 6:3-4",
-        "Hechos 8:14-17",
-        "Juan 6:53-58"
+        "Romanos 6,3-4",
+        "Hechos 8,14-17",
+        "Juan 6,53-58"
        ]
       },
       {
@@ -549,9 +549,9 @@ const FORMACION_DATA = {
        ],
        "references": [
         "CIC 1420-1532",
-        "Juan 20:22-23",
-        "Santiago 5:14-15",
-        "Lucas 5:17-26"
+        "Juan 20,22-23",
+        "Santiago 5,14-15",
+        "Lucas 5,17-26"
        ]
       },
       {
@@ -567,9 +567,9 @@ const FORMACION_DATA = {
        ],
        "references": [
         "CIC 1533-1666",
-        "Hebreos 5:1-10",
-        "Efesios 5:25-32",
-        "Malaquías 2:14"
+        "Hebreos 5,1-10",
+        "Efesios 5,25-32",
+        "Malaquías 2,14"
        ]
       }
      ]
@@ -594,7 +594,7 @@ const FORMACION_DATA = {
        "references": [
         "CIC 1691-1876",
         "Gaudium et Spes",
-        "Mateo 5:3-12"
+        "Mateo 5,3-12"
        ]
       },
       {
@@ -610,9 +610,9 @@ const FORMACION_DATA = {
        ],
        "references": [
         "CIC 2052-2557",
-        "Éxodo 20:1-17",
-        "Mateo 22:37-40",
-        "Deuteronomio 6:5"
+        "Éxodo 20,1-17",
+        "Mateo 22,37-40",
+        "Deuteronomio 6,5"
        ]
       },
       {
@@ -628,9 +628,9 @@ const FORMACION_DATA = {
        ],
        "references": [
         "CIC 1803-1845",
-        "1 Corintios 13:13",
-        "Sabiduría 8:7",
-        "Gálatas 5:22-23"
+        "1 Corintios 13,13",
+        "Sabiduría 8,7",
+        "Gálatas 5,22-23"
        ]
       },
       {
@@ -672,9 +672,9 @@ const FORMACION_DATA = {
        ],
        "references": [
         "CIC 2558-2758",
-        "Lucas 18:1",
-        "1 Tesalonicenses 5:17",
-        "Salmo 62:8"
+        "Lucas 18,1",
+        "1 Tesalonicenses 5,17",
+        "Salmo 62,8"
        ]
       },
       {
@@ -690,8 +690,8 @@ const FORMACION_DATA = {
        ],
        "references": [
         "CIC 2759-2865",
-        "Mateo 6:9-13",
-        "Lucas 11:2-4",
+        "Mateo 6,9-13",
+        "Lucas 11,2-4",
         "Tertuliano"
        ]
       },
@@ -708,9 +708,9 @@ const FORMACION_DATA = {
        ],
        "references": [
         "CIC 2700-2724",
-        "Marcos 12:30",
-        "Salmo 119:15",
-        "Juan 14:8-9"
+        "Marcos 12,30",
+        "Salmo 119,15",
+        "Juan 14,8-9"
        ]
       },
       {
@@ -726,9 +726,9 @@ const FORMACION_DATA = {
        ],
        "references": [
         "CIC 1174-1178",
-        "Salmo 119:164",
-        "Hechos 3:1",
-        "Efesios 5:19-20"
+        "Salmo 119,164",
+        "Hechos 3,1",
+        "Efesios 5,19-20"
        ]
       }
      ]
@@ -761,10 +761,10 @@ const FORMACION_DATA = {
         "Imprime carácter indeleble del cristiano"
        ],
        "references": [
-        "Romanos 6:3-4",
-        "Gálatas 3:26-27",
+        "Romanos 6,3-4",
+        "Gálatas 3,26-27",
         "CIC 1213-1284",
-        "Mateo 28:19"
+        "Mateo 28,19"
        ]
       },
       {
@@ -779,10 +779,10 @@ const FORMACION_DATA = {
         "Imprime carácter indeleble como la Confirmación"
        ],
        "references": [
-        "Hechos 8:14-17",
-        "Isaías 11:2-3",
+        "Hechos 8,14-17",
+        "Isaías 11,2-3",
         "CIC 1285-1321",
-        "2 Corintios 1:21-22"
+        "2 Corintios 1,21-22"
        ]
       },
       {
@@ -797,9 +797,9 @@ const FORMACION_DATA = {
         "Alimento del alma y prenda de vida eterna"
        ],
        "references": [
-        "Lucas 22:19-20",
-        "1 Corintios 11:23-26",
-        "Juan 6:51-58",
+        "Lucas 22,19-20",
+        "1 Corintios 11,23-26",
+        "Juan 6,51-58",
         "CIC 1322-1419"
        ]
       },
@@ -818,7 +818,7 @@ const FORMACION_DATA = {
         "Misal Romano 27-90",
         "Sacrosanctum Concilium 48",
         "CIC 1348-1355",
-        "Lucas 24:13-35"
+        "Lucas 24,13-35"
        ]
       }
      ]
@@ -841,10 +841,10 @@ const FORMACION_DATA = {
         "Trae paz al alma y fortaleza espiritual"
        ],
        "references": [
-        "Juan 20:22-23",
-        "Santiago 5:16",
+        "Juan 20,22-23",
+        "Santiago 5,16",
         "CIC 1420-1498",
-        "2 Corintios 5:20"
+        "2 Corintios 5,20"
        ]
       },
       {
@@ -859,10 +859,10 @@ const FORMACION_DATA = {
         "Se administra con santo óleo y oraciones específicas"
        ],
        "references": [
-        "Santiago 5:14-15",
-        "Marcos 6:13",
+        "Santiago 5,14-15",
+        "Marcos 6,13",
         "CIC 1499-1532",
-        "Mateo 10:8"
+        "Mateo 10,8"
        ]
       },
       {
@@ -877,10 +877,10 @@ const FORMACION_DATA = {
         "Prepara para la curación definitiva en la vida eterna"
        ],
        "references": [
-        "Mateo 9:2-8",
-        "1 Pedro 2:24",
-        "Colosenses 1:24",
-        "Apocalipsis 21:4"
+        "Mateo 9,2-8",
+        "1 Pedro 2,24",
+        "Colosenses 1,24",
+        "Apocalipsis 21,4"
        ]
       },
       {
@@ -895,10 +895,10 @@ const FORMACION_DATA = {
         "La misericordia se extiende a través de nosotros"
        ],
        "references": [
-        "Lucas 15:11-32",
-        "Efesios 4:32",
-        "Mateo 6:14-15",
-        "1 Juan 1:9"
+        "Lucas 15,11-32",
+        "Efesios 4,32",
+        "Mateo 6,14-15",
+        "1 Juan 1,9"
        ]
       }
      ]
@@ -921,10 +921,10 @@ const FORMACION_DATA = {
         "Requiere consagración total de la vida"
        ],
        "references": [
-        "Hebreos 5:1-6",
-        "1 Timoteo 4:14",
+        "Hebreos 5,1-6",
+        "1 Timoteo 4,14",
         "CIC 1536-1600",
-        "Hechos 6:1-6"
+        "Hechos 6,1-6"
        ]
       },
       {
@@ -939,10 +939,10 @@ const FORMACION_DATA = {
         "La familia es \"iglesia doméstica\""
        ],
        "references": [
-        "Efesios 5:25-32",
-        "Mateo 19:3-9",
+        "Efesios 5,25-32",
+        "Mateo 19,3-9",
         "CIC 1601-1666",
-        "Génesis 2:24"
+        "Génesis 2,24"
        ]
       },
       {
@@ -957,10 +957,10 @@ const FORMACION_DATA = {
         "Fuente de fecundidad espiritual y apostólica"
        ],
        "references": [
-        "Mateo 19:12",
-        "1 Corintios 7:7-8",
-        "Mateo 22:30",
-        "1 Corintios 7:32-35"
+        "Mateo 19,12",
+        "1 Corintios 7,7-8",
+        "Mateo 22,30",
+        "1 Corintios 7,32-35"
        ]
       },
       {
@@ -975,8 +975,8 @@ const FORMACION_DATA = {
         "Abierta a la vida y misionera por naturaleza"
        ],
        "references": [
-        "Efesios 6:1-4",
-        "Colosenses 3:18-21",
+        "Efesios 6,1-4",
+        "Colosenses 3,18-21",
         "Familiaris Consortio",
         "Amoris Laetitia"
        ]
@@ -1001,10 +1001,10 @@ const FORMACION_DATA = {
         "Tiempo de júbilo, esperanza y compromiso misionero"
        ],
        "references": [
-        "Isaías 7:14",
-        "Lucas 1:26-38",
-        "Juan 1:14",
-        "Mateo 24:42-44"
+        "Isaías 7,14",
+        "Lucas 1,26-38",
+        "Juan 1,14",
+        "Mateo 24,42-44"
        ]
       },
       {
@@ -1019,10 +1019,10 @@ const FORMACION_DATA = {
         "Tiempo pascual: cincuenta días de alegría por la Resurrección"
        ],
        "references": [
-        "Mateo 4:1-11",
-        "Mateo 28:1-10",
-        "Hechos 2:1-31",
-        "1 Corintios 15:3-8"
+        "Mateo 4,1-11",
+        "Mateo 28,1-10",
+        "Hechos 2,1-31",
+        "1 Corintios 15,3-8"
        ]
       },
       {
@@ -1037,10 +1037,10 @@ const FORMACION_DATA = {
         "Fidelidad cotidiana y servicio al Reino"
        ],
        "references": [
-        "Lucas 9:23",
-        "Marcos 1:14-15",
-        "Mateo 5:48",
-        "Gálatas 2:20"
+        "Lucas 9,23",
+        "Marcos 1,14-15",
+        "Mateo 5,48",
+        "Gálatas 2,20"
        ]
       },
       {
@@ -1055,9 +1055,9 @@ const FORMACION_DATA = {
         "Nos une al coro celestial en oración perpetua"
        ],
        "references": [
-        "Salmo 119:164",
-        "Hechos 3:1",
-        "Efesios 5:19-20",
+        "Salmo 119,164",
+        "Hechos 3,1",
+        "Efesios 5,19-20",
         "CIC 1174-1178"
        ]
       }
@@ -1081,10 +1081,10 @@ const FORMACION_DATA = {
         "Todas las devociones marianas nos acercan a Cristo"
        ],
        "references": [
-        "Lucas 1:46-55",
-        "Juan 2:5",
-        "Hechos 1:14",
-        "Apocalipsis 12:1"
+        "Lucas 1,46-55",
+        "Juan 2,5",
+        "Hechos 1,14",
+        "Apocalipsis 12,1"
        ]
       },
       {
@@ -1099,10 +1099,10 @@ const FORMACION_DATA = {
         "Puede ser breve o prolongada, incluso perpetua"
        ],
        "references": [
-        "Mateo 26:6-13",
-        "Juan 12:3",
-        "Lucas 10:38-42",
-        "1 Corintios 11:26"
+        "Mateo 26,6-13",
+        "Juan 12,3",
+        "Lucas 10,38-42",
+        "1 Corintios 11,26"
        ]
       },
       {
@@ -1117,10 +1117,10 @@ const FORMACION_DATA = {
         "Especialmente apropiado en Cuaresma y viernes"
        ],
        "references": [
-        "Marcos 15:21",
-        "Lucas 23:26-32",
-        "Juan 19:17",
-        "1 Pedro 2:21"
+        "Marcos 15,21",
+        "Lucas 23,26-32",
+        "Juan 19,17",
+        "1 Pedro 2,21"
        ]
       },
       {
@@ -1135,10 +1135,10 @@ const FORMACION_DATA = {
         "El canto comunitario expresa la unidad de la asamblea"
        ],
        "references": [
-        "Efesios 5:19",
-        "Colosenses 3:16",
-        "Salmo 95:1",
-        "Apocalipsis 5:9"
+        "Efesios 5,19",
+        "Colosenses 3,16",
+        "Salmo 95,1",
+        "Apocalipsis 5,9"
        ]
       }
      ]
@@ -3858,7 +3858,7 @@ const FORMACION_DATA = {
       },
       {
        "question": "¿Por qué el Papa tiene autoridad sobre toda la Iglesia?",
-       "answer": "Jesús estableció a Pedro como cabeza de los apóstoles diciéndole \"Tú eres Pedro, y sobre esta piedra edificaré mi Iglesia\" (Mt 16:18). El Papa es el sucesor de Pedro y vicario de Cristo en la tierra. Su autoridad viene de Cristo mismo y garantiza la unidad de la Iglesia universal en fe y moral."
+       "answer": "Jesús estableció a Pedro como cabeza de los apóstoles diciéndole \"Tú eres Pedro, y sobre esta piedra edificaré mi Iglesia\" (Mt 16,18). El Papa es el sucesor de Pedro y vicario de Cristo en la tierra. Su autoridad viene de Cristo mismo y garantiza la unidad de la Iglesia universal en fe y moral."
       },
       {
        "question": "¿Qué significa que la Iglesia sea \"una, santa, católica y apostólica\"?",

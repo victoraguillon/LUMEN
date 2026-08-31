@@ -15,8 +15,8 @@ const ORACIONES_DATA = {
      "significance": "Es la oración perfecta enseñada por Cristo, modelo de toda oración cristiana",
      "when_to_pray": "En cualquier momento, especialmente en la Misa y en la oración personal diaria",
      "references": [
-      "Mateo 6:9-13",
-      "Lucas 11:2-4",
+      "Mateo 6,9-13",
+      "Lucas 11,2-4",
       "CIC 2759-2865"
      ]
     },
@@ -29,9 +29,9 @@ const ORACIONES_DATA = {
      "significance": "Saludo angelical y petición de intercesión a la Madre de Dios",
      "when_to_pray": "En el Rosario, el Ángelus, y como oración personal mariana",
      "references": [
-      "Lucas 1:28",
-      "Lucas 1:42",
-      "Juan 19:26-27"
+      "Lucas 1,28",
+      "Lucas 1,42",
+      "Juan 19,26-27"
      ]
     },
     {
@@ -43,9 +43,9 @@ const ORACIONES_DATA = {
      "significance": "Doxología trinitaria que da gloria a las tres Personas divinas",
      "when_to_pray": "Para concluir salmos, en el Rosario, y como expresión de alabanza",
      "references": [
-      "Mateo 28:19",
-      "Efesios 3:21",
-      "2 Corintios 13:13"
+      "Mateo 28,19",
+      "Efesios 3,21",
+      "2 Corintios 13,13"
      ]
     },
     {
@@ -57,8 +57,8 @@ const ORACIONES_DATA = {
      "significance": "Profesión de fe que resume las verdades fundamentales del cristianismo",
      "when_to_pray": "En la Misa dominical, en el Bautismo, y como renovación de la fe",
      "references": [
-      "1 Corintios 15:3-8",
-      "Efesios 4:4-6",
+      "1 Corintios 15,3-8",
+      "Efesios 4,4-6",
       "CIC 194-1065"
      ]
     },
@@ -71,8 +71,8 @@ const ORACIONES_DATA = {
      "significance": "Profesión de fe solemne que proclama con precisión los misterios trinitarios y cristológicos",
      "when_to_pray": "En la Misa dominical y en las grandes solemnidades litúrgicas",
      "references": [
-      "Juan 1:1-14",
-      "Filipenses 2:6-11",
+      "Juan 1,1-14",
+      "Filipenses 2,6-11",
       "Concilio de Nicea (325)",
       "Concilio de Constantinopla (381)",
       "CIC 185-197"
@@ -95,13 +95,13 @@ const ORACIONES_DATA = {
      "significance": "Oración contemplativa que nos une a Cristo a través de María, arma poderosa contra el mal",
      "when_to_pray": "Diariamente según el día de la semana, especialmente en octubre y mayo",
      "references": [
-      "Lucas 1:26-38",
-      "Juan 2:1-11",
-      "Juan 19:25-27",
-      "Hechos 1:14",
-      "Mateo 26:36-46",
-      "Juan 19:18-30",
-      "Mateo 28:1-10"
+      "Lucas 1,26-38",
+      "Juan 2,1-11",
+      "Juan 19,25-27",
+      "Hechos 1,14",
+      "Mateo 26,36-46",
+      "Juan 19,18-30",
+      "Mateo 28,1-10"
      ]
     },
     {
@@ -113,8 +113,8 @@ const ORACIONES_DATA = {
      "significance": "Oración mariana que implora la protección y consuelo de la Virgen, recordando su papel como Madre de Misericordia",
      "when_to_pray": "Al finalizar el Rosario, antes de dormir, en tiempos de dificultad o soledad",
      "references": [
-      "Lucas 1:28",
-      "Cantar de los Cantares 6:10",
+      "Lucas 1,28",
+      "Cantar de los Cantares 6,10",
       "Lumen Gentium 66"
      ]
     },
@@ -127,9 +127,9 @@ const ORACIONES_DATA = {
      "significance": "Conmemora la Encarnación y el \"sí\" de María al plan divino",
      "when_to_pray": "Tres veces al día: 6 AM, 12 PM y 6 PM",
      "references": [
-      "Lucas 1:26-38",
-      "Juan 1:14",
-      "Gálatas 4:4"
+      "Lucas 1,26-38",
+      "Juan 1,14",
+      "Gálatas 4,4"
      ]
     },
     {
@@ -141,9 +141,9 @@ const ORACIONES_DATA = {
      "significance": "Expresión de confianza total en la intercesión maternal de María",
      "when_to_pray": "En momentos de necesidad especial o como oración diaria de confianza",
      "references": [
-      "Juan 2:3-5",
-      "Lucas 1:38",
-      "Apocalipsis 12:1"
+      "Juan 2,3-5",
+      "Lucas 1,38",
+      "Apocalipsis 12,1"
      ]
     },
     {
@@ -175,9 +175,9 @@ const ORACIONES_DATA = {
      "significance": "Expresión del amor a Cristo y confianza en su misericordia infinita",
      "when_to_pray": "Los primeros viernes de mes, en momentos de necesidad especial",
      "references": [
-      "Juan 19:34",
-      "Mateo 11:28-30",
-      "Juan 14:13-14"
+      "Juan 19,34",
+      "Mateo 11,28-30",
+      "Juan 14,13-14"
      ]
     },
     {
@@ -189,9 +189,9 @@ const ORACIONES_DATA = {
      "significance": "Intercesión del custodio de la Sagrada Familia y patrono de la Iglesia",
      "when_to_pray": "Los miércoles, en el mes de marzo, y en necesidades familiares o laborales",
      "references": [
-      "Mateo 1:18-25",
-      "Lucas 2:4-7",
-      "Lucas 2:41-52"
+      "Mateo 1,18-25",
+      "Lucas 2,4-7",
+      "Lucas 2,41-52"
      ]
     },
     {
@@ -203,9 +203,9 @@ const ORACIONES_DATA = {
      "significance": "Reconocimiento de la protección angelical que Dios nos concede",
      "when_to_pray": "Al levantarse, al acostarse, en momentos de peligro o tentación",
      "references": [
-      "Mateo 18:10",
-      "Salmo 91:11",
-      "Hebreos 1:14"
+      "Mateo 18,10",
+      "Salmo 91,11",
+      "Hebreos 1,14"
      ]
     }
    ]
@@ -225,9 +225,9 @@ const ORACIONES_DATA = {
      "significance": "Reconocimiento de Dios como proveedor de todos los bienes",
      "when_to_pray": "Antes y después de las comidas principales",
      "references": [
-      "Mateo 14:19",
-      "1 Timoteo 4:4-5",
-      "Marcos 8:6"
+      "Mateo 14,19",
+      "1 Timoteo 4,4-5",
+      "Marcos 8,6"
      ]
     },
     {
@@ -239,9 +239,9 @@ const ORACIONES_DATA = {
      "significance": "Petición para ser instrumentos de paz y reconciliación en el mundo",
      "when_to_pray": "En tiempos de conflicto, como oración por la paz mundial",
      "references": [
-      "Mateo 5:9",
-      "Juan 14:27",
-      "2 Corintios 5:18-20"
+      "Mateo 5,9",
+      "Juan 14,27",
+      "2 Corintios 5,18-20"
      ]
     },
     {
@@ -253,9 +253,9 @@ const ORACIONES_DATA = {
      "significance": "Intercesión por las almas de los difuntos y expresión de fe en la vida eterna",
      "when_to_pray": "En funerales, aniversarios de muerte, y como oración regular por los difuntos",
      "references": [
-      "Juan 11:25-26",
-      "2 Macabeos 12:42-45",
-      "1 Corintios 15:51-57"
+      "Juan 11,25-26",
+      "2 Macabeos 12,42-45",
+      "1 Corintios 15,51-57"
      ]
     },
     {
@@ -267,9 +267,9 @@ const ORACIONES_DATA = {
      "significance": "Expresión de arrepentimiento sincero y propósito de enmienda",
      "when_to_pray": "En el sacramento de la Penitencia, examen de conciencia diario",
      "references": [
-      "Salmo 51:3-4",
-      "Lucas 15:18-19",
-      "1 Juan 1:9"
+      "Salmo 51,3-4",
+      "Lucas 15,18-19",
+      "1 Juan 1,9"
      ]
     }
    ]

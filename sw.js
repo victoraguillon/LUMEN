@@ -1,8 +1,9 @@
-// LUMEN - Service Worker único (v8) en la RAÍZ (/sw.js)
-// v8: bump de caché para purgar el CSS anterior (Fase Formación) y precache
-// de los nuevos módulos; mantiene cache-first con actualización en segundo
-// plano y navegaciones network-first con fallback offline.
-const CACHE = "lumen-cache-v8";
+// LUMEN - Service Worker único (v9) en la RAÍZ (/sw.js)
+// v9: bump de caché del batch de UI (íconos LumenIcons + citas con coma +
+// reza con LUMEN + grupos de navegación + Formación responsive); mantiene
+// cache-first con actualización en segundo plano y navegaciones network-first
+// con fallback offline.
+const CACHE = "lumen-cache-v9";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";

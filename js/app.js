@@ -106,7 +106,7 @@ const LumenInstall = {
             if (banner) banner.style.display = 'none';
             this.deferredPrompt = null;
             if (typeof LumenUI !== 'undefined' && LumenUI.showToast) {
-                LumenUI.showToast('LUMEN se instaló en este dispositivo. 🎉', 'success');
+                LumenUI.showToast('LUMEN se instaló en este dispositivo.', 'success');
             }
             if (typeof LumenPush !== 'undefined' && LumenPush.aplicarEstadoUI) {
                 LumenPush.aplicarEstadoUI();

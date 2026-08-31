@@ -20,7 +20,7 @@ const InicioView = {
             }
             container.style.display = '';
             container.innerHTML = `
-                <div class="bento-title" style="color: #ef4444;">🎉 ¡Hoy es un día especial!</div>
+                <div class="bento-title" style="color: #ef4444;">${LumenIcons.sparkles} ¡Hoy es un día especial!</div>
                 <p style="font-size: 16px; color: var(--texto-oscuro); margin:0;">Hoy cumple años: <strong>${LumenUI.escapeHTML(celebrantes.map(c => c.nombre).join(', '))}</strong>. ¡Dedícale un momento de oración y envíale un saludo!</p>
             `;
         });
@@ -72,7 +72,7 @@ const InicioView = {
                             <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
                                 <p class="verse-text-large" style="font-size: 28px; font-style: italic; font-weight: 300; margin-bottom: 24px; color: white; line-height: 1.45;">"${frase.frase}"</p>
                                 <cite style="font-size: 16px; font-weight: 600; opacity: 0.9; text-transform: uppercase; letter-spacing: 2px; color: white;">— ${frase.autor}</cite>
-                                <button class="btn btn-outline btn-block" style="border-color: white; color: white; max-width: 280px; margin: 32px auto 0;" onclick="LumenRouter.navigateTo('devocional')">🙏 Mira el pasaje y santo de hoy</button>
+                                <button class="btn btn-outline btn-block" style="border-color: white; color: white; max-width: 280px; margin: 32px auto 0;" onclick="LumenRouter.navigateTo('devocional')">${LumenIcons.oraciones} Mira el pasaje y santo de hoy</button>
                             </div>
                         </div>
 
@@ -167,8 +167,8 @@ const InicioView = {
                     const diff = new Date(ev.fecha_inicio) - new Date();
                     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
                     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    if (days > 0) countdownHTML = `<div class="countdown-timer">⏳ Faltan ${days} días y ${hours} horas</div>`;
-                    else if (days === 0 && hours > 0) countdownHTML = `<div class="countdown-timer">🔥 ¡ES HOY! Faltan ${hours} horas</div>`;
+                    if (days > 0) countdownHTML = `<div class="countdown-timer">${LumenIcons.hourglass} Faltan ${days} días y ${hours} horas</div>`;
+                    else if (days === 0 && hours > 0) countdownHTML = `<div class="countdown-timer">${LumenIcons.racha} ¡ES HOY! Faltan ${hours} horas</div>`;
                 }
 
                 upcomingEventsHTML += `
@@ -227,7 +227,7 @@ const InicioView = {
                         <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
                             <p class="verse-text-large" style="font-size: 28px; font-style: italic; font-weight: 300; margin-bottom: 24px; color: white; line-height: 1.45;">"${fraseDelDia.frase}"</p>
                             <cite style="font-size: 16px; font-weight: 600; opacity: 0.9; text-transform: uppercase; letter-spacing: 2px; color: white;">— ${fraseDelDia.autor}</cite>
-                            <button class="btn btn-outline btn-block" style="border-color: white; color: white; max-width: 280px; margin: 32px auto 0;" onclick="LumenRouter.navigateTo('devocional')">🙏 Mira el pasaje y santo de hoy</button>
+                            <button class="btn btn-outline btn-block" style="border-color: white; color: white; max-width: 280px; margin: 32px auto 0;" onclick="LumenRouter.navigateTo('devocional')">${LumenIcons.oraciones} Mira el pasaje y santo de hoy</button>
                         </div>
                     </div>
 
@@ -250,7 +250,7 @@ const InicioView = {
                             Activa Notificaciones
                         </div>
                         <p>Recibe los recordatorios de las actividades y los avisos importantes directamente en este dispositivo.</p>
-                        <button class="btn btn-primary btn-block" style="margin-top:auto;" data-push-action onclick="LumenPush.activarNotificaciones()">🔔 Activar Avisos</button>
+                        <button class="btn btn-primary btn-block" style="margin-top:auto;" data-push-action onclick="LumenPush.activarNotificaciones()">${Icons.bell} Activar Avisos</button>
                     </div>
 
                     <div class="bento-box reveal reveal-delay-2">

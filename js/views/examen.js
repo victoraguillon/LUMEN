@@ -83,12 +83,12 @@ const ExamenView = {
         <div id="examen-report" class="examen-report">
             <h2>Conciencia examinada</h2>
             <p class="examen-summary">Revisaste <strong>${qs.length}</strong> puntos. Lleva contigo humildad y la certeza de la misericordia de Dios.</p>
-            <h3>🙏 Recordar para la confesión</h3>
+            <h3>${LumenIcons.oraciones} Recordar para la confesión</h3>
             <ul class="examen-list">${list}</ul>
             <div class="prayer-actions" style="justify-content:center; flex-wrap:wrap;">
                 <button class="btn btn-primary" onclick="ExamenView.copyReport()">Copiar lista</button>
-                <button class="btn" onclick="LumenUI.exportPng(document.getElementById('examen-report'),'examen-conciencia.png')">Descargar PNG 🖼️</button>
-                <button class="btn" onclick="window.print()">Imprimir 🖨️</button>
+                <button class="btn" onclick="LumenUI.exportPng(document.getElementById('examen-report'),'examen-conciencia.png')">${Icons.download} Descargar PNG</button>
+                <button class="btn" onclick="window.print()">${LumenIcons.printer} Imprimir</button>
             </div>
             <div class="flat-nav">
                 <button class="btn btn-outline" onclick="ExamenView.prev()">← Revisar</button>
@@ -116,7 +116,7 @@ const ExamenView = {
             const cards = EXAMEN_DATA.map(function(c) {
                 const count = c.sections.reduce(function(a, s) { return a + s.questions.length; }, 0);
                 return `<button class="formacion-card reveal" onclick="ExamenView.open('${c.id}')">
-                    <span class="fc-icon">🕯️</span>
+                    <span class="fc-icon">${LumenIcons.examen}</span>
                     <span class="fc-body">
                         <span class="fc-title">${c.title}</span>
                         <span class="fc-desc">${c.subtitle}</span>
@@ -146,7 +146,7 @@ const ExamenView = {
         <div class="view">
             <header class="formacion-mhead reveal">
                 <button class="btn btn-icon" onclick="ExamenView.back()" aria-label="Volver">←</button>
-                <div class="fm-title"><span class="fm-mod">🕯️ ${cat.title}</span></div>
+                <div class="fm-title"><span class="fm-mod">${LumenIcons.examen}${cat.title}</span></div>
                 <div class="fm-actions"></div>
             </header>
             <div class="examen-progress"><i id="examen-bar" style="width:${Math.round((this._idx / qs.length) * 100)}%"></i></div>

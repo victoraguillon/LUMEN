@@ -50,7 +50,7 @@ const RecursosView = {
                         </div>
                     `;
                 });
-                content = `<input type="text" class="search-bar" placeholder="🔍 Buscar recurso..." onkeyup="RecursosView.search(this.value)" value="${LumenUI.escapeHTML(resourceSearchQuery)}"><div class="resource-grid">${cardsHTML}</div>`;
+                content = `<input type="text" class="search-bar" placeholder="Buscar recurso…" onkeyup="RecursosView.search(this.value)" value="${LumenUI.escapeHTML(resourceSearchQuery)}"><div class="resource-grid">${cardsHTML}</div>`;
             }
         }
 

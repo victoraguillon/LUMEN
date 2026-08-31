@@ -26,7 +26,7 @@ const DetalleView = {
 
         let ubicacionHTML = '';
         if (evento.ubicacion) {
-            ubicacionHTML = `<p><strong>📍 Ubicación:</strong> ${LumenUI.escapeHTML(evento.ubicacion)}</p>`;
+            ubicacionHTML = `<p><strong>${LumenIcons.map_pin} Ubicación:</strong> ${LumenUI.escapeHTML(evento.ubicacion)}</p>`;
         }
 
         let reqAdicionalHTML = '';

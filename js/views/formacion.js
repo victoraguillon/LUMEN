@@ -2,13 +2,13 @@
    Módulos → Unidades → Subsecciones (puntos clave + referencias), con
    lector Aa, favoritos, progreso por dispositivo y celebraciones. */
 const FORMACION_ICONS = {
-    introduccion: '🌱',
-    catecismo: '📖',
-    liturgia: '🍞',
-    apologetica: '🛡️',
-    santos: '🙏',
-    glosario: '📚',
-    faq: '💬'
+    introduccion: LumenIcons.sprout,
+    catecismo: LumenIcons.catecismo,
+    liturgia: LumenIcons.liturgia,
+    apologetica: LumenIcons.apologetica,
+    santos: LumenIcons.santos,
+    glosario: LumenIcons.scroll,
+    faq: LumenIcons.message
 };
 
 const FormacionView = {
@@ -161,7 +161,7 @@ const FormacionView = {
         const cards = (FORMACION_DATA.modules || []).map(function(mod) {
             const pct = this._modProgress(mod.id);
             return `<button class="formacion-card reveal" onclick="FormacionView.go('${mod.id}')" aria-label="Abrir módulo ${mod.title}">
-                <span class="fc-icon">${FORMACION_ICONS[mod.id] || '📖'}</span>
+                <span class="fc-icon">${FORMACION_ICONS[mod.id] || LumenIcons.catecismo}</span>
                 <span class="fc-body">
                     <span class="fc-title">${mod.title}</span>
                     <span class="fc-desc">${mod.description}</span>
@@ -186,7 +186,7 @@ const FormacionView = {
                 ${cards}
             </div>
             <section class="formacion-tip reveal">
-                <h3>💡 ¿Cómo funciona?</h3>
+                <h3>${LumenIcons.lightbulb} ¿Cómo funciona?</h3>
                 <p>Cada módulo se divide en unidades y secciones. Léelas en orden o salta libremente: tu avance se guarda en este dispositivo y puedes marcar cada sección como completada.</p>
             </section>
         </div>`;
@@ -206,6 +206,7 @@ const FormacionView = {
         const progMap = this._readProg()[mod.id] || {};
         const done = !!progMap[uid + '|' + sid];
         const pct = this._modProgress(mod.id);
+        const compactSide = typeof window !== 'undefined' && typeof window.matchMedia === 'function' && window.matchMedia('(max-width: 900px)').matches;
 
         let indexHTML = '';
         (mod.units || []).forEach(function(u) {
@@ -239,8 +240,8 @@ const FormacionView = {
                 <div class="reading-surface formacion-body qa-body">
                     <h2 class="reading-h">${item.question}</h2>
                     <div class="reading-prose">${String(item.answer || '').replace(/\n\n/g, '<br><br>')}</div>
-                    ${item.scripture ? `<blockquote class="scripture-quote"><span class="sq-label">✝️ Escritura</span><p>${item.scripture}</p></blockquote>` : ''}
-                    ${item.catechism ? `<blockquote class="catechism-quote"><span class="sq-label">🧭 Catecismo</span><p>${item.catechism}</p></blockquote>` : ''}
+                    ${item.scripture ? `<blockquote class="scripture-quote"><span class="sq-label">${LumenIcons.cross} Escritura</span><p>${item.scripture}</p></blockquote>` : ''}
+                    ${item.catechism ? `<blockquote class="catechism-quote"><span class="sq-label">${LumenIcons.compass} Catecismo</span><p>${item.catechism}</p></blockquote>` : ''}
                     ${item.explanation ? `<div class="qa-explanation"><h4>Explicación</h4><p>${item.explanation}</p></div>` : ''}
                 </div>`;
         }
@@ -250,7 +251,7 @@ const FormacionView = {
             <header class="formacion-mhead reveal">
                 <button class="btn btn-icon" onclick="FormacionView.home()" aria-label="Volver a módulos">←</button>
                 <div class="fm-title">
-                    <span class="fm-mod">${FORMACION_ICONS[mod.id] || '📖'} ${mod.title}</span>
+                    <span class="fm-mod">${FORMACION_ICONS[mod.id] || LumenIcons.catecismo}${mod.title}</span>
                     <span class="fm-progress"><i style="width:${pct}%"></i></span>
                 </div>
                 <div class="fm-actions">
@@ -259,7 +260,15 @@ const FormacionView = {
                 </div>
             </header>
             <div class="formacion-layout">
-                <aside class="formacion-index reveal reveal-delay-1">${indexHTML}</aside>
+                <aside class="formacion-index reveal reveal-delay-1">
+                    <details class="fi-details"${compactSide ? '' : ' open'}>
+                        <summary class="fi-summary">
+                            <span class="fi-summary-label">${LumenIcons.list} Índice</span>
+                            <span class="fi-caret">${LumenIcons.chevron_down}</span>
+                        </summary>
+                        <div class="fi-body">${indexHTML}</div>
+                    </details>
+                </aside>
                 <main class="formacion-main reveal reveal-delay-1">
                     ${LumenUI.readerToolbarHTML()}
                     ${contentHTML}
@@ -300,7 +309,7 @@ const FormacionView = {
         <div class="view">
             <header class="formacion-mhead reveal">
                 <button class="btn btn-icon" onclick="FormacionView.home()" aria-label="Volver a módulos">←</button>
-                <div class="fm-title"><span class="fm-mod">🙏 ${mod.title}</span></div>
+                <div class="fm-title"><span class="fm-mod">${LumenIcons.santos}${mod.title}</span></div>
                 <div class="fm-actions">${this.favHeart('formacion', mod.id + '||', mod.title)}</div>
             </header>
             <div class="devocional-tabs sainttabs" role="tablist">${tabs}</div>
@@ -336,7 +345,7 @@ const FormacionView = {
         <div class="view">
             <header class="formacion-mhead reveal">
                 <button class="btn btn-icon" onclick="FormacionView.home()" aria-label="Volver a módulos">←</button>
-                <div class="fm-title"><span class="fm-mod">📚 ${mod.title} <span class="fm-count">${all.length} términos</span></span></div>
+                <div class="fm-title"><span class="fm-mod">${LumenIcons.scroll}${mod.title} <span class="fm-count">${all.length} términos</span></span></div>
                 <div class="fm-actions">${this.favHeart('formacion', mod.id + '||', mod.title)}</div>
             </header>
             <div class="glos-search reveal">
@@ -360,7 +369,7 @@ const FormacionView = {
         <div class="view">
             <header class="formacion-mhead reveal">
                 <button class="btn btn-icon" onclick="FormacionView.home()" aria-label="Volver a módulos">←</button>
-                <div class="fm-title"><span class="fm-mod">💬 ${mod.title}</span></div>
+                <div class="fm-title"><span class="fm-mod">${LumenIcons.message}${mod.title}</span></div>
                 <div class="fm-actions">${this.favHeart('formacion', mod.id + '||', mod.title)}</div>
             </header>
             <div class="faq-list">${sections}</div>

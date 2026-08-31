@@ -35,7 +35,7 @@ const IntencionesView = {
                 
                 <div class="verse-card reveal" style="margin-bottom: 30px;">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="40" height="40" style="opacity:0.3; position:absolute; top:20px; left:20px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                    <h3 style="color: #ffffff; margin-bottom: 10px;">🙏 Intención del Papa (Mes Actual)</h3>
+                    <h3 style="color: #ffffff; margin-bottom: 10px;">${LumenIcons.oraciones} Intención del Papa (Mes Actual)</h3>
                     <p style="font-size: 18px; font-style: italic; margin-bottom: 10px; color: #ffffff;">"Recemos por los jóvenes, especialmente por aquellos que estudian, para que, al escuchar la Palabra de Dios, estén dispuestos a testimoniarla en sus ambientes."</p>
                     <cite style="opacity: 0.8; color: #ffffff;">Red Mundial de Oración del Papa</cite>
                 </div>

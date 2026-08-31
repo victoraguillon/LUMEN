@@ -9,11 +9,11 @@ const FavoritosView = {
     },
 
     _groupIcon: {
-        formacion: '📖',
-        oraciones: '🙏',
-        novenas: '🕯️',
-        santos: '🙏',
-        glosario: '📚'
+        formacion: LumenIcons.catecismo,
+        oraciones: LumenIcons.oraciones,
+        novenas: LumenIcons.novenas,
+        santos: LumenIcons.santos,
+        glosario: LumenIcons.scroll
     },
 
     _open: function(entry) {
@@ -52,7 +52,7 @@ const FavoritosView = {
             const items = row.map(function(r) {
                 const e = r.e;
                 return `<div class="fav-item reveal">
-                    <span class="fav-ic">${this._groupIcon[kind] || '⭐'}</span>
+                    <span class="fav-ic">${this._groupIcon[kind] || LumenIcons.fav}</span>
                     <div class="fav-info">
                         <p class="fav-title">${e.title}</p>
                         <p class="fav-sub">${e.sub || ''}</p>

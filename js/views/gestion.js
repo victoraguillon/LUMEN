@@ -180,7 +180,7 @@ const GestionView = {
         }
         
         let html = `
-            <input type="text" class="search-bar" placeholder="🔍 Buscar joven por nombre, dirección o teléfono..." onkeyup="GestionView.filterCensus(this.value)">
+            <input type="text" class="search-bar" placeholder="Buscar joven por nombre, dirección o teléfono..." onkeyup="GestionView.filterCensus(this.value)">
             <div style="text-align: right; margin-bottom: 15px;"><button class="btn btn-outline" onclick="GestionView.exportExcel()">${Icons.download} Exportar a Excel</button></div>
             <div class="table-container">
                 <table>
@@ -393,7 +393,7 @@ const GestionView = {
                     <select onchange="GestionView.changeMatrixDate(this.value, 'year')">${yearOptions}</select>
                 </div>
                 <div style="margin-left: auto; display:flex; gap:10px; flex-wrap:wrap;">
-                    <button class="btn btn-success" style="background:#25D366; color:white; border:none;" onclick="GestionView.messageAbsentees()">💬 Msj Ausentes</button>
+                    <button class="btn btn-success" style="background:#25D366; color:white; border:none;" onclick="GestionView.messageAbsentees()">${LumenIcons.message} Msj Ausentes</button>
                     <button class="btn btn-outline" onclick="GestionView.exportMatrixExcel()">${Icons.download} Exportar a Excel</button>
                 </div>
             </div>
@@ -567,7 +567,7 @@ const GestionView = {
                         </div>
                         <div class="mini-event-info">
                             <h4>${LumenUI.escapeHTML(c.nombre)}</h4>
-                            <p>${c.edad ? c.edad + ' años' : 'Edad no registrada'} ${proximos ? '· <strong style="color:#e74c3c;">' + (c.en_dias === 0 ? '¡HOY ES SU CUMPLEAÑOS! 🎉' : 'en ' + c.en_dias + ' día' + (c.en_dias === 1 ? '' : 's')) + '</strong>' : ''}</p>
+                            <p>${c.edad ? c.edad + ' años' : 'Edad no registrada'} ${proximos ? '· <strong style="color:#e74c3c;">' + (c.en_dias === 0 ? '¡HOY ES SU CUMPLEAÑOS!' : 'en ' + c.en_dias + ' día' + (c.en_dias === 1 ? '' : 's')) + '</strong>' : ''}</p>
                         </div>
                     </div>
                 `;

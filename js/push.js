@@ -1,7 +1,7 @@
 // LumenPush: suscripción y envío de notificaciones push.
 // El envío lo resuelve el servidor Node.js (api/send-push de Vercel) con web-push.
 const LumenPush = {
-    DEFAULT_BTN_TEXT: '🔔 Activar Avisos',
+    DEFAULT_BTN_TEXT: 'Activar Avisos',
 
     init: function() {
         if (!this.supported()) return;
@@ -133,7 +133,7 @@ const LumenPush = {
             }
             card.style.display = '';
             if (iosSinInstalar) {
-                btn.textContent = '📱 Instalar LUMEN para recibir avisos';
+                btn.textContent = 'Instalar LUMEN para recibir avisos';
                 btn.onclick = () => this.abrirAyudaInstalacion();
             } else {
                 btn.textContent = this.DEFAULT_BTN_TEXT;

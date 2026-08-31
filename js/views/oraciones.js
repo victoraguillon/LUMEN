@@ -34,7 +34,7 @@ const OracionesView = {
         if (!this._cat) {
             const cats = ORACIONES_DATA.categorias.map(function(c) {
                 return `<button class="formacion-card reveal" onclick="OracionesView.openCat('${c.id}')">
-                    <span class="fc-icon">🙏</span>
+                    <span class="fc-icon">${LumenIcons.oraciones}</span>
                     <span class="fc-body">
                         <span class="fc-title">${c.title}</span>
                         <span class="fc-desc">${c.description}</span>
@@ -63,7 +63,7 @@ const OracionesView = {
                 <button class="prayer-item-head" onclick="OracionesView.togglePrayer('${o.id}')" aria-expanded="${isSel}">
                     <div>
                         <h3>${o.title}</h3>
-                        ${o.when_to_pray ? `<p class="prayer-when">🕐 ${o.when_to_pray}</p>` : ''}
+                        ${o.when_to_pray ? `<p class="prayer-when">${LumenIcons.clock} ${o.when_to_pray}</p>` : ''}
                     </div>
                     <span class="prayer-chevron">${isSel ? '−' : '+'}</span>
                 </button>
@@ -71,7 +71,7 @@ const OracionesView = {
                     ${o.content ? `<p class="prayer-intro">${o.content}</p>` : ''}
                     <div class="reading-surface prayer-big">${String(o.prayer || '').replace(/\n/g, '<br>')}</div>
                     ${o.latin ? `<details class="si-details"><summary>En latín</summary><div class="reading-surface prayer-latin">${String(o.latin).replace(/\n/g, '<br>')}</div></details>` : ''}
-                    ${o.significance ? `<p class="prayer-significance">✨ ${o.significance}</p>` : ''}
+                    ${o.significance ? `<p class="prayer-significance">${LumenIcons.sparkles} ${o.significance}</p>` : ''}
                     <div class="prayer-actions">
                         ${this.favHeart('oraciones', o.id, o.title, cat.title)}
                         <button class="btn btn-sm" onclick="OracionesView.copyPrayer('${o.id}')">Copiar</button>
@@ -84,7 +84,7 @@ const OracionesView = {
         <div class="view">
             <header class="formacion-mhead reveal">
                 <button class="btn btn-icon" onclick="OracionesView.back()" aria-label="Volver a categorías">←</button>
-                <div class="fm-title"><span class="fm-mod">🙏 ${cat.title}</span></div>
+                <div class="fm-title"><span class="fm-mod">${LumenIcons.oraciones}${cat.title}</span></div>
                 <div class="fm-actions">${LumenUI.readerToolbarHTML()}</div>
             </header>
             <div class="oraciones-list">${items}</div>

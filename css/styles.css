@@ -636,6 +636,85 @@ body.dark-theme .how-it-works h2 { color: var(--celeste-primario); }
     .devocional-grid { grid-template-columns: 1fr; }
 }
 
+/* Reza con LUMEN — accesos de oración */
+.ora-section {
+    margin-bottom: 32px;
+}
+.ora-header h3 {
+    color: var(--celeste-oscuro);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+.ora-header p {
+    font-size: 13px;
+    color: var(--texto-gris);
+    margin-bottom: 16px;
+}
+.ora-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+}
+.ora-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: var(--sombra-suave);
+    text-decoration: none;
+    color: var(--texto-oscuro);
+    transition: box-shadow 0.25s var(--ease-out), transform 0.25s var(--ease-out), border-color 0.25s ease;
+}
+.ora-card:hover {
+    box-shadow: var(--sombra-fuerte);
+    transform: translateY(-2px);
+    border-color: var(--celeste-primario);
+}
+.ora-card:active { transform: translateY(0) scale(0.99); }
+.ora-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    color: #fff;
+    background: var(--tone);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 3px 8px rgba(10,14,26,0.18);
+}
+.ora-icon svg { width: 22px; height: 22px; }
+.ora-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+}
+.ora-info strong {
+    font-size: 14px;
+    color: var(--texto-oscuro);
+}
+.ora-info small {
+    font-size: 12px;
+    color: var(--texto-gris);
+    line-height: 1.35;
+}
+.ora-arrow {
+    margin-left: auto;
+    color: var(--texto-gris);
+    opacity: 0.6;
+    flex-shrink: 0;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.ora-card:hover .ora-arrow { transform: translateX(3px); opacity: 1; }
+@media (max-width: 440px) {
+    .ora-grid { grid-template-columns: 1fr; }
+}
+
 /* Santo del día card */
 .santo-card {
     background: var(--card-bg);
@@ -1887,6 +1966,36 @@ body.dark-theme .skeleton-card::after {
     to { opacity: 1; transform: translateX(0); }
 }
 .drawer-link:hover, .drawer-link.active { background: rgba(0,162,232,0.1); color: var(--celeste-primario); }
+.drawer-group {
+    border-top: 1px solid var(--border-color);
+    margin-top: 4px;
+    padding-top: 2px;
+}
+.drawer-summary {
+    list-style: none;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 15px;
+    font-weight: 700; font-size: 13px;
+    color: var(--celeste-oscuro);
+    cursor: pointer; user-select: none;
+    border-radius: 10px;
+    transition: background 200ms ease;
+}
+.drawer-summary::-webkit-details-marker { display: none; }
+.drawer-summary:hover { background: rgba(0,162,232,0.08); }
+.drawer-caret { display: inline-flex; color: var(--texto-gris); transition: transform 220ms var(--ease-out); }
+.drawer-group[open] .drawer-caret { transform: rotate(180deg); }
+.drawer-group-items {
+    display: flex; flex-direction: column; gap: 2px;
+    padding-left: 6px;
+}
+.drawer-group-items .drawer-link { padding: 13px 15px; min-height: 0; font-weight: 500; font-size: 14px; }
+
+/* Alineación de íconos SVG inline junto a texto */
+.hero-label svg, .bento-title svg, .countdown-timer svg, .streak-chip svg,
+.prayer-when svg, .prayer-significance svg, .sq-label svg,
+.btn svg, .btn-sm svg, .btn-primary svg, .btn-yt svg { vertical-align: -3px; }
+.streak-chip svg { margin-right: 4px; }
 
 /* ============================================
    STATE CONTAINER (empty states)
@@ -2221,6 +2330,7 @@ body.dark-theme .streak-chip { background: linear-gradient(135deg, #3a2e0e, #4d3
     justify-content: center;
     flex-shrink: 0;
 }
+.fc-icon svg { width: 28px; height: 28px; }
 .fc-body { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
 .fc-title { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 16px; color: var(--celeste-oscuro); }
 .fc-desc { font-size: 12.5px; color: var(--texto-gris); line-height: 1.5; }
@@ -2322,6 +2432,32 @@ body.dark-theme .streak-chip { background: linear-gradient(135deg, #3a2e0e, #4d3
     flex-shrink: 0;
     margin-top: 1px;
 }
+.fi-details { display: block; }
+.fi-summary {
+    display: none;
+    list-style: none;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+}
+.fi-summary::-webkit-details-marker { display: none; }
+.fi-summary-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--celeste-oscuro);
+}
+.fi-summary-label svg { color: var(--celeste-primario); }
+.fi-caret {
+    display: inline-flex;
+    color: var(--texto-gris);
+    transition: transform 0.22s var(--ease-out);
+}
+.fi-details[open] .fi-caret { transform: rotate(180deg); }
 .formacion-main {
     min-width: 0;
     padding: 4px 2px 20px;
@@ -2534,6 +2670,7 @@ body.dark-theme .fav-btn.on { background: #3b0f1f; border-color: #6b2137; }
     background: var(--card-bg);
 }
 .fav-ic { font-size: 24px; }
+.fav-ic svg { width: 24px; height: 24px; vertical-align: -5px; }
 .fav-info { flex: 1; min-width: 0; }
 .fav-title { margin: 0; font-weight: 600; font-size: 14px; color: var(--texto-oscuro); }
 .fav-sub { margin: 2px 0 0; font-size: 12px; color: var(--texto-gris); }
@@ -2544,6 +2681,8 @@ body.dark-theme .fav-btn.on { background: #3b0f1f; border-color: #6b2137; }
 .rosario-stage { max-width: 640px; margin: 0 auto; }
 .rosario-step-content { text-align: center; padding: 10px 4px; }
 .rosario-icon { font-size: 44px; display: block; margin-bottom: 6px; }
+.rosario-icon svg { width: 44px; height: 44px; }
+.fm-mod svg { width: 18px; height: 18px; vertical-align: -4px; margin-right: 5px; }
 .rosario-step-content h2 { font-family: 'Sora', sans-serif; font-size: 22px; color: var(--celeste-oscuro); margin: 0 0 14px; }
 .rosario-text { text-align: left; max-width: 600px; margin: 0 auto 14px; }
 .rosario-progress { height: 8px; border-radius: 999px; background: var(--celeste-claro); overflow: hidden; margin: 14px auto 0; max-width: 420px; }
@@ -2683,7 +2822,22 @@ body.dark-theme .fav-btn.on { background: #3b0f1f; border-color: #6b2137; }
 /* ---- Responsivo Formación ---- */
 @media (max-width: 900px) {
     .formacion-layout { grid-template-columns: 1fr; }
-    .formacion-index { position: static; max-height: none; order: -1; }
+    .formacion-index { position: static; max-height: none; order: -1; padding: 0; background: none; border: none; }
+    .formacion-index .fi-details {
+        background: var(--card-bg-elevated);
+        border: 1px solid var(--border-color);
+        border-radius: 18px;
+        padding: 12px 14px;
+    }
+    .formacion-index .fi-summary { display: flex; }
+    .formacion-index .fi-body { max-height: 60vh; overflow: auto; margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--border-color); }
     .reader-toolbar { position: static; }
     .formacion-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+}
+@media (min-width: 901px) {
+    .formacion-index .fi-summary {
+        pointer-events: none;
+        position: absolute;
+        opacity: 0;
+    }
 }

@@ -653,7 +653,7 @@ Object.assign(LumenUI, {
     streakChipHTML: function() {
         const info = this.streakInfo();
         if (!info.days) return '';
-        return `<span class="streak-chip" title="Días seguidos en LUMEN">🔥 ${info.days} día${info.days === 1 ? '' : 's'}</span>`;
+        return `<span class="streak-chip" title="Días seguidos en LUMEN">${LumenIcons.racha} ${info.days} día${info.days === 1 ? '' : 's'}</span>`;
     },
 
     // ---- Celebración de logro ----

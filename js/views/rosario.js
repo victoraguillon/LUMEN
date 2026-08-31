@@ -19,22 +19,22 @@ const RosarioView = {
     _build: function() {
         const TS = this._texts;
         const steps = [
-            { label: 'Señal de la Cruz', text: TS.cruz, icon: '✝️' },
-            { label: 'Credo', text: TS.credo, icon: '☩' },
-            { label: 'Padre Nuestro', text: TS.padrenuestro, icon: '📿' },
-            { label: 'Tres Avemarías', text: TS.avemaria + ' ' + TS.avemaria + ' ' + TS.avemaria, icon: '🕊️' },
-            { label: 'Gloria', text: TS.gloria, icon: '🌟' }
+            { label: 'Señal de la Cruz', text: TS.cruz, icon: LumenIcons.cross },
+            { label: 'Credo', text: TS.credo, icon: LumenIcons.cross },
+            { label: 'Padre Nuestro', text: TS.padrenuestro, icon: LumenIcons.rosario },
+            { label: 'Tres Avemarías', text: TS.avemaria + ' ' + TS.avemaria + ' ' + TS.avemaria, icon: LumenIcons.feather },
+            { label: 'Gloria', text: TS.gloria, icon: Icons.star }
         ];
         const misterios = (ROSARIO_DATA.sets[this._set] || []);
         for (let d = 0; d < misterios.length; d++) {
             const m = misterios[d];
-            steps.push({ label: 'Misterio ' + (d + 1) + (m && m.title ? ': ' + m.title : ''), mystery: m, text: m && m.biblicalText ? m.biblicalText : '', icon: '🕯️' });
-            steps.push({ label: 'Padre Nuestro', text: TS.padrenuestro, icon: '📿' });
-            for (let a = 0; a < 10; a++) steps.push({ label: 'Avemaría', text: TS.avemaria, icon: '🔹' });
-            steps.push({ label: 'Gloria', text: TS.gloria, icon: '🌟' });
-            steps.push({ label: 'Oración de Fátima', text: TS.fatima, icon: '🙏' });
+            steps.push({ label: 'Misterio ' + (d + 1) + (m && m.title ? ': ' + m.title : ''), mystery: m, text: m && m.biblicalText ? m.biblicalText : '', icon: LumenIcons.novenas });
+            steps.push({ label: 'Padre Nuestro', text: TS.padrenuestro, icon: LumenIcons.rosario });
+            for (let a = 0; a < 10; a++) steps.push({ label: 'Avemaría', text: TS.avemaria, icon: LumenIcons.bead });
+            steps.push({ label: 'Gloria', text: TS.gloria, icon: Icons.star });
+            steps.push({ label: 'Oración de Fátima', text: TS.fatima, icon: LumenIcons.oraciones });
         }
-        steps.push({ label: 'Salve Regina', text: TS.salve, icon: '👑' });
+        steps.push({ label: 'Salve Regina', text: TS.salve, icon: LumenIcons.crown });
         return steps;
     },
 
@@ -92,7 +92,7 @@ const RosarioView = {
             <div class="reading-surface mystery-text">${String(step.text || step.mystery.biblicalText || '').replace(/\n/g, '<br>')}</div>
         </div>` : '';
         return `<div class="rosario-step-content">
-            <span class="rosario-icon">${step.icon || '📿'}</span>
+            <span class="rosario-icon">${step.icon || LumenIcons.rosario}</span>
             <h2>${step.label}</h2>
             ${mysteryHTML}
             ${!step.mystery ? `<div class="reading-surface rosario-text">${String(step.text || '').replace(/\n/g, '<br>')}</div>` : ''}
@@ -110,7 +110,7 @@ const RosarioView = {
                 const pct = Math.round(((saved[s] || 0) / total) * 100);
                 const isToday = s === today;
                 return `<button class="formacion-card rosario-card reveal${isToday ? ' today' : ''}" onclick="RosarioView.pick('${s}')">
-                    <span class="fc-icon">${isToday ? '🔥' : '📿'}</span>
+                    <span class="fc-icon">${isToday ? LumenIcons.racha : LumenIcons.rosario}</span>
                     <span class="fc-body">
                         <span class="fc-title">Misterios ${s === 'gozosos' ? 'Gozosos' : s === 'dolorosos' ? 'Dolorosos' : s === 'gloriosos' ? 'Gloriosos' : 'Luminosos'}</span>
                         <span class="fc-desc">${this.SET_LABEL[s]}${isToday ? ' · HOY' : ''}</span>
@@ -123,7 +123,7 @@ const RosarioView = {
             return `
             <div class="view">
                 <section class="formacion-hero reveal">
-                    <div class="hero-label">📿 Reza con guía paso a paso ${LumenUI.liturgicalBadgeHTML()}</div>
+                    <div class="hero-label">${LumenIcons.rosario} Reza con guía paso a paso ${LumenUI.liturgicalBadgeHTML()}</div>
                     <h1 class="grad-title">Rosario Interactivo</h1>
                     <p>Los misterios de hoy son los <strong>${this.SET_LABEL[today]}</strong>. Ve avanzando cuenta por cuenta: cada misterio trae su pasaje bíblico para meditar.</p>
                     <div class="hero-actions" style="justify-content:flex-start;">${LumenUI.streakChipHTML()}</div>
@@ -141,7 +141,7 @@ const RosarioView = {
         <div class="view">
             <header class="formacion-mhead reveal">
                 <button class="btn btn-icon" onclick="RosarioView.back()" aria-label="Volver a misterios">←</button>
-                <div class="fm-title"><span class="fm-mod">📿 Misterios ${this._set}</span><span id="rosario-counter" class="fm-count">${this._pos + 1} / ${steps.length}</span></div>
+                <div class="fm-title"><span class="fm-mod">${LumenIcons.rosario}Misterios ${this._set}</span><span id="rosario-counter" class="fm-count">${this._pos + 1} / ${steps.length}</span></div>
                 <div class="fm-actions"></div>
             </header>
             <div class="rosario-stage reveal">
