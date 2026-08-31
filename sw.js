@@ -1,6 +1,6 @@
-// LUMEN - Service Worker único (v14) en la RAÍZ (/sw.js)
-// v14: registro 2 fases + banner Juvemar + auto-login
-const CACHE = "lumen-cache-v14";
+// LUMEN - Service Worker único (v15) en la RAÍZ (/sw.js)
+// v15: fix toggleFase2Fields - solo actualiza botón, navegación en registerNext
+const CACHE = "lumen-cache-v15";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";

@@ -281,18 +281,17 @@ const LumenUI = {
     },
     toggleFase2Fields: function() {
         const wantSi = document.getElementById('juvemar-want-si');
-        const step1 = document.getElementById('reg-step-1');
-        const stepperItem2 = document.querySelectorAll('#register-modal .reg-step-item')[1];
+        const next = document.getElementById('reg-next');
+        const submit = document.getElementById('reg-submit');
         if (wantSi && wantSi.checked) {
-            if (step1) step1.style.display = 'block';
-            if (stepperItem2) stepperItem2.style.display = 'flex';
             this.wantsJuvemar = true;
+            if (next) next.textContent = 'Siguiente';
+            if (submit) submit.style.display = 'none';
         } else {
-            if (step1) step1.style.display = 'none';
-            if (stepperItem2) stepperItem2.style.display = 'none';
             this.wantsJuvemar = false;
+            if (next) next.textContent = 'Crear Cuenta';
+            if (submit) submit.style.display = 'none';
         }
-        this._renderRegister();
     },
     toggleJuvemarTime: function() {
         const pertenece = document.getElementById('juvemar-status-pertenece');
