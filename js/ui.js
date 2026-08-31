@@ -425,9 +425,14 @@ const LumenUI = {
     collectRegisterData: function() {
         const juvemarStatus = document.querySelector('input[name="juvemar-status"]:checked');
         const kerigmaChecked = Array.from(document.querySelectorAll('#kerigma-grid input[name="kerigma"]:checked')).map(c => c.value);
-        const samuelParroquia = document.getElementById('samuel-si').checked
+        
+        // Nueva lógica: Samuel parroquia solo si Samuel kerigma está seleccionado
+        const samuelKerigmaChecked = document.getElementById('kerigma-samuel').checked;
+        const samuelParroquiaSi = document.getElementById('samuel-parroquia-si');
+        const samuelParroquia = samuelKerigmaChecked && samuelParroquiaSi && samuelParroquiaSi.checked
             ? `Sí (Edición: ${document.getElementById('samuel-edition-text').value || 'No especificada'})`
-            : (document.getElementById('kerigma-samuel').checked ? 'No' : '');
+            : (samuelKerigmaChecked ? 'No' : '');
+
         return {
             nombre: document.getElementById('reg-fullname').value.trim(),
             birthdate: document.getElementById('reg-birthdate').value.trim(),

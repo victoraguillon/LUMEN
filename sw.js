@@ -1,6 +1,6 @@
-// LUMEN - Service Worker único (v19) en la RAÍZ (/sw.js)
-// v19: fix _resetRegister no toca display de steps (CSS .active maneja visibilidad)
-const CACHE = "lumen-cache-v19";
+// LUMEN - Service Worker único (v20) en la RAÍZ (/sw.js)
+// v20: fix collectRegisterData (samuel-parroquia-si) + validación paso 2 condicional
+const CACHE = "lumen-cache-v20";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";
