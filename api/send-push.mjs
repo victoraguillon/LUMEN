@@ -23,13 +23,15 @@ function done(res, body, status = 200) {
 }
 
 function readBody(req) {
-  try {
-    if (typeof req.body === "string") return JSON.parse(req.body);
-    if (req.body && typeof req.body === "object") return req.body;
-    return {};
-  } catch {
-    return {};
+  if (req.body && typeof req.body === "string") {
+    try { return Promise.resolve(JSON.parse(req.body)); } catch { return Promise.resolve({}); }
   }
+  if (req.body && typeof req.body === "object") return Promise.resolve(req.body);
+  return new Promise((resolve) => {
+    let raw = "";
+    req.on("data", (c) => { raw += c; });
+    req.on("end", () => { try { resolve(JSON.parse(raw || "{}")); } catch { resolve({}); } });
+  });
 }
 
 export default async function handler(req, res) {
@@ -43,7 +45,7 @@ export default async function handler(req, res) {
   if (req.method !== "POST") return done(res, { error: "Método no permitido" }, 405);
 
   try {
-    const body = readBody(req);
+    const body = await readBody(req);
     const mode = body.mode;
 
     if (mode === "cron") {

@@ -144,7 +144,10 @@ export function milestoneDue(ev, nowMs) {
   const day = 86400000, hour = 3600000;
   const days = diff / day, hours = diff / hour;
   const sent = Array.isArray(ev.notifs_sent) ? ev.notifs_sent : [];
-  if (!sent.includes("5days") && days > 1 && days <= 5) return { hito: "5days", texto: `Recuerda: "${ev.titulo}" es en 5 días.` };
+  if (!sent.includes("5days") && days > 1 && days <= 5) {
+    const n = Math.ceil(days);
+    return { hito: "5days", texto: `Recuerda: "${ev.titulo}" es en ${n} día${n === 1 ? "" : "s"}.` };
+  }
   if (!sent.includes("1day") && hours > 1 && days <= 1) {
     const esHoy = new Date(inicio).toDateString() === new Date(nowMs).toDateString();
     return { hito: "1day", texto: esHoy ? `¡Hoy es "${ev.titulo}"! ☀️` : `Mañana es "${ev.titulo}".` };
