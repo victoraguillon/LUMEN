@@ -161,6 +161,13 @@ const LumenPush = {
                 });
             }
             const plain = JSON.parse(JSON.stringify(sub));
+            // Multi-dispositivo: la suscripción vive en push_subscriptions (una por endpoint).
+            // Upsert por endpoint para NO machacar las de otros dispositivos del mismo usuario.
+            await supabase.from('push_subscriptions').upsert({
+                endpoint: plain.endpoint,
+                user_id: LumenAuth.currentUser.id,
+                keys: plain.keys
+            }, { onConflict: 'endpoint' });
             await supabase.from('profiles').update({ push_subscription: plain }).eq('id', LumenAuth.currentUser.id);
             await this.escribirDiag({ ...(diag || {}), paso: 'ok', endpoint: plain.endpoint });
             this.aplicarEstadoUI();
@@ -243,10 +250,16 @@ const LumenPush = {
         if (!LumenAuth.currentUser) return;
         try {
             const reg = await navigator.serviceWorker.getRegistration().catch(() => null);
+            let endpoint = null;
             if (reg && reg.pushManager) {
                 const sub = await reg.pushManager.getSubscription().catch(() => null);
-                if (sub) await sub.unsubscribe();
+                if (sub) {
+                    endpoint = sub.endpoint;
+                    await sub.unsubscribe();
+                }
             }
+            // Borra solo la suscripción de ESTE dispositivo; otras siguen activas.
+            if (endpoint) await supabase.from('push_subscriptions').delete().eq('endpoint', endpoint);
             await supabase.from('profiles').update({ push_subscription: null }).eq('id', LumenAuth.currentUser.id);
             LumenUI.showToast('Notificaciones desactivadas.', 'success');
         } catch (e) { console.error('[LumenPush] desactivar', e); }

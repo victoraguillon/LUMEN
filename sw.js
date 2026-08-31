@@ -1,7 +1,7 @@
-// LUMEN - Service Worker único (v4) en la RAÍZ (/sw.js)
+// LUMEN - Service Worker único (v5) en la RAÍZ (/sw.js)
 // Un solo SW en la ruta estándar que todos los navegadores (iOS y Chrome)
-// manejan mejor. CACHE v4 nueva: limpia cualquier caché anterior.
-const CACHE = "lumen-cache-v4";
+// manejan mejor. CACHE v5 nueva: limpia cualquier caché anterior.
+const CACHE = "lumen-cache-v5";
 
 self.addEventListener("install", () => {
   self.skipWaiting();
@@ -43,14 +43,25 @@ self.addEventListener("push", (event) => {
     if (event.data) data.body = event.data.text();
   }
   event.waitUntil(
-    self.registration.showNotification(data.title, {
-      body: data.body,
-      icon: "/assets/icons/icon-192.png",
-      badge: "/assets/icons/icon-192.png",
-      data: { url: data.url },
-      tag: "lumen-notif",
-      renotify: true
-    })
+    self.registration
+      .showNotification(data.title, {
+        body: data.body,
+        icon: "/assets/icons/icon-192.png",
+        badge: "/assets/icons/icon-192.png",
+        data: { url: data.url },
+        tag: "lumen-notif",
+        renotify: true
+      })
+      .catch(() =>
+        // Algunos navegadores descartan la notificación completa si el ícono no carga.
+        // Fallback sin assets: garantiza que SIEMPRE se muestre algo.
+        self.registration.showNotification(data.title, {
+          body: data.body,
+          data: { url: data.url },
+          tag: "lumen-notif",
+          renotify: true
+        })
+      )
   );
 });
 

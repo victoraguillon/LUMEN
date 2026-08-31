@@ -169,7 +169,7 @@ async function pushToSubscriptions(subs, payload) {
     try {
       const r = await deliver({ endpoint: s.endpoint, keys: s.keys, payload });
       if (r.ok) sent++;
-      else if (r.gone) { gone++; await sb.from("profiles").update({ push_subscription: null }).eq("id", s.user_id); }
+      else if (r.gone) { gone++; await sb.from("push_subscriptions").delete().eq("endpoint", s.endpoint); }
       else failed++;
     } catch (e) {
       failed++;
@@ -244,15 +244,14 @@ async function runCron() {
 
 async function listSubscriptions() {
   const { data, error } = await sb
-    .from("profiles")
-    .select("id,push_subscription")
-    .in("role", ["miembro", "admin"])
-    .eq("status", "approved")
-    .not("push_subscription", "is", null);
-  if (error) throw new Error("profiles: " + error.message);
+    .from("push_subscriptions")
+    .select("endpoint,user_id,keys,profiles!inner(role,status)")
+    .in("profiles.role", ["miembro", "admin"])
+    .eq("profiles.status", "approved");
+  if (error) throw new Error("push_subscriptions: " + error.message);
   return (data || [])
-    .filter((p) => p.push_subscription && p.push_subscription.endpoint && p.push_subscription.keys && p.push_subscription.keys.p256dh && p.push_subscription.keys.auth)
-    .map((p) => ({ user_id: p.id, endpoint: p.push_subscription.endpoint, keys: p.push_subscription.keys }));
+    .filter((s) => s && s.keys && s.keys.p256dh && s.keys.auth)
+    .map((s) => ({ user_id: s.user_id, endpoint: s.endpoint, keys: s.keys }));
 }
 
 // ---------- verificación de usuario mediante JWT ----------
@@ -295,8 +294,13 @@ Deno.serve(async (req) => {
     const url = String(body.url || "/").slice(0, 200);
 
     if (mode === "self") {
-      if (!profile.push_subscription) return json({ mode: "self", sent: 0, reason: "no-subscription" });
-      const res = await pushToSubscriptions([{ user_id: profile.id, endpoint: profile.push_subscription.endpoint, keys: profile.push_subscription.keys }], { title, body: text, url });
+      const { data: mine } = await sb
+        .from("push_subscriptions")
+        .select("endpoint,user_id,keys")
+        .eq("user_id", user.id);
+      const mineOk = (mine || []).filter((s) => s && s.keys && s.keys.p256dh && s.keys.auth);
+      if (mineOk.length === 0) return json({ mode: "self", sent: 0, reason: "no-subscription" });
+      const res = await pushToSubscriptions(mineOk, { title, body: text, url });
       return json({ mode: "self", ...res });
     }
 
