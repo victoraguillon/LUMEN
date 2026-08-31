@@ -71,7 +71,7 @@ const InicioView = {
                             </div>
                             <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
                                 <p class="verse-text-large" style="font-size: 28px; font-style: italic; font-weight: 300; margin-bottom: 24px; color: white; line-height: 1.45;">"${frase.frase}"</p>
-                                <cite style="font-size: 16px; font-weight: 600; opacity: 0.9; text-transform: uppercase; letter-spacing: 2px; color: white;">— ${frase.autor}</cite>
+                                <cite style="font-size: 16px; font-weight: 600; opacity: 0.9; text-transform: uppercase; letter-spacing: 2px; color: white;">(${frase.autor})</cite>
                                 <button class="btn btn-outline btn-block" style="border-color: white; color: white; max-width: 280px; margin: 32px auto 0;" onclick="LumenRouter.navigateTo('devocional')">${LumenIcons.oraciones} Mira el pasaje y santo de hoy</button>
                             </div>
                         </div>
@@ -226,7 +226,7 @@ const InicioView = {
                         </div>
                         <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
                             <p class="verse-text-large" style="font-size: 28px; font-style: italic; font-weight: 300; margin-bottom: 24px; color: white; line-height: 1.45;">"${fraseDelDia.frase}"</p>
-                            <cite style="font-size: 16px; font-weight: 600; opacity: 0.9; text-transform: uppercase; letter-spacing: 2px; color: white;">— ${fraseDelDia.autor}</cite>
+                            <cite style="font-size: 16px; font-weight: 600; opacity: 0.9; text-transform: uppercase; letter-spacing: 2px; color: white;">(${fraseDelDia.autor})</cite>
                             <button class="btn btn-outline btn-block" style="border-color: white; color: white; max-width: 280px; margin: 32px auto 0;" onclick="LumenRouter.navigateTo('devocional')">${LumenIcons.oraciones} Mira el pasaje y santo de hoy</button>
                         </div>
                     </div>

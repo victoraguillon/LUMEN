@@ -1966,36 +1966,47 @@ body.dark-theme .skeleton-card::after {
     to { opacity: 1; transform: translateX(0); }
 }
 .drawer-link:hover, .drawer-link.active { background: rgba(0,162,232,0.1); color: var(--celeste-primario); }
-.drawer-group {
-    border-top: 1px solid var(--border-color);
-    margin-top: 4px;
-    padding-top: 2px;
-}
 .drawer-summary {
     list-style: none;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 15px;
-    font-weight: 700; font-size: 13px;
-    color: var(--celeste-oscuro);
+    gap: 10px;
+    margin: 0;
+    padding: 15px;
+    min-height: 48px;
+    font-weight: 600; font-size: inherit;
+    color: var(--texto-oscuro);
     cursor: pointer; user-select: none;
     border-radius: 10px;
-    transition: background 200ms ease;
+    transition: background 200ms ease, color 200ms ease, transform 200ms var(--ease-out);
+    opacity: 0; transform: translateX(20px);
 }
+.side-drawer.active .drawer-summary { animation: drawerLinkIn 250ms var(--ease-out) forwards; }
+.side-drawer.active details.drawer-group:nth-of-type(2) .drawer-summary { animation-delay: 40ms; }
 .drawer-summary::-webkit-details-marker { display: none; }
-.drawer-summary:hover { background: rgba(0,162,232,0.08); }
+.drawer-summary:hover { background: rgba(0,162,232,0.1); color: var(--celeste-primario); }
 .drawer-caret { display: inline-flex; color: var(--texto-gris); transition: transform 220ms var(--ease-out); }
 .drawer-group[open] .drawer-caret { transform: rotate(180deg); }
 .drawer-group-items {
     display: flex; flex-direction: column; gap: 2px;
-    padding-left: 6px;
+    padding-left: 26px;
 }
-.drawer-group-items .drawer-link { padding: 13px 15px; min-height: 0; font-weight: 500; font-size: 14px; }
+.drawer-group-items .drawer-link { padding: 15px; min-height: 48px; font-weight: 600; font-size: inherit; }
 
 /* Alineación de íconos SVG inline junto a texto */
 .hero-label svg, .bento-title svg, .countdown-timer svg, .streak-chip svg,
 .prayer-when svg, .prayer-significance svg, .sq-label svg,
 .btn svg, .btn-sm svg, .btn-primary svg, .btn-yt svg { vertical-align: -3px; }
 .streak-chip svg { margin-right: 4px; }
+
+/* Textos de lectura justificados (sin huérfanos en la última línea) */
+.reading-surface, .reading-prose, .si-life, .glos-def,
+.prayer-big, .prayer-intro, .prayer-text,
+.novena-meditation, .novena-prayer, .mystery-text, .rosario-text,
+.exam-mand, .exam-summary, .exam-clean,
+.hero-reflexion-text, .bento-large .verse-text-large, .verse-card p {
+    text-align: justify;
+    text-align-last: left;
+}
 
 /* ============================================
    STATE CONTAINER (empty states)
@@ -2774,6 +2785,17 @@ body.dark-theme .fav-btn.on { background: #3b0f1f; border-color: #6b2137; }
     background: #fee2e2; color: var(--error); border-radius: 999px; padding: 2px 9px;
 }
 .exam-tag.tag-maybe { background: #fffbeb; color: #92400e; }
+.examen-report h3 { display: flex; align-items: center; gap: 8px; font-size: 17px; color: var(--celeste-oscuro); margin: 22px 0 12px; }
+.exam-group {
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    background: linear-gradient(135deg, rgba(0,162,232,0.06), rgba(255,255,255,0));
+}
+.exam-group h4 { margin: 0 0 2px; font-family: 'Sora', sans-serif; font-size: 15px; color: var(--celeste-oscuro); }
+.exam-mand { margin: 0 0 8px; font-size: 13.5px; color: var(--texto-gris); font-style: italic; }
+.exam-clean { color: var(--exito); background: #f0fdf4; border: 1px solid rgba(22,163,74,0.25); padding: 14px 16px; border-radius: 14px; }
 
 /* ---- Celebración ---- */
 .celebrate-overlay {

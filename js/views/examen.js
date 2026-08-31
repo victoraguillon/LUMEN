@@ -73,18 +73,38 @@ const ExamenView = {
     _renderResults: function(qs) {
         const host = document.getElementById('examen-step');
         const bar = document.getElementById('examen-bar');
-        const yes = qs.filter(function(q) { return this._answers[q.id] === 'si'; }, this);
-        const maybe = qs.filter(function(q) { return this._answers[q.id] === 'quizas'; }, this);
-        const list = yes.concat(maybe).map(function(q) {
-            return `<li>${q.text} <span class="exam-tag ${this._answers[q.id] === 'si' ? '' : 'tag-maybe'}">${this._answers[q.id] === 'si' ? 'para confesión' : 'para reflexionar'}</span></li>`;
-        }, this).join('') || '<li>No marcaste faltas. Date gracias a Dios por su gracia y sigue creciendo.</li>';
+        const cat = this._catData();
+        const groups = [];
+        (cat.sections || []).forEach(function(s) {
+            const items = (s.questions || []).filter(function(q) {
+                const v = this._answers[q.id];
+                return v === 'si' || v === 'quizas';
+            }, this);
+            if (items.length) groups.push({ title: s.title, desc: s.description, items: items });
+        }, this);
+
+        const contados = groups.reduce(function(n, g) { return n + g.items.length; }, 0);
+        const apartados = groups.length;
+        const sinFaltas = contados === 0;
+        const summary = sinFaltas
+            ? `Revisaste <strong>${qs.length}</strong> puntos y no marcaste faltas. Da gracias a Dios por su gracia y vive en paz.`
+            : `Revisaste <strong>${qs.length}</strong> puntos · encontraste <strong>${contados}</strong> cosa${contados === 1 ? '' : 's'} que repasar en <strong>${apartados}</strong> apartado${apartados === 1 ? '' : 's'}.`;
+
+        const listHTML = sinFaltas
+            ? '<p class="exam-clean">No marcaste faltas. Da gracias a Dios por su gracia y sigue creciendo.</p>'
+            : groups.map(function(g) {
+                const lis = g.items.map(function(q) {
+                    return `<li>${q.text} <span class="exam-tag ${this._answers[q.id] === 'si' ? '' : 'tag-maybe'}">${this._answers[q.id] === 'si' ? 'para confesión' : 'para reflexionar'}</span></li>`;
+                }, this).join('');
+                return `<div class="exam-group"><h4>${g.title}</h4><p class="exam-mand">${g.desc}</p><ul class="examen-list">${lis}</ul></div>`;
+            }, this).join('');
 
         host.innerHTML = `
         <div id="examen-report" class="examen-report">
             <h2>Conciencia examinada</h2>
-            <p class="examen-summary">Revisaste <strong>${qs.length}</strong> puntos. Lleva contigo humildad y la certeza de la misericordia de Dios.</p>
+            <p class="examen-summary">${summary}</p>
             <h3>${LumenIcons.oraciones} Recordar para la confesión</h3>
-            <ul class="examen-list">${list}</ul>
+            ${listHTML}
             <div class="prayer-actions" style="justify-content:center; flex-wrap:wrap;">
                 <button class="btn btn-primary" onclick="ExamenView.copyReport()">Copiar lista</button>
                 <button class="btn" onclick="LumenUI.exportPng(document.getElementById('examen-report'),'examen-conciencia.png')">${Icons.download} Descargar PNG</button>
@@ -99,11 +119,20 @@ const ExamenView = {
     },
 
     copyReport: function() {
-        const qs = this._allQuestions();
-        const yes = qs.filter(function(q) { return this._answers[q.id] === 'si'; }, this);
-        const maybe = qs.filter(function(q) { return this._answers[q.id] === 'quizas'; }, this);
-        const lines = yes.concat(maybe).map(function(q) { return '☐ ' + q.text; });
-        const text = 'Examen de Conciencia\nPara confesión y reflexión:\n\n' + lines.join('\n') + '\n\n— LUMEN.com';
+        const cat = this._catData();
+        const lines = ['Examen de Conciencia', 'Para confesión y reflexión:', ''];
+        (cat.sections || []).forEach(function(s) {
+            const items = (s.questions || []).filter(function(q) {
+                const v = this._answers[q.id];
+                return v === 'si' || v === 'quizas';
+            }, this);
+            if (!items.length) return;
+            lines.push('• ' + s.title + ': ' + s.description);
+            items.forEach(function(q) { lines.push('  ☐ ' + q.text); });
+            lines.push('');
+        }, this);
+        if (lines.length === 3) lines.push('No se marcaron faltas. ¡Da gracias a Dios!');
+        const text = lines.join('\n') + '\n(LUMEN.com)';
         if (navigator.clipboard) {
             navigator.clipboard.writeText(text).then(function() { LumenUI.showToast('Lista copiada', 'success'); });
         } else {

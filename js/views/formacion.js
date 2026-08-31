@@ -295,7 +295,7 @@ const FormacionView = {
                 <div class="si-head">
                     <div>
                         <h3>${s.name}</h3>
-                        <p class="si-feast">Fiesta: ${s.feast || '—'}</p>
+                        <p class="si-feast">Fiesta: ${s.feast || '(No registrada)'}</p>
                         <p class="si-summary">${s.summary || ''}</p>
                     </div>
                     ${this.favHeart('santos', s.id, s.name, unit.title)}

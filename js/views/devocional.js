@@ -235,7 +235,7 @@ const DevocionalView = {
 
     _shareText: function() {
         const pasaje = DEVOCIONAL_DATA.pasajes_dia[(new Date().getDate() - 1) % DEVOCIONAL_DATA.pasajes_dia.length];
-        return `\u201C${pasaje.text}\u201D\n\u2014 ${pasaje.cite}\n\n${pasaje.reflection}\n\n\u2014 LUMEN\u00B7com`;
+        return `\u201C${pasaje.text}\u201D\n(${pasaje.cite})\n\n${pasaje.reflection}\n\n(LUMEN.com)`;
     },
 
     copyVerse: function() {
@@ -252,7 +252,7 @@ const DevocionalView = {
     shareVerse: function() {
         const text = this._shareText();
         if (navigator.share) {
-            navigator.share({ title: 'Alimento de Hoy - LUMEN', text: text }).catch(() => {});
+            navigator.share({ title: 'Alimento de Hoy (LUMEN)', text: text }).catch(() => {});
         } else {
             this.copyVerse();
         }
