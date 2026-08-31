@@ -34,7 +34,7 @@ const FORMACION_DATA = {
       {
        "id": "church-authority",
        "title": "La Autoridad de la Iglesia",
-       "content": "Cristo no dejó a su Iglesia sin guía. Estableció una estructura jerárquica con el Papa como sucesor de Pedro, los obispos como sucesores de los apóstoles, y los sacerdotes como sus colaboradores.\n\nEl Magisterio de la Iglesia - compuesto por el Papa y los obispos en comunión con él - tiene la autoridad y la responsabilidad de interpretar auténticamente la Palabra de Dios, tanto escrita (Escritura) como transmitida (Tradición).\n\nEsta autoridad no es humana sino divina, otorgada por Cristo mismo para guiar a su pueblo en la verdad y protegerlo del error en materia de fe y moral.",
+       "content": "Cristo no dejó a su Iglesia sin guía. Estableció una estructura jerárquica con el Papa como sucesor de Pedro, los obispos como sucesores de los apóstoles, y los sacerdotes como sus colaboradores.\n\nEl Magisterio de la Iglesia, compuesto por el Papa y los obispos en comunión con él,tiene la autoridad y la responsabilidad de interpretar auténticamente la Palabra de Dios, tanto escrita (Escritura) como transmitida (Tradición).\n\nEsta autoridad no es humana sino divina, otorgada por Cristo mismo para guiar a su pueblo en la verdad y protegerlo del error en materia de fe y moral.",
        "keyPoints": [
         "El Papa es sucesor de Pedro",
         "Los obispos suceden a los apóstoles",

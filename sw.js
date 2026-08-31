@@ -1,9 +1,8 @@
-// LUMEN - Service Worker único (v10) en la RAÍZ (/sw.js)
-// v10: bump de caché del batch de pulido (íconos Lucide outline + examen
-// agrupado por mandamiento + textos sin guiones y justificados + drawer con
-// subítems indentados); mantiene cache-first con actualización en segundo
-// plano y navegaciones network-first con fallback offline.
-const CACHE = "lumen-cache-v10";
+// LUMEN - Service Worker único (v11) en la RAÍZ (/sw.js)
+// v11: bump de caché del batch de íconos (Tabler Icons outline canónico,
+// embebido sin dependencia runtime); mantiene cache-first con actualización
+// en segundo plano y navegaciones network-first con fallback offline.
+const CACHE = "lumen-cache-v11";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";
