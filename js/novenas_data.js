@@ -635,7 +635,7 @@ const NOVENAS_DATA = [
   "days": [
    {
     "day": 1,
-    "title": "Primer día - en honor de los Serafines",
+    "title": "Primer día , en honor de los Serafines",
     "meditation": "San Miguel Arcángel, lleno de la sabiduría de Dios, fuerte en la batalla, ven en mi ayuda, sostenme en las dificultades, en las pruebas, cuando sufra, cuando dude, cuando llore. Obtén para mí el valor, la fuerza, la voluntad, para que no sea derrotado. San Miguel Arcángel, sé mi defensor y protector contra las fuerzas del mal.",
     "prayers": [
      "San Miguel Arcángel, lleno de la sabiduría de Dios, fuerte en la batalla, ven en mi ayuda, sostenme en las dificultades, en las pruebas, cuando sufra, cuando dude, cuando llore. Obtén para mí el valor, la fuerza, la voluntad, para que no sea derrotado. San Miguel Arcángel, sé mi defensor y protector contra las fuerzas del mal.",
@@ -646,7 +646,7 @@ const NOVENAS_DATA = [
    },
    {
     "day": 2,
-    "title": "Segundo día - en honor de los Querubines",
+    "title": "Segundo día , en honor de los Querubines",
     "meditation": "San Miguel, Príncipe de la Milicia de los Ángeles, te invoco, escúchame.",
     "prayers": [
      "San Miguel, Príncipe de la Milicia de los Ángeles, te invoco, escúchame.",
@@ -658,7 +658,7 @@ const NOVENAS_DATA = [
    },
    {
     "day": 3,
-    "title": "Tercer día - en honor a los Tronos",
+    "title": "Tercer día , en honor a los Tronos",
     "meditation": "Gran defensor del pueblo cristiano, San Miguel Arcángel, para cumplir dignamente la misión que se te ha confiado de defender a la Iglesia, dígnate abatir la herejía, exterminar los cismas y confundir la incredulidad.",
     "prayers": [
      "Gran defensor del pueblo cristiano, San Miguel Arcángel, para cumplir dignamente la misión que se te ha confiado de defender a la Iglesia, dígnate abatir la herejía, exterminar los cismas y confundir la incredulidad.",
@@ -671,7 +671,7 @@ const NOVENAS_DATA = [
    },
    {
     "day": 4,
-    "title": "Cuarto día - en honor a las Dominaciones",
+    "title": "Cuarto día , en honor a las Dominaciones",
     "meditation": "Oh, tú que eres el Príncipe y Portaestandarte de los ángeles buenos, ayúdame siempre con tu bondad y sálvame.",
     "prayers": [
      "Oh, tú que eres el Príncipe y Portaestandarte de los ángeles buenos, ayúdame siempre con tu bondad y sálvame.",
@@ -685,7 +685,7 @@ const NOVENAS_DATA = [
    },
    {
     "day": 5,
-    "title": "Quinto día - en honor a los Potestades",
+    "title": "Quinto día , en honor a los Potestades",
     "meditation": "San Miguel Arcángel, eres tú a quien la santa Iglesia venera como su guardián y protector. Es también a ti a quien el Señor ha confiado la misión de introducir a las almas redimidas en la dicha celestial.",
     "prayers": [
      "San Miguel Arcángel, eres tú a quien la santa Iglesia venera como su guardián y protector. Es también a ti a quien el Señor ha confiado la misión de introducir a las almas redimidas en la dicha celestial.",
@@ -699,7 +699,7 @@ const NOVENAS_DATA = [
    },
    {
     "day": 6,
-    "title": "Sexto día - en honor a las Virtudes",
+    "title": "Sexto día , en honor a las Virtudes",
     "meditation": "San Miguel Arcángel, defiéndenos en la batalla, para que no perezcamos en el día del temido juicio.",
     "prayers": [
      "San Miguel Arcángel, defiéndenos en la batalla, para que no perezcamos en el día del temido juicio.",
@@ -712,7 +712,7 @@ const NOVENAS_DATA = [
    },
    {
     "day": 7,
-    "title": "Séptimo día - en honor de los Principados",
+    "title": "Séptimo día , en honor de los Principados",
     "meditation": "Oh San Miguel, tres veces santo Príncipe de la Sagrada Milicia, Dios te ha encargado la organización y dirección de las huestes angélicas, dignísimo de toda adoración, alabanza y encomio.",
     "prayers": [
      "Oh San Miguel, tres veces santo Príncipe de la Sagrada Milicia, Dios te ha encargado la organización y dirección de las huestes angélicas, dignísimo de toda adoración, alabanza y encomio.",
@@ -724,7 +724,7 @@ const NOVENAS_DATA = [
    },
    {
     "day": 8,
-    "title": "Octavo día - en honor a los Arcángeles",
+    "title": "Octavo día , en honor a los Arcángeles",
     "meditation": "Arcángel San Miguel, cuya misión es recoger nuestras oraciones, dirigir nuestras batallas y pesar nuestras almas, rindo homenaje a tu belleza.",
     "prayers": [
      "Arcángel San Miguel, cuya misión es recoger nuestras oraciones, dirigir nuestras batallas y pesar nuestras almas, rindo homenaje a tu belleza.",
@@ -738,7 +738,7 @@ const NOVENAS_DATA = [
    },
    {
     "day": 9,
-    "title": "Noveno día - en honor de los Ángeles",
+    "title": "Noveno día , en honor de los Ángeles",
     "meditation": "Glorioso Arcángel Miguel, eres el gran celador de la gloria de Dios y protector de la Iglesia universal.",
     "prayers": [
      "Glorioso Arcángel Miguel, eres el gran celador de la gloria de Dios y protector de la Iglesia universal.",

@@ -34,7 +34,7 @@ const FORMACION_DATA = {
       {
        "id": "church-authority",
        "title": "La Autoridad de la Iglesia",
-       "content": "Cristo no dejó a su Iglesia sin guía. Estableció una estructura jerárquica con el Papa como sucesor de Pedro, los obispos como sucesores de los apóstoles, y los sacerdotes como sus colaboradores.\n\nEl Magisterio de la Iglesia, compuesto por el Papa y los obispos en comunión con él,tiene la autoridad y la responsabilidad de interpretar auténticamente la Palabra de Dios, tanto escrita (Escritura) como transmitida (Tradición).\n\nEsta autoridad no es humana sino divina, otorgada por Cristo mismo para guiar a su pueblo en la verdad y protegerlo del error en materia de fe y moral.",
+       "content": "Cristo no dejó a su Iglesia sin guía. Estableció una estructura jerárquica con el Papa como sucesor de Pedro, los obispos como sucesores de los apóstoles, y los sacerdotes como sus colaboradores.\n\nEl Magisterio de la Iglesia, compuesto por el Papa y los obispos en comunión con él, tiene la autoridad y la responsabilidad de interpretar auténticamente la Palabra de Dios, tanto escrita (Escritura) como transmitida (Tradición).\n\nEsta autoridad no es humana sino divina, otorgada por Cristo mismo para guiar a su pueblo en la verdad y protegerlo del error en materia de fe y moral.",
        "keyPoints": [
         "El Papa es sucesor de Pedro",
         "Los obispos suceden a los apóstoles",
@@ -521,7 +521,7 @@ const FORMACION_DATA = {
       {
        "id": "sacraments-initiation",
        "title": "Sacramentos de Iniciación",
-       "content": "Los sacramentos de iniciación cristiana - Bautismo, Confirmación y Eucaristía - ponen los fundamentos de toda vida cristiana. Por estos sacramentos, los fieles renacen por el Bautismo, se fortalecen por la Confirmación y se alimentan por la Eucaristía.\n\nEl Bautismo nos libera del pecado y nos regenera como hijos de Dios. La Confirmación nos fortalece con los dones del Espíritu Santo. La Eucaristía es fuente y cumbre de toda la vida cristiana.",
+       "content": "Los sacramentos de iniciación cristiana (Bautismo, Confirmación y Eucaristía) ponen los fundamentos de toda vida cristiana. Por estos sacramentos, los fieles renacen por el Bautismo, se fortalecen por la Confirmación y se alimentan por la Eucaristía.\n\nEl Bautismo nos libera del pecado y nos regenera como hijos de Dios. La Confirmación nos fortalece con los dones del Espíritu Santo. La Eucaristía es fuente y cumbre de toda la vida cristiana.",
        "keyPoints": [
         "Bautismo: renacimiento como hijos de Dios",
         "Confirmación: fortalecimiento del Espíritu Santo",
@@ -618,7 +618,7 @@ const FORMACION_DATA = {
       {
        "id": "virtues",
        "title": "Las Virtudes",
-       "content": "Las virtudes son disposiciones habituales y firmes para hacer el bien. Se distinguen las virtudes humanas (cardinales) y las virtudes teologales.\n\nLas virtudes cardinales - prudencia, justicia, fortaleza y templanza - son la base de toda vida moral. Las virtudes teologales - fe, esperanza y caridad - tienen a Dios como origen, motivo y objeto.",
+       "content": "Las virtudes son disposiciones habituales y firmes para hacer el bien. Se distinguen las virtudes humanas (cardinales) y las virtudes teologales.\n\nLas virtudes cardinales (prudencia, justicia, fortaleza y templanza) son la base de toda vida moral. Las virtudes teologales (fe, esperanza y caridad) tienen a Dios como origen, motivo y objeto.",
        "keyPoints": [
         "Disposiciones habituales para el bien",
         "Virtudes cardinales: prudencia, justicia, fortaleza, templanza",
@@ -1126,7 +1126,7 @@ const FORMACION_DATA = {
       {
        "id": "liturgical-music",
        "title": "Música y Canto Litúrgico",
-       "content": "La música sacra es parte integral de la liturgia, no un simple ornamento. El canto litúrgico eleva el alma hacia Dios y ayuda a la participación plena de los fieles en la celebración. Como dice san Agustín: \"Quien canta, ora dos veces\".\n\nLos diferentes géneros de música sacra - desde el canto gregoriano hasta las composiciones contemporáneas - tienen su lugar en la liturgia cuando favorecen verdaderamente la oración y la participación de los fieles. La música debe ser bella, noble y universal, capaz de elevar el espíritu hacia lo sagrado.\n\nEl canto comunitario es especialmente importante porque expresa la unidad de la asamblea celebrante. Cuando cantamos juntos, manifestamos visiblemente que somos un solo pueblo, una sola voz que alaba a Dios. La música litúrgica es así un poderoso instrumento de comunión y evangelización.",
+       "content": "La música sacra es parte integral de la liturgia, no un simple ornamento. El canto litúrgico eleva el alma hacia Dios y ayuda a la participación plena de los fieles en la celebración. Como dice san Agustín: \"Quien canta, ora dos veces\".\n\nLos diferentes géneros de música sacra (desde el canto gregoriano hasta las composiciones contemporáneas) tienen su lugar en la liturgia cuando favorecen verdaderamente la oración y la participación de los fieles. La música debe ser bella, noble y universal, capaz de elevar el espíritu hacia lo sagrado.\n\nEl canto comunitario es especialmente importante porque expresa la unidad de la asamblea celebrante. Cuando cantamos juntos, manifestamos visiblemente que somos un solo pueblo, una sola voz que alaba a Dios. La música litúrgica es así un poderoso instrumento de comunión y evangelización.",
        "keyPoints": [
         "La música sacra es parte integral de la liturgia",
         "El canto eleva el alma y favorece la participación",
@@ -1347,7 +1347,7 @@ const FORMACION_DATA = {
        "id": "dead-communication",
        "question": "¿No prohíbe la Biblia comunicarse con los muertos?",
        "answer": "La Biblia prohíbe la necromancia y espiritismo, no la comunión con los santos en Cristo.",
-       "scripture": "\"No consultéis a los muertos por los vivos\" (Is 8,19) - se refiere a prácticas ocultistas",
+       "scripture": "\"No consultéis a los muertos por los vivos\" (Is 8,19), se refiere a prácticas ocultistas",
        "catechism": "CIC 2116: Todas las formas de adivinación deben rechazarse.",
        "explanation": "La prohibición bíblica se refiere a consultar espíritus malignos o practicar ocultismo. Los santos no están \"muertos\" sino vivos en Cristo (Lc 20,38). Moisés y Elías conversaron con Jesús. Samuel apareció a Saúl. La diferencia está en que los santos están en comunión con Dios, no son espíritus errantes o demonios.\n\nLa nigromancia es invocar a los muertos para obtener información oculta o poder mágico al margen de Dios. Pedir a un santo que ore por uno ante Dios es radicalmente distinto en naturaleza, objeto y medio. El santo no es invocado como entidad independiente sino como miembro vivo de la Iglesia en comunicación con Dios."
       },
