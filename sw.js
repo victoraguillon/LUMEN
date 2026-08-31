@@ -1,6 +1,6 @@
-// LUMEN - Service Worker único (v13) en la RAÍZ (/sw.js)
-// v13: imágenes de assets en cards de Formación, Devocional, Oraciones, Rosario, Novenas
-const CACHE = "lumen-cache-v13";
+// LUMEN - Service Worker único (v14) en la RAÍZ (/sw.js)
+// v14: registro 2 fases + banner Juvemar + auto-login
+const CACHE = "lumen-cache-v14";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";

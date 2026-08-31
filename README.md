@@ -297,14 +297,4 @@ LUMEN es una plataforma viva, con una base sólida para crecer en contenidos, co
 
 ## 💡 Frase del proyecto
 
-“Iluminando el camino, fortaleciendo la comunidad y acompañando la fe.”
-
----
-
-## ¿Quieres una versión aún más especial?
-
-Puedo dejarte también una de estas tres variantes:
-
-- una versión más premium y visual, estilo landing/portfolio
-- un README ultra limpio para GitHub con banner hero y badges más impactantes
-- una documentación técnica más profunda con diagramas, flujo de backend/frontend y guías de implementación
+“Somos instrumentos de Jesús y debemos irradiar su luz para llegar a todos.” - Papa Francisco.
