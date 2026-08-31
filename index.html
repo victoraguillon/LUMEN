@@ -258,7 +258,7 @@
                 </section>
 
                 <section class="reg-step" id="reg-step-1" style="display:none;">
-                    <div class="form-group"><label for="reg-sector">Sector / Dirección: *</label><input type="text" id="reg-sector" autocomplete="street-address" enterkeyhint="next" required></div>
+                    <div class="form-group"><label for="reg-sector">Sector / Dirección: *</label><input type="text" id="reg-sector" autocomplete="street-address" enterkeyhint="next"></div>
                     <div id="guardian-fields" class="guardian-box" style="display: none;">
                         <p>Datos del Representante (Menor de 18 años)</p>
                         <div class="form-group"><label for="reg-guardian-name">Nombre y Apellido del Representante: *</label><input type="text" id="reg-guardian-name" enterkeyhint="next"></div>
@@ -267,8 +267,8 @@
                     <div class="form-group">
                         <label>¿Eres nuevo o ya formas parte de Juvemar? *</label>
                         <div class="checkbox-group">
-                            <div class="checkbox-item"><input type="radio" name="juvemar-status" id="juvemar-status-nuevo" value="Nuevo" required onchange="LumenUI.toggleJuvemarTime()"><label for="juvemar-status-nuevo">Soy nuevo en Juvemar</label></div>
-                            <div class="checkbox-item"><input type="radio" name="juvemar-status" id="juvemar-status-pertenece" value="Pertenece" required onchange="LumenUI.toggleJuvemarTime()"><label for="juvemar-status-pertenece">Ya formo parte de Juvemar</label></div>
+                            <div class="checkbox-item"><input type="radio" name="juvemar-status" id="juvemar-status-nuevo" value="Nuevo" onchange="LumenUI.toggleJuvemarTime()"><label for="juvemar-status-nuevo">Soy nuevo en Juvemar</label></div>
+                            <div class="checkbox-item"><input type="radio" name="juvemar-status" id="juvemar-status-pertenece" value="Pertenece" onchange="LumenUI.toggleJuvemarTime()"><label for="juvemar-status-pertenece">Ya formo parte de Juvemar</label></div>
                         </div>
                         <div id="juvemar-time-wrap" class="sub-input" style="display:none; margin-top:10px;">
                             <label for="juvemar-time-text">¿Desde cuándo? (Mes y Año)</label>

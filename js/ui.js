@@ -301,10 +301,21 @@ const LumenUI = {
     toggleKerigmaFields: function() {
         const samuel = document.getElementById('kerigma-samuel');
         const otra = document.getElementById('kerigma-otra');
+        const ninguna = document.getElementById('kerigma-ninguna');
         const samuelWrap = document.getElementById('samuel-parroquia-wrap');
         const otraWrap = document.getElementById('kerigma-otra-wrap');
         const subInputs = document.getElementById('kerigma-sub-inputs');
         const anyChecked = samuel.checked || otra.checked;
+        
+        // Mutua exclusión: "Ninguna" vs las demás
+        if (ninguna && ninguna.checked) {
+            if (samuel) samuel.checked = false;
+            if (otra) otra.checked = false;
+            document.getElementById('kerigma-emaus').checked = false;
+        } else if (anyChecked || document.getElementById('kerigma-emaus').checked) {
+            if (ninguna) ninguna.checked = false;
+        }
+        
         if (subInputs) subInputs.style.display = anyChecked ? 'block' : 'none';
         if (samuelWrap) samuelWrap.style.display = samuel.checked ? 'block' : 'none';
         if (otraWrap) otraWrap.style.display = otra.checked ? 'block' : 'none';
@@ -348,10 +359,21 @@ const LumenUI = {
         } else if (this.regStep === 1) {
             const sector = document.getElementById('reg-sector');
             if (!sector.value.trim()) { this.showToast('El sector es obligatorio.', 'error'); sector.focus(); return; }
+            
+            const juvemarStatus = document.querySelector('input[name="juvemar-status"]:checked');
+            if (!juvemarStatus) { this.showToast('Selecciona si eres nuevo o ya formas parte de Juvemar.', 'error'); return; }
+            
+            if (juvemarStatus.value === 'Pertenece') {
+                const timeText = document.getElementById('juvemar-time-text');
+                if (!timeText.value) { this.showToast('Indica desde cuándo formas parte (Mes y Año).', 'error'); timeText.focus(); return; }
+            }
+            
             const anySac = ['sac-bautismo', 'sac-comunion', 'sac-confirmacion', 'sac-ninguno'].some(id => { const el = document.getElementById(id); return el && el.checked; });
             if (!anySac) { this.showToast('Marca al menos un sacramento.', 'error'); return; }
+            
             const anyKerigma = document.querySelectorAll('#kerigma-grid input[name="kerigma"]:checked').length > 0;
             if (!anyKerigma) { this.showToast('Selecciona al menos una experiencia kerigmática.', 'error'); return; }
+            
             if (document.getElementById('kerigma-samuel').checked && document.getElementById('samuel-si').checked) {
                 const edition = document.getElementById('samuel-edition-text').value.trim();
                 if (!edition) { this.showToast('Indica la edición de Samuel.', 'error'); return; }
