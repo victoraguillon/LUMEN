@@ -1,6 +1,6 @@
-// LUMEN - Service Worker único (v16) en la RAÍZ (/sw.js)
-// v16: bump cache para forzar refresh de ui.js (cache-first en SHELL)
-const CACHE = "lumen-cache-v16";
+// LUMEN - Service Worker único (v17) en la RAÍZ (/sw.js)
+// v17: fix validación paso a paso (solo campos visibles)
+const CACHE = "lumen-cache-v17";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";

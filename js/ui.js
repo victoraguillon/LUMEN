@@ -344,7 +344,7 @@ const LumenUI = {
         if (this.regStep >= steps.length - 1) return;
 
         if (this.regStep === 0) {
-            if (!form.checkValidity()) { form.reportValidity(); return; }
+            if (!this.validateStep(0)) return;
             const wantSi = document.getElementById('juvemar-want-si');
             if (!wantSi || (!wantSi.checked && !document.getElementById('juvemar-want-no').checked)) {
                 this.showToast('Selecciona si deseas formar parte de Juvemar.', 'error'); return;
@@ -357,33 +357,54 @@ const LumenUI = {
             this.regStep = 1;
             this._renderRegister();
         } else if (this.regStep === 1) {
+            if (!this.validateStep(1)) return;
+            this.submitRegister({ wantsJuvemar: true });
+        }
+    },
+    validateStep: function(stepIndex) {
+        const form = document.getElementById('register-form');
+        if (!form) return false;
+        const step = form.querySelectorAll('.reg-step')[stepIndex];
+        if (!step) return false;
+        
+        const inputs = step.querySelectorAll('input[required], select[required], textarea[required]');
+        for (const input of inputs) {
+            if (input.offsetParent === null) continue; // oculto, saltar
+            if (!input.checkValidity()) {
+                input.focus();
+                this.showToast('Completa los campos obligatorios.', 'error');
+                return false;
+            }
+        }
+        // Validaciones extra por paso
+        if (stepIndex === 0) {
+            const wantSi = document.getElementById('juvemar-want-si');
+            if (!wantSi || (!wantSi.checked && !document.getElementById('juvemar-want-no').checked)) {
+                this.showToast('Selecciona si deseas formar parte de Juvemar.', 'error'); return false;
+            }
+        } else if (stepIndex === 1) {
             const sector = document.getElementById('reg-sector');
-            if (!sector.value.trim()) { this.showToast('El sector es obligatorio.', 'error'); sector.focus(); return; }
-            
+            if (!sector.value.trim()) { this.showToast('El sector es obligatorio.', 'error'); sector.focus(); return false; }
             const juvemarStatus = document.querySelector('input[name="juvemar-status"]:checked');
-            if (!juvemarStatus) { this.showToast('Selecciona si eres nuevo o ya formas parte de Juvemar.', 'error'); return; }
-            
+            if (!juvemarStatus) { this.showToast('Selecciona si eres nuevo o ya formas parte de Juvemar.', 'error'); return false; }
             if (juvemarStatus.value === 'Pertenece') {
                 const timeText = document.getElementById('juvemar-time-text');
-                if (!timeText.value) { this.showToast('Indica desde cuándo formas parte (Mes y Año).', 'error'); timeText.focus(); return; }
+                if (!timeText.value) { this.showToast('Indica desde cuándo formas parte (Mes y Año).', 'error'); timeText.focus(); return false; }
             }
-            
             const anySac = ['sac-bautismo', 'sac-comunion', 'sac-confirmacion', 'sac-ninguno'].some(id => { const el = document.getElementById(id); return el && el.checked; });
-            if (!anySac) { this.showToast('Marca al menos un sacramento.', 'error'); return; }
-            
+            if (!anySac) { this.showToast('Marca al menos un sacramento.', 'error'); return false; }
             const anyKerigma = document.querySelectorAll('#kerigma-grid input[name="kerigma"]:checked').length > 0;
-            if (!anyKerigma) { this.showToast('Selecciona al menos una experiencia kerigmática.', 'error'); return; }
-            
+            if (!anyKerigma) { this.showToast('Selecciona al menos una experiencia kerigmática.', 'error'); return false; }
             if (document.getElementById('kerigma-samuel').checked && document.getElementById('samuel-si').checked) {
                 const edition = document.getElementById('samuel-edition-text').value.trim();
-                if (!edition) { this.showToast('Indica la edición de Samuel.', 'error'); return; }
+                if (!edition) { this.showToast('Indica la edición de Samuel.', 'error'); return false; }
             }
             if (document.getElementById('kerigma-otra').checked) {
                 const otra = document.getElementById('kerigma-otra-text').value.trim();
-                if (!otra) { this.showToast('Especifica la otra experiencia.', 'error'); return; }
+                if (!otra) { this.showToast('Especifica la otra experiencia.', 'error'); return false; }
             }
-            this.submitRegister({ wantsJuvemar: true });
         }
+        return true;
     },
     registerPrev: function() {
         if (this.regStep <= 0) return;
@@ -393,7 +414,6 @@ const LumenUI = {
     submitRegister: function(extra) {
         const form = document.getElementById('register-form');
         if (!form) return;
-        if (!form.checkValidity()) { form.reportValidity(); return; }
         if (document.getElementById('reg-pass').value !== document.getElementById('reg-pass2').value) {
             this.showToast('Las contraseñas no coinciden.', 'error'); return;
         }
