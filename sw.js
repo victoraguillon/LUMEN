@@ -1,6 +1,6 @@
-// LUMEN - Service Worker único (v15) en la RAÍZ (/sw.js)
-// v15: fix toggleFase2Fields - solo actualiza botón, navegación en registerNext
-const CACHE = "lumen-cache-v15";
+// LUMEN - Service Worker único (v16) en la RAÍZ (/sw.js)
+// v16: bump cache para forzar refresh de ui.js (cache-first en SHELL)
+const CACHE = "lumen-cache-v16";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";
