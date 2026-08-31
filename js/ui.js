@@ -480,9 +480,8 @@ const LumenUI = {
         const wantSi = document.getElementById('juvemar-want-si');
         if (wantNo) wantNo.checked = false;
         if (wantSi) wantSi.checked = false;
-        const step1 = document.getElementById('reg-step-1');
+        // NO tocar display de steps; CSS .active lo maneja
         const stepperItem2 = document.querySelectorAll('#register-modal .reg-step-item')[1];
-        if (step1) step1.style.display = 'none';
         if (stepperItem2) stepperItem2.style.display = 'none';
         this._renderRegister();
     },
