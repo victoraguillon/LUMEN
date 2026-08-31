@@ -203,6 +203,20 @@ const InicioView = {
             `;
         }
 
+        let juvemarInviteBox = '';
+        const isGlobal = LumenAuth.currentUser && !LumenAuth.isMember && !LumenAuth.isAdmin;
+        if (isGlobal) {
+            juvemarInviteBox = `
+            <div class="bento-box bento-wide reveal" style="border-left: 5px solid #f59e0b; background: rgba(245,158,11,0.05);">
+                <div class="bento-title" style="color: #f59e0b; justify-content: center;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    ¿Deseas ser parte de Juvemar?
+                </div>
+                <p style="color: var(--texto-gris); text-align: center; margin: 10px 0;">Únete a nuestra comunidad juvenil: formación, actividades, apostolado y vida fraterna.</p>
+                <button class="btn btn-primary btn-block" style="max-width: 300px; margin: 0 auto;" onclick="LumenUI.openJuvemarJoin()">Quiero unirme</button>
+            </div>`;
+        }
+
         return `
             <div class="view">
                 <div class="welcome-header reveal">
@@ -271,6 +285,7 @@ const InicioView = {
                         <button class="btn btn-primary btn-block" style="margin-top:auto;" onclick="LumenRouter.navigateTo('recursos')">Ir a Recursos</button>
                     </div>` : ''}
                     
+                    ${juvemarInviteBox}
                     ${adminBox ? `<div class="bento-box bento-wide reveal">${adminBox}</div>` : ''}
                 </div>
             </div>

@@ -194,7 +194,7 @@ const LumenUI = {
                 if (v.length === 10 && ageEl) {
                     const age = LumenUI.ageFromBirthdate(v);
                     ageEl.value = age === '' ? '' : age;
-                    LumenUI.toggleGuardianFields(age);
+                    LumenUI.toggleGuardianFields(v);
                 }
             });
         }
@@ -263,12 +263,13 @@ const LumenUI = {
             }
         });
     },
-    toggleGuardianFields: function(age) {
+    toggleGuardianFields: function(birthdateValue) {
+        const age = this.ageFromBirthdate(birthdateValue);
         const guardianDiv = document.getElementById('guardian-fields');
         if (!guardianDiv) return;
         const guardianName = document.getElementById('reg-guardian-name');
         const guardianPhone = document.getElementById('reg-guardian-phone');
-        if (parseInt(age) < 18) {
+        if (age && age < 18) {
             guardianDiv.style.display = 'block';
             guardianName.setAttribute('required', 'true');
             guardianPhone.setAttribute('required', 'true');
@@ -278,12 +279,42 @@ const LumenUI = {
             guardianPhone.removeAttribute('required');
         }
     },
-    toggleJuvemarFields: function() { const juvemarSi = document.getElementById('juvemar-si'); const timeWrap = document.getElementById('juvemar-time-wrap'); if(timeWrap) timeWrap.style.display = juvemarSi.checked ? 'block' : 'none'; },
-    toggleKerigmaFields: function() { const samuelRadio = document.getElementById('kerigma-samuel'); const otraRadio = document.getElementById('kerigma-otra'); const samuelWrap = document.getElementById('samuel-parroquia-wrap'); const otraWrap = document.getElementById('kerigma-otra-wrap'); if(samuelWrap) samuelWrap.style.display = samuelRadio.checked ? 'block' : 'none'; if(otraWrap) otraWrap.style.display = otraRadio.checked ? 'block' : 'none'; },
+    toggleFase2Fields: function() {
+        const wantSi = document.getElementById('juvemar-want-si');
+        const step1 = document.getElementById('reg-step-1');
+        const stepperItem2 = document.querySelectorAll('#register-modal .reg-step-item')[1];
+        if (wantSi && wantSi.checked) {
+            if (step1) step1.style.display = 'block';
+            if (stepperItem2) stepperItem2.style.display = 'flex';
+            this.wantsJuvemar = true;
+        } else {
+            if (step1) step1.style.display = 'none';
+            if (stepperItem2) stepperItem2.style.display = 'none';
+            this.wantsJuvemar = false;
+        }
+        this._renderRegister();
+    },
+    toggleJuvemarTime: function() {
+        const pertenece = document.getElementById('juvemar-status-pertenece');
+        const timeWrap = document.getElementById('juvemar-time-wrap');
+        if (timeWrap) timeWrap.style.display = (pertenece && pertenece.checked) ? 'block' : 'none';
+    },
+    toggleKerigmaFields: function() {
+        const samuel = document.getElementById('kerigma-samuel');
+        const otra = document.getElementById('kerigma-otra');
+        const samuelWrap = document.getElementById('samuel-parroquia-wrap');
+        const otraWrap = document.getElementById('kerigma-otra-wrap');
+        const subInputs = document.getElementById('kerigma-sub-inputs');
+        const anyChecked = samuel.checked || otra.checked;
+        if (subInputs) subInputs.style.display = anyChecked ? 'block' : 'none';
+        if (samuelWrap) samuelWrap.style.display = samuel.checked ? 'block' : 'none';
+        if (otraWrap) otraWrap.style.display = otra.checked ? 'block' : 'none';
+    },
     toggleSamuelEdition: function(isChecked) { document.getElementById('samuel-edition-wrap').style.display = isChecked ? 'block' : 'none'; },
 
-    // --- Asistente de Registro (3 pasos) ---
+    // --- Asistente de Registro (2 fases) ---
     regStep: 0,
+    wantsJuvemar: false,
     ageFromBirthdate: function(value) {
         const m = String(value || '').match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
         if (!m) return '';
@@ -301,18 +332,77 @@ const LumenUI = {
         if (!form) return;
         const steps = form.querySelectorAll('.reg-step');
         if (this.regStep >= steps.length - 1) return;
-        if (this.regStep === 1) {
+
+        if (this.regStep === 0) {
+            if (!form.checkValidity()) { form.reportValidity(); return; }
+            const wantSi = document.getElementById('juvemar-want-si');
+            if (!wantSi || (!wantSi.checked && !document.getElementById('juvemar-want-no').checked)) {
+                this.showToast('Selecciona si deseas formar parte de Juvemar.', 'error'); return;
+            }
+            this.wantsJuvemar = wantSi.checked;
+            if (!this.wantsJuvemar) {
+                this.submitRegister({ wantsJuvemar: false });
+                return;
+            }
+            this.regStep = 1;
+            this._renderRegister();
+        } else if (this.regStep === 1) {
+            const sector = document.getElementById('reg-sector');
+            if (!sector.value.trim()) { this.showToast('El sector es obligatorio.', 'error'); sector.focus(); return; }
             const anySac = ['sac-bautismo', 'sac-comunion', 'sac-confirmacion', 'sac-ninguno'].some(id => { const el = document.getElementById(id); return el && el.checked; });
             if (!anySac) { this.showToast('Marca al menos un sacramento.', 'error'); return; }
+            const anyKerigma = document.querySelectorAll('#kerigma-grid input[name="kerigma"]:checked').length > 0;
+            if (!anyKerigma) { this.showToast('Selecciona al menos una experiencia kerigmática.', 'error'); return; }
+            if (document.getElementById('kerigma-samuel').checked && document.getElementById('samuel-si').checked) {
+                const edition = document.getElementById('samuel-edition-text').value.trim();
+                if (!edition) { this.showToast('Indica la edición de Samuel.', 'error'); return; }
+            }
+            if (document.getElementById('kerigma-otra').checked) {
+                const otra = document.getElementById('kerigma-otra-text').value.trim();
+                if (!otra) { this.showToast('Especifica la otra experiencia.', 'error'); return; }
+            }
+            this.submitRegister({ wantsJuvemar: true });
         }
-        if (!form.checkValidity()) { form.reportValidity(); return; }
-        this.regStep++;
-        this._renderRegister();
     },
     registerPrev: function() {
         if (this.regStep <= 0) return;
         this.regStep--;
         this._renderRegister();
+    },
+    submitRegister: function(extra) {
+        const form = document.getElementById('register-form');
+        if (!form) return;
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+        if (document.getElementById('reg-pass').value !== document.getElementById('reg-pass2').value) {
+            this.showToast('Las contraseñas no coinciden.', 'error'); return;
+        }
+        const data = this.collectRegisterData();
+        data.wantsJuvemar = !!extra.wantsJuvemar;
+        LumenAuth.register(data);
+    },
+    collectRegisterData: function() {
+        const juvemarStatus = document.querySelector('input[name="juvemar-status"]:checked');
+        const kerigmaChecked = Array.from(document.querySelectorAll('#kerigma-grid input[name="kerigma"]:checked')).map(c => c.value);
+        const samuelParroquia = document.getElementById('samuel-si').checked
+            ? `Sí (Edición: ${document.getElementById('samuel-edition-text').value || 'No especificada'})`
+            : (document.getElementById('kerigma-samuel').checked ? 'No' : '');
+        return {
+            nombre: document.getElementById('reg-fullname').value.trim(),
+            birthdate: document.getElementById('reg-birthdate').value.trim(),
+            age: this.ageFromBirthdate(document.getElementById('reg-birthdate').value),
+            phone: document.getElementById('reg-phone-user').value.trim(),
+            email: document.getElementById('reg-email').value.trim().toLowerCase(),
+            password: document.getElementById('reg-pass').value,
+            sector: document.getElementById('reg-sector').value.trim() || '',
+            guardianName: document.getElementById('reg-guardian-name').value.trim() || '',
+            guardianPhone: document.getElementById('reg-guardian-phone').value.trim() || '',
+            juvemarStatus: juvemarStatus ? juvemarStatus.value : 'Nuevo',
+            juvemarTime: document.getElementById('juvemar-time-text').value || '',
+            sacramentos: Array.from(document.querySelectorAll('input[name="sacramentos"]:checked')).map(c => c.value),
+            kerigma: kerigmaChecked.join(', ') || 'Ninguna',
+            kerigmaOtra: document.getElementById('kerigma-otra-text').value.trim() || '',
+            samuelParroquia: samuelParroquia,
+        };
     },
     _renderRegister: function() {
         const steps = document.querySelectorAll('#register-modal .reg-step');
@@ -325,10 +415,10 @@ const LumenUI = {
         const prev = document.getElementById('reg-prev');
         const next = document.getElementById('reg-next');
         const submit = document.getElementById('reg-submit');
-        const last = this.regStep === 2;
-        if (prev) prev.style.visibility = this.regStep === 0 ? 'hidden' : 'visible';
-        if (next) next.hidden = last;
-        if (submit) submit.hidden = !last;
+        const isLast = this.regStep === 1;
+        if (prev) prev.style.display = this.regStep === 0 ? 'none' : 'inline-block';
+        if (next) next.style.display = isLast ? 'none' : 'inline-block';
+        if (submit) submit.style.display = isLast ? 'block' : 'none';
         const modal = document.querySelector('#register-modal .modal');
         if (modal) modal.scrollTop = 0;
     },
@@ -338,10 +428,54 @@ const LumenUI = {
             const el = document.getElementById(id);
             if (el) el.style.display = 'none';
         });
+        const subInputs = document.getElementById('kerigma-sub-inputs');
+        if (subInputs) subInputs.style.display = 'none';
         const hintWrap = document.getElementById('pass-hint-wrap');
         if (hintWrap) { hintWrap.hidden = true; hintWrap.classList.remove('hint-error', 'hint-ok'); }
         this.regStep = 0;
+        this.wantsJuvemar = false;
+        const wantNo = document.getElementById('juvemar-want-no');
+        const wantSi = document.getElementById('juvemar-want-si');
+        if (wantNo) wantNo.checked = false;
+        if (wantSi) wantSi.checked = false;
+        const step1 = document.getElementById('reg-step-1');
+        const stepperItem2 = document.querySelectorAll('#register-modal .reg-step-item')[1];
+        if (step1) step1.style.display = 'none';
+        if (stepperItem2) stepperItem2.style.display = 'none';
         this._renderRegister();
+    },
+    openJuvemarJoin: function() {
+        if (!LumenAuth.currentUser) { LumenUI.openModal('register-modal'); return; }
+        if (LumenAuth.isMember) { this.showToast('Ya eres miembro de Juvemar.', 'info'); return; }
+        this.openModal('register-modal');
+        const step0 = document.getElementById('reg-step-0');
+        const step1 = document.getElementById('reg-step-1');
+        if (step0) step0.style.display = 'none';
+        if (step1) step1.style.display = 'block';
+        const stepperItem1 = document.querySelectorAll('#register-modal .reg-step-item')[0];
+        const stepperItem2 = document.querySelectorAll('#register-modal .reg-step-item')[1];
+        if (stepperItem1) stepperItem1.classList.add('done');
+        if (stepperItem2) stepperItem2.classList.add('active');
+        this.regStep = 1;
+        this.wantsJuvemar = true;
+        const profile = LumenAuth.userProfile || {};
+        const prefill = (id, val) => { const el = document.getElementById(id); if (el && val) { el.value = val; el.setAttribute('readonly', 'true'); el.style.opacity = '0.7'; } };
+        prefill('reg-fullname', profile.nombre);
+        prefill('reg-birthdate', profile.nacimiento);
+        prefill('reg-phone-user', profile.telefono);
+        prefill('reg-email', profile.email);
+        document.getElementById('reg-pass').removeAttribute('readonly');
+        document.getElementById('reg-pass2').removeAttribute('readonly');
+        document.getElementById('reg-pass').style.opacity = '1';
+        document.getElementById('reg-pass2').style.opacity = '1';
+        document.getElementById('juvemar-want-si').checked = true;
+        document.getElementById('juvemar-want-no').checked = false;
+        const next = document.getElementById('reg-next');
+        const submit = document.getElementById('reg-submit');
+        if (next) next.style.display = 'none';
+        if (submit) submit.style.display = 'block';
+        const modal = document.querySelector('#register-modal .modal');
+        if (modal) modal.scrollTop = 0;
     },
     toggleForgotPassword: function(show) { document.getElementById('login-view').style.display = show ? 'none' : 'block'; document.getElementById('forgot-password-view').style.display = show ? 'block' : 'none'; },
     // Función para el Menú Lateral Móvil
@@ -429,46 +563,17 @@ safeListener('forgot-form', 'submit', function(e) { e.preventDefault(); LumenAut
 
 safeListener('register-form', 'submit', function(e) {
     e.preventDefault();
-    const steps = document.getElementById('register-form').querySelectorAll('.reg-step');
+    const form = document.getElementById('register-form');
+    const steps = form.querySelectorAll('.reg-step');
     const cur = Array.prototype.findIndex.call(steps, s => s.classList.contains('active'));
-    if (cur < 2) { LumenUI.registerNext(); return; }
-    const name = document.getElementById('reg-fullname').value;
-    const age = document.getElementById('reg-age').value;
-    const birthdate = document.getElementById('reg-birthdate').value;
-    const address = document.getElementById('reg-sector').value;
-    const phone = document.getElementById('reg-phone-user').value;
-    const email = document.getElementById('reg-email').value;
-    const pass = document.getElementById('reg-pass').value;
-
-    let juvemarStatus = "No respondió", juvemarTime = "";
-    const selectedJuvemar = document.querySelector('input[name="juvemar-status"]:checked');
-    if (selectedJuvemar) { juvemarStatus = selectedJuvemar.value; if (juvemarStatus === "Pertenece") juvemarTime = document.getElementById('juvemar-time-text').value; }
-
-    const sacramentos = [];
-    if (document.getElementById('sac-bautismo').checked) sacramentos.push("Bautismo");
-    if (document.getElementById('sac-comunion').checked) sacramentos.push("Primera comunión");
-    if (document.getElementById('sac-confirmacion').checked) sacramentos.push("Confirmación");
-    if (document.getElementById('sac-ninguno').checked) sacramentos.push("Ninguno");
-
-    let kerigma = "No respondió", kerigma_otra = "", samuel_parroquia = "";
-    const selectedKerigma = document.querySelector('input[name="kerigma"]:checked');
-    if (selectedKerigma) {
-        kerigma = selectedKerigma.value;
-        if (kerigma === "Otra experiencia") kerigma_otra = document.getElementById('kerigma-otra-text').value;
-        if (kerigma === "Samuel") {
-            const samuelCheck = document.getElementById('samuel-si');
-            if (samuelCheck.checked) { const editionText = document.getElementById('samuel-edition-text').value; samuel_parroquia = `Si (Edición: ${editionText || 'No especificada'})`; } 
-            else samuel_parroquia = "No respondió si lo hizo en la parroquia";
-        }
-    }
-
-    let guardianName = '', guardianPhone = '';
-    if (parseInt(age) < 18) { guardianName = document.getElementById('reg-guardian-name').value; guardianPhone = document.getElementById('reg-guardian-phone').value; }
-    if (pass !== document.getElementById('reg-pass2').value) {
+    if (cur < 1) { LumenUI.registerNext(); return; }
+    const data = LumenUI.collectRegisterData();
+    data.wantsJuvemar = LumenUI.wantsJuvemar;
+    if (data.password !== document.getElementById('reg-pass2').value) {
         LumenUI.showToast('Las contraseñas no coinciden. Revísalas.', 'error');
         return;
     }
-    LumenAuth.register(name, age, birthdate, address, phone, juvemarStatus, juvemarTime, sacramentos, kerigma, kerigma_otra, samuel_parroquia, email, pass, guardianName, guardianPhone);
+    LumenAuth.register(data);
 });
 
 // Comentario en vivo de contraseñas del registro

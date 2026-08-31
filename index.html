@@ -223,92 +223,96 @@
     <div class="modal-overlay" id="register-modal">
         <div class="modal glass modal-wide modal-register">
             <span class="modal-close" onclick="LumenUI.closeModal('register-modal')">&times;</span>
-            <h2>Únete a Juvemar</h2>
-            <p class="modal-subtitle">Tres pasos y formas parte de la familia.</p>
+            <h2>Crear Cuenta</h2>
+            <p class="modal-subtitle">Dos pasos y listo.</p>
             <div class="reg-stepper" role="progress" aria-label="Progreso del registro">
-                <div class="reg-step-item active"><span class="reg-step-num">1</span><span class="reg-step-label">Tus datos</span></div>
+                <div class="reg-step-item active"><span class="reg-step-num">1</span><span class="reg-step-label">Datos personales</span></div>
                 <div class="reg-step-line"></div>
-                <div class="reg-step-item"><span class="reg-step-num">2</span><span class="reg-step-label">Juvemar</span></div>
-                <div class="reg-step-line"></div>
-                <div class="reg-step-item"><span class="reg-step-num">3</span><span class="reg-step-label">Tu cuenta</span></div>
+                <div class="reg-step-item"><span class="reg-step-num">2</span><span class="reg-step-label">Datos Juvemar</span></div>
             </div>
             <form id="register-form">
-                <section class="reg-step active">
+                <section class="reg-step active" id="reg-step-0">
                     <div class="form-grid-2">
                         <div class="form-group"><label for="reg-fullname">Nombre y Apellido: *</label><input type="text" id="reg-fullname" placeholder="Ej: Ana María Pérez" autocomplete="name" enterkeyhint="next" required></div>
-                        <div class="form-group"><label for="reg-age">Edad: *</label><input type="number" id="reg-age" min="10" max="30" readonly class="readonly-field"></div>
+                        <div class="form-group"><label for="reg-age">Edad: *</label><input type="number" id="reg-age" min="10" max="30" readonly class="readonly-field" aria-label="Edad calculada"></div>
                     </div>
                     <div class="form-grid-2">
                         <div class="form-group"><label for="reg-birthdate">Fecha de cumpleaños: *</label><input type="text" id="reg-birthdate" placeholder="DD/MM/YYYY" inputmode="numeric" autocomplete="bday" enterkeyhint="next" pattern="\d{2}/\d{2}/\d{4}" required></div>
-                        <div class="form-group"><label for="reg-sector">Dirección / Sector: *</label><input type="text" id="reg-sector" autocomplete="street-address" enterkeyhint="next" required></div>
+                        <div class="form-group"><label for="reg-phone-user">Número telefónico: *</label><input type="tel" id="reg-phone-user" inputmode="tel" autocomplete="tel-national" enterkeyhint="next" required></div>
                     </div>
-                    <div class="form-group"><label for="reg-phone-user">Número telefónico: *</label><input type="tel" id="reg-phone-user" inputmode="tel" autocomplete="tel-national" enterkeyhint="next" required></div>
-                    <div id="guardian-fields" class="guardian-box" style="display: none;">
-                        <p>Datos del Representante (Menor de 18)</p>
-                        <div class="form-group"><label for="reg-guardian-name">Nombre y Apellido: *</label><input type="text" id="reg-guardian-name" enterkeyhint="next"></div>
-                        <div class="form-group"><label for="reg-guardian-phone">Teléfono: *</label><input type="tel" id="reg-guardian-phone" inputmode="tel" autocomplete="tel"></div>
+                    <div class="form-grid-2">
+                        <div class="form-group"><label for="reg-email">Correo Electrónico: *</label><input type="email" id="reg-email" autocomplete="email" autocapitalize="none" enterkeyhint="next" required></div>
+                        <div class="form-group"><label for="reg-pass">Contraseña (Mínimo 6): *</label><input type="password" id="reg-pass" autocomplete="new-password" minlength="6" enterkeyhint="next" required></div>
+                    </div>
+                    <div class="form-group"><label for="reg-pass2">Repetir Contraseña: *</label><input type="password" id="reg-pass2" autocomplete="new-password" enterkeyhint="done" required></div>
+                    <div class="form-group" id="pass-hint-wrap" hidden>
+                        <p id="pass-hint" class="form-hint" role="status" aria-live="polite"></p>
+                    </div>
+                    <div class="form-group">
+                        <label>¿Deseas formar parte de Juvemar? *</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item"><input type="radio" name="juvemar-want" id="juvemar-want-no" value="no" required onchange="LumenUI.toggleFase2Fields()"><label for="juvemar-want-no">No, solo quiero usar la app</label></div>
+                            <div class="checkbox-item"><input type="radio" name="juvemar-want" id="juvemar-want-si" value="si" required onchange="LumenUI.toggleFase2Fields()"><label for="juvemar-want-si">Sí, quiero ser parte de Juvemar</label></div>
+                        </div>
                     </div>
                 </section>
 
-                <section class="reg-step">
+                <section class="reg-step" id="reg-step-1" style="display:none;">
+                    <div class="form-group"><label for="reg-sector">Sector / Dirección: *</label><input type="text" id="reg-sector" autocomplete="street-address" enterkeyhint="next" required></div>
+                    <div id="guardian-fields" class="guardian-box" style="display: none;">
+                        <p>Datos del Representante (Menor de 18 años)</p>
+                        <div class="form-group"><label for="reg-guardian-name">Nombre y Apellido del Representante: *</label><input type="text" id="reg-guardian-name" enterkeyhint="next"></div>
+                        <div class="form-group"><label for="reg-guardian-phone">Teléfono del Representante: *</label><input type="tel" id="reg-guardian-phone" inputmode="tel" autocomplete="tel"></div>
+                    </div>
                     <div class="form-group">
-                        <label>¿Ya formas parte de Juvemar o eres nuevo/a? *</label>
+                        <label>¿Eres nuevo o ya formas parte de Juvemar? *</label>
                         <div class="checkbox-group">
-                            <div class="checkbox-item"><input type="radio" name="juvemar-status" id="juvemar-nuevo" value="Nuevo" required onchange="LumenUI.toggleJuvemarFields()"><label for="juvemar-nuevo">Soy nuevo/a (Usuario Global)</label></div>
-                            <div class="checkbox-item"><input type="radio" name="juvemar-status" id="juvemar-si" value="Pertenece" required onchange="LumenUI.toggleJuvemarFields()"><label for="juvemar-si">Sí, ya soy parte de Juvemar</label></div>
+                            <div class="checkbox-item"><input type="radio" name="juvemar-status" id="juvemar-status-nuevo" value="Nuevo" required onchange="LumenUI.toggleJuvemarTime()"><label for="juvemar-status-nuevo">Soy nuevo en Juvemar</label></div>
+                            <div class="checkbox-item"><input type="radio" name="juvemar-status" id="juvemar-status-pertenece" value="Pertenece" required onchange="LumenUI.toggleJuvemarTime()"><label for="juvemar-status-pertenece">Ya formo parte de Juvemar</label></div>
                         </div>
                         <div id="juvemar-time-wrap" class="sub-input" style="display:none; margin-top:10px;">
-                            <label for="juvemar-time-text">¿Desde qué fecha exacta? (Mes y Año)</label>
+                            <label for="juvemar-time-text">¿Desde cuándo? (Mes y Año)</label>
                             <input type="month" id="juvemar-time-text">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Sacramentos hechos (Marca los que tienes): *</label>
+                        <label>Sacramentos recibidos (marca los que tienes): *</label>
                         <div class="checkbox-grid">
-                            <div class="checkbox-item"><input type="checkbox" id="sac-bautismo"><label for="sac-bautismo">Bautismo</label></div>
-                            <div class="checkbox-item"><input type="checkbox" id="sac-comunion"><label for="sac-comunion">Primera comunión</label></div>
-                            <div class="checkbox-item"><input type="checkbox" id="sac-confirmacion"><label for="sac-confirmacion">Confirmación</label></div>
-                            <div class="checkbox-item"><input type="checkbox" id="sac-ninguno"><label for="sac-ninguno">Ninguno</label></div>
+                            <div class="checkbox-item"><input type="checkbox" id="sac-bautismo" name="sacramentos" value="Bautismo"><label for="sac-bautismo">Bautismo</label></div>
+                            <div class="checkbox-item"><input type="checkbox" id="sac-comunion" name="sacramentos" value="Primera comunión"><label for="sac-comunion">Primera comunión</label></div>
+                            <div class="checkbox-item"><input type="checkbox" id="sac-confirmacion" name="sacramentos" value="Confirmación"><label for="sac-confirmacion">Confirmación</label></div>
+                            <div class="checkbox-item"><input type="checkbox" id="sac-ninguno" name="sacramentos" value="Ninguno"><label for="sac-ninguno">Ninguno</label></div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>¿Has vivido alguna experiencia kerigmática (Samuel, Emaús, etc)? *</label>
-                        <div class="checkbox-group">
-                            <div class="checkbox-item"><input type="radio" name="kerigma" id="kerigma-samuel" value="Samuel" required onchange="LumenUI.toggleKerigmaFields()"><label for="kerigma-samuel">Samuel</label></div>
+                        <label>Experiencias kerigmáticas vividas (puedes marcar varias): *</label>
+                        <div class="checkbox-grid" id="kerigma-grid">
+                            <div class="checkbox-item"><input type="checkbox" id="kerigma-samuel" name="kerigma" value="Samuel" onchange="LumenUI.toggleKerigmaFields()"><label for="kerigma-samuel">Samuel</label></div>
+                            <div class="checkbox-item"><input type="checkbox" id="kerigma-emaus" name="kerigma" value="Emaús" onchange="LumenUI.toggleKerigmaFields()"><label for="kerigma-emaus">Emaús</label></div>
+                            <div class="checkbox-item"><input type="checkbox" id="kerigma-otra" name="kerigma" value="Otra" onchange="LumenUI.toggleKerigmaFields()"><label for="kerigma-otra">Otra experiencia</label></div>
+                            <div class="checkbox-item"><input type="checkbox" id="kerigma-ninguna" name="kerigma" value="Ninguna" onchange="LumenUI.toggleKerigmaFields()"><label for="kerigma-ninguna">Ninguna</label></div>
+                        </div>
+                        <div id="kerigma-sub-inputs" style="margin-top:10px; display:none;">
                             <div id="samuel-parroquia-wrap" class="sub-input" style="display:none;">
-                                <label>¿Hiciste Samuel en la Parroquia?</label>
+                                <label>¿Hiciste Samuel en la Parroquia Lourdes?</label>
                                 <div class="checkbox-item"><input type="checkbox" id="samuel-si" onchange="LumenUI.toggleSamuelEdition(this.checked)"><label for="samuel-si">Sí</label></div>
                                 <div id="samuel-edition-wrap" style="display:none; margin-top: 10px;">
                                     <label for="samuel-edition-text">¿En qué edición?</label>
                                     <input type="text" id="samuel-edition-text" placeholder="Ej: Primera, Segunda, etc.">
                                 </div>
                             </div>
-                            <div class="checkbox-item"><input type="radio" name="kerigma" id="kerigma-emaus" value="Emaús" required onchange="LumenUI.toggleKerigmaFields()"><label for="kerigma-emaus">Emaús</label></div>
-                            <div class="checkbox-item"><input type="radio" name="kerigma" id="kerigma-otra" value="Otra experiencia" required onchange="LumenUI.toggleKerigmaFields()"><label for="kerigma-otra">Otra experiencia</label></div>
                             <div id="kerigma-otra-wrap" class="sub-input" style="display:none;">
-                                <label for="kerigma-otra-text">En caso de ser otra, escribe cuál.</label>
-                                <input type="text" id="kerigma-otra-text">
+                                <label for="kerigma-otra-text">Especifica cuál:</label>
+                                <input type="text" id="kerigma-otra-text" placeholder="Nombre de la experiencia">
                             </div>
-                            <div class="checkbox-item"><input type="radio" name="kerigma" id="kerigma-no" value="No he vivido nada similar" required onchange="LumenUI.toggleKerigmaFields()"><label for="kerigma-no">No he vivido nada similar</label></div>
                         </div>
                     </div>
                 </section>
 
-                <section class="reg-step">
-                    <div class="form-grid-2">
-                        <div class="form-group"><label for="reg-email">Correo Electrónico: *</label><input type="email" id="reg-email" autocomplete="email" autocapitalize="none" enterkeyhint="next" required></div>
-                        <div class="form-group"><label for="reg-pass">Contraseña (Mínimo 6): *</label><input type="password" id="reg-pass" autocomplete="new-password" minlength="6" enterkeyhint="next" required></div>
-                        <div class="form-group"><label for="reg-pass2">Repetir Contraseña: *</label><input type="password" id="reg-pass2" autocomplete="new-password" enterkeyhint="done" required></div>
-                    </div>
-                    <div class="form-group" id="pass-hint-wrap" hidden>
-                        <p id="pass-hint" class="form-hint" role="status" aria-live="polite"></p>
-                    </div>
-                </section>
-
                 <div class="reg-actions">
-                    <button type="button" class="btn btn-outline" id="reg-prev" onclick="LumenUI.registerPrev()" style="visibility:hidden">Volver</button>
+                    <button type="button" class="btn btn-outline" id="reg-prev" onclick="LumenUI.registerPrev()" style="display:none;">Volver</button>
                     <button type="button" class="btn btn-primary" id="reg-next" onclick="LumenUI.registerNext()">Siguiente</button>
-                    <button type="submit" class="btn btn-primary btn-block reg-submit" id="reg-submit" hidden>Crear Cuenta</button>
+                    <button type="submit" class="btn btn-primary btn-block reg-submit" id="reg-submit" style="display:none;">Crear Cuenta</button>
                 </div>
                 <p class="modal-footer-text">¿Ya tienes cuenta? <a href="#" onclick="event.preventDefault(); LumenUI.closeModal('register-modal'); LumenUI.openModal('login-modal')">Inicia sesión</a></p>
             </form>

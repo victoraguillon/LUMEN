@@ -100,39 +100,75 @@ const LumenAuth = {
             .then(() => { LumenUI.showToast('Enlace enviado.', 'success'); LumenUI.toggleForgotPassword(false); })
             .catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
     },
-    register: function(name, age, birthdate, address, phone, juvemarStatus, juvemarTime, sacramentos, kerigma, kerigma_otra, samuel_parroquia, email, password, guardianName, guardianPhone) {
-        const role = juvemarStatus === 'Pertenece' ? 'miembro' : 'global';
-        const status = juvemarStatus === 'Pertenece' ? 'pending' : 'approved';
+    register: function(data) {
+        const wantsJuvemar = !!data.wantsJuvemar;
+        const juvemarStatus = wantsJuvemar ? (data.juvemarStatus || 'Nuevo') : 'No';
+        const role = wantsJuvemar ? 'miembro' : 'global';
+        const status = wantsJuvemar ? 'pending' : 'approved';
 
         const userData = {
-            nombre: name, edad: age, nacimiento: birthdate, direccion: address, telefono: phone,
-            juvemar_status: juvemarStatus, juvemar_tiempo: juvemarTime, sacramentos: sacramentos || [],
-            kerigma: kerigma, kerigma_otra: kerigma_otra, samuel_parroquia: samuel_parroquia,
-            email: email, role: role, status: status
+            nombre: data.nombre, edad: data.age, nacimiento: data.birthdate, direccion: data.sector, telefono: data.phone,
+            juvemar_status: juvemarStatus, juvemar_tiempo: data.juvemarTime || '', sacramentos: data.sacramentos || [],
+            kerigma: data.kerigma, kerigma_otra: data.kerigmaOtra || '', samuel_parroquia: data.samuelParroquia || '',
+            email: data.email, role: role, status: status
         };
-        if (parseInt(age) < 18) { userData.representante_nombre = guardianName; userData.representante_telefono = guardianPhone; }
+        if (data.age && parseInt(data.age) < 18) { userData.representante_nombre = data.guardianName; userData.representante_telefono = data.guardianPhone; }
 
-        return supabase.auth.signUp({ email, password })
-            .then(({ data, error }) => {
+        return supabase.auth.signUp({ email: data.email, password: data.password })
+            .then(({ data: authData, error }) => {
                 if (error) throw error;
-                const uid = data.user && data.user.id;
+                const uid = authData.user && authData.user.id;
                 if (uid) {
-                    // Actualizar el perfil creado por el trigger con los datos del registro
-                    return supabase.from('profiles').update({ ...userData, email })
+                    return supabase.from('profiles').update({ ...userData, email: data.email })
                         .eq('id', uid)
-                        .then(() => ({ data }));
+                        .then(() => ({ data: authData }));
                 }
-                return { data };
+                return { data: authData };
             })
-            .then(({ data }) => {
-                if (role === 'miembro') {
-                    fetch('https://formsubmit.co/ajax/juvemar08@gmail.com', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ _subject: `Nuevo Registro Juvemar: ${name}`, email: email, message: `${name} requiere aprobación.` }) }).catch(err => console.error(err));
-                    LumenData.saveNotification(`Nuevo registro Juvemar: ${name} requiere aprobación.`, false);
+            .then(({ data: authData }) => {
+                if (wantsJuvemar) {
+                    fetch('https://formsubmit.co/ajax/juvemar08@gmail.com', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ _subject: `Nuevo Registro Juvemar: ${data.nombre}`, email: data.email, message: `${data.nombre} requiere aprobación.` }) }).catch(err => console.error(err));
+                    LumenData.saveNotification(`Nuevo registro Juvemar: ${data.nombre} requiere aprobación.`, false);
                     LumenUI.showToast("Registro exitoso. Espera aprobación del coordinador.", 'success');
                 } else {
                     LumenUI.showToast("¡Bienvenido a LUMEN! Ya puedes explorar la plataforma.", 'success');
                 }
-                supabase.auth.signOut();
+                LumenUI.closeModal('register-modal');
+                this.loadProfile(authData.user);
+            })
+            .catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
+    },
+    updateJuvemarProfile: function(juvemarData) {
+        if (!this.currentUser) return Promise.reject(new Error('No hay usuario logeado'));
+        const uid = this.currentUser.id;
+        const wantsJuvemar = !!juvemarData.wantsJuvemar;
+        const juvemarStatus = wantsJuvemar ? (juvemarData.juvemarStatus || 'Nuevo') : 'No';
+        const role = wantsJuvemar ? 'miembro' : 'global';
+        const status = wantsJuvemar ? 'pending' : 'approved';
+
+        const updateData = {
+            juvemar_status: juvemarStatus,
+            juvemar_tiempo: juvemarData.juvemarTime || '',
+            sacramentos: juvemarData.sacramentos || [],
+            kerigma: juvemarData.kerigma,
+            kerigma_otra: juvemarData.kerigmaOtra || '',
+            samuel_parroquia: juvemarData.samuelParroquia || '',
+            direccion: juvemarData.sector || '',
+            role: role,
+            status: status
+        };
+        if (juvemarData.age && parseInt(juvemarData.age) < 18) {
+            updateData.representante_nombre = juvemarData.guardianName;
+            updateData.representante_telefono = juvemarData.guardianPhone;
+        }
+
+        return supabase.from('profiles').update(updateData).eq('id', uid)
+            .then(({ error }) => {
+                if (error) throw error;
+                return this.loadProfile(this.currentUser);
+            })
+            .then(() => {
+                LumenUI.showToast("Solicitud enviada. Espera aprobación del coordinador.", 'success');
                 LumenUI.closeModal('register-modal');
             })
             .catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
