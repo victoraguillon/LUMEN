@@ -124,7 +124,7 @@ async function deliver(sub) {
   let payloadText;
   try {
     payloadText = JSON.stringify(sub.payload);
-    if (payloadText.length > MAX_PAYLOAD) payloadText = JSON.stringify({ title: sub.payload.title, body: "", url: sub.payload.url });
+    if (payloadText.length > MAX_PAYLOAD) payloadText = JSON.stringify({ title: sub.payload.title, body: "", url: sub.payload.url, pingId: sub.payload.pingId });
   } catch { payloadText = "{}"; }
   const body = await encryptPush(sub, payloadText);
   const jwt = await signVapid(new URL(sub.endpoint).origin);
@@ -166,11 +166,18 @@ function milestoneDue(ev, nowMs) {
 async function pushToSubscriptions(subs, payload) {
   let sent = 0, failed = 0, gone = 0;
   for (const s of subs) {
+    const pingId = crypto.randomUUID();
     try {
-      const r = await deliver({ endpoint: s.endpoint, keys: s.keys, payload });
-      if (r.ok) sent++;
+      const r = await deliver({ endpoint: s.endpoint, keys: s.keys, payload: Object.assign({}, payload, { pingId }) });
+      if (r.ok) {
+        sent++;
+        try {
+          // Registro del envío para que el SW confirme el recibo (diagnóstico).
+          await sb.from("push_pings").insert({ ping_id: pingId, endpoint: s.endpoint });
+        } catch (pe) { console.error("[send-push] ping insert", pe.message); }
+      }
       else if (r.gone) { gone++; await sb.from("push_subscriptions").delete().eq("endpoint", s.endpoint); }
-      else failed++;
+      else { failed++; console.warn("[send-push] no-ok", r.status); }
     } catch (e) {
       failed++;
       console.error("[send-push] deliver error", e);
@@ -239,7 +246,29 @@ async function runCron() {
     }
   }
 
-  return { mode: "cron", hits, pendientes: (pendientes || []).length, push };
+  return { mode: "cron", hits, pendientes: (pendientes || []).length, push, ping: await recientesSinRecibo(60) };
+}
+
+// ---------- diagnóstico: pings de la última ventana sin confirmar recibo ----------
+async function recientesSinRecibo(min) {
+  try {
+    const since = new Date(Date.now() - min * 60000).toISOString();
+    const { data, error } = await sb
+      .from("push_pings")
+      .select("creado_at,recibido_at,render_ok,ua")
+      .gte("creado_at", since)
+      .order("creado_at", { ascending: false })
+      .limit(50);
+    if (error) return { esperados: 0, recibidos: 0, error: error.message };
+    const list = data || [];
+    return {
+      esperados: list.length,
+      recibidos: list.filter((p) => p.recibido_at).length,
+      detalle: list.map((p) => ({ t: p.creado_at, rec: !!p.recibido_at, render: p.render_ok === true, ua: p.ua || "" })),
+    };
+  } catch (e) {
+    return { esperados: 0, recibidos: 0, error: e.message };
+  }
 }
 
 async function listSubscriptions() {
@@ -280,6 +309,24 @@ Deno.serve(async (req) => {
       if (!secret) return json({ error: "CRON_SECRET no configurado" }, 500);
       const result = await runCron();
       return json(result);
+    }
+
+    if (mode === "sw-received") {
+      // Echo del Service Worker: confirmó que el push se recibió y renderizó.
+      // El pingId viaja cifrado dentro del mensaje (actúa de credencial).
+      const pingId = body.pingId;
+      if (!pingId) return json({ error: "pingId requerido" }, 400);
+      const { error } = await sb
+        .from("push_pings")
+        .update({
+          recibido_at: new Date().toISOString(),
+          render_ok: body.ok !== false,
+          ua: String(body.ua || "").slice(0, 200),
+        })
+        .eq("ping_id", String(pingId))
+        .is("recibido_at", null);
+      if (error) return json({ error: error.message }, 500);
+      return json({ ok: true });
     }
 
     const token = (req.headers.get("authorization") || "").replace(/^Bearer\s+/i, "");

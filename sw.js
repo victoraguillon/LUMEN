@@ -1,7 +1,10 @@
-// LUMEN - Service Worker único (v5) en la RAÍZ (/sw.js)
+// LUMEN - Service Worker único (v6) en la RAÍZ (/sw.js)
 // Un solo SW en la ruta estándar que todos los navegadores (iOS y Chrome)
-// manejan mejor. CACHE v5 nueva: limpia cualquier caché anterior.
-const CACHE = "lumen-cache-v5";
+// manejan mejor. CACHE v6 nueva: limpia cualquier caché anterior.
+const CACHE = "lumen-cache-v6";
+
+// Endpoint de eco: la función confirma el recibo (diagnóstico de entrega).
+const PUSH_ENDPOINT = "https://etioxnigysbxitiaveyp.functions.supabase.co/send-push";
 
 self.addEventListener("install", () => {
   self.skipWaiting();
@@ -32,6 +35,24 @@ self.addEventListener("fetch", (event) => {
   );
 });
 
+function pingReceipt(pingId, ok) {
+  if (!pingId) return Promise.resolve();
+  try {
+    return fetch(PUSH_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        mode: "sw-received",
+        pingId: String(pingId),
+        ok: !!ok,
+        ua: (self.navigator && self.navigator.userAgent) || "sw"
+      })
+    }).catch(() => null);
+  } catch (e) {
+    return Promise.resolve();
+  }
+}
+
 self.addEventListener("push", (event) => {
   let data = { title: "LUMEN", body: "", url: "/" };
   try {
@@ -42,7 +63,8 @@ self.addEventListener("push", (event) => {
   } catch (e) {
     if (event.data) data.body = event.data.text();
   }
-  event.waitUntil(
+  const pingId = data.pingId || null;
+  const notify = () =>
     self.registration
       .showNotification(data.title, {
         body: data.body,
@@ -61,7 +83,12 @@ self.addEventListener("push", (event) => {
           tag: "lumen-notif",
           renotify: true
         })
-      )
+      );
+  event.waitUntil(
+    notify().then(
+      () => pingReceipt(pingId, true),
+      () => pingReceipt(pingId, false)
+    )
   );
 });
 
