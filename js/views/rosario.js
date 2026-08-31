@@ -104,13 +104,23 @@ const RosarioView = {
         if (!this._set) {
             const saved = this._readPos();
             const today = this._todaySet();
+            const imgMap = {
+                gozosos: 'assets/gozosos.jpg',
+                dolorosos: 'assets/dolorosos.jpg',
+                gloriosos: 'assets/gloriosos.jpg',
+                luminosos: 'assets/luminosos.jpg',
+            };
             const sets = ['gozosos','dolorosos','gloriosos','luminosos'].map(function(s) {
                 const myst = (ROSARIO_DATA.sets[s] || []);
                 const total = 5 + myst.length * 14 + 1;
                 const pct = Math.round(((saved[s] || 0) / total) * 100);
                 const isToday = s === today;
+                const img = imgMap[s];
+                const iconHtml = img
+                    ? `<img src="${img}" alt="Misterios ${s === 'gozosos' ? 'Gozosos' : s === 'dolorosos' ? 'Dolorosos' : s === 'gloriosos' ? 'Gloriosos' : 'Luminosos'}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">`
+                    : (isToday ? LumenIcons.racha : LumenIcons.rosario);
                 return `<button class="formacion-card rosario-card reveal${isToday ? ' today' : ''}" onclick="RosarioView.pick('${s}')">
-                    <span class="fc-icon">${isToday ? LumenIcons.racha : LumenIcons.rosario}</span>
+                    <span class="fc-icon">${iconHtml}</span>
                     <span class="fc-body">
                         <span class="fc-title">Misterios ${s === 'gozosos' ? 'Gozosos' : s === 'dolorosos' ? 'Dolorosos' : s === 'gloriosos' ? 'Gloriosos' : 'Luminosos'}</span>
                         <span class="fc-desc">${this.SET_LABEL[s]}${isToday ? ' · HOY' : ''}</span>

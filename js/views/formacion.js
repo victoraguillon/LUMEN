@@ -158,10 +158,23 @@ const FormacionView = {
     },
 
     renderHub: function() {
+        const imgMap = {
+            introduccion: 'assets/introducciónalafe.jpg',
+            catecismo: 'assets/catecismo.jpg',
+            liturgia: 'assets/liturgiaysacramentos.jpg',
+            apologetica: 'assets/apologetica.jpg',
+            santos: 'assets/santos.jpg',
+            glosario: 'assets/glosario.jpg',
+            faq: 'assets/santosyvidasejemplares.webp',
+        };
         const cards = (FORMACION_DATA.modules || []).map(function(mod) {
             const pct = this._modProgress(mod.id);
+            const img = imgMap[mod.id];
+            const iconHtml = img
+                ? `<img src="${img}" alt="${mod.title}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">`
+                : (FORMACION_ICONS[mod.id] || LumenIcons.catecismo);
             return `<button class="formacion-card reveal" onclick="FormacionView.go('${mod.id}')" aria-label="Abrir módulo ${mod.title}">
-                <span class="fc-icon">${FORMACION_ICONS[mod.id] || LumenIcons.catecismo}</span>
+                <span class="fc-icon">${iconHtml}</span>
                 <span class="fc-body">
                     <span class="fc-title">${mod.title}</span>
                     <span class="fc-desc">${mod.description}</span>

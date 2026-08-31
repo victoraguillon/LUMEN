@@ -50,10 +50,23 @@ const NovenasView = {
 
     render: function() {
         if (!this._nov) {
+            const imgMap = {
+                'virgen-desatanudos': 'assets/desatanudos.jpg',
+                'san-jose': 'assets/sanjose.webp',
+                'sagrado-corazon': 'assets/sagradocorazon.jpg',
+                'espiritu-santo': 'assets/espiritusanto.jpg',
+                'san-charbel': 'assets/sancharbel.jpg',
+                'padre-pio': 'assets/padrepio.jpg',
+                'san-miguel': 'assets/sanmiguelarcangel.jpg',
+            };
             const cards = NOVENAS_DATA.map(function(n) {
                 const pct = this._novPct(n.id);
+                const img = imgMap[n.id];
+                const iconHtml = img
+                    ? `<img src="${img}" alt="${n.title}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">`
+                    : LumenIcons.novenas;
                 return `<button class="formacion-card reveal" onclick="NovenasView.open('${n.id}')">
-                    <span class="fc-icon">${LumenIcons.novenas}</span>
+                    <span class="fc-icon">${iconHtml}</span>
                     <span class="fc-body">
                         <span class="fc-title">${n.title}</span>
                         <span class="fc-desc">${n.description}</span>

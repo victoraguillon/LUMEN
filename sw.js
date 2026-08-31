@@ -1,8 +1,6 @@
-// LUMEN - Service Worker único (v12) en la RAÍZ (/sw.js)
-// v12: bump de caché del batch de íconos (Tabler canónico) + limpieza de texto
-// (sin guiones/artefactos CJK, paréntesis y comas en datos); mantiene cache-first
-// con actualización en segundo plano y navegaciones network-first.
-const CACHE = "lumen-cache-v12";
+// LUMEN - Service Worker único (v13) en la RAÍZ (/sw.js)
+// v13: imágenes de assets en cards de Formación, Devocional, Oraciones, Rosario, Novenas
+const CACHE = "lumen-cache-v13";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";

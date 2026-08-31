@@ -112,7 +112,7 @@ const DevocionalView = {
                     </div>
                     <div class="ora-grid">
                         <a href="#/oraciones" class="ora-card" style="--tone:#3d8bfd;" onclick="LumenRouter.navigateTo('oraciones')" aria-label="Ir a Oraciones">
-                            <span class="ora-icon">${LumenIcons.oraciones}</span>
+                            <span class="ora-icon"><img src="assets/oración.jpg" alt="Oraciones" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"></span>
                             <span class="ora-info">
                                 <strong>Oraciones</strong>
                                 <small>con texto, audio y recordatorios</small>
@@ -120,7 +120,7 @@ const DevocionalView = {
                             <span class="ora-arrow">${Icons.chevron_right || LumenIcons.chevron_right}</span>
                         </a>
                         <a href="#/rosario" class="ora-card" style="--tone:#0e7490;" onclick="LumenRouter.navigateTo('rosario')" aria-label="Ir a Rosario">
-                            <span class="ora-icon">${LumenIcons.rosario}</span>
+                            <span class="ora-icon"><img src="assets/gloriosos.jpg" alt="Rosario" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"></span>
                             <span class="ora-info">
                                 <strong>Rosario</strong>
                                 <small>misterios y guía paso a paso</small>
@@ -128,7 +128,7 @@ const DevocionalView = {
                             <span class="ora-arrow">${Icons.chevron_right || LumenIcons.chevron_right}</span>
                         </a>
                         <a href="#/novenas" class="ora-card" style="--tone:#d97706;" onclick="LumenRouter.navigateTo('novenas')" aria-label="Ir a Novenas">
-                            <span class="ora-icon">${LumenIcons.novenas}</span>
+                            <span class="ora-icon"><img src="assets/divinamisericordia.jpeg" alt="Novenas" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"></span>
                             <span class="ora-info">
                                 <strong>Novenas</strong>
                                 <small>nueve días de espera en oración</small>
@@ -136,7 +136,7 @@ const DevocionalView = {
                             <span class="ora-arrow">${Icons.chevron_right || LumenIcons.chevron_right}</span>
                         </a>
                         <a href="#/examen" class="ora-card" style="--tone:#7c3aed;" onclick="LumenRouter.navigateTo('examen')" aria-label="Ir a Examen de Conciencia">
-                            <span class="ora-icon">${LumenIcons.examen}</span>
+                            <span class="ora-icon"><img src="assets/devoción.jpg" alt="Examen de Conciencia" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"></span>
                             <span class="ora-info">
                                 <strong>Examen de Conciencia</strong>
                                 <small>una pausa para mirar tu día</small>

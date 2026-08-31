@@ -32,9 +32,19 @@ const OracionesView = {
 
     render: function() {
         if (!this._cat) {
+            const imgMap = {
+                'fundamental-prayers': 'assets/oración.jpg',
+                'marian-prayers': 'assets/oracionesmariana.jpg',
+                'devotional-prayers': 'assets/devoción.jpg',
+                'liturgical-special': 'assets/oracionesliturgicas.jpg',
+            };
             const cats = ORACIONES_DATA.categorias.map(function(c) {
+                const img = imgMap[c.id];
+                const iconHtml = img
+                    ? `<img src="${img}" alt="${c.title}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">`
+                    : LumenIcons.oraciones;
                 return `<button class="formacion-card reveal" onclick="OracionesView.openCat('${c.id}')">
-                    <span class="fc-icon">${LumenIcons.oraciones}</span>
+                    <span class="fc-icon">${iconHtml}</span>
                     <span class="fc-body">
                         <span class="fc-title">${c.title}</span>
                         <span class="fc-desc">${c.description}</span>
