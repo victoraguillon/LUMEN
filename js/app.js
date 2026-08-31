@@ -22,6 +22,12 @@ const LumenRouter = {
             case 'actividades': viewObj = typeof ActividadesView !== 'undefined' ? ActividadesView : null; title = "Actividades"; break;
             case 'detalle': viewObj = typeof DetalleView !== 'undefined' ? DetalleView : null; title = "Detalle"; break;
             case 'recursos': viewObj = typeof RecursosView !== 'undefined' ? RecursosView : null; title = "Recursos"; break;
+            case 'formacion': viewObj = typeof FormacionView !== 'undefined' ? FormacionView : null; title = "Formación"; break;
+            case 'oraciones': viewObj = typeof OracionesView !== 'undefined' ? OracionesView : null; title = "Oraciones"; break;
+            case 'rosario': viewObj = typeof RosarioView !== 'undefined' ? RosarioView : null; title = "Rosario"; break;
+            case 'novenas': viewObj = typeof NovenasView !== 'undefined' ? NovenasView : null; title = "Novenas"; break;
+            case 'examen': viewObj = typeof ExamenView !== 'undefined' ? ExamenView : null; title = "Examen de Conciencia"; break;
+            case 'favoritos': viewObj = typeof FavoritosView !== 'undefined' ? FavoritosView : null; title = "Favoritos"; break;
             case 'notificaciones': viewObj = typeof NotificacionesView !== 'undefined' ? NotificacionesView : null; title = "Avisos"; break;
             case 'intenciones': viewObj = typeof IntencionesView !== 'undefined' ? IntencionesView : null; title = "Intenciones"; break;
             case 'encuestas': viewObj = typeof EncuestasView !== 'undefined' ? EncuestasView : null; title = "Encuestas"; break; 

@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://www.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Cinzel:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -50,6 +50,7 @@
             <li><a href="#nosotros" class="nav-link" data-view="nosotros">Nosotros</a></li>
             <li><a href="#actividades" class="nav-link" data-view="actividades">Actividades</a></li>
             <li><a href="#devocional" class="nav-link" data-view="devocional">Devocional</a></li>
+            <li><a href="#formacion" class="nav-link" data-view="formacion">Formación</a></li>
             <li><a href="#blog" class="nav-link" data-view="blog">Blog</a></li>
             <li><a href="#recursos" class="nav-link" data-view="recursos" id="recursos-nav-link" style="display:none;">Recursos</a></li>
             <li class="dropdown">
@@ -90,6 +91,12 @@
         <a href="#nosotros" class="drawer-link" data-view="nosotros" onclick="LumenUI.toggleDrawer()">Nosotros</a>
         <a href="#actividades" class="drawer-link" data-view="actividades" onclick="LumenUI.toggleDrawer()">Actividades</a>
         <a href="#devocional" class="drawer-link" data-view="devocional" onclick="LumenUI.toggleDrawer()">Devocional</a>
+        <a href="#formacion" class="drawer-link" data-view="formacion" onclick="LumenUI.toggleDrawer()">Formación</a>
+        <a href="#oraciones" class="drawer-link" data-view="oraciones" onclick="LumenUI.toggleDrawer()">Oraciones</a>
+        <a href="#rosario" class="drawer-link" data-view="rosario" onclick="LumenUI.toggleDrawer()">Rosario</a>
+        <a href="#novenas" class="drawer-link" data-view="novenas" onclick="LumenUI.toggleDrawer()">Novenas</a>
+        <a href="#examen" class="drawer-link" data-view="examen" onclick="LumenUI.toggleDrawer()">Examen de Conciencia</a>
+        <a href="#favoritos" class="drawer-link" data-view="favoritos" onclick="LumenUI.toggleDrawer()">Mis Favoritos</a>
         <a href="#blog" class="drawer-link" data-view="blog" onclick="LumenUI.toggleDrawer()">Blog</a>
         <a href="#recursos" class="drawer-link" id="drawer-recursos-link" data-view="recursos" onclick="LumenUI.toggleDrawer()">Recursos</a>
         <a href="#notificaciones" class="drawer-link has-badge" id="drawer-notif-link" data-view="notificaciones" onclick="LumenUI.toggleDrawer()">Avisos <span class="notif-badge drawer-notif-badge" style="display:none;"></span></a>
@@ -294,6 +301,7 @@
     <div id="toast-container" aria-live="polite" aria-atomic="false"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -301,6 +309,11 @@
     <script src="js/supabase.js"></script>
     <script src="js/santoral.js"></script>
     <script src="js/devocional_data.js"></script>
+    <script src="js/formacion_data.js"></script>
+    <script src="js/oraciones_data.js"></script>
+    <script src="js/rosario_data.js"></script>
+    <script src="js/novenas_data.js"></script>
+    <script src="js/examen_data.js"></script>
     <script src="js/frases_santos.js"></script>
     <script src="js/icons.js"></script>
     <script src="js/ui.js"></script>
@@ -318,6 +331,12 @@
     <script src="js/views/intenciones.js"></script>
     <script src="js/views/encuestas.js"></script>
     <script src="js/views/blog.js"></script>
+    <script src="js/views/formacion.js"></script>
+    <script src="js/views/oraciones.js"></script>
+    <script src="js/views/rosario.js"></script>
+    <script src="js/views/novenas.js"></script>
+    <script src="js/views/examen.js"></script>
+    <script src="js/views/favoritos.js"></script>
     <script src="js/views/gestion.js"></script>
     <script src="js/views/contacto.js"></script>
     <script src="js/push.js"></script>

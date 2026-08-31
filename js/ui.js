@@ -515,3 +515,164 @@ initRegisterPasswordHint();
 // Aplicar máscaras cuando el modal de registro se abre
 const registerObserver = new MutationObserver(() => { if (document.getElementById('register-modal').classList.contains('active')) LumenUI.applyMasks(); });
 registerObserver.observe(document.getElementById('register-modal'), { attributes: true });
+
+/* ============================================
+   NÚCLEO INMERSIVO: lector, favoritos, liturgia, racha
+   ============================================ */
+Object.assign(LumenUI, {
+
+    // ---- Preferencias de lectura (Aa) ----
+    _lectorKey: 'lumen-reader',
+    loadReader: function() {
+        try { return JSON.parse(localStorage.getItem(this._lectorKey)) || this._lectorDefault(); }
+        catch (e) { return this._lectorDefault(); }
+    },
+    _lectorDefault: function() { return { fontSize: 17, serif: true }; },
+    saveReader: function(p) { localStorage.setItem(this._lectorKey, JSON.stringify(p)); },
+    applyReaderPrefs: function() {
+        const p = this.loadReader();
+        const fuente = p.serif ? "'Crimson Text', Georgia, serif" : "'Poppins', system-ui, sans-serif";
+        document.querySelectorAll('.reading-surface').forEach(function(el) {
+            el.style.setProperty('--lector-tam', p.fontSize + 'px');
+            el.style.setProperty('--lector-fuente', fuente);
+        });
+    },
+    readerFontSize: function(delta) {
+        const p = this.loadReader();
+        p.fontSize = Math.max(15, Math.min(23, (p.fontSize || 17) + delta));
+        this.saveReader(p);
+        this.applyReaderPrefs();
+    },
+    toggleReaderFont: function() {
+        const p = this.loadReader();
+        p.serif = !p.serif;
+        this.saveReader(p);
+        this.applyReaderPrefs();
+    },
+    readerToolbarHTML: function() {
+        return `<div class="reader-toolbar" role="group" aria-label="Ajustes de lectura">
+            <span class="reader-name">Aa</span>
+            <button class="reader-btn" onclick="LumenUI.readerFontSize(-1)" aria-label="Reducir texto">A−</button>
+            <button class="reader-btn" onclick="LumenUI.readerFontSize(1)" aria-label="Aumentar texto">A+</button>
+            <button class="reader-btn" onclick="LumenUI.toggleReaderFont()" aria-label="Cambiar tipografía">Serif</button>
+        </div>`;
+    },
+
+    // ---- Favoritos ----
+    _favKey: 'lumen-favorites',
+    _favId: function(kind, id) { return kind + '::' + id; },
+    isFavorite: function(kind, id) {
+        try { return !!JSON.parse(localStorage.getItem(this._favKey))[this._favId(kind, id)]; }
+        catch (e) { return false; }
+    },
+    toggleFavorite: function(kind, id, title, sub) {
+        let store = {};
+        try { store = JSON.parse(localStorage.getItem(this._favKey)) || {}; } catch (e) {}
+        const key = this._favId(kind, id);
+        if (store[key]) {
+            delete store[key];
+            this.showToast('Quitado de favoritos', 'error');
+        } else {
+            store[key] = { kind: kind, id: id, title: title || 'Sin título', sub: sub || '' };
+            this.showToast('Añadido a favoritos', 'success');
+        }
+        localStorage.setItem(this._favKey, JSON.stringify(store));
+        return !!store[key];
+    },
+    removeFavorite: function(key) {
+        let store = {};
+        try { store = JSON.parse(localStorage.getItem(this._favKey)) || {}; } catch (e) {}
+        delete store[key];
+        localStorage.setItem(this._favKey, JSON.stringify(store));
+    },
+    getFavorites: function() {
+        try { return JSON.parse(localStorage.getItem(this._favKey)) || {}; } catch (e) { return {}; }
+    },
+    favHeart: function(kind, id) {
+        return `<button class="fav-btn ${this.isFavorite(kind, id) ? 'on' : ''}" onclick="LumenUI.toggleFavorite('${kind}','${id}','${String(kind).replace(/'/g, '')}')" aria-label="Favorito">♥</button>`;
+    },
+
+    // ---- Tiempo litúrgico ----
+    _easter: function(year) {
+        const a = year % 19, b = Math.floor(year / 100), c = year % 100,
+            d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3),
+            h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4,
+            l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451);
+        return new Date(year, Math.floor((h + l - 7 * m + 114) / 31) - 1, (h + l - 7 * m + 114) % 31 + 1);
+    },
+    liturgicalInfo: function(date) {
+        date = date || new Date();
+        const y = date.getFullYear();
+        const ea = this._easter(y);
+        const day = (new Date(y, 0, 1));
+        const navidad = new Date(y, 11, 25);
+        const adviento = new Date(y, 10, 27);
+        const ash = new Date(ea.getFullYear(), ea.getMonth(), ea.getDate() - 46);
+        const pent = new Date(ea.getFullYear(), ea.getMonth(), ea.getDate() + 49);
+        const navFin = new Date(y, 0, 13);
+        const t = date.getTime();
+        let seasonId = 'ordinario', label = 'Tiempo Ordinario', cls = 'lit-verde', color = '#22c55e';
+        if (t >= adviento.getTime() && t < navidad.getTime()) { seasonId = 'adviento'; label = 'Adviento'; cls = 'lit-morado'; color = '#8b5cf6'; }
+        else if (t >= navidad.getTime() && t < navFin.getTime()) { seasonId = 'navidad'; label = 'Navidad'; cls = 'lit-blanco'; color = '#f8fafc'; }
+        else if (t >= ash.getTime() && t < ea.getTime()) { seasonId = 'cuaresma'; label = 'Cuaresma'; cls = 'lit-morado'; color = '#8b5cf6'; }
+        else if (t >= ea.getTime() && t < pent.getTime()) { seasonId = 'pascua'; label = 'Pascua'; cls = 'lit-blanco'; color = '#f8fafc'; }
+        return { seasonId: seasonId, label: label, cls: cls, color: color };
+    },
+    liturgicalBadgeHTML: function() {
+        const info = this.liturgicalInfo(new Date());
+        return `<span class="liturgical-badge ${info.cls}" title="Tiempo litúrgico"><span class="lit-dot" style="background:${info.color}"></span>${info.label}</span>`;
+    },
+
+    // ---- Racha diaria ----
+    _streakKey: 'lumen-streak',
+    _dayKey: function(d) { d = d || new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); },
+    streakInfo: function() {
+        let s = null;
+        try { s = JSON.parse(localStorage.getItem(this._streakKey)); } catch (e) {}
+        if (!s) return { days: 0, today: false };
+        const today = this._dayKey();
+        const y = new Date(); y.setDate(y.getDate() - 1);
+        const yesterday = this._dayKey(y);
+        return { days: s.days, today: (s.last === today), streakAlive: (s.last === today || s.last === yesterday) };
+    },
+    recordStreak: function() {
+        const today = this._dayKey();
+        let s = { last: today, days: 1 };
+        try { s = JSON.parse(localStorage.getItem(this._streakKey)) || s; } catch (e) {}
+        if (s.last === today) return { days: s.days, newDay: false };
+        const y = new Date(); y.setDate(y.getDate() - 1);
+        if (s.last === this._dayKey(y)) { s.days += 1; } else { s.days = 1; }
+        s.last = today;
+        localStorage.setItem(this._streakKey, JSON.stringify(s));
+        return { days: s.days, newDay: true };
+    },
+    streakChipHTML: function() {
+        const info = this.streakInfo();
+        if (!info.days) return '';
+        return `<span class="streak-chip" title="Días seguidos en LUMEN">🔥 ${info.days} día${info.days === 1 ? '' : 's'}</span>`;
+    },
+
+    // ---- Celebración de logro ----
+    celebrate: function(title, msg) {
+        const card = document.createElement('div');
+        card.className = 'celebrate-overlay';
+        card.innerHTML = `<div class="celebrate-card"><div class="sparkle sparkle-1">✦</div><div class="sparkle sparkle-2">✦</div><div class="sparkle sparkle-3">✦</div><div class="sparkle sparkle-4">✦</div><h3>${this.escapeHTML(title)}</h3><p>${this.escapeHTML(msg || '')}</p><button class="btn btn-primary" onclick="this.closest('.celebrate-overlay').remove()">¡Amén!</button></div>`;
+        document.body.appendChild(card);
+    },
+
+    // ---- Descarga PNG / impresión ----
+    exportPng: function(el, name) {
+        if (window.html2canvas) {
+            html2canvas(el, { backgroundColor: '#ffffff', scale: 2 }).then(function(canvas) {
+                const a = document.createElement('a');
+                a.download = name || 'imagen.png';
+                a.href = canvas.toDataURL('image/png');
+                a.click();
+            });
+        } else {
+            window.print();
+        }
+    }
+});
+
+LumenUI.applyReaderPrefs();

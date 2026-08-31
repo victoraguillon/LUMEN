@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700&family=Cinzel:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700&family=Cinzel:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
 
 /* ============================================
    TOKENS / DESIGN SYSTEM
@@ -2063,4 +2063,627 @@ input:focus-visible, textarea:focus-visible, select:focus-visible {
     outline: none;
     border-color: var(--celeste-primario) !important;
     box-shadow: 0 0 0 3px rgba(0,162,232,0.15) !important;
+}
+
+/* ============================================
+   NÚCLEO INMERSIVO — lectura, liturgia, racha
+   ============================================ */
+.reading-surface {
+    --lector-tam: 17px;
+    --lector-fuente: 'Crimson Text', Georgia, serif;
+    font-family: var(--lector-fuente);
+    font-size: var(--lector-tam);
+    line-height: 1.75;
+    color: var(--texto-oscuro);
+    word-wrap: break-word;
+}
+.reading-surface h2, .reading-h {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(20px, 2.6vw, 26px);
+    font-weight: 700;
+    margin: 0 0 14px;
+    line-height: 1.3;
+}
+.grad-title {
+    background: var(--gradiente-lumen);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    font-family: 'Sora', sans-serif;
+    font-weight: 800;
+    font-size: clamp(30px, 5vw, 46px);
+    margin: 8px 0 6px;
+    letter-spacing: -0.02em;
+}
+.formacion-hero { margin-bottom: 26px; }
+.formacion-hero.compact p { margin: 0; }
+.formacion-tip {
+    margin-top: 26px;
+    padding: 18px 22px;
+    border-radius: var(--radio-borde);
+    background: linear-gradient(135deg, rgba(0,162,232,0.08), rgba(0,95,138,0.06));
+    border: 1px solid var(--border-color);
+}
+.formacion-tip h3 { color: var(--celeste-oscuro); margin: 0 0 6px; font-size: 16px; }
+.formacion-tip p { margin: 0; color: var(--texto-gris); font-size: 14px; }
+
+/* ---- Badge litúrgico ---- */
+.liturgical-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    vertical-align: 3px;
+    border: 1px solid var(--border-color);
+}
+.liturgical-badge.lit-morado { background: #f4eeff; color: #7c3aed; border-color: #ddd3f5; }
+.liturgical-badge.lit-blanco { background: #ffffff; color: #1d4ed8; border-color: #dbeafe; }
+.liturgical-badge.lit-verde { background: #effbf3; color: #15803d; border-color: #d4efe0; }
+body.dark-theme .liturgical-badge.lit-morado { background: #221c33; color: #c4b5fd; border-color: #3b3166; }
+body.dark-theme .liturgical-badge.lit-blanco { background: #1e293b; color: #bfdbfe; border-color: #334155; }
+body.dark-theme .liturgical-badge.lit-verde { background: #12281c; color: #86efac; border-color: #224431; }
+.lit-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; box-shadow: inset 0 1px 2px rgba(0,0,0,0.28); }
+
+/* ---- Racha ---- */
+.streak-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #fff7e0, #ffe8a3);
+    color: #92400e;
+    font-weight: 700;
+    font-size: 13px;
+    border: 1px solid #fcd34d;
+}
+body.dark-theme .streak-chip { background: linear-gradient(135deg, #3a2e0e, #4d3b12); color: #fcd34d; border-color: #715d1d; }
+
+/* ---- Toolbar lector ---- */
+.reader-toolbar {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg-elevated);
+    box-shadow: var(--sombra-suave);
+    position: sticky;
+    top: 12px;
+    z-index: 10;
+    margin-bottom: 14px;
+}
+.reader-name {
+    font-family: 'Sora', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    background: var(--gradiente-lumen);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding-right: 4px;
+}
+.reader-btn {
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    color: var(--texto-oscuro);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.18s var(--ease-out);
+}
+.reader-btn:hover { border-color: var(--celeste-primario); color: var(--celeste-oscuro); }
+
+/* ---- Formación: hub y tarjetas ---- */
+.formacion-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 16px;
+}
+.formacion-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    text-align: left;
+    padding: 18px;
+    border-radius: var(--radio-borde);
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    color: var(--texto-oscuro);
+    cursor: pointer;
+    font-family: inherit;
+    transition: transform 0.22s var(--ease-out), box-shadow 0.22s var(--ease-out), border-color 0.22s;
+}
+.formacion-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--sombra-media);
+    border-color: rgba(0,162,232,0.45);
+}
+.fc-icon {
+    font-size: 30px;
+    line-height: 1;
+    background: var(--celeste-claro);
+    border-radius: 14px;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.fc-body { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.fc-title { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 16px; color: var(--celeste-oscuro); }
+.fc-desc { font-size: 12.5px; color: var(--texto-gris); line-height: 1.5; }
+.fc-meta { font-size: 11px; color: var(--texto-gris); font-weight: 500; }
+.fc-progress {
+    height: 6px;
+    border-radius: 999px;
+    background: var(--celeste-claro);
+    overflow: hidden;
+    margin-top: 2px;
+}
+.fc-progress i, .fm-progress i { display: block; height: 100%; background: var(--gradiente-lumen); border-radius: 999px; transition: width 0.4s var(--ease-out); }
+
+/* ---- Cabecera de módulo ---- */
+.formacion-mhead {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding: 12px 16px;
+    border-radius: 18px;
+    background: var(--card-bg-elevated);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--sombra-suave);
+    flex-wrap: wrap;
+}
+.btn-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+.fm-title { flex: 1; min-width: 0; }
+.fm-mod { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 17px; color: var(--celeste-oscuro); display: block; }
+.fm-count { font-size: 12px; color: var(--texto-gris); font-weight: 500; }
+.fm-progress { display: block; height: 5px; border-radius: 999px; background: var(--celeste-claro); overflow: hidden; margin-top: 6px; }
+.fm-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.btn-sm { padding: 6px 12px; font-size: 12px; }
+
+/* ---- Layout lector (2 columnas) ---- */
+.formacion-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 20px;
+    align-items: start;
+}
+.formacion-index {
+    position: sticky;
+    top: 16px;
+    max-height: 78vh;
+    overflow: auto;
+    padding: 14px;
+    border-radius: 18px;
+    background: var(--card-bg-elevated);
+    border: 1px solid var(--border-color);
+}
+.fi-unit + .fi-unit { margin-top: 14px; }
+.fi-unit-title {
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--texto-gris);
+    margin: 0 0 6px;
+}
+.fi-item {
+    display: flex;
+    gap: 7px;
+    align-items: flex-start;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    color: var(--texto-oscuro);
+    padding: 7px 9px;
+    border-radius: 10px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s;
+}
+.fi-item:hover { background: var(--celeste-claro); }
+.fi-item.active { background: var(--celeste-claro); color: var(--celeste-oscuro); font-weight: 600; }
+.fi-check {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--celeste-claro);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: var(--exito);
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+.formacion-main {
+    min-width: 0;
+    padding: 4px 2px 20px;
+}
+.formacion-body { max-width: 700px; }
+.reading-prose p { margin: 0 0 1em; }
+.reading-prose p:last-child { margin-bottom: 0; }
+.reading-prose.drop-cap > p:first-of-type::first-letter {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 3.1em;
+    float: left;
+    line-height: 0.85;
+    padding-right: 8px;
+    color: var(--celeste-primario);
+}
+.keypoints {
+    margin-top: 22px;
+    padding: 16px 18px;
+    border-radius: 16px;
+    border: 1px solid rgba(0,162,232,0.3);
+    background: linear-gradient(135deg, rgba(0,162,232,0.07), rgba(0,95,138,0.05));
+}
+.keypoints h4, .refs h4, .qa-explanation h4 {
+    font-family: 'Sora', sans-serif;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--celeste-oscuro);
+    margin: 0 0 8px;
+}
+.keypoints ul { margin: 0; padding-left: 18px; }
+.keypoints li { margin-bottom: 5px; }
+.refs { margin-top: 18px; }
+.ref-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.ref-chip {
+    padding: 4px 11px;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    font-size: 11.5px;
+    color: var(--texto-oscuro);
+}
+.flat-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border-color);
+    font-size: 12.5px;
+    color: var(--texto-gris);
+}
+.flat-nav .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ---- QA / Apologética ---- */
+.scripture-quote, .catechism-quote {
+    margin: 18px 0;
+    padding: 14px 16px 14px 38px;
+    border-radius: 14px;
+    position: relative;
+}
+.scripture-quote { background: var(--celeste-claro); border-left: 4px solid var(--celeste-primario); }
+.catechism-quote { background: var(--gris-fondo); border-left: 4px solid var(--dorado); }
+.sq-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--celeste-oscuro); display: block; margin-bottom: 6px; }
+.catechism-quote .sq-label { color: var(--dorado); }
+.scripture-quote p, .catechism-quote p { margin: 0; }
+.qa-explanation { margin-top: 18px; }
+.qa-explanation p { margin: 0; color: var(--texto-gris); }
+
+/* ---- Accordion compartido ---- */
+.si-details { margin-top: 10px; }
+.si-details summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--celeste-oscuro);
+    padding: 8px 0;
+    list-style-position: inside;
+}
+.si-details summary::-webkit-details-marker { color: var(--celeste-primario); }
+.glos-def { padding: 10px 14px; border-radius: 12px; background: var(--gris-fondo); }
+
+/* ---- Santos ---- */
+.sainttabs { margin-bottom: 16px; }
+.santos-grid { display: grid; gap: 14px; }
+.saint-item {
+    padding: 16px 18px;
+    border-radius: var(--radio-borde);
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+}
+.si-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+.si-head h3 { margin: 0 0 4px; font-size: 16px; font-family: 'Sora', sans-serif; color: var(--celeste-oscuro); }
+.si-feast { margin: 0 0 4px; font-size: 12px; color: var(--texto-gris); }
+.si-summary { margin: 6px 0 0; font-size: 13.5px; color: var(--texto-gris); }
+.si-life { max-width: 720px; }
+.saint-patron { margin: 8px 0 0; font-size: 12px; color: var(--celeste-oscuro); font-weight: 600; }
+
+/* ---- Glosario ---- */
+.glos-search input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: var(--input-bg);
+    font-size: 15px;
+    color: var(--texto-oscuro);
+    margin-bottom: 16px;
+}
+.glos-grid { display: grid; gap: 10px; }
+.glos-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+}
+.glos-item .si-details { flex: 1; }
+.glos-tag { font-size: 10.5px; background: var(--celeste-claro); color: var(--celeste-oscuro); border-radius: 999px; padding: 2px 8px; margin-left: 6px; font-weight: 600; }
+.glos-ety, .glos-ref, .glos-rel { font-size: 13px; margin: 6px 0 0; color: var(--texto-gris); }
+
+/* ---- FAQ ---- */
+.faq-list { display: grid; gap: 16px; }
+.faq-unit {
+    padding: 16px 18px;
+    border-radius: var(--radio-borde);
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+}
+.faq-unit-title { margin: 0 0 6px; font-family: 'Sora', sans-serif; font-size: 16px; color: var(--celeste-oscuro); }
+
+/* ---- Oraciones ---- */
+.oraciones-list { display: grid; gap: 12px; }
+.prayer-item {
+    border-radius: var(--radio-borde);
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    overflow: hidden;
+}
+.prayer-item-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 16px 18px;
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--texto-oscuro);
+}
+.prayer-item-head h3 { margin: 0; font-family: 'Sora', sans-serif; font-size: 16px; color: var(--celeste-oscuro); }
+.prayer-when { margin: 3px 0 0; font-size: 12px; color: var(--texto-gris); }
+.prayer-chevron {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--celeste-claro);
+    color: var(--celeste-oscuro);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+}
+.prayer-item-body { display: none; padding: 0 18px 18px; }
+.prayer-item.open .prayer-item-body { display: block; animation: fadeUp 0.3s var(--ease-out); }
+.prayer-item.open .prayer-chevron { transform: rotate(180deg); }
+.prayer-intro { color: var(--texto-gris); font-size: 13.5px; }
+.prayer-big {
+    max-width: 720px;
+    margin: 12px 0;
+    padding: 18px 20px;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    background: var(--gris-fondo);
+}
+.prayer-latin { max-width: 700px; }
+.prayer-significance { font-size: 13px; color: var(--celeste-oscuro); background: var(--celeste-claro); border-radius: 12px; padding: 10px 14px; }
+.prayer-actions { display: flex; gap: 9px; margin-top: 12px; flex-wrap: wrap; }
+
+/* ---- Favoritos ---- */
+.fav-btn {
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    color: var(--texto-gris);
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    font-size: 15px;
+    cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: all 0.18s var(--ease-out);
+    flex-shrink: 0;
+}
+.fav-btn.on { color: #e0245e; border-color: #fecdd3; background: #fff1f2; }
+.fav-btn:hover { transform: scale(1.08); }
+body.dark-theme .fav-btn.on { background: #3b0f1f; border-color: #6b2137; }
+.favoritos-group { margin-bottom: 22px; }
+.favoritos-group h3 { font-family: 'Sora', sans-serif; font-size: 17px; color: var(--celeste-oscuro); margin: 0 0 10px; }
+.favoritos-list { display: grid; gap: 10px; }
+.fav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+}
+.fav-ic { font-size: 24px; }
+.fav-info { flex: 1; min-width: 0; }
+.fav-title { margin: 0; font-weight: 600; font-size: 14px; color: var(--texto-oscuro); }
+.fav-sub { margin: 2px 0 0; font-size: 12px; color: var(--texto-gris); }
+.fav-actions { display: flex; gap: 8px; align-items: center; }
+
+/* ---- Rosario ---- */
+.rosario-card.today { border-color: var(--celeste-primario); box-shadow: 0 0 0 2px rgba(0,162,232,0.18); }
+.rosario-stage { max-width: 640px; margin: 0 auto; }
+.rosario-step-content { text-align: center; padding: 10px 4px; }
+.rosario-icon { font-size: 44px; display: block; margin-bottom: 6px; }
+.rosario-step-content h2 { font-family: 'Sora', sans-serif; font-size: 22px; color: var(--celeste-oscuro); margin: 0 0 14px; }
+.rosario-text { text-align: left; max-width: 600px; margin: 0 auto 14px; }
+.rosario-progress { height: 8px; border-radius: 999px; background: var(--celeste-claro); overflow: hidden; margin: 14px auto 0; max-width: 420px; }
+.rosario-progress i { display: block; height: 100%; background: var(--gradiente-lumen); border-radius: 999px; }
+.mystery-box { margin: 0 auto 14px; padding: 18px; max-width: 620px; border-radius: 18px; background: linear-gradient(135deg, rgba(0,162,232,0.09), rgba(0,95,138,0.07)); border: 1px solid rgba(0,162,232,0.3); text-align: left; }
+.mystery-box h3 { margin: 0 0 4px; font-family: 'Sora', sans-serif; color: var(--celeste-oscuro); font-size: 17px; }
+.mystery-ref { margin: 0 0 10px; font-size: 12px; color: var(--celeste-primario); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+.mystery-text { font-style: italic; }
+
+/* ---- Novenas ---- */
+.novena-intro { color: var(--texto-gris); font-size: 14.5px; line-height: 1.7; }
+.novena-block { margin-bottom: 20px; }
+.novena-block h3 { font-family: 'Sora', sans-serif; font-size: 17px; color: var(--celeste-oscuro); margin: 0 0 10px; }
+.novena-days { display: grid; gap: 10px; }
+.novena-day { padding: 10px 14px; border-radius: 14px; border: 1px solid var(--border-color); background: var(--card-bg); }
+.novena-day-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 6px 0;
+}
+.novena-check {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--celeste-claro);
+    color: var(--celeste-oscuro);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 13px;
+    flex-shrink: 0;
+    border: 1px solid var(--border-color);
+}
+.novena-day-btn.done .novena-check { background: var(--exito); color: #fff; border-color: var(--exito); }
+.novena-day-btn.done .novena-day-title { text-decoration: line-through; color: var(--texto-gris); }
+.novena-day-title { font-weight: 600; font-size: 14px; color: var(--texto-oscuro); }
+.novena-meditation { padding: 12px 16px; border-radius: 12px; background: var(--gris-fondo); margin-top: 4px; }
+.novena-prayers { margin-top: 10px; }
+.novena-prayer { margin: 6px 0; font-size: 14px; color: var(--texto-oscuro); }
+.novena-sources { font-size: 12px; color: var(--texto-gris); }
+
+/* ---- Examen de Conciencia ---- */
+.examen-progress { height: 6px; border-radius: 999px; background: var(--celeste-claro); overflow: hidden; margin-bottom: 16px; }
+.examen-progress i { display: block; height: 100%; background: var(--gradiente-lumen); border-radius: 999px; transition: width 0.3s var(--ease-out); }
+.examen-step { max-width: 560px; margin: 0 auto; }
+.examen-q { text-align: center; padding: 10px 6px; }
+.examen-section {
+    display: inline-block;
+    font-size: 11.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 5px 13px;
+    border-radius: 999px;
+    background: var(--celeste-claro);
+    color: var(--celeste-oscuro);
+    margin-bottom: 14px;
+}
+.examen-text { font-size: 19px; line-height: 1.6; color: var(--texto-oscuro); font-weight: 500; min-height: 80px; }
+.examen-opts { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 18px 0; }
+.examen-opt {
+    min-width: 104px;
+    padding: 13px 18px;
+    border-radius: 14px;
+    border: 2px solid var(--border-color);
+    background: var(--card-bg);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--texto-oscuro);
+    transition: all 0.18s var(--ease-out);
+}
+.examen-opt:hover { border-color: var(--celeste-primario); }
+.examen-opt.sel-yes { border-color: var(--error); background: #fef2f2; color: var(--error); }
+.examen-opt.sel-no { border-color: var(--exito); background: #f0fdf4; color: var(--exito); }
+.examen-opt.sel-maybe { border-color: var(--dorado); background: #fffbeb; color: #92400e; }
+.examen-report { max-width: 620px; margin: 0 auto; text-align: left; }
+.examen-report h2 { font-family: 'Sora', sans-serif; color: var(--celeste-oscuro); }
+.examen-summary { color: var(--texto-gris); }
+.examen-list { line-height: 1.8; padding-left: 20px; }
+.examen-list li { margin-bottom: 8px; }
+.exam-tag {
+    font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+    background: #fee2e2; color: var(--error); border-radius: 999px; padding: 2px 9px;
+}
+.exam-tag.tag-maybe { background: #fffbeb; color: #92400e; }
+
+/* ---- Celebración ---- */
+.celebrate-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 12000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(2, 6, 23, 0.55);
+    backdrop-filter: blur(6px);
+    padding: 20px;
+    animation: fadeUp 0.3s var(--ease-out);
+}
+.celebrate-card {
+    position: relative;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 34px 26px;
+    box-shadow: var(--sombra-fuerte);
+    border: 1px solid var(--border-color);
+}
+.celebrate-card h3 { font-family: 'Sora', sans-serif; font-size: 22px; color: var(--celeste-oscuro); margin: 0 0 8px; }
+.celebrate-card p { color: var(--texto-gris); margin: 0 0 20px; }
+.sparkle {
+    position: absolute;
+    font-size: 20px;
+    color: var(--dorado);
+    animation: sparkleFloat 1.6s var(--ease-out) infinite;
+}
+.sparkle-1 { top: 10px; left: 16px; }
+.sparkle-2 { top: 22px; right: 18px; font-size: 26px; animation-delay: 0.3s; }
+.sparkle-3 { bottom: 30px; left: 24px; animation-delay: 0.6s; }
+.sparkle-4 { bottom: 12px; right: 30px; font-size: 30px; animation-delay: 0.9s; }
+@keyframes sparkleFloat {
+    0% { transform: translateY(0) scale(0.8); opacity: 0.4; }
+    50% { transform: translateY(-12px) scale(1.15); opacity: 1; }
+    100% { transform: translateY(0) scale(0.8); opacity: 0.4; }
+}
+
+.reveal2 { animation: fadeUp 0.35s var(--ease-out); }
+
+/* ---- Responsivo Formación ---- */
+@media (max-width: 900px) {
+    .formacion-layout { grid-template-columns: 1fr; }
+    .formacion-index { position: static; max-height: none; order: -1; }
+    .reader-toolbar { position: static; }
+    .formacion-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
 }
