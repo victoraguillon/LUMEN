@@ -1,6 +1,6 @@
-// LUMEN - Service Worker único (v17) en la RAÍZ (/sw.js)
-// v17: fix validación paso a paso (solo campos visibles)
-const CACHE = "lumen-cache-v17";
+// LUMEN - Service Worker único (v18) en la RAÍZ (/sw.js)
+// v18: Samuel parroquia radio Sí/No + reset register on modal open
+const CACHE = "lumen-cache-v18";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";

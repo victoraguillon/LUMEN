@@ -16,6 +16,7 @@ const LumenUI = {
     openModal: function(modalId) {
         const modal = document.getElementById(modalId);
         if (!modal) return;
+        if (modalId === 'register-modal') this._resetRegister();
         modal.classList.add('active');
         document.body.classList.add('modal-open');
         const first = modal.querySelector('input:not([readonly]):not([type="hidden"]), textarea, select');
@@ -320,7 +321,7 @@ const LumenUI = {
         if (samuelWrap) samuelWrap.style.display = samuel.checked ? 'block' : 'none';
         if (otraWrap) otraWrap.style.display = otra.checked ? 'block' : 'none';
     },
-    toggleSamuelEdition: function(isChecked) { document.getElementById('samuel-edition-wrap').style.display = isChecked ? 'block' : 'none'; },
+    toggleSamuelEdition: function(value) { const show = (value === true || value === 'si' || value === true); document.getElementById('samuel-edition-wrap').style.display = show ? 'block' : 'none'; },
 
     // --- Asistente de Registro (2 fases) ---
     regStep: 0,

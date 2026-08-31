@@ -257,7 +257,7 @@
                     </div>
                 </section>
 
-                <section class="reg-step" id="reg-step-1" style="display:none;">
+                <section class="reg-step" id="reg-step-1">
                     <div class="form-group"><label for="reg-sector">Sector / Dirección: *</label><input type="text" id="reg-sector" autocomplete="street-address" enterkeyhint="next"></div>
                     <div id="guardian-fields" class="guardian-box" style="display: none;">
                         <p>Datos del Representante (Menor de 18 años)</p>
@@ -295,7 +295,10 @@
                         <div id="kerigma-sub-inputs" style="margin-top:10px; display:none;">
                             <div id="samuel-parroquia-wrap" class="sub-input" style="display:none;">
                                 <label>¿Hiciste Samuel en la Parroquia Lourdes?</label>
-                                <div class="checkbox-item"><input type="checkbox" id="samuel-si" onchange="LumenUI.toggleSamuelEdition(this.checked)"><label for="samuel-si">Sí</label></div>
+                                <div class="checkbox-group">
+                                    <div class="checkbox-item"><input type="radio" name="samuel-parroquia" id="samuel-parroquia-si" value="si" onchange="LumenUI.toggleSamuelEdition(true)"><label for="samuel-parroquia-si">Sí</label></div>
+                                    <div class="checkbox-item"><input type="radio" name="samuel-parroquia" id="samuel-parroquia-no" value="no" onchange="LumenUI.toggleSamuelEdition(false)"><label for="samuel-parroquia-no">No</label></div>
+                                </div>
                                 <div id="samuel-edition-wrap" style="display:none; margin-top: 10px;">
                                     <label for="samuel-edition-text">¿En qué edición?</label>
                                     <input type="text" id="samuel-edition-text" placeholder="Ej: Primera, Segunda, etc.">
