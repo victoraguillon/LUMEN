@@ -4,7 +4,7 @@
 const CACHE = "lumen-cache-v6";
 
 // Endpoint de eco: la función confirma el recibo (diagnóstico de entrega).
-const PUSH_ENDPOINT = "https://etioxnigysbxitiaveyp.functions.supabase.co/send-push";
+const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";
 
 self.addEventListener("install", () => {
   self.skipWaiting();

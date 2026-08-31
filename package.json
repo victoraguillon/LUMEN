@@ -1,0 +1,19 @@
+{
+  "name": "lumen-push",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Notificaciones push de LUMEN: servidor Node.js con web-push (cifrado RFC 8188 + VAPID listos)",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "node scripts/local-server.mjs",
+    "push": "node scripts/local-server.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.8",
+    "dotenv": "^16.4.5",
+    "web-push": "^3.6.7"
+  }
+}

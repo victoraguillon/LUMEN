@@ -21,7 +21,7 @@ jobs:
             -H 'Content-Type: application/json' \
             -H "x-cron-secret: ${CRON_SECRET}" \
             -d '{"mode":"cron"}' \
-            'https://etioxnigysbxitiaveyp.functions.supabase.co/send-push')
+            'https://lumenve.vercel.app/api/send-push')
           echo "HTTP $code"
           cat /tmp/lumen_push_resp.json
           if [ "$code" != "200" ]; then

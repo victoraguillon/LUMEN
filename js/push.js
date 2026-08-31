@@ -1,123 +1,51 @@
-// LumenPush: suscripción Web Push + envío vía Edge Function send-push  (v3)
-// v3: diagnóstico por paso (push_diag), timeout en serviceWorker.ready,
-//     recarga única en iOS si la página no está controlada por el SW,
-//     y tostada en TODOS los fallos (sin fallos silenciosos).
+// LumenPush: suscripción y envío de notificaciones push.
+// El envío lo resuelve el servidor Node.js (api/send-push de Vercel) con web-push.
 const LumenPush = {
-    channel: null,
     DEFAULT_BTN_TEXT: '🔔 Activar Avisos en mi Teléfono',
+
     init: function() {
         if (!this.supported()) return;
         navigator.serviceWorker.ready.then(() => this.aplicarEstadoUI()).catch(() => this.aplicarEstadoUI());
     },
+
     supported: function() {
         return ('PushManager' in window && 'Notification' in window) || this.esIOS();
     },
+
     esIOS: function() {
         return /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     },
+
     esStandalone: function() {
         return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
     },
-    b64ToUint8: function(base64) {
-        const padding = '='.repeat((4 - base64.length % 4) % 4);
-        const b64 = (base64 + padding).replace(/-/g, '+').replace(/_/g, '/');
-        const raw = window.atob(b64);
-        const bytes = new Uint8Array(raw.length);
-        for (let i = 0; i < raw.length; i++) bytes[i] = raw.charCodeAt(i);
-        return bytes;
-    },
+
     getSW: async function() {
-        const waitReady = (ms) => Promise.race([
-            navigator.serviceWorker.ready,
-            new Promise((_, reject) => setTimeout(
-                () => reject(Object.assign(new Error('El Service Worker no respondió en ' + (ms / 1000) + 's.'), { name: 'TimeoutError' })),
-                ms
-            ))
-        ]);
-
-        // Registra /sw.js y devuelve el registro SI tiene worker activo
-        const ensureActive = async () => {
-            const reg = await navigator.serviceWorker.getRegistration().catch(() => null);
-            if (reg && reg.active) return reg;
-            const fresh = await navigator.serviceWorker.register('/sw.js', { scope: '/', updateViaCache: 'none' });
-            try {
-                return await waitReady(3500); // espera instalación+activación (skipWaiting)
-            } catch (e) {}
-            return (fresh && fresh.active) ? fresh : null;
-        };
-
-        try {
-            return await waitReady(5000);
-        } catch (e) {
-            if (!(e && e.name === 'TimeoutError')) throw e;
-            // ready colgado: registramos/activamos en el acto y reportamos el motivo real
-            try {
-                const reg = await ensureActive();
-                if (reg && reg.active) {
-                    console.warn('[LumenPush] SW se activó con retardo', reg.active.scriptURL);
-                    return reg;
-                }
-            } catch (rErr) {
-                console.error('[LumenPush] register', rErr);
-                const msg = rErr && rErr.name ? (rErr.name + ': ' + (rErr.message || '')) : String(rErr);
-                LumenUI.showToast('Fallo al registrar el Service Worker: ' + msg, 'error');
-                if (rErr) rErr.swRegister = true;
-                throw rErr;
-            }
-            LumenUI.showToast('El Service Worker se está instalando todavía. Reintenta en unos segundos.', 'error');
-            throw e;
-        }
+        const reg = await navigator.serviceWorker.getRegistration().catch(() => null);
+        if (reg && reg.active) return reg;
+        return navigator.serviceWorker.register('/sw.js', { scope: '/', updateViaCache: 'none' });
     },
+
     abrirAyudaInstalacion: function() {
         if (typeof LumenUI !== 'undefined' && LumenUI.openModal) LumenUI.openModal('pwa-help-modal');
     },
-    // Registra el paso exacto del diagnóstico en profiles.push_diag (traza append-only).
-    // Un nuevo intento de activación (paso 'permiso') reinicia la traza; se guardan
-    // las últimas ~15 etapas para ver la cadena completa sin SQL.
-    escribirDiag: async function(datos) {
-        if (!LumenAuth.currentUser) return;
-        try {
-            const { data } = await supabase.from('profiles').select('push_diag').eq('id', LumenAuth.currentUser.id).maybeSingle();
-            let trail = (data && Array.isArray(data.push_diag)) ? data.push_diag : [];
-            if (datos && datos.paso === 'permiso') trail = [];
-            trail.push(datos);
-            if (trail.length > 15) trail = trail.slice(-15);
-            await supabase.from('profiles').update({ push_diag: trail }).eq('id', LumenAuth.currentUser.id);
-            return trail;
-        } catch (e) { console.error('[LumenPush] diag', e); }
-    },
-    puedeRecargarUnaVez: function() {
-        if (sessionStorage.getItem('lumen_sw_reload') === '1') return false;
-        sessionStorage.setItem('lumen_sw_reload', '1');
-        return true;
-    },
-    reintentarConRecarga: function() {
-        LumenUI.showToast('Finalizando la activación… se recargará la app.', 'success');
-        setTimeout(() => location.reload(), 800);
-        return false;
-    },
+
     activarNotificaciones: async function() {
-        const diag = { t: Date.now() };
         try {
             if (!this.supported()) {
-                await this.escribirDiag({ ...diag, paso: 'no-soporta' });
                 LumenUI.showToast('Tu navegador no soporta notificaciones push.', 'error');
                 return false;
             }
-            // En iOS las notificaciones SOLO funcionan con la app instalada en pantalla de inicio
             if (this.esIOS() && !this.esStandalone()) {
-                await this.escribirDiag({ ...diag, paso: 'ios-sin-instalar' });
                 LumenUI.showToast('En iPhone primero debes instalar LUMEN: Compartir → Añadir a pantalla de inicio', 'error');
                 this.abrirAyudaInstalacion();
                 return false;
             }
             if (!LumenAuth.currentUser) {
-                await this.escribirDiag({ ...diag, paso: 'sin-sesion' });
                 LumenUI.openModal('login-modal');
                 return false;
             }
             const perm = await Notification.requestPermission();
-            await this.escribirDiag({ ...diag, paso: 'permiso', perm });
             if (perm === 'denied') {
                 LumenUI.showToast(this.esIOS()
                     ? 'Permiso bloqueado: Ajustes → ' + (this.esStandalone() ? 'LUMEN' : 'Safari') + ' → Notificaciones → Permitir.'
@@ -128,27 +56,22 @@ const LumenPush = {
                 LumenUI.showToast('Necesitamos tu permiso para avisarte. Si no apareció la ventana, revisa los Ajustes del teléfono.', 'error');
                 return false;
             }
-            const ok = await this.registrarSuscripcion(diag);
+            const ok = await this.registrarSuscripcion();
             if (ok) LumenUI.showToast('¡Notificaciones activadas! Recibirás avisos en tu teléfono.', 'success');
             return ok;
         } catch (e) {
             console.error('[LumenPush] activar', e);
-            await this.escribirDiag({ ...diag, paso: 'error', name: e && e.name, msg: e && e.message });
-            if (this.esIOS() && this.puedeRecargarUnaVez()) return this.reintentarConRecarga();
             LumenUI.showToast('Error al activar notificaciones (' + ((e && e.name) || 'desconocido') + ').', 'error');
             return false;
         }
     },
-    registrarSuscripcion: async function(diag) {
+
+    registrarSuscripcion: async function() {
         try {
             const reg = await this.getSW();
-            await this.escribirDiag({ ...(diag || {}), paso: 'sw-listo', control: !!navigator.serviceWorker.controller, activo: !!(reg.active || reg.installing) });
 
-            // iOS (WebKit) requiere que la página esté CONTROLADA por el SW para
-            // poder suscribirse. Tras instalar o actualizar puede no controlarla aún.
+            // iOS (WebKit) exige que la página esté CONTROLADA por el SW para suscribirse.
             if (this.esIOS() && !navigator.serviceWorker.controller) {
-                await this.escribirDiag({ ...(diag || {}), paso: 'sin-control-sw' });
-                if (this.puedeRecargarUnaVez()) return this.reintentarConRecarga();
                 LumenUI.showToast('La app aún no está lista para notificaciones: cierra y vuelve a abrirla desde el ícono.', 'error');
                 return false;
             }
@@ -160,35 +83,31 @@ const LumenPush = {
                     applicationServerKey: supabaseConfig.pushVapidKey
                 });
             }
+
             const plain = JSON.parse(JSON.stringify(sub));
-            // Multi-dispositivo: la suscripción vive en push_subscriptions (una por endpoint).
-            // Upsert por endpoint para NO machacar las de otros dispositivos del mismo usuario.
+            // Multi-dispositivo: una fila por endpoint (upsert) para no machacar otros dispositivos.
             await supabase.from('push_subscriptions').upsert({
                 endpoint: plain.endpoint,
                 user_id: LumenAuth.currentUser.id,
                 keys: plain.keys
             }, { onConflict: 'endpoint' });
             await supabase.from('profiles').update({ push_subscription: plain }).eq('id', LumenAuth.currentUser.id);
-            await this.escribirDiag({ ...(diag || {}), paso: 'ok', endpoint: plain.endpoint });
             this.aplicarEstadoUI();
             return true;
         } catch (e) {
             console.error('[LumenPush] registrar', e);
-            if (e && e.swRegister) return false; // ya se tostreó el motivo del fallo de registro
             const name = e && e.name;
-            await this.escribirDiag({ ...(diag || {}), paso: 'subscribe-error', name, msg: e && e.message, control: !!navigator.serviceWorker.controller });
             if (name === 'NotAllowedError') {
                 LumenUI.showToast(this.esIOS()
                     ? 'El permiso no fue concedido. Revisa Ajustes → ' + (this.esStandalone() ? 'LUMEN' : 'Safari') + ' → Notificaciones.'
                     : 'El permiso fue denegado en el navegador.', 'error');
-            } else if (this.esIOS() && this.puedeRecargarUnaVez()) {
-                return this.reintentarConRecarga();
             } else {
                 LumenUI.showToast('Error al suscribir (' + (name || 'desconocido') + ').', 'error');
             }
             return false;
         }
     },
+
     estadoActual: async function() {
         if (!this.supported() || !LumenAuth.currentUser) return 'off';
         try {
@@ -200,6 +119,7 @@ const LumenPush = {
             return 'off';
         } catch (e) { return 'off'; }
     },
+
     aplicarEstadoUI: async function() {
         const estado = await this.estadoActual();
         const supported = this.supported();
@@ -221,6 +141,7 @@ const LumenPush = {
             }
         });
     },
+
     enviarPush: async function(opts) {
         if (!LumenAuth.currentUser) return { ok: false, reason: 'no-session' };
         try {
@@ -246,6 +167,7 @@ const LumenPush = {
             return { ok: false, error: e };
         }
     },
+
     desactivar: async function() {
         if (!LumenAuth.currentUser) return;
         try {
