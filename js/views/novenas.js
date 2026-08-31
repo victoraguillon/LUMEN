@@ -127,7 +127,8 @@ const NovenasView = {
 
     favHeart: function(kind, id, title, sub) {
         const on = LumenUI.isFavorite(kind, id) ? ' on' : '';
-        return `<button class="fav-btn${on}" onclick="LumenUI.toggleFavorite('${kind}','${id}',${JSON.stringify(title)},${JSON.stringify(sub || '')});this.classList.toggle('on')" aria-label="Favorito">♥</button>`;
+        const t = LumenUI._escJson(title), s = LumenUI._escJson(sub);
+        return `<button class="fav-btn${on}" onclick="LumenUI.toggleFavorite('${kind}','${id}',${t},${s});this.classList.toggle('on')" aria-label="Favorito">♥</button>`;
     },
 
     init: function() {

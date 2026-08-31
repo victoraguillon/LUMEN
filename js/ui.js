@@ -588,6 +588,10 @@ Object.assign(LumenUI, {
     getFavorites: function() {
         try { return JSON.parse(localStorage.getItem(this._favKey)) || {}; } catch (e) { return {}; }
     },
+    // Escapa contenido para incrustarlo seguro dentro de onclick="..." (heredan título/sub con comillas).
+    _escJson: function(str) {
+        return JSON.stringify(str === undefined ? '' : str).replace(/"/g, '&quot;');
+    },
     favHeart: function(kind, id) {
         return `<button class="fav-btn ${this.isFavorite(kind, id) ? 'on' : ''}" onclick="LumenUI.toggleFavorite('${kind}','${id}','${String(kind).replace(/'/g, '')}')" aria-label="Favorito">♥</button>`;
     },

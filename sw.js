@@ -1,8 +1,8 @@
-// LUMEN - Service Worker único (v7) en la RAÍZ (/sw.js)
-// v7: precache del "shell" de la app (cache-first → apertura instantánea);
-// el resto del mismo origen se sirve cache-first con actualización en segundo
-// plano y respaldo en caché. Navegaciones: network-first con fallback offline.
-const CACHE = "lumen-cache-v7";
+// LUMEN - Service Worker único (v8) en la RAÍZ (/sw.js)
+// v8: bump de caché para purgar el CSS anterior (Fase Formación) y precache
+// de los nuevos módulos; mantiene cache-first con actualización en segundo
+// plano y navegaciones network-first con fallback offline.
+const CACHE = "lumen-cache-v8";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";
@@ -22,6 +22,11 @@ const SHELL = [
   "/js/santoral.js",
   "/js/devocional_data.js",
   "/js/frases_santos.js",
+  "/js/formacion_data.js",
+  "/js/oraciones_data.js",
+  "/js/rosario_data.js",
+  "/js/novenas_data.js",
+  "/js/examen_data.js",
   "/js/views/landing.js",
   "/js/views/inicio.js",
   "/js/views/nosotros.js",
@@ -34,6 +39,12 @@ const SHELL = [
   "/js/views/intenciones.js",
   "/js/views/encuestas.js",
   "/js/views/blog.js",
+  "/js/views/formacion.js",
+  "/js/views/oraciones.js",
+  "/js/views/rosario.js",
+  "/js/views/novenas.js",
+  "/js/views/examen.js",
+  "/js/views/favoritos.js",
   "/js/views/gestion.js",
   "/js/views/contacto.js",
   "/assets/icons/icon-192.png",
