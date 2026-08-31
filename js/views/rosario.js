@@ -30,7 +30,7 @@ const RosarioView = {
             const m = misterios[d];
             steps.push({ label: 'Misterio ' + (d + 1) + (m && m.title ? ': ' + m.title : ''), mystery: m, text: m && m.biblicalText ? m.biblicalText : '', icon: LumenIcons.novenas });
             steps.push({ label: 'Padre Nuestro', text: TS.padrenuestro, icon: LumenIcons.rosario });
-            for (let a = 0; a < 10; a++) steps.push({ label: 'Avemaría', text: TS.avemaria, icon: LumenIcons.bead });
+            for (let a = 0; a < 10; a++) steps.push({ label: 'Avemaría', text: TS.avemaria, icon: LumenIcons.feather });
             steps.push({ label: 'Gloria', text: TS.gloria, icon: Icons.star });
             steps.push({ label: 'Oración de Fátima', text: TS.fatima, icon: LumenIcons.oraciones });
         }
