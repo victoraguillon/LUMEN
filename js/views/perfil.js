@@ -103,7 +103,7 @@ const PerfilView = {
                 </div>
                 <div class="form-grid-2">
                     <div class="form-group"><label>Fecha de cumpleaños (DD/MM/YYYY): *</label><input type="text" id="ep-birthdate" value="${LumenUI.escapeHTML(user.nacimiento || '')}" required></div>
-                    <div class="form-group"><label>Dirección: *</label><input type="text" id="ep-address" value="${LumenUI.escapeHTML(user.direccion || '')}" required></div>
+                    <div class="form-group"><label>Dirección:</label><input type="text" id="ep-address" value="${LumenUI.escapeHTML(user.direccion || '')}"></div>
                 </div>
                 <div class="form-group"><label>Número telefónico: *</label><input type="tel" id="ep-phone" value="${LumenUI.escapeHTML(user.telefono || '')}" required></div>
                 <div class="form-group">

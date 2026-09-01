@@ -119,7 +119,8 @@ const LumenAuth = {
                 if (error) throw error;
                 const uid = authData.user && authData.user.id;
                 if (uid) {
-                    return supabase.from('profiles').update({ ...userData, email: data.email })
+                    // Use upsert to create profile if it doesn't exist (no DB trigger)
+                    return supabase.from('profiles').upsert({ ...userData, email: data.email, id: uid })
                         .eq('id', uid)
                         .then(() => ({ data: authData }));
                 }

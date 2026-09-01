@@ -146,6 +146,21 @@
         </div>
     </div>
 
+    <!-- Banner Consentimiento Cookies -->
+    <div id="cookie-consent-banner" style="display:none; position:fixed; bottom:0; left:0; right:0; z-index:10000; background:var(--card-bg); border-top:1px solid var(--border-color); box-shadow:0 -4px 20px rgba(0,0,0,0.15); padding:16px 20px; animation:slideUp 0.3s ease-out;">
+        <div style="max-width:1200px; margin:0 auto; display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between;">
+            <div style="flex:1; min-width:280px;">
+                <strong style="color:var(--celeste-oscuro);">Usamos cookies y almacenamiento local</strong>
+                <p style="margin:4px 0 0; font-size:13px; color:var(--texto-gris);">Esenciales para que LUMEN funcione (sesión, caché PWA), funcionales (favoritos, progreso) y opcionales (notificaciones push). <a href="/cookies" style="color:var(--celeste-primario); text-decoration:underline;">Más información</a>.</p>
+            </div>
+            <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                <button id="cookie-accept-all" class="btn btn-primary" style="padding:10px 20px; font-size:13px;">Aceptar todo</button>
+                <button id="cookie-accept-essential" class="btn btn-outline" style="padding:10px 20px; font-size:13px;">Solo esenciales</button>
+                <button id="cookie-manage" class="btn btn-ghost" style="padding:10px 16px; font-size:13px; color:var(--texto-gris);">Configurar</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal: Cómo instalar (paso a paso) -->
     <div class="modal-overlay" id="pwa-help-modal">
         <div class="modal glass">

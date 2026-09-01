@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Política de Cookies - LUMEN</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo" onclick="location.href='../'">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="border-radius: 7px;">
+                <rect width="24" height="24" rx="7" fill="url(#lumenNavGrad)"/>
+                <defs><linearGradient id="lumenNavGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse"><stop stop-color="#00A2E8"/><stop offset="1" stop-color="#005F8A"/></linearGradient></defs>
+                <path d="M6 6 L6 18 L15 18 L15 15.5 L8.8 15.5 L8.8 6 Z" fill="white"/>
+                <path d="M7.4 1 C 5.8 3 4.5 5 4.5 7 C 4.5 9.5 6 10.5 7.4 10.5 C 8.8 10.5 10.3 9.5 10.3 7 C 10.3 5 9 3 7.4 1 Z" fill="#FFD700"/>
+            </svg>
+            LUMEN
+        </div>
+        <nav>
+            <a href="../" class="nav-link">Volver a LUMEN</a>
+        </nav>
+    </header>
+
+    <main style="max-width: 800px; margin: 0 auto; padding: 40px 20px;">
+        <h1 style="color: var(--celeste-oscuro); margin-bottom: 10px;">Política de Cookies y Almacenamiento Local</h1>
+        <p style="color: var(--texto-gris); margin-bottom: 30px;"><strong>Última actualización:</strong> 31 de agosto de 2026</p>
+
+        <section style="margin-bottom: 30px;">
+            <h2 style="color: var(--celeste-oscuro);">1. ¿Qué son las Cookies y Tecnologías Similares?</h2>
+            <p>Las "cookies" son pequeños archivos de texto que los sitios web almacenan en tu navegador. LUMEN, al ser una Progressive Web App (PWA), usa principalmente <strong>almacenamiento local del navegador</strong> (<code>localStorage</code>, <code>sessionStorage</code>, <code>IndexedDB</code>, <strong>Service Worker Cache</strong>) y <strong>Push Subscriptions</strong> en lugar de cookies HTTP tradicionales.</p>
+        </section>
+
+        <section style="margin-bottom: 30px;">
+            <h2 style="color: var(--celeste-oscuro);">2. Qué Almacenamos y Para Qué</h2>
+            <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                <thead>
+                    <tr style="background: var(--celeste-claro);">
+                        <th style="padding: 10px; border: 1px solid var(--border-color); text-align: left;">Tecnología / Clave</th>
+                        <th style="padding: 10px; border: 1px solid var(--border-color); text-align: left;">Finalidad</th>
+                        <th style="padding: 10px; border: 1px solid var(--border-color); text-align: left;">Duración</th>
+                        <th style="padding: 10px; border: 1px solid var(--border-color); text-align: left;">Categoría</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);"><code>sb-*-auth-token</code> (Supabase)</td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Sesión de autenticación (JWT + refresh token)</td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">1 hora (access) / 30 días (refresh)</td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Estrictamente necesaria</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);"><code>lumen-favorites</code></td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Favoritos del usuario (formación, oraciones, etc.)</td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Persistente (hasta borrado manual)</td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Funcional</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);"><code>lumen-formacion-progress</code></td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Progreso en módulos de formación</td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Persistente</td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Funcional</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);"><code>lumen-rosario-progress</code></td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Progreso en rosarios por misterio</td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Persistente</td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Funcional</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);"><code>lumen-pwa-dismissed</code></td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Recordar si se descartó banner de instalación PWA</td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Persistente</td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Funcional</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);"><code>lumen-cookie-consent</code></td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Recordar preferencias de consentimiento de cookies</td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">12 meses</td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Estrictamente necesaria</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Service Worker Cache (<code>lumen-cache-v*</code>)</td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Funcionamiento offline, carga rápida (App Shell)</td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Hasta nueva versión (cache-first)</td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Estrictamente necesaria</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Push Subscription (endpoint + keys)</td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Entrega de notificaciones push (Web Push API)</td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Hasta revocación o expiración del navegador</td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Requiere consentimiento</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);"><code>lumen-notif-read-*</code></td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Marcar notificaciones como leídas</td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Persistente</td>
+                        <td style="padding: 10px; border: 1px solid var(--border-color);">Funcional</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section style="margin-bottom: 30px;">
+            <h2 style="color: var(--celeste-oscuro);">3. Categorías de Consentimiento</h2>
+            <ul style="margin: 15px 0; padding-left: 20px;">
+                <li><strong>Estrictamente necesarias (siempre activas):</strong> Autenticación, cache PWA, consentimiento. No requieren consentimiento (Art. 6.1.b GDPR - ejecución de contrato).</li>
+                <li><strong>Funcionales (activas por defecto, desactivables):</strong> Favoritos, progreso, preferencias UI. Basadas en interés legítimo / contrato.</li>
+                <li><strong>Notificaciones Push (requieren consentimiento explícito):</strong> Solo se activan al pulsar "Activar Avisos" y aceptar el permiso del navegador. Puedes revocar en cualquier momento.</li>
+            </ul>
+        </section>
+
+        <section style="margin-bottom: 30px;">
+            <h2 style="color: var(--celeste-oscuro);">4. Cómo Gestionar tus Preferencias</h2>
+            <ul style="margin: 15px 0; padding-left: 20px;">
+                <li><strong>Banner de cookies:</strong> Al primer acceso, verás un banner para aceptar/rechazar cookies no esenciales. Tu preferencia se guarda 12 meses.</li>
+                <li><strong>Notificaciones push:</strong> Botón "Activar Avisos" en Inicio / Configuración. Revocable desde la App o ajustes del navegador (<code>chrome://settings/content/notifications</code>).</li>
+                <li><strong>Borrar todo:</strong> En tu navegador: Configuración → Privacidad → Borrar datos de navegación → "Cookies y otros datos de sitios" + "Imágenes y archivos en caché". Esto cierra sesión y borra favoritos/progreso locales.</li>
+                <li><strong>Modo incógnito/privado:</strong> No guarda nada al cerrar la ventana.</li>
+            </ul>
+        </section>
+
+        <section style="margin-bottom: 30px;">
+            <h2 style="color: var(--celeste-oscuro);">5. Terceros</h2>
+            <p>LUMEN <strong>NO usa</strong> cookies de terceros para analytics (Google Analytics, Meta Pixel, etc.), publicidad, ni tracking cruzado. Los únicos dominios externos que reciben datos son:</p>
+            <ul style="margin: 15px 0; padding-left: 20px;">
+                <li><strong>Supabase (etioxnigysbxitiaveyp.supabase.co):</strong> Autenticación y base de datos. Procesador de datos con DPA.</li>
+                <li><strong>Vercel (lumenve.vercel.app):</strong> Hosting y Edge Functions. Procesador con DPA.</li>
+                <li><strong>FormSubmit (formsubmit.co):</strong> Envío de emails de contacto/notificaciones. Procesador externo.</li>
+                <li><strong>CDNs (fonts.gstatic.com, cdnjs.cloudflare.com, cdn.jsdelivr.net):</strong> Fuentes e iconos. No rastrean usuarios.</li>
+            </ul>
+        </section>
+
+        <section style="margin-bottom: 30px;">
+            <h2 style="color: var(--celeste-oscuro);">6. Tus Derechos</h2>
+            <p>Puedes revocar el consentimiento para cookies no esenciales y notificaciones push en cualquier momento. Ver <a href="/privacidad" style="color: var(--celeste-primario);">Política de Privacidad</a> (sección "Tus Derechos").</p>
+        </section>
+
+        <section style="margin-bottom: 30px;">
+            <h2 style="color: var(--celeste-oscuro);">7. Cambios</h2>
+            <p>Actualizaremos esta política si cambiamos tecnologías de almacenamiento. Notificaremos via banner en la App.</p>
+        </section>
+
+        <section style="margin-bottom: 30px;">
+            <h2 style="color: var(--celeste-oscuro);">8. Contacto</h2>
+            <p>Dudas sobre cookies: <strong>juvemar08@gmail.com</strong> | Asunto: "Cookies LUMEN"</p>
+        </section>
+    </main>
+
+    <footer style="text-align: center; padding: 20px; color: var(--texto-gris); font-size: 14px;">
+        &copy; 2026 LUMEN - Juvemar. Todos los derechos reservados.
+    </footer>
+</body>
+</html>
