@@ -423,6 +423,33 @@ const LumenUI = {
         LumenAuth.register(data);
     },
     collectRegisterData: function() {
+        // Datos básicos (siempre requeridos - paso 1)
+        const baseData = {
+            nombre: document.getElementById('reg-fullname').value.trim(),
+            birthdate: document.getElementById('reg-birthdate').value.trim(),
+            age: this.ageFromBirthdate(document.getElementById('reg-birthdate').value),
+            phone: document.getElementById('reg-phone-user').value.trim(),
+            email: document.getElementById('reg-email').value.trim().toLowerCase(),
+            password: document.getElementById('reg-pass').value,
+        };
+
+        // Si no quiere Juvemar, solo devolver datos básicos
+        if (!this.wantsJuvemar) {
+            return {
+                ...baseData,
+                sector: '',
+                guardianName: '',
+                guardianPhone: '',
+                juvemarStatus: 'No',
+                juvemarTime: '',
+                sacramentos: [],
+                kerigma: 'Ninguna',
+                kerigmaOtra: '',
+                samuelParroquia: '',
+            };
+        }
+
+        // Datos Juvemar (paso 2 - solo si quiere ser parte)
         const juvemarStatus = document.querySelector('input[name="juvemar-status"]:checked');
         const kerigmaChecked = Array.from(document.querySelectorAll('#kerigma-grid input[name="kerigma"]:checked')).map(c => c.value);
         
@@ -434,12 +461,7 @@ const LumenUI = {
             : (samuelKerigmaChecked ? 'No' : '');
 
         return {
-            nombre: document.getElementById('reg-fullname').value.trim(),
-            birthdate: document.getElementById('reg-birthdate').value.trim(),
-            age: this.ageFromBirthdate(document.getElementById('reg-birthdate').value),
-            phone: document.getElementById('reg-phone-user').value.trim(),
-            email: document.getElementById('reg-email').value.trim().toLowerCase(),
-            password: document.getElementById('reg-pass').value,
+            ...baseData,
             sector: document.getElementById('reg-sector').value.trim() || '',
             guardianName: document.getElementById('reg-guardian-name').value.trim() || '',
             guardianPhone: document.getElementById('reg-guardian-phone').value.trim() || '',

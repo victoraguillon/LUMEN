@@ -119,10 +119,11 @@ const LumenAuth = {
                 if (error) throw error;
                 const uid = authData.user && authData.user.id;
                 if (uid) {
-                    // Use upsert to create profile if it doesn't exist (no DB trigger)
-                    return supabase.from('profiles').upsert({ ...userData, email: data.email, id: uid })
-                        .eq('id', uid)
-                        .then(() => ({ data: authData }));
+                    console.log('[LUMEN] Upserting profile data:', { ...userData, email: data.email, id: uid });
+                    // Use upsert to create/update profile (trigger on_auth_user_created exists)
+                    return supabase.from('profiles').upsert({ ...userData, email: data.email, id: uid }, { 
+                        onConflict: 'id' 
+                    }).then(() => ({ data: authData }));
                 }
                 return { data: authData };
             })
