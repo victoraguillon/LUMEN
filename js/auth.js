@@ -118,14 +118,29 @@ const LumenAuth = {
             .then(({ data: authData, error }) => {
                 if (error) throw error;
                 const uid = authData.user && authData.user.id;
-                if (uid) {
-                    console.log('[LUMEN] Upserting profile data:', { ...userData, email: data.email, id: uid });
-                    // Use upsert to create/update profile (trigger on_auth_user_created exists)
-                    return supabase.from('profiles').upsert({ ...userData, email: data.email, id: uid }, { 
-                        onConflict: 'id' 
-                    }).then(() => ({ data: authData }));
+                if (!uid) throw new Error('No se obtuvo UID del usuario');
+
+                // Validar datos básicos críticos antes de upsert
+                const requiredFields = ['nombre', 'email', 'phone'];
+                for (const field of requiredFields) {
+                    if (!userData[field] || String(userData[field]).trim() === '') {
+                        throw new Error(`Campo obligatorio faltante: ${field}`);
+                    }
                 }
-                return { data: authData };
+
+                console.log('[LUMEN] Upserting profile data:', { ...userData, email: data.email, id: uid });
+
+                return supabase.from('profiles').upsert({ ...userData, email: data.email, id: uid }, { 
+                    onConflict: 'id' 
+                })
+                .then((result) => {
+                    if (result.error) {
+                        console.error('[LUMEN] Upsert error:', result.error);
+                        throw new Error(`Error guardando perfil: ${result.error.message}`);
+                    }
+                    console.log('[LUMEN] Upsert successful:', result);
+                    return { data: authData };
+                });
             })
             .then(({ data: authData }) => {
                 if (wantsJuvemar) {
@@ -138,7 +153,10 @@ const LumenAuth = {
                 LumenUI.closeModal('register-modal');
                 this.loadProfile(authData.user);
             })
-            .catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
+            .catch(err => {
+                console.error('[LUMEN] Register error:', err);
+                LumenUI.showToast(LumenUI.getErrorMessage(err), 'error');
+            });
     },
     updateJuvemarProfile: function(juvemarData) {
         if (!this.currentUser) return Promise.reject(new Error('No hay usuario logeado'));

@@ -418,6 +418,18 @@ const LumenUI = {
         if (document.getElementById('reg-pass').value !== document.getElementById('reg-pass2').value) {
             this.showToast('Las contraseñas no coinciden.', 'error'); return;
         }
+        // Validar datos básicos obligatorios antes de enviar
+        const nombre = document.getElementById('reg-fullname').value.trim();
+        const email = document.getElementById('reg-email').value.trim();
+        const phone = document.getElementById('reg-phone-user').value.trim();
+        const birthdate = document.getElementById('reg-birthdate').value.trim();
+        if (!nombre) { this.showToast('El nombre es obligatorio.', 'error'); return; }
+        if (!email) { this.showToast('El email es obligatorio.', 'error'); return; }
+        if (!phone) { this.showToast('El teléfono es obligatorio.', 'error'); return; }
+        if (!birthdate) { this.showToast('La fecha de nacimiento es obligatoria.', 'error'); return; }
+        // Validar formato email básico
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { this.showToast('Email inválido.', 'error'); return; }
+
         const data = this.collectRegisterData();
         data.wantsJuvemar = !!extra.wantsJuvemar;
         LumenAuth.register(data);
