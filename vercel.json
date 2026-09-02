@@ -81,7 +81,7 @@
       "path": "/api/send-push",
       "schedule": "*/5 * * * *",
       "headers": {
-        "x-cron-secret": "@cron-secret"
+        "x-cron-secret": "@CRON_SECRET"
       }
     }
   ]
