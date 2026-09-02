@@ -11,7 +11,6 @@ const SHELL = [
   "/index.html",
   "/manifest.json",
   "/css/styles.css",
-  "/css/ds.css",
   "/js/supabase.js",
   "/js/icons.js",
   "/js/ui.js",

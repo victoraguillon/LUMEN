@@ -1,101 +1,69 @@
 let activeFilter = 'Todos';
 
 const ActividadesView = {
-    cropper: null,
+    cropper: null, 
     render: function() {
         let content = '';
-        const adminButton = LumenAuth.isAdmin ? `<button class="btn btn-add" onclick="ActividadesView.showAddForm()">${Icons.plus} Crear Actividad</button>` : '';
+        let adminButton = LumenAuth.isAdmin ? `<button class="btn btn-add" onclick="ActividadesView.showAddForm()">${Icons.plus} Crear Nueva Actividad</button>` : '';
 
         if (LumenData.state.eventos === 'loading') {
-            let skeletons = '';
-            for (let i = 0; i < 3; i++) skeletons += `<div class="v-skeleton v-skeleton--row"></div>`;
-            content = `<div class="v-grid v-grid--cards">${skeletons}</div>`;
-        }
+            let skeletons = ''; for(let i=0; i<3; i++) skeletons += `<div class="skeleton-card"></div>`;
+            content = `<div class="cards-grid">${skeletons}</div>`;
+        } 
         else if (LumenData.state.eventos === 'empty') {
-            content = `
-                <div class="v-empty reveal">
-                    ${Icons.empty_box}
-                    <h3>No hay actividades programadas</h3>
-                    <p>Vuelve pronto para ver los próximos retiros y misiones.</p>
-                </div>`;
-        }
+            content = `<div class="state-container">${Icons.empty_box}<h3>No hay actividades programadas</h3><p>Vuelve pronto para ver los próximos retiros y misiones.</p></div>`;
+        } 
         else if (LumenData.state.eventos === 'ideal') {
+            // Chips de Filtro
             let chipsHTML = `
-                <div class="v-chips reveal">
-                    <div class="v-chip ${activeFilter === 'Todos' ? 'active' : ''}" onclick="ActividadesView.setFilter('Todos')">Próximas</div>
-                    <div class="v-chip ${activeFilter === 'historial' ? 'active' : ''}" onclick="ActividadesView.setFilter('historial')">Historial</div>
-                    <div class="v-chip ${activeFilter === 'unico' ? 'active' : ''}" onclick="ActividadesView.setFilter('unico')">Únicos</div>
-                    <div class="v-chip ${activeFilter === 'recurrente' ? 'active' : ''}" onclick="ActividadesView.setFilter('recurrente')">Recurrentes</div>
+                <div class="filter-chips reveal">
+                    <div class="chip ${activeFilter === 'Todos' ? 'active' : ''}" onclick="ActividadesView.setFilter('Todos')">Próximas</div>
+                    <div class="chip ${activeFilter === 'historial' ? 'active' : ''}" onclick="ActividadesView.setFilter('historial')">Historial</div>
+                    <div class="chip ${activeFilter === 'unico' ? 'active' : ''}" onclick="ActividadesView.setFilter('unico')">Únicos</div>
+                    <div class="chip ${activeFilter === 'recurrente' ? 'active' : ''}" onclick="ActividadesView.setFilter('recurrente')">Recurrentes</div>
                 </div>
             `;
 
             let cardsHTML = '';
+            // Filtrar: 'Todos' = próximas (recurrentes + únicos futuros), 'historial' = únicos ya finalizados
             const baseList = activeFilter === 'historial' ? LumenData.historialEventos() : LumenData.upcomingEventos();
             const filteredEvents = baseList.filter(ev => activeFilter === 'Todos' || activeFilter === 'historial' || ev.tipo === activeFilter);
-
+            
             if (filteredEvents.length === 0) {
-                cardsHTML = `
-                    <div class="v-empty" style="grid-column: 1 / -1;">
-                        ${Icons.empty_box}
-                        <h3>${activeFilter === 'historial' ? 'Aún no hay actividades finalizadas' : 'No hay actividades de este tipo'}</h3>
-                    </div>`;
+                cardsHTML = `<div class="state-container">${Icons.empty_box}<h3>${activeFilter === 'historial' ? 'Aún no hay actividades finalizadas' : 'No hay actividades de este tipo'}</h3></div>`;
             } else {
                 filteredEvents.forEach(evento => {
-                    const badgeTipo = evento.tipo === 'recurrente' ? 'semanal' : 'unico';
-                    const badgeText = evento.tipo === 'recurrente' ? 'Semanal' : 'Único';
-                    const badgeIcon = evento.tipo === 'recurrente'
-                        ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>'
-                        : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>';
-                    const fueFinalizada = evento.tipo === 'unico' && evento.fecha_fin && new Date(evento.fecha_fin) < new Date();
-                    const fechaText = evento.tipo === 'recurrente' ? `Todos los ${evento.dia} a las ${evento.hora}` : (evento.fecha_inicio ? new Date(evento.fecha_inicio).toLocaleDateString('es-VE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) : 'Pronto');
-
                     let adminButtons = LumenAuth.isAdmin ? `
-                        <div class="btn-row">
+                        <div class="card-footer">
                             <button class="btn btn-edit" onclick="ActividadesView.showAddForm('${evento.id}')">${Icons.edit} Editar</button>
                             <button class="btn btn-danger" onclick="ActividadesView.deleteActivity('${evento.id}')">${Icons.trash} Eliminar</button>
                         </div>
                     ` : '';
+                    let badgeClass = evento.tipo === 'recurrente' ? 'badge-recurring' : 'badge-unique';
+                    let badgeText = evento.tipo === 'recurrente' ? 'Semanal' : 'Único';
+                    const fueFinalizada = evento.tipo === 'unico' && evento.fecha_fin && new Date(evento.fecha_fin) < new Date();
+                    let fechaText = evento.tipo === 'recurrente' ? `Todos los ${evento.dia} a las ${evento.hora}` : (evento.fecha_inicio ? new Date(evento.fecha_inicio).toLocaleDateString('es-VE') : 'Pronto');
+                    if (fueFinalizada) fechaText += ` · Finalizada`;
 
                     cardsHTML += `
-                        <article class="v-card v-media act-card reveal">
-                            ${evento.image_url ? `<img class="v-media__img" src="${LumenUI.escapeHTML(evento.image_url)}" alt="${LumenUI.escapeHTML(evento.titulo)}" loading="lazy">` : ''}
-                            <div class="v-media__body">
-                                <div class="act-badges">
-                                    <span class="badge-tag badge-tag--${badgeTipo}">${badgeIcon} ${badgeText}</span>
-                                    ${fueFinalizada ? '<span class="badge-tag badge-tag--fin">Finalizada</span>' : ''}
-                                </div>
-                                <h3 class="v-card__title" style="font-size:1.12rem;">${LumenUI.escapeHTML(evento.titulo)}</h3>
-                                <div class="v-hint" style="display:flex; align-items:flex-start; gap:8px;">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px; height:16px; flex-shrink:0; margin-top:2px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                                    <span style="text-transform:capitalize;">${LumenUI.escapeHTML(fechaText)}</span>
-                                </div>
-                                <p class="act-desc">${LumenUI.escapeHTML((evento.descripcion || '').substring(0, 90))}…</p>
-                                <div style="display:flex; flex-direction:column; gap:10px; margin-top:auto; padding-top:10px;">
-                                    <button class="btn btn-primary btn-block" onclick="LumenData.selectedEventId='${evento.id}'; LumenRouter.navigateTo('detalle')">Ver Detalle</button>
-                                    ${adminButtons}
-                                </div>
+                        <div class="card reveal">
+                            ${evento.image_url ? `<img src="${LumenUI.escapeHTML(evento.image_url)}" alt="${LumenUI.escapeHTML(evento.titulo)}" loading="lazy" width="400" height="180" style="width:100%; height: 180px; object-fit: cover;">` : ''}
+                            <div class="card-header">${Icons.calendar}<h3>${LumenUI.escapeHTML(evento.titulo)}</h3></div>
+                            <div class="card-body">
+                                <span class="card-badge ${badgeClass}">${badgeText}</span>
+                                <p><strong>Fecha:</strong> ${LumenUI.escapeHTML(fechaText)}</p>
+                                <p>${LumenUI.escapeHTML((evento.descripcion || '').substring(0, 60))}...</p>
+                                <button class="btn btn-primary btn-block" onclick="LumenData.selectedEventId='${evento.id}'; LumenRouter.navigateTo('detalle')">Ver Detalle</button>
+                                ${adminButtons}
                             </div>
-                        </article>
+                        </div>
                     `;
                 });
             }
-            content = `${chipsHTML}<div class="v-grid v-grid--cards">${cardsHTML}</div>`;
+            content = `${chipsHTML}<div class="cards-grid">${cardsHTML}</div>`;
         }
 
-        const sub = activeFilter === 'historial' ? 'Actividades únicas ya realizadas.' : 'Próximas actividades y encuentros.';
-
-        return `
-            <div class="view">
-                <header class="v-header v-header--split reveal">
-                    <div style="display:flex; flex-direction:column; gap:10px;">
-                        <h1 class="v-title">Actividades</h1>
-                        <p class="v-sub">${sub}</p>
-                    </div>
-                    <div class="v-header__actions">${adminButton}</div>
-                </header>
-                ${content}
-            </div>
-        `;
+        return `<div class="view"><h2 class="reveal" style="color: var(--celeste-oscuro); margin-bottom:20px;">Actividades</h2><p class="reveal" style="color:var(--texto-gris); margin-top:-10px; margin-bottom:15px;">${activeFilter === 'historial' ? 'Actividades únicas ya realizadas.' : 'Próximas actividades y encuentros.'}</p><div class="reveal">${adminButton}</div>${content}</div>`;
     },
     setFilter: function(filter) {
         activeFilter = filter;
@@ -170,7 +138,7 @@ const ActividadesView = {
             </form>
         `;
         LumenUI.openAdminModal(id ? 'Editar Actividad' : 'Crear Actividad', formHTML);
-        if (id) { this.toggleFechaFields(evento.tipo); this.toggleReqFields(evento.requisito_edad || 'ninguno'); this.toggleCostField(evento.costo ? 'si' : 'no'); }
+        if(id) { this.toggleFechaFields(evento.tipo); this.toggleReqFields(evento.requisito_edad || 'ninguno'); this.toggleCostField(evento.costo ? 'si' : 'no'); }
     },
     handlePicUpload: function(e) {
         const file = e.target.files[0];
@@ -236,11 +204,11 @@ const ActividadesView = {
             requisitos_texto: document.getElementById('act-req-text').value,
             image_url: document.getElementById('act-image-url').value
         };
-
+        
         if (document.getElementById('act-has-cost').value === 'si') {
             data.costo = document.getElementById('act-cost').value;
         }
-
+        
         if (data.requisitos_edad === 'nacido_antes' || data.requisitos_edad === 'nacido_desde') {
             data.requisito_fecha = document.getElementById('act-req-fecha').value;
         } else if (data.requisitos_edad === 'rango_edad') {
@@ -255,7 +223,7 @@ const ActividadesView = {
             data.dia = document.getElementById('act-day').value;
             data.hora = document.getElementById('act-time').value;
         }
-
+        
         const action = id ? LumenData.updateActivity(id, data) : LumenData.saveActivity(data);
         action.then(() => { LumenUI.closeModal('admin-modal'); LumenUI.showToast('Actividad guardada', 'success'); });
     }

@@ -123,103 +123,86 @@ const LandingView = {
                     </button>
                 </div>
 
-                <section class="platform-intro reveal">
-                    <div class="platform-intro-media">
-                        <img src="assets/grupo_lumen.jpg" alt="Jóvenes católicos" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=800&q=80'">
+                <div class="platform-intro reveal">
+                    <img src="assets/grupo_lumen.jpg" alt="Jóvenes católicos" onerror="this.src='https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=800&q=80'">
+                    <div class="platform-intro-text">
+                        <h2>Bienvenido a la Pastoral Juvenil Digital</h2>
+                        <p>Lumen es una página que responde a una necesidad particular dentro de nuestra Parroquia Ntra. Sra. de Lourdes: <strong>Utilizar la tecnología a beneficio del servicio</strong>. Aquí podrás acceder a todo lo que necesitas saber sobre nuestro amado grupo de apostolado Juvemar y de nuestra querida hermandad de "El Llamado de Samuel". </p>
                     </div>
-                    <div class="platform-intro-body">
-                        <span class="v-eyebrow">Bienvenido a la Pastoral Juvenil Digital</span>
-                        <h2 class="v-sec__title">Utilizar la tecnología a beneficio del servicio</h2>
-                        <p style="color:var(--texto-gris); line-height:1.7; margin:0;">Lumen es una página que responde a una necesidad particular dentro de nuestra Parroquia Ntra. Sra. de Lourdes: <strong>utilizar la tecnología a beneficio del servicio</strong>. Aquí podrás acceder a todo lo que necesitas saber sobre nuestro amado grupo de apostolado <strong>Juvemar</strong> y de nuestra querida hermandad de <strong>“El Llamado de Samuel”</strong>.</p>
+                </div>
+                
+                <div class="how-it-works reveal">
+                    <h2>Cómo funciona LUMEN</h2>
+                    <div class="steps-grid">
+                        <div class="step-card reveal">
+                            <div class="step-number">1</div>
+                            <h3>Regístrate</h3>
+                            <p>Crea tu cuenta con tus datos y experiencias. El coordinador aprobará tu ingreso a la pastoral.</p>
+                        </div>
+                        <div class="step-card reveal reveal-delay-1">
+                            <div class="step-number">2</div>
+                            <h3>Conéctate</h3>
+                            <p>Inscríbete a reuniones, retiros y misiones. Accede a recursos de formación y oración exclusivos.</p>
+                        </div>
+                        <div class="step-card reveal reveal-delay-2">
+                            <div class="step-number">3</div>
+                            <h3>Crece y Anuncia</h3>
+                            <p>Recibe notificaciones de actividades, lleva control de tu asistencia y sé luz en el mundo.</p>
+                        </div>
                     </div>
-                </section>
+                </div>
 
-                <section class="v-sec reveal">
-                    <h2 class="v-sec__title">Cómo funciona LUMEN</h2>
-                    <p class="v-sec__sub">Tres pasos para crecer en fe, comunidad y misión.</p>
-                    <ol class="v-steps">
-                        <li class="v-step">
-                            <span class="v-step-num">1</span>
-                            <div>
-                                <h3>Regístrate</h3>
-                                <p>Crea tu cuenta con tus datos y experiencias. El coordinador aprobará tu ingreso a la pastoral.</p>
-                            </div>
-                        </li>
-                        <li class="v-step">
-                            <span class="v-step-num">2</span>
-                            <div>
-                                <h3>Conéctate</h3>
-                                <p>Inscríbete a reuniones, retiros y misiones. Accede a recursos de formación y oración exclusivos.</p>
-                            </div>
-                        </li>
-                        <li class="v-step">
-                            <span class="v-step-num">3</span>
-                            <div>
-                                <h3>Crece y Anuncia</h3>
-                                <p>Recibe notificaciones de actividades, lleva control de tu asistencia y sé luz en el mundo.</p>
-                            </div>
-                        </li>
-                    </ol>
-                </section>
-
-                <section class="verse-card reveal" style="margin-top: var(--ds-7);">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"></path><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"></path></svg>
-                    <p>“Somos instrumentos de Jesús y debemos irradiar su luz para llegar a todos.”</p>
+                <div class="verse-card reveal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"></path><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"></path></svg>
+                    <p>"Somos instrumentos de Jesús y debemos irradiar su luz para llegar a todos."</p>
                     <cite>Papa Francisco</cite>
-                </section>
+                </div>
 
-                <section class="v-sec reveal">
-                    <h2 class="v-sec__title">Nuestros Pilares</h2>
-                    <p class="v-sec__sub">La convicción sobre la que caminamos cada día.</p>
-                    <div class="v-pillars">
-                        <article class="v-pillar">
-                            <span class="v-pillar__icon">F</span>
+                <div class="how-it-works reveal" style="margin-top: 60px;">
+                    <h2>Nuestros Pilares</h2>
+                    <div class="steps-grid">
+                        <div class="step-card reveal">
+                            <div class="step-number"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M12 2v20M2 12h20"></path></svg></div>
                             <h3>Fe</h3>
                             <p>Una convicción arraigada en el encuentro personal con Jesucristo, alimentada por la oración y los sacramentos.</p>
-                        </article>
-                        <article class="v-pillar">
-                            <span class="v-pillar__icon">H</span>
+                        </div>
+                        <div class="step-card reveal reveal-delay-1">
+                            <div class="step-number"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
                             <h3>Hermandad</h3>
                             <p>La fraternidad como estilo de vida. Acompañados de la Virgen María, caminamos juntos como familia.</p>
-                        </article>
-                        <article class="v-pillar">
-                            <span class="v-pillar__icon">M</span>
+                        </div>
+                        <div class="step-card reveal reveal-delay-2">
+                            <div class="step-number"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg></div>
                             <h3>Misión</h3>
                             <p>Ser luz para el mundo. Llevar la alegría del Evangelio a todos los rincones con nuestras misiones.</p>
-                        </article>
+                        </div>
                     </div>
-                </section>
+                </div>
 
-                <section class="v-sec reveal">
-                    <h2 class="v-sec__title">Instala LUMEN en tu Celular</h2>
-                    <p class="v-sec__sub">Accede más rápido y recibe notificaciones instalando la app en tu pantalla de inicio.</p>
-                    <div class="v-grid v-grid--2">
-                        <article class="v-card">
-                            <div class="v-card__top">
-                                <span class="v-card__icon">${'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2" ry="2"></rect><line x1="11" y1="18" x2="13" y2="18"></line></svg>'}</span>
-                                <h3 class="v-card__title">Android (Chrome)</h3>
-                            </div>
-                            <ol class="v-hint" style="margin:0; padding-left:18px; display:flex; flex-direction:column; gap:6px;">
+                <div class="pwa-tutorial reveal">
+                    <h2 style="text-align: center; color: var(--texto-oscuro); margin-bottom: 15px; font-family: 'Sora', sans-serif;">Instala LUMEN en tu Celular</h2>
+                    <p style="text-align: center; color: var(--texto-gris);">Accede más rápido y recibe notificaciones instalando la app en tu pantalla de inicio.</p>
+                    <div class="pwa-steps">
+                        <div class="pwa-step">
+                            <h4>Para Android (Chrome)</h4>
+                            <ol>
                                 <li>Abre LUMEN en Google Chrome.</li>
                                 <li>Toca el menú de 3 puntos (arriba a la derecha).</li>
-                                <li>Selecciona “Agregar a pantalla de inicio”.</li>
-                                <li>Toca “Instalar” o “Agregar”. ¡Listo!</li>
+                                <li>Selecciona "Agregar a pantalla de inicio".</li>
+                                <li>Toca "Instalar" o "Agregar". ¡Listo!</li>
                             </ol>
-                        </article>
-                        <article class="v-card">
-                            <div class="v-card__top">
-                                <span class="v-card__icon">${'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06z"></path></svg>'}</span>
-                                <h3 class="v-card__title">iPhone (Safari)</h3>
-                            </div>
-                            <ol class="v-hint" style="margin:0; padding-left:18px; display:flex; flex-direction:column; gap:6px;">
+                        </div>
+                        <div class="pwa-step">
+                            <h4>Para iPhone (Safari)</h4>
+                            <ol>
                                 <li>Abre LUMEN en el navegador Safari.</li>
-                                <li>Toca el botón “Compartir” (cuadro con flecha hacia arriba).</li>
-                                <li>Desplázate y selecciona “Añadir a inicio”.</li>
-                                <li>Toca “Añadir” en la esquina superior derecha.</li>
+                                <li>Toca el botón "Compartir" (cuadro con flecha hacia arriba).</li>
+                                <li>Desplázate y selecciona "Añadir a inicio".</li>
+                                <li>Toca "Añadir" en la esquina superior derecha.</li>
                             </ol>
-                        </article>
+                        </div>
                     </div>
-                </section>
+                </div>
             </div>
         `;
     }
