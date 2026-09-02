@@ -132,7 +132,8 @@ const LumenAuth = {
             direccion: data.sector || '', telefono: phone,
             juvemar_status: juvemarStatus, juvemar_tiempo: data.juvemarTime || '', sacramentos: data.sacramentos || [],
             kerigma: data.kerigma || '', kerigma_otra: data.kerigmaOtra || '', samuel_parroquia: data.samuelParroquia || '',
-            email: email, role: 'global', status: 'approved'
+            email: email, role: 'global', status: 'approved',
+            acepta_terminos: true, acepta_terminos_ts: new Date().toISOString()
         };
         if (ageNum && ageNum < 18) { userData.representante_nombre = data.guardianName || ''; userData.representante_telefono = data.guardianPhone || ''; }
 
@@ -219,7 +220,9 @@ const LumenAuth = {
             samuel_parroquia: juvemarData.samuelParroquia || '',
             direccion: juvemarData.sector || '',
             role: role,
-            status: status
+            status: status,
+            acepta_terminos: true,
+            acepta_terminos_ts: new Date().toISOString()
         };
         if (juvemarData.age && parseInt(juvemarData.age) < 18) {
             updateData.representante_nombre = juvemarData.guardianName;

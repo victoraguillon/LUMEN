@@ -45,6 +45,18 @@ const LumenPush = {
                 LumenUI.openModal('login-modal');
                 return false;
             }
+            if (typeof LumenCookieConsent !== 'undefined' && !LumenCookieConsent.all()) {
+                const b = document.getElementById('cookie-consent-banner');
+                if (b) {
+                    b.style.display = 'block';
+                    const panel = document.getElementById('cookie-manage-panel');
+                    if (panel) panel.style.display = 'flex';
+                    const opt = document.getElementById('cookie-opt-push');
+                    if (opt) opt.checked = true;
+                }
+                LumenUI.showToast('Para recibir avisos, acepta las cookies opcionales en el banner.', 'error');
+                return false;
+            }
             const perm = await Notification.requestPermission();
             if (perm === 'denied') {
                 LumenUI.showToast(this.esIOS()

@@ -430,6 +430,14 @@ const LumenUI = {
         // Validar formato email básico
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { this.showToast('Email inválido.', 'error'); return; }
 
+        const legalOk = document.getElementById('reg-legal');
+        if (!legalOk || !legalOk.checked) {
+            this.showToast('Debes aceptar los Términos y la Política de Privacidad.', 'error');
+            const wrap = document.getElementById('reg-legal-wrap');
+            if (wrap) wrap.style.borderColor = 'var(--rojo, #e74c3c)';
+            return;
+        }
+
         const data = this.collectRegisterData();
         data.wantsJuvemar = !!extra.wantsJuvemar;
         LumenAuth.register(data);
@@ -653,6 +661,13 @@ safeListener('register-form', 'submit', function(e) {
         LumenUI.showToast('Las contraseñas no coinciden. Revísalas.', 'error');
         return;
     }
+    const legalOk = document.getElementById('reg-legal');
+    if (!legalOk || !legalOk.checked) {
+        LumenUI.showToast('Debes aceptar los Términos y la Política de Privacidad.', 'error');
+        const wrap = document.getElementById('reg-legal-wrap');
+        if (wrap) wrap.style.borderColor = 'var(--rojo, #e74c3c)';
+        return;
+    }
     // Usuario ya registrado que se une a Juvemar → actualizar perfil (no volver a crear cuenta)
     if (LumenAuth.currentUser) {
         LumenAuth.updateJuvemarProfile(data);
@@ -701,6 +716,53 @@ document.addEventListener('click', function(e) {
 });
 LumenUI.regStep = 0;
 initRegisterPasswordHint();
+
+/* ============================================
+   CONSENTIMIENTO DE COOKIES (RGPD/LSSI)
+   - El banner solo aparece si aún no hay decisión.
+   - 'all': funcionales + opcionales (push).
+   - 'essential': solo lo necesario para que la app funcione.
+   ============================================ */
+const LumenCookieConsent = {
+    KEY: 'lumen-cookie-consent',
+    get() {
+        try { return JSON.parse(localStorage.getItem(this.KEY)) || null; } catch (e) { return null; }
+    },
+    all() { const c = this.get(); return !!c && c.level === 'all'; },
+    save(level) {
+        localStorage.setItem(this.KEY, JSON.stringify({ level: level, ts: Date.now() }));
+        this.hide();
+        if (typeof LumenPush !== 'undefined' && LumenPush.aplicarEstadoUI) LumenPush.aplicarEstadoUI();
+    },
+    show() {
+        const b = document.getElementById('cookie-consent-banner');
+        if (b) b.style.display = 'block';
+    },
+    hide() {
+        const b = document.getElementById('cookie-consent-banner');
+        if (b) b.style.display = 'none';
+    },
+    togglePanel(open) {
+        const p = document.getElementById('cookie-manage-panel');
+        if (p) p.style.display = open ? 'flex' : 'none';
+    },
+    init() {
+        if (this.get()) return;
+        this.show();
+        const acceptAll = document.getElementById('cookie-accept-all');
+        const acceptEss = document.getElementById('cookie-accept-essential');
+        const manage = document.getElementById('cookie-manage');
+        const savePref = document.getElementById('cookie-save-pref');
+        const cancelPref = document.getElementById('cookie-cancel-pref');
+        const optPush = document.getElementById('cookie-opt-push');
+        if (acceptAll) acceptAll.addEventListener('click', () => this.save('all'));
+        if (acceptEss) acceptEss.addEventListener('click', () => this.save('essential'));
+        if (manage) manage.addEventListener('click', () => this.togglePanel(true));
+        if (cancelPref) cancelPref.addEventListener('click', () => this.togglePanel(false));
+        if (savePref) savePref.addEventListener('click', () => this.save(optPush && optPush.checked ? 'all' : 'essential'));
+    }
+};
+LumenCookieConsent.init();
 
 // Aplicar máscaras cuando el modal de registro se abre
 const registerObserver = new MutationObserver(() => { if (document.getElementById('register-modal').classList.contains('active')) LumenUI.applyMasks(); });

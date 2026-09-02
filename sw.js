@@ -1,6 +1,6 @@
-// LUMEN - Service Worker único (v23) en la RAÍZ (/sw.js)
-// v23: chart.js carga dinámica solo en Gestión (admin) + reorganización de repositorio
-const CACHE = "lumen-cache-v23";
+// LUMEN - Service Worker único (v24) en la RAÍZ (/sw.js)
+// v24: consentimiento de cookies (RGPD) + checkbox legal en registro + migración 10
+const CACHE = "lumen-cache-v24";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";

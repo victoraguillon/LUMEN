@@ -158,6 +158,16 @@
                 <button id="cookie-accept-essential" class="btn btn-outline" style="padding:10px 20px; font-size:13px;">Solo esenciales</button>
                 <button id="cookie-manage" class="btn btn-ghost" style="padding:10px 16px; font-size:13px; color:var(--texto-gris);">Configurar</button>
             </div>
+            <div id="cookie-manage-panel" style="display:none; flex-basis:100%; padding-top:6px;">
+                <div style="display:flex; align-items:center; gap:10px; font-size:13px; color:var(--texto-gris);">
+                    <input type="checkbox" id="cookie-opt-push" style="width:auto; accent-color:var(--celeste-primario);">
+                    <label for="cookie-opt-push" style="margin:0;">Recibir notificaciones push (opcional)</label>
+                </div>
+                <div style="margin-top:10px; display:flex; gap:12px; flex-wrap:wrap;">
+                    <button id="cookie-save-pref" class="btn btn-primary" style="padding:10px 20px; font-size:13px;">Guardar configuración</button>
+                    <button id="cookie-cancel-pref" class="btn btn-ghost" style="padding:10px 16px; font-size:13px; color:var(--texto-gris);">Volver</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -326,6 +336,15 @@
                         </div>
                     </div>
                 </section>
+
+                <div class="form-group" id="reg-legal-wrap" style="margin-top:18px; border-top:1px solid var(--border-color); padding-top:14px;">
+                    <div class="checkbox-item" style="align-items:flex-start;">
+                        <input type="checkbox" id="reg-legal" style="margin-top:3px;" aria-required="true">
+                        <label for="reg-legal" style="font-size:13px; line-height:1.5;">
+                            He leído y acepto los <a href="/terminos" target="_blank" rel="noopener" style="color:var(--celeste-primario); text-decoration:underline;">Términos y Condiciones</a> y la <a href="/privacidad" target="_blank" rel="noopener" style="color:var(--celeste-primario); text-decoration:underline;">Política de Privacidad</a>, incluyendo el tratamiento de mis datos personales.
+                        </label>
+                    </div>
+                </div>
 
                 <div class="reg-actions">
                     <button type="button" class="btn btn-outline" id="reg-prev" onclick="LumenUI.registerPrev()" style="display:none;">Volver</button>
