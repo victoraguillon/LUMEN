@@ -23,13 +23,13 @@ const LumenAuth = {
         });
     },
     loadProfile: function(user) {
-        supabase
+        return supabase
             .from('profiles')
             .select('*')
             .eq('id', user.id)
             .maybeSingle()
             .then(({ data, error }) => {
-                if (error) { console.error('[LUMEN] getProfile', error); return; }
+                if (error) { console.error('[LUMEN] getProfile', error); throw error; }
                 const profile = data;
                 this.userProfile = profile || null;
                 if (profile && profile.status === 'pending') {
