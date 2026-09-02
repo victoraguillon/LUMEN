@@ -145,9 +145,9 @@ const NosotrosView = {
             title: "Juventud <em>Mariana</em> en Salida",
             text: `Es un grupo juvenil cristiano católico adscrito al servicio de <strong>JovenMision</strong> perteneciente a la parroquia <strong>Nuestra Señora de Lourdes</strong>, en el Barrio San José, Maracaibo. Fue fundado el <strong>19 de octubre del 2025</strong>, durante el Domingo Mundial de las Misiones.`,
             stats: [
-                { num: "2025", label: "Fundación" },
-                { num: "14–27", label: "Edades del grupo" },
-                { num: "Lourdes", label: "Raíz parroquial" }
+                { num: "Est. 2025", label: "Fundación" },
+                { num: "15–25", label: "Edades del grupo" },
+                { num: "JovenMisión", label: "Servicio" }
             ],
             image: "assets/banner_juvemar.jpg",
             imageAlt: "Grupo Juvemar en comunidad",
@@ -158,7 +158,7 @@ const NosotrosView = {
         const nombre = {
             heading: "Nuestro Nombre",
             rows: [
-                { icon: Icons.users, title: "Juventud", text: "Somos un grupo de jóvenes entre 14 y 27 años, que hemos decidido ser jóvenes diferentes que se atreven a ser más, como lo decía San Carlo Acutis." },
+                { icon: Icons.users, title: "Juventud", text: "Somos un grupo de jóvenes entre 15 y 25 años, que hemos decidido ser jóvenes diferentes que se atreven a ser más, como lo decía San Carlo Acutis." },
                 { icon: Icons.star, title: "Mariana", text: "Nuestra espiritualidad está ligada al ejemplo de Nuestra Señora de Lourdes (Estrella de la Evangelización). Ella es la guía de nuestro camino y apostolado." },
                 { icon: Icons.globe, title: "En Salida", text: "Somos misioneros, siempre motivados a \"hacer lío\" y salir para predicar la Palabra de Dios a todas las naciones. En la misión encontramos a Dios." }
             ]
