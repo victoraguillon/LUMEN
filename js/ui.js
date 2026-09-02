@@ -653,6 +653,11 @@ safeListener('register-form', 'submit', function(e) {
         LumenUI.showToast('Las contraseñas no coinciden. Revísalas.', 'error');
         return;
     }
+    // Usuario ya registrado que se une a Juvemar → actualizar perfil (no volver a crear cuenta)
+    if (LumenAuth.currentUser) {
+        LumenAuth.updateJuvemarProfile(data);
+        return;
+    }
     LumenAuth.register(data);
 });
 

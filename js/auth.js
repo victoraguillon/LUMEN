@@ -55,8 +55,14 @@ const LumenAuth = {
         const drawerRecursosLink = document.getElementById('drawer-recursos-link');
         
         if (this.currentUser) {
-            const avatarLetter = this.userProfile?.nombre ? this.userProfile.nombre.charAt(0) : 'L';
-            const picUrl = this.userProfile?.photo_url ? encodeURI(this.userProfile.photo_url) : `https://via.placeholder.com/100/005F8A/ffffff?text=${encodeURIComponent(avatarLetter)}`;
+            const avatarLetter = this.userProfile?.nombre ? this.userProfile.nombre.charAt(0).toUpperCase() : 'L';
+            let picUrl;
+            if (this.userProfile?.photo_url) {
+                picUrl = encodeURI(this.userProfile.photo_url);
+            } else {
+                const svg = encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="#005F8A"/><text x="50" y="50" fill="#fff" font-family="Arial, sans-serif" font-size="48" text-anchor="middle" dominant-baseline="central">${avatarLetter}</text></svg>`);
+                picUrl = `data:image/svg+xml;charset=utf-8,${svg}`;
+            }
             userDataZone.innerHTML = `<div class="user-profile-btn" onclick="LumenRouter.navigateTo('perfil')"><img src="${picUrl}" alt="Perfil"><span>${LumenUI.escapeHTML(this.userProfile?.nombre || 'Usuario')}</span></div>`;
             
             const isMember = this.isMember;
@@ -102,61 +108,99 @@ const LumenAuth = {
     },
     register: function(data) {
         const wantsJuvemar = !!data.wantsJuvemar;
+
+        // Validar datos básicos críticos ANTES de signUp (evita usuarios huérfanos sin perfil)
+        const nombre = String(data.nombre || '').trim();
+        const email = String(data.email || '').trim().toLowerCase();
+        const phone = String(data.phone || '').trim();
+        const birthdate = String(data.birthdate || '').trim();
+        const password = data.password || '';
+        if (!nombre) { this._regError('El nombre es obligatorio.'); return; }
+        if (!email) { this._regError('El email es obligatorio.'); return; }
+        if (!phone) { this._regError('El teléfono es obligatorio.'); return; }
+        if (!birthdate) { this._regError('La fecha de nacimiento es obligatoria.'); return; }
+        if (password.length < 6) { this._regError('La contraseña debe tener al menos 6 caracteres.'); return; }
+
         const juvemarStatus = wantsJuvemar ? (data.juvemarStatus || 'Nuevo') : 'No';
-        const role = wantsJuvemar ? 'miembro' : 'global';
-        const status = wantsJuvemar ? 'pending' : 'approved';
+        const ageNum = parseInt(data.age, 10);
 
+        // Datos guardados en el INSERT inicial. role/status siempren global/approved:
+        // la BD (guard guard_profiles_privileges) SOLO admite role='global' + status='approved'
+        // en el alta de perfil. Juvemar pasa luego a miembro/pending mediante UPDATE.
         const userData = {
-            nombre: data.nombre, edad: data.age, nacimiento: data.birthdate, direccion: data.sector, telefono: data.phone,
+            nombre: nombre, edad: Number.isFinite(ageNum) ? ageNum : null, nacimiento: birthdate,
+            direccion: data.sector || '', telefono: phone,
             juvemar_status: juvemarStatus, juvemar_tiempo: data.juvemarTime || '', sacramentos: data.sacramentos || [],
-            kerigma: data.kerigma, kerigma_otra: data.kerigmaOtra || '', samuel_parroquia: data.samuelParroquia || '',
-            email: data.email, role: role, status: status
+            kerigma: data.kerigma || '', kerigma_otra: data.kerigmaOtra || '', samuel_parroquia: data.samuelParroquia || '',
+            email: email, role: 'global', status: 'approved'
         };
-        if (data.age && parseInt(data.age) < 18) { userData.representante_nombre = data.guardianName; userData.representante_telefono = data.guardianPhone; }
+        if (ageNum && ageNum < 18) { userData.representante_nombre = data.guardianName || ''; userData.representante_telefono = data.guardianPhone || ''; }
 
-        return supabase.auth.signUp({ email: data.email, password: data.password })
+        console.log('[LUMEN] Register | userData:', userData);
+
+        return supabase.auth.signUp({ email, password })
             .then(({ data: authData, error }) => {
                 if (error) throw error;
                 const uid = authData.user && authData.user.id;
                 if (!uid) throw new Error('No se obtuvo UID del usuario');
 
-                // Validar datos básicos críticos antes de upsert
-                const requiredFields = ['nombre', 'email', 'phone'];
-                for (const field of requiredFields) {
-                    if (!userData[field] || String(userData[field]).trim() === '') {
-                        throw new Error(`Campo obligatorio faltante: ${field}`);
-                    }
-                }
+                console.log('[LUMEN] Upserting profile data:', { ...userData, id: uid });
 
-                console.log('[LUMEN] Upserting profile data:', { ...userData, email: data.email, id: uid });
-
-                return supabase.from('profiles').upsert({ ...userData, email: data.email, id: uid }, { 
-                    onConflict: 'id' 
-                })
-                .then((result) => {
-                    if (result.error) {
-                        console.error('[LUMEN] Upsert error:', result.error);
-                        throw new Error(`Error guardando perfil: ${result.error.message}`);
-                    }
-                    console.log('[LUMEN] Upsert successful:', result);
-                    return { data: authData };
-                });
+                return supabase.from('profiles').upsert({ ...userData, id: uid }, { onConflict: 'id' })
+                    .then((result) => {
+                        if (result.error) {
+                            console.error('[LUMEN] Upsert error:', result.error);
+                            throw new Error(`Error guardando perfil: ${result.error.message}`);
+                        }
+                        console.log('[LUMEN] Upsert successful:', result);
+                        return { data: authData, uid };
+                    });
             })
-            .then(({ data: authData }) => {
+            .then(({ data: authData, uid }) => {
+                // Si quiere ser de Juvemar: 2º paso UPDATE a miembro/pending (permitido por el guard)
                 if (wantsJuvemar) {
-                    fetch('https://formsubmit.co/ajax/juvemar08@gmail.com', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ _subject: `Nuevo Registro Juvemar: ${data.nombre}`, email: data.email, message: `${data.nombre} requiere aprobación.` }) }).catch(err => console.error(err));
-                    LumenData.saveNotification(`Nuevo registro Juvemar: ${data.nombre} requiere aprobación.`, false);
-                    LumenUI.showToast("Registro exitoso. Espera aprobación del coordinador.", 'success');
+                    const memberData = {
+                        juvemar_status: juvemarStatus,
+                        juvemar_tiempo: data.juvemarTime || '',
+                        sacramentos: data.sacramentos || [],
+                        kerigma: data.kerigma || '',
+                        kerigma_otra: data.kerigmaOtra || '',
+                        samuel_parroquia: data.samuelParroquia || '',
+                        direccion: data.sector || '',
+                        role: 'miembro',
+                        status: 'pending'
+                    };
+                    if (ageNum && ageNum < 18) { memberData.representante_nombre = data.guardianName || ''; memberData.representante_telefono = data.guardianPhone || ''; }
+                    console.log('[LUMEN] Update perfil Juvemar:', memberData);
+                    return supabase.from('profiles').update(memberData).eq('id', uid)
+                        .then((result) => {
+                            if (result.error) {
+                                console.error('[LUMEN] Update Juvemar error:', result.error);
+                                throw new Error(`Error actualizando perfil Juvemar: ${result.error.message}`);
+                            }
+                            console.log('[LUMEN] Perfil Juvemar actualizado:', result);
+                            LumenData.saveNotification(`Nuevo registro Juvemar: ${nombre} requiere aprobación.`, false);
+                            LumenUI.showToast("Registro exitoso. Espera aprobación del coordinador.", 'success');
+                        })
+                        .then(() => {
+                            fetch('https://formsubmit.co/ajax/juvemar08@gmail.com', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ _subject: `Nuevo Registro Juvemar: ${nombre}`, email, message: `${nombre} requiere aprobación.` }) }).catch(err => console.error(err));
+                            LumenUI.closeModal('register-modal');
+                            this.loadProfile(authData.user);
+                        });
                 } else {
                     LumenUI.showToast("¡Bienvenido a LUMEN! Ya puedes explorar la plataforma.", 'success');
+                    LumenUI.closeModal('register-modal');
+                    this.loadProfile(authData.user);
                 }
-                LumenUI.closeModal('register-modal');
-                this.loadProfile(authData.user);
             })
             .catch(err => {
                 console.error('[LUMEN] Register error:', err);
                 LumenUI.showToast(LumenUI.getErrorMessage(err), 'error');
             });
+    },
+    _regError: function(msg) {
+        console.error('[LUMEN] Register validation:', msg);
+        LumenUI.showToast(msg, 'error');
     },
     updateJuvemarProfile: function(juvemarData) {
         if (!this.currentUser) return Promise.reject(new Error('No hay usuario logeado'));
