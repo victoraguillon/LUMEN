@@ -75,14 +75,5 @@
       "source": "/cookies",
       "destination": "/legal/cookies.html"
     }
-  ],
-  "crons": [
-    {
-      "path": "/api/send-push",
-      "schedule": "*/5 * * * *",
-      "headers": {
-        "x-cron-secret": "@CRON_SECRET"
-      }
-    }
   ]
 }
