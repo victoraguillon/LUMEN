@@ -1,19 +1,22 @@
 let currentAboutTab = "juvemar";
 
+function avatarInitials(name) {
+    return name.trim().split(/\s+/).slice(0, 2).map(p => p.charAt(0)).join('').toUpperCase();
+}
+
 const NosotrosView = {
     render: function() {
         return `
             <div class="view">
-                <div class="hero reveal" style="padding: 60px 20px; margin-bottom: 40px;">
-                    <h1 style="font-size: 36px;">¿Quiénes Somos?</h1>
-                    <p>Conoce nuestra identidad, nuestra historia y nuestro equipo de servicio.</p>
-                </div>
-                
-                <div class="about-tabs reveal">
-                    <button class="about-tab ${currentAboutTab === 'juvemar' ? 'active' : ''}" onclick="NosotrosView.changeTab('juvemar')">Juvemar</button>
-                    <button class="about-tab ${currentAboutTab === 'samuel' ? 'active' : ''}" onclick="NosotrosView.changeTab('samuel')">El Llamado de Samuel</button>
-                </div>
-
+                <section class="about-hero reveal">
+                    <span class="about-eyebrow">${Icons.cross} Comunidad juvenil · Nuestra Señora de Lourdes</span>
+                    <h1 class="about-hero-title">¿Quiénes <em>somos</em>?</h1>
+                    <p class="about-hero-sub">Dos hermanadades con una sola vocación: ser jóvenes en salida que se atreven a ser más.</p>
+                    <div class="about-tabs" role="tablist" aria-label="Grupos de LUMEN">
+                        <button class="about-tab ${currentAboutTab === 'juvemar' ? 'active' : ''}" role="tab" aria-selected="${currentAboutTab === 'juvemar'}" onclick="NosotrosView.changeTab('juvemar')">${Icons.users} Juvemar</button>
+                        <button class="about-tab ${currentAboutTab === 'samuel' ? 'active' : ''}" role="tab" aria-selected="${currentAboutTab === 'samuel'}" onclick="NosotrosView.changeTab('samuel')">${Icons.bell} El Llamado de Samuel</button>
+                    </div>
+                </section>
                 <div id="about-content"></div>
             </div>
         `;
@@ -25,104 +28,228 @@ const NosotrosView = {
         container.innerHTML = currentAboutTab === 'juvemar' ? this.renderJuvemar() : this.renderSamuel();
         LumenRouter.initScrollReveal();
     },
-    renderTeam: function(teamArray) {
-        return teamArray.map(member => `
-            <div class="team-card reveal">
-                <div class="team-photo-wrapper">
-                    ${member.photo ? `<img src="${member.photo}" alt="${member.name}">` : Icons.user}
+    renderIntro: function(intro) {
+        return `
+            <section class="about-section about-intro reveal">
+                <div class="about-intro-copy">
+                    <h2 class="about-section-title">${intro.title}</h2>
+                    <p class="about-intro-text">${intro.text}</p>
+                    <div class="about-stats">
+                        ${intro.stats.map(s => `
+                            <div class="about-stat reveal reveal-delay-1">
+                                <span class="about-stat-num">${s.num}</span>
+                                <span class="about-stat-label">${s.label}</span>
+                            </div>
+                        `).join('')}
+                    </div>
                 </div>
+                <figure class="about-intro-media reveal reveal-delay-2">
+                    <img src="${intro.image}" alt="${intro.imageAlt}" loading="lazy" onerror="this.src='${intro.imageFallback}'">
+                    <figcaption>${intro.caption}</figcaption>
+                </figure>
+            </section>
+        `;
+    },
+    renderTermRows: function(items) {
+        return `
+            <section class="about-section reveal">
+                <h2 class="about-section-title is-center">${items.heading}</h2>
+                <div class="term-rows">
+                    ${items.rows.map((item, i) => `
+                        <article class="term-row reveal reveal-delay-${(i % 4) + 1}">
+                            <div class="term-icon">${item.icon}</div>
+                            <div class="term-body">
+                                <h3>${item.title}</h3>
+                                <p>${item.text}</p>
+                            </div>
+                        </article>
+                    `).join('')}
+                </div>
+            </section>
+        `;
+    },
+    renderLema: function(lema) {
+        return `
+            <section class="about-section reveal">
+                <h2 class="about-section-title is-center">${lema.heading}</h2>
+                <div class="lema-grid">
+                    ${lema.items.map((item, i) => `
+                        <article class="lema-item reveal reveal-delay-${(i % 4) + 1}">
+                            <span class="lema-num">0${i + 1}</span>
+                            <h3>${item.title}</h3>
+                            <p>${item.text}</p>
+                        </article>
+                    `).join('')}
+                </div>
+            </section>
+        `;
+    },
+    renderOffers: function(offers) {
+        return `
+            <section class="about-section reveal">
+                <h2 class="about-section-title is-center">${offers.heading}</h2>
+                <div class="offers-grid">
+                    ${offers.items.map((offer, i) => `
+                        <article class="offer-card reveal reveal-delay-${(i % 4) + 1}">
+                            <div class="offer-icon">${offer.icon}</div>
+                            <h3>${offer.title}</h3>
+                            <p>${offer.text}</p>
+                        </article>
+                    `).join('')}
+                </div>
+            </section>
+        `;
+    },
+    renderComisiones: function(comisiones) {
+        return `
+            <section class="about-section reveal">
+                <h2 class="about-section-title is-center">${comisiones.heading}</h2>
+                <div class="comisiones-grid">
+                    ${comisiones.items.map((com, i) => `
+                        <article class="comision reveal reveal-delay-${(i % 4) + 1}">
+                            <h4>${com.icon} ${com.title}</h4>
+                            <p>${com.text}</p>
+                        </article>
+                    `).join('')}
+                </div>
+            </section>
+        `;
+    },
+    renderTeam: function(team) {
+        return team.map(member => `
+            <div class="team-card reveal">
+                <div class="team-avatar" aria-hidden="true">${avatarInitials(member.name)}</div>
                 <div class="team-role">${member.role}</div>
                 <div class="team-name">${member.name}</div>
             </div>
         `).join('');
     },
+    renderTeamSection: function(team) {
+        return `
+            <section class="about-section reveal">
+                <h2 class="about-section-title is-center">Equipo de Coordinación</h2>
+                <div class="team-grid">${this.renderTeam(team)}</div>
+            </section>
+        `;
+    },
     renderJuvemar: function() {
         const team = [
-            { role: "Repetidora", name: "Evanyelina Valbuena", photo: "" },
-            { role: "Repetidor Adj.", name: "Victor M. Aguillón", photo: "" },
-            { role: "Secretaria", name: "Sofia Serrano", photo: "" },
-            { role: "Asesora", name: "Maria José Rosales", photo: "" },
-            { role: "Guia Espiritual", name: "Padre Juan Navarro", photo: "" }
+            { role: "Repetidora", name: "Evanyelina Valbuena" },
+            { role: "Repetidor Adjunto", name: "Victor M. Aguillón" },
+            { role: "Secretaria", name: "Sofia Serrano" },
+            { role: "Asesora", name: "Maria José Rosales" },
+            { role: "Guía Espiritual", name: "Padre Juan Navarro" }
         ];
 
-        return `
-            <img src="assets/banner_juvemar.jpg" class="section-banner reveal" alt="Juvemar" onerror="this.src='https://images.unsplash.com/photo-1529070538774-1843cb3c1f36?auto=format&fit=crop&w=1400&q=80'">
-            
-            <div class="reveal" style="max-width: 800px; margin: 0 auto 40px; text-align: center;">
-                <h2 style="color: var(--celeste-oscuro);">Juventud Mariana en Salida (Juvemar)</h2>
-                <p style="color: var(--texto-gris); margin-top: 15px;">
-                    Es un grupo juvenil cristiano católico adscrito al servicio de JovenMision perteneciente a la parroquia Nuestra Señora de Lourdes, en el Barrio San José, Maracaibo. Fue fundado el <strong>19 de octubre del 2025</strong>, durante el Domingo Mundial de las Misiones.
-                </p>
-            </div>
+        const intro = {
+            title: "Juventud <em>Mariana</em> en Salida",
+            text: `Es un grupo juvenil cristiano católico adscrito al servicio de <strong>JovenMision</strong> perteneciente a la parroquia <strong>Nuestra Señora de Lourdes</strong>, en el Barrio San José, Maracaibo. Fue fundado el <strong>19 de octubre del 2025</strong>, durante el Domingo Mundial de las Misiones.`,
+            stats: [
+                { num: "2025", label: "Fundación" },
+                { num: "14–27", label: "Edades del grupo" },
+                { num: "Lourdes", label: "Raíz parroquial" }
+            ],
+            image: "assets/banner_juvemar.jpg",
+            imageAlt: "Grupo Juvemar en comunidad",
+            imageFallback: "https://images.unsplash.com/photo-1529070538774-1843cb3c1f36?auto=format&fit=crop&w=1400&q=80",
+            caption: "En salida desde el 19 de octubre de 2025."
+        };
 
-            <h3 class="reveal" style="color: var(--celeste-oscuro); text-align: center; margin-bottom: 20px;">Nuestro Nombre</h3>
-            <div class="cards-grid reveal" style="margin-bottom: 50px;">
-                <div class="card"><div class="card-header">${Icons.users}<h3>Juventud</h3></div><div class="card-body"><p>Somos un grupo de jóvenes entre 14 y 27 años, que hemos decidido ser jóvenes diferentes que se atreven a ser más, como lo decía San Carlo Acutis.</p></div></div>
-                <div class="card"><div class="card-header">${Icons.star}<h3>Mariana</h3></div><div class="card-body"><p>Nuestra espiritualidad está ligada al ejemplo de Nuestra Señora de Lourdes (Estrella de la Evangelización). Ella es la guía de nuestro camino y apostolado.</p></div></div>
-                <div class="card"><div class="card-header">${Icons.globe}<h3>En Salida</h3></div><div class="card-body"><p>Somos misioneros, siempre motivados a "hacer lío" y salir para predicar la Palabra de Dios a todas las naciones. En la misión encontramos a Dios.</p></div></div>
-            </div>
+        const nombre = {
+            heading: "Nuestro Nombre",
+            rows: [
+                { icon: Icons.users, title: "Juventud", text: "Somos un grupo de jóvenes entre 14 y 27 años, que hemos decidido ser jóvenes diferentes que se atreven a ser más, como lo decía San Carlo Acutis." },
+                { icon: Icons.star, title: "Mariana", text: "Nuestra espiritualidad está ligada al ejemplo de Nuestra Señora de Lourdes (Estrella de la Evangelización). Ella es la guía de nuestro camino y apostolado." },
+                { icon: Icons.globe, title: "En Salida", text: "Somos misioneros, siempre motivados a \"hacer lío\" y salir para predicar la Palabra de Dios a todas las naciones. En la misión encontramos a Dios." }
+            ]
+        };
 
-            <h3 class="reveal" style="color: var(--celeste-oscuro); text-align: center; margin-bottom: 20px;">Nuestro Lema</h3>
-            <div class="cards-grid reveal" style="margin-bottom: 50px;">
-                <div class="card"><div class="card-header">${Icons.cross}<h3>Creer</h3></div><div class="card-body"><p>Nos llama a creer fielmente en las enseñanzas del Señor, en sus mandatos y en la verdad que nos ha revelado como pueblo elegido.</p></div></div>
-                <div class="card"><div class="card-header">${Icons.heart}<h3>Vivir</h3></div><div class="card-body"><p>Recordatorio de vivir la fe por medio de obras y vida en comunidad, siendo compasivos, misericordiosos y dando testimonio real de Cristo.</p></div></div>
-                <div class="card"><div class="card-header">${Icons.megaphone}<h3>Anunciar</h3></div><div class="card-body"><p>Nos invita a predicar la verdad que Cristo nos ha entregado por amor para atraer más obreros a su mies, más jóvenes a su Iglesia.</p></div></div>
-            </div>
+        const lema = {
+            heading: "Nuestro Lema",
+            items: [
+                { title: "Creer", text: "Nos llama a creer fielmente en las enseñanzas del Señor, en sus mandatos y en la verdad que nos ha revelado como pueblo elegido." },
+                { title: "Vivir", text: "Recordatorio de vivir la fe por medio de obras y vida en comunidad, siendo compasivos, misericordiosos y dando testimonio real de Cristo." },
+                { title: "Anunciar", text: "Nos invita a predicar la verdad que Cristo nos ha entregado por amor para atraer más obreros a su mies, más jóvenes a su Iglesia." }
+            ]
+        };
 
-            <h3 class="reveal" style="color: var(--celeste-oscuro); margin-bottom: 20px;">¿Qué ofrecemos?</h3>
-            <div class="feature-block reveal"><div class="feature-icon">${Icons.music}</div><div class="feature-text"><h4>Vivencia Comunitaria y Apostolado</h4><p>Ofrecemos una vivencia comunitaria de la fe desde diversas apostolados como la música, la formación y la acción social.</p></div></div>
-            <div class="feature-block reveal"><div class="feature-icon">${Icons.flame}</div><div class="feature-text"><h4>Experiencias Espirituales</h4><p>Vivimos experiencias enriquecedoras como "El Llamado de Samuel" que nos permite responder al Señor diciendo: <em>Habla Señor que tu Siervo Escucha</em>.</p></div></div>
+        const offers = {
+            heading: "¿Qué ofrecemos?",
+            items: [
+                { icon: Icons.music, title: "Vivencia Comunitaria y Apostolado", text: "Ofrecemos una vivencia comunitaria de la fe desde diversos apostolados como la música, la formación y la acción social." },
+                { icon: Icons.flame, title: "Experiencias Espirituales", text: "Vivimos experiencias enriquecedoras como \"El Llamado de Samuel\" que nos permite responder al Señor diciendo: <em>Habla Señor que tu Siervo Escucha</em>." }
+            ]
+        };
 
-            <h3 class="reveal" style="color: var(--celeste-oscuro); margin: 40px 0 20px;">Nuestras Comisiones</h3>
-            <div class="cards-grid reveal" style="margin-bottom: 50px;">
-                <div class="card"><div class="card-header">${Icons.music}<h3>Música</h3></div><div class="card-body"><p>Encargada de animar la liturgia y las reuniones a través del canto, creando un ambiente de alabanza que disponga el corazón para el encuentro con Dios.</p></div></div>
-                <div class="card"><div class="card-header">${Icons.flame}<h3>Espiritualidad</h3></div><div class="card-body"><p>Promueve la vida de oración del grupo, organizando momentos de adoración al Santísimo, rezo del santo rosario y formación espiritual continua.</p></div></div>
-                <div class="card"><div class="card-header">${Icons.users}<h3>Protocolo</h3></div><div class="card-body"><p>Se encarga de la logística, bienvenida y atención a los participantes en nuestros retiros y encuentros, asegurando que todo fluya con orden y fraternidad.</p></div></div>
-                <div class="card"><div class="card-header">${Icons.heart}<h3>Recreación</h3></div><div class="card-body"><p>Dinamiza los espacios de descanso y fraternidad, integrando dinámicas y juegos que fortalezcan la unidad y la alegría entre los jóvenes.</p></div></div>
-            </div>
+        const comisiones = {
+            heading: "Nuestras Comisiones",
+            items: [
+                { icon: Icons.music, title: "Música", text: "Encargada de animar la liturgia y las reuniones a través del canto, creando un ambiente de alabanza que disponga el corazón para el encuentro con Dios." },
+                { icon: Icons.flame, title: "Espiritualidad", text: "Promueve la vida de oración del grupo, organizando momentos de adoración al Santísimo, rezo del santo rosario y formación espiritual continua." },
+                { icon: Icons.users, title: "Protocolo", text: "Se encarga de la logística, bienvenida y atención a los participantes en nuestros retiros y encuentros, asegurando que todo fluya con orden y fraternidad." },
+                { icon: Icons.heart, title: "Recreación", text: "Dinamiza los espacios de descanso y fraternidad, integrando dinámicas y juegos que fortalezcan la unidad y la alegría entre los jóvenes." }
+            ]
+        };
 
-            <h3 class="reveal" style="color: var(--celeste-oscuro); text-align: center; margin: 50px 0 20px;">Equipo de Coordinación</h3>
-            <div class="team-grid reveal">${this.renderTeam(team)}</div>
-        `;
+        return this.renderIntro(intro) + this.renderTermRows(nombre) + this.renderLema(lema) + this.renderOffers(offers) + this.renderComisiones(comisiones) + this.renderTeamSection(team);
     },
     renderSamuel: function() {
         const team = [
-            { role: "Coordinadora", name: "Maria Celeste Cuartt", photo: "" },
-            { role: "Coordinador", name: "Henry Koussa", photo: "" },
-            { role: "Secretaria", name: "Sofia Pernia", photo: "" },
-            { role: "Asesora", name: "Dayana Larreal", photo: "" },
-            { role: "Asesor", name: "Kendrick Pineda", photo: "" },
-            { role: "Tesorera", name: "Evelyn Fuenmayor", photo: "" },
-            { role: "Guia Espiritual", name: "Padre Juan Navarro", photo: "" }
+            { role: "Coordinadora", name: "Maria Celeste Cuartt" },
+            { role: "Coordinador", name: "Henry Koussa" },
+            { role: "Secretaria", name: "Sofia Pernia" },
+            { role: "Asesora", name: "Dayana Larreal" },
+            { role: "Asesor", name: "Kendrick Pineda" },
+            { role: "Tesorera", name: "Evelyn Fuenmayor" },
+            { role: "Guía Espiritual", name: "Padre Juan Navarro" }
         ];
 
-        return `
-            <img src="assets/banner_samuel.png" class="section-banner reveal" alt="El Llamado de Samuel" onerror="this.src='https://images.unsplash.com/photo-1507692049790-de5829034338?auto=format&fit=crop&w=1400&q=80'">
-            
-            <div class="reveal" style="max-width: 800px; margin: 0 auto 40px; text-align: center;">
-                <h2 style="color: var(--celeste-oscuro);">Hermandad de "El Llamado de Samuel"</h2>
-                <p style="color: var(--texto-gris); margin-top: 15px;">
-                    Compuesta por hermanos de Juvemar que han vivido o servido en el Retiro del "El Llamado de Samuel". Tuvo sus inicios en el año 2022, formalizándose en diciembre de 2024 con la Primera Edición en Nuestra Señora de Lourdes.
-                </p>
-            </div>
+        const intro = {
+            title: "Hermandad de <em>El Llamado de Samuel</em>",
+            text: `Compuesta por hermanos de Juvemar que han vivido o servido en el Retiro de <strong>El Llamado de Samuel</strong>. Tuvo sus inicios en el año <strong>2022</strong>, formalizándose en diciembre de 2024 con la Primera Edición en Nuestra Señora de Lourdes.`,
+            stats: [
+                { num: "2022", label: "Inicios" },
+                { num: "3", label: "Ediciones del retiro" },
+                { num: "+200", label: "Jóvenes alcanzados" }
+            ],
+            image: "assets/banner_samuel.png",
+            imageAlt: "Hermandad de El Llamado de Samuel",
+            imageFallback: "https://images.unsplash.com/photo-1507692049790-de5829034338?auto=format&fit=crop&w=1400&q=80",
+            caption: "Retiros y encuentros de la hermandad."
+        };
 
-            <h3 class="reveal" style="color: var(--celeste-oscuro); margin-bottom: 20px;">Nuestra Historia</h3>
-            <div class="feature-block reveal"><div class="feature-icon">${Icons.calendar}</div><div class="feature-text"><h4>Retiros y Encuentros</h4><p>Hemos organizado tres ediciones de Samuel, siendo instrumento para que más de 200 jóvenes conozcan la voz de Dios. Hemos participado activamente en hitos como el Encuentro Arquidiocesano de la Arquidiocesis de Maracaibo, haciendo sentir la alegría que Dios nos ha regalado.</p></div></div>
+        const historia = {
+            heading: "Nuestra Historia",
+            items: [
+                { icon: Icons.calendar, title: "Retiros y Encuentros", text: "Hemos organizado tres ediciones de Samuel, siendo instrumento para que más de 200 jóvenes conozcan la voz de Dios. Hemos participado activamente en hitos como el Encuentro Arquidiocesano de la Arquidiocesis de Maracaibo, haciendo sentir la alegría que Dios nos ha regalado." }
+            ]
+        };
 
-            <h3 class="reveal" style="color: var(--celeste-oscuro); text-align: center; margin: 50px 0 20px;">Nuestro Lema</h3>
-            <div class="cards-grid reveal" style="margin-bottom: 50px;">
-                <div class="card"><div class="card-header">${Icons.bell}<h3>"Habla Señor"</h3></div><div class="card-body"><p>Pedimos al Señor que nos hable, que nos haga ver el camino que debemos seguir y que nos llame en cada momento de nuestras vidas.</p></div></div>
-                <div class="card"><div class="card-header">${Icons.gift}<h3>"Que tu siervo"</h3></div><div class="card-body"><p>Nos reconocemos como siervos del Señor, entregando nuestra vida por amor, quien nos guía como un buen Pastor y da la vida por cada uno de nosotros.</p></div></div>
-                <div class="card"><div class="card-header">${Icons.ear}<h3>"Escucha"</h3></div><div class="card-body"><p>Nos comprometemos a escuchar su voz en el ruido del mundo o en el silencio de nuestro corazón para ser servidores e instrumentos suyos.</p></div></div>
-            </div>
+        const lema = {
+            heading: "Nuestro Lema",
+            items: [
+                { title: "«Habla, Señor»", text: "Pedimos al Señor que nos hable, que nos haga ver el camino que debemos seguir y que nos llame en cada momento de nuestras vidas." },
+                { title: "«que tu siervo»", text: "Nos reconocemos como siervos del Señor, entregando nuestra vida por amor, quien nos guía como un buen Pastor y da la vida por cada uno de nosotros." },
+                { title: "«escucha»", text: "Nos comprometemos a escuchar su voz en el ruido del mundo o en el silencio de nuestro corazón para ser servidores e instrumentos suyos." }
+            ]
+        };
 
-            <h3 class="reveal" style="color: var(--celeste-oscuro); margin-bottom: 20px;">¿Qué ofrecemos?</h3>
-            <div class="feature-block reveal"><div class="feature-icon">${Icons.heart}</div><div class="feature-text"><h4>Servicio y Entrega</h4><p>Una vivencia de la fe basada en el servicio y entrega a los demás. Nos motiva a dejar todo por el todo y a responder al Llamado de Dios. Forma parte de Juvemar como una de las experiencias que rigen nuestra espiritualidad.</p></div></div>
+        const offers = {
+            heading: "¿Qué ofrecemos?",
+            items: [
+                { icon: Icons.heart, title: "Servicio y Entrega", text: "Una vivencia de la fe basada en el servicio y entrega a los demás. Nos motiva a dejar todo por el todo y a responder al Llamado de Dios. Forma parte de Juvemar como una de las experiencias que rigen nuestra espiritualidad." }
+            ]
+        };
 
-            <div class="pastoral-alert reveal">${Icons.alert}<p><strong>Importante:</strong> Para formar parte de nuestra hermandad, es indispensable participar activamente de nuestro grupo de apostolado de Juvemar. El Llamado de Samuel es más que un retiro; nos conformamos por personas conscientes de que es necesario conocer a Dios para amarlo verdaderamente.</p></div>
-
-            <h3 class="reveal" style="color: var(--celeste-oscuro); text-align: center; margin: 50px 0 20px;">Equipo de Coordinación</h3>
-            <div class="team-grid reveal">${this.renderTeam(team)}</div>
-        `;
+        return this.renderIntro(intro)
+            + this.renderOffers(historia)
+            + this.renderLema(lema)
+            + this.renderOffers(offers)
+            + `
+            <section class="about-section reveal">
+                <div class="pastoral-alert">${Icons.alert}<p><strong>Importante:</strong> Para formar parte de nuestra hermandad, es indispensable participar activamente de nuestro grupo de apostolado de Juvemar. El Llamado de Samuel es más que un retiro; nos conformamos por personas conscientes de que es necesario conocer a Dios para amarlo verdaderamente.</p></div>
+            </section>
+            `
+            + this.renderTeamSection(team);
     }
 };

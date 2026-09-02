@@ -1,6 +1,7 @@
-// LUMEN - Service Worker único (v24) en la RAÍZ (/sw.js)
-// v24: consentimiento de cookies (RGPD) + checkbox legal en registro + migración 10
-const CACHE = "lumen-cache-v25";
+// LUMEN - Service Worker único (v26) en la RAÍZ (/sw.js)
+// v26: banner instalación PWA (dark mode + botones por plataforma) + rediseño vistas Nosotros y Blog
+// v25: bitácora de exportaciones (migración 11)
+const CACHE = "lumen-cache-v26";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";

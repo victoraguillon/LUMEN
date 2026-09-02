@@ -233,10 +233,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Botón "Instalar": si el navegador capturó beforeinstallprompt, instala de
     // verdad (Chrome/Android). Sin prompt → abre la guía del navegador actual.
-    // En iOS el único botón es "Cómo instalar" (no existe prompt nativo).
+    // En iOS el único botón es "Cómo instalar" (no existe prompt nativo), con
+    // estilo secundario y sin duplicar el botón "¿Cómo?".
     const installBtn = document.getElementById('pwa-install-btn');
     if (installBtn) {
-        installBtn.textContent = isIOS ? 'Cómo instalar' : 'Instalar';
+        const guideOnly = isIOS;
+        installBtn.textContent = guideOnly ? 'Cómo instalar' : 'Instalar';
+        if (guideOnly) {
+            installBtn.classList.add('is-guide');
+        }
         installBtn.onclick = () => LumenInstall.install();
     }
     const helpBtn = document.getElementById('pwa-help-btn');
