@@ -1,6 +1,16 @@
 const LumenUI = {
     audioCtx: null,
     escapeHTML: function(str) { return String(str ?? '').replace(/[&<>"']/g, function(c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); },
+    sanitizeImageUrl: function(value) {
+        const v = String(value ?? '').trim();
+        if (!v) return '';
+        try {
+            const u = new URL(v);
+            if (!/^https?:$/.test(u.protocol)) return '';
+            u.hash = '';
+            return u.href;
+        } catch { return ''; }
+    },
     playSound: function() {
         try {
             if (!this.audioCtx) this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();

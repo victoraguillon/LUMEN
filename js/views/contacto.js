@@ -44,6 +44,10 @@ const ContactoView = {
                     <div style="padding: 20px;">
                         <h4 style="color: var(--celeste-oscuro); margin-bottom: 15px;">Envíanos un mensaje</h4>
                         <form id="contact-form">
+                            <div class="form-group" style="position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden;" aria-hidden="true">
+                                <label>No rellenar este campo</label>
+                                <input type="text" id="contact-honey" tabindex="-1" autocomplete="off">
+                            </div>
                             <div class="form-group"><label>Nombre:</label><input type="text" id="contact-name" autocomplete="name" required></div>
                             <div class="form-group"><label>Correo Electrónico:</label><input type="email" id="contact-email" autocomplete="email" required></div>
                             <div class="form-group"><label>Mensaje:</label><textarea id="contact-message" rows="5" maxlength="1000" required></textarea></div>
@@ -55,18 +59,34 @@ const ContactoView = {
         `;
     },
     init: function() {
+        const renderTime = Date.now();
         document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
+            const honey = document.getElementById('contact-honey').value;
             const name = document.getElementById('contact-name').value;
             const email = document.getElementById('contact-email').value;
             const message = document.getElementById('contact-message').value;
-            
+
+            const tooFast = (Date.now() - renderTime) < 2000;
+            const botDetected = honey !== '' || tooFast;
+
+            if (botDetected) {
+                LumenUI.showToast('¡Mensaje enviado con éxito!', 'success');
+                document.getElementById('contact-form').reset();
+                return;
+            }
+
+            if (!name.trim() || !email.trim() || !message.trim()) {
+                LumenUI.showToast('Por favor completa todos los campos', 'error');
+                return;
+            }
+
             LumenUI.showToast('Enviando mensaje...', 'success');
             
             fetch('https://formsubmit.co/ajax/juvemar08@gmail.com', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                body: JSON.stringify({ _subject: `Nuevo mensaje de contacto de ${name}`, name: name, email: email, message: message })
+                body: JSON.stringify({ _subject: `Nuevo mensaje de contacto de ${name}`, _honey: honey, name: name, email: email, message: message })
             }).then(response => response.json())
               .then(data => {
                   if(data.success === 'true' || data.success === true) {

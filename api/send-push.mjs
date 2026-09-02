@@ -34,6 +34,23 @@ function readBody(req) {
   });
 }
 
+// Limpieza de eventos en ventana deslizante (por instancia).
+const WINDOW_MS = 60 * 60 * 1000;
+const LIMITS = { self: 20, all: 5 };
+const buckets = new Map();
+
+function throttleOk(key, limit) {
+  const now = Date.now();
+  const recent = (buckets.get(key) || []).filter((t) => now - t < WINDOW_MS);
+  if (recent.length >= limit) {
+    buckets.set(key, recent);
+    return false;
+  }
+  recent.push(now);
+  buckets.set(key, recent);
+  return true;
+}
+
 export default async function handler(req, res) {
   if (req.method === "OPTIONS") {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -71,9 +88,15 @@ export default async function handler(req, res) {
       url: String(body.url || "/").slice(0, 200),
     };
 
-    if (mode === "self") return done(res, await sendSelf(user.id, payload));
+    if (mode === "self") {
+      const selfOk = throttleOk(`self:${user.id}`, LIMITS.self);
+      if (!selfOk) return done(res, { error: "Demasiados envíos de prueba. Intenta de nuevo más tarde." }, 429);
+      return done(res, await sendSelf(user.id, payload));
+    }
     if (mode === "all") {
       if (profile.role !== "admin") return done(res, { error: "Solo coordinadores" }, 403);
+      const allOk = throttleOk(`all:${user.id}`, LIMITS.all);
+      if (!allOk) return done(res, { error: "Has alcanzado el límite de avisos por hora." }, 429);
       return done(res, await sendAll(payload, body.avisoId));
     }
 

@@ -289,6 +289,7 @@ const GestionView = {
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "Censo LUMEN");
         XLSX.writeFile(wb, "Censo_LUMEN.xlsx");
+        supabase.from('export_logs').insert({ user_id: LumenAuth.currentUser.id, tipo: 'censo' }).then(() => {}).catch(() => {});
     },
     
     approveUser: function(uid) {
@@ -526,6 +527,7 @@ const GestionView = {
             XLSX.utils.book_append_sheet(wb, ws, `Asistencia ${monthNames[currentMatrixMonth-1]}`);
             XLSX.writeFile(wb, `Asistencia_LUMEN_${currentMatrixYear}_${currentMatrixMonth}.xlsx`);
             LumenUI.showToast('Asistencia exportada con éxito', 'success');
+            supabase.from('export_logs').insert({ user_id: LumenAuth.currentUser.id, tipo: 'asistencia' }).then(() => {}).catch(() => {});
         }).catch(err => {
             console.error(err);
             LumenUI.showToast('Error al exportar asistencia', 'error');

@@ -96,7 +96,7 @@ const BlogView = {
     saveArticle: function(e) {
         e.preventDefault();
         const title = document.getElementById('blog-title').value;
-        const imageUrl = document.getElementById('blog-image').value;
+        const imageUrl = LumenUI.sanitizeImageUrl(document.getElementById('blog-image').value);
         const content = document.getElementById('blog-content').value;
         const authorName = LumenAuth.userProfile?.nombre || 'Usuario';
         const authorEmail = LumenAuth.currentUser?.email || '';
