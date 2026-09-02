@@ -1,6 +1,6 @@
-// LUMEN - Service Worker único (v22) en la RAÍZ (/sw.js)
-// v22: register 2 pasos (global/approved → miembro/pending) + validación antes de signUp + avatar SVG local
-const CACHE = "lumen-cache-v22";
+// LUMEN - Service Worker único (v23) en la RAÍZ (/sw.js)
+// v23: chart.js carga dinámica solo en Gestión (admin) + reorganización de repositorio
+const CACHE = "lumen-cache-v23";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";

@@ -25,7 +25,24 @@ const GestionView = {
         `;
     },
     init: function() {
-        if (!LumenData.users) { LumenData.loadUsers().then(() => this.renderContent()); } else { this.renderContent(); }
+        const withUsers = () => {
+            if (!LumenData.users) { LumenData.loadUsers().then(() => this.renderContent()); } else { this.renderContent(); }
+        };
+        if (typeof Chart === 'undefined') {
+            this.loadChartJS().then(withUsers).catch(() => withUsers());
+        } else {
+            withUsers();
+        }
+    },
+    loadChartJS: function() {
+        return new Promise((resolve, reject) => {
+            if (typeof Chart !== 'undefined') return resolve();
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+            script.onload = () => resolve();
+            script.onerror = () => reject(new Error('No se pudo cargar chart.js'));
+            document.head.appendChild(script);
+        });
     },
     changeTab: function(tab) { 
         Object.values(gestionCharts).forEach(chart => chart.destroy());

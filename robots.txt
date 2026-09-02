@@ -1,9 +1,7 @@
 # LUMEN - robots.txt
-# Bloquear todo el sitio para staging/desarrollo
-# En producción, cambiar a Allow: / y añadir sitemap
+# Producción: permite indexar el sitio completo
 
 User-agent: *
-Disallow: /
+Allow: /
 
-# Sitemap (cuando esté en producción)
-# Sitemap: https://lumenve.vercel.app/sitemap.xml
+Sitemap: https://lumenve.vercel.app/sitemap.xml

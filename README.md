@@ -144,19 +144,28 @@ LUMEN/
 │       └── ...
 ├── scripts/
 │   └── local-server.mjs
-├── sql/
-│   ├── schema.sql
-│   ├── storage.sql
-│   └── migracion_*.sql
 ├── supabase/
-│   └── functions/
+│   └── migrations/
+│       ├── schema.sql
+│       ├── storage.sql
+│       └── migracion_*.sql
+├── legal/
+│   ├── terminos.html
+│   ├── privacidad.html
+│   └── cookies.html
+├── .github/
+│   └── workflows/
+│       └── push-cron.yml
 ├── index.html
 ├── manifest.json
 ├── package.json
 ├── README.md
+├── robots.txt
+├── sitemap.xml
 ├── sw.js
 ├── vercel.json
-└── .env.example
+├── .env.example
+└── .gitignore
 ```
 
 ---
@@ -197,17 +206,18 @@ http://localhost:8787/api/send-push
 Crea un archivo `.env` en la raíz del proyecto con algo similar a esto:
 
 ```env
-PORT=8787
-
 SUPABASE_URL=tu_url_supabase
 SUPABASE_ANON_KEY=tu_anon_key
 SUPABASE_SERVICE_ROLE_KEY=tu_service_role_key
 
 VAPID_PUBLIC_KEY=tu_vapid_public_key
 VAPID_PRIVATE_KEY=tu_vapid_private_key
+VAPID_SUBJECT=mailto:tu_correo
+
 CRON_SECRET=tu_secreto_de_cron
 ```
 
+> Hay una plantilla versionable en `.env.example`. Puerto local opcional: `PORT=8787`.
 > Nunca compartas tus secretos en el repositorio. Usa variables de entorno reales en local o en despliegue.
 
 ---
