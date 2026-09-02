@@ -75,9 +75,9 @@ const DevocionalView = {
 
                     <!-- DEVOCION DEL MES — TABS -->
                     <section class="santo-card reveal reveal-delay-3" aria-label="Devoción del mes">
-                        <div style="padding: 24px 24px 0;">
-                            <h3 style="color: var(--celeste-oscuro); margin-bottom: 4px; font-size: 18px;">${mesData.devocion}</h3>
-                            <p style="font-size: 12px; color: var(--texto-gris); margin-bottom: 16px;">${monthNames[month - 1]} ${year}</p>
+                        <div style="padding: 26px 24px 0;">
+                            <h3 class="v-card__title" style="font-size:1.05rem;">${mesData.devocion}</h3>
+                            <p class="v-hint" style="margin-top:4px; text-transform:capitalize;">${monthNames[month - 1]} ${year}</p>
                         </div>
                         <div class="devocional-tabs" role="tablist">
                             <button class="tab-btn active" role="tab" aria-selected="true" data-tab="historia" onclick="DevocionalView.switchTab('historia')">Historia</button>

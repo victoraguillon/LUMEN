@@ -1,59 +1,55 @@
 const ContactoView = {
     render: function() {
+        const channel = (href, icon, nombre, detalle) => `
+            <a href="${href}" target="_blank" rel="noopener noreferrer" class="contact-channel">
+                <span class="contact-channel__icon">${icon}</span>
+                <span style="min-width:0;">
+                    <strong>${nombre}</strong><br>
+                    <small>${detalle}</small>
+                </span>
+            </a>`;
+
         return `
             <div class="view">
-                <h2 style="color: var(--celeste-oscuro); margin-bottom:20px;">Contáctanos</h2>
-                <div class="split-container">
-                    <div class="contact-info-panel">
-                        <h3 style="font-size: 24px; margin-bottom: 15px;">¡Estamos para servirte!</h3>
-                        <p style="opacity: 0.9; margin-bottom: 30px;">Si tienes alguna duda o quieres unirte a nuestra comunidad, no dudes en contactarnos directamente a través de WhatsApp o redes sociales.</p>
-                        
-                        <a href="https://wa.me/584126413737" target="_blank" rel="noopener noreferrer" class="contact-info-item" style="text-decoration: none; color: white;">
-                            ${Icons.whatsapp}
-                            <div>
-                                <strong>Victor M. Aguillon</strong><br>
-                                <span style="font-size: 14px; opacity: 0.8;">+58 412-6413737</span>
-                            </div>
-                        </a>
-                        
-                        <a href="https://wa.me/584127212080" target="_blank" rel="noopener noreferrer" class="contact-info-item" style="text-decoration: none; color: white;">
-                            ${Icons.whatsapp}
-                            <div>
-                                <strong>Evanyelina Valbuena</strong><br>
-                                <span style="font-size: 14px; opacity: 0.8;">+58 412-7212080</span>
-                            </div>
-                        </a>
+                <header class="v-header reveal">
+                    <h1 class="v-title">Contáctanos</h1>
+                    <p class="v-sub">Si tienes alguna duda o quieres unirte a nuestra comunidad, no dudes en contactarnos directamente a través de WhatsApp o redes sociales.</p>
+                </header>
 
-                        <a href="https://instagram.com/juvemar_" target="_blank" rel="noopener noreferrer" class="contact-info-item" style="text-decoration: none; color: white;">
-                            ${Icons.instagram}
-                            <div>
-                                <strong>Juvemar</strong><br>
-                                <span style="font-size: 14px; opacity: 0.8;">@juvemar_</span>
-                            </div>
-                        </a>
+                <div class="contact-split">
+                    <aside class="contact-panel reveal">
+                        <h3>¡Estamos para servirte!</h3>
+                        <div style="display:flex; flex-direction:column; gap:10px; margin-top:6px;">
+                            ${channel('https://wa.me/584126413737', Icons.whatsapp, 'Victor M. Aguillon', '+58 412-6413737')}
+                            ${channel('https://wa.me/584127212080', Icons.whatsapp, 'Evanyelina Valbuena', '+58 412-7212080')}
+                            ${channel('https://instagram.com/juvemar_', Icons.instagram, 'Juvemar', '@juvemar_')}
+                            ${channel('https://instagram.com/samuellourdes_', Icons.instagram, 'El Llamado de Samuel', '@samuellourdes_')}
+                        </div>
+                    </aside>
 
-                        <a href="https://instagram.com/samuellourdes_" target="_blank" rel="noopener noreferrer" class="contact-info-item" style="text-decoration: none; color: white;">
-                            ${Icons.instagram}
-                            <div>
-                                <strong>El Llamado de Samuel</strong><br>
-                                <span style="font-size: 14px; opacity: 0.8;">@samuellourdes_</span>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div style="padding: 20px;">
-                        <h4 style="color: var(--celeste-oscuro); margin-bottom: 15px;">Envíanos un mensaje</h4>
-                        <form id="contact-form">
+                    <section class="contact-form-card reveal reveal-delay-1">
+                        <h3>Envíanos un mensaje</h3>
+                        <p class="lead">Déjanos tu nombre, correo y mensaje; te responderemos a la brevedad.</p>
+                        <form id="contact-form" novalidate>
                             <div class="form-group" style="position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden;" aria-hidden="true">
                                 <label>No rellenar este campo</label>
                                 <input type="text" id="contact-honey" tabindex="-1" autocomplete="off">
                             </div>
-                            <div class="form-group"><label>Nombre:</label><input type="text" id="contact-name" autocomplete="name" required></div>
-                            <div class="form-group"><label>Correo Electrónico:</label><input type="email" id="contact-email" autocomplete="email" required></div>
-                            <div class="form-group"><label>Mensaje:</label><textarea id="contact-message" rows="5" maxlength="1000" required></textarea></div>
+                            <div class="form-group">
+                                <label for="contact-name">Nombre</label>
+                                <input type="text" id="contact-name" autocomplete="name" placeholder="Tu nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-email">Correo Electrónico</label>
+                                <input type="email" id="contact-email" autocomplete="email" placeholder="tucorreo@ejemplo.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-message">Mensaje</label>
+                                <textarea id="contact-message" rows="5" maxlength="1000" placeholder="Escribe tu mensaje…" required></textarea>
+                            </div>
                             <button type="submit" class="btn btn-primary btn-block">Enviar Mensaje</button>
                         </form>
-                    </div>
+                    </section>
                 </div>
             </div>
         `;
@@ -82,14 +78,14 @@ const ContactoView = {
             }
 
             LumenUI.showToast('Enviando mensaje...', 'success');
-            
+
             fetch('https://formsubmit.co/ajax/juvemar08@gmail.com', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                 body: JSON.stringify({ _subject: `Nuevo mensaje de contacto de ${name}`, _honey: honey, name: name, email: email, message: message })
             }).then(response => response.json())
               .then(data => {
-                  if(data.success === 'true' || data.success === true) {
+                  if (data.success === 'true' || data.success === true) {
                       LumenUI.showToast('¡Mensaje enviado con éxito!', 'success');
                       document.getElementById('contact-form').reset();
                       LumenData.saveNotification(`Nuevo mensaje de contacto de ${name}. Revisa tu correo.`, true);
