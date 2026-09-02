@@ -9,9 +9,7 @@ const NosotrosView = {
         return `
             <div class="view">
                 <section class="about-hero reveal">
-                    <span class="about-eyebrow">${Icons.cross} Comunidad juvenil · Nuestra Señora de Lourdes</span>
                     <h1 class="about-hero-title">¿Quiénes <em>somos</em>?</h1>
-                    <p class="about-hero-sub">Dos hermanadades con una sola vocación: ser jóvenes en salida que se atreven a ser más.</p>
                     <div class="about-tabs" role="tablist" aria-label="Grupos de LUMEN">
                         <button class="about-tab ${currentAboutTab === 'juvemar' ? 'active' : ''}" role="tab" aria-selected="${currentAboutTab === 'juvemar'}" onclick="NosotrosView.changeTab('juvemar')">${Icons.users} Juvemar</button>
                         <button class="about-tab ${currentAboutTab === 'samuel' ? 'active' : ''}" role="tab" aria-selected="${currentAboutTab === 'samuel'}" onclick="NosotrosView.changeTab('samuel')">${Icons.bell} El Llamado de Samuel</button>
