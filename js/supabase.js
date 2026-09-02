@@ -4,7 +4,7 @@ const supabaseConfig = {
   pushEndpoint: "https://lumenve.vercel.app/api/send-push",
   // Clave pública VAPID (base64url, punto P-256 sin comprimir de 65 bytes)
   // Debe coincidir con el secreto VAPID_PUBLIC_KEY de la Edge Function.
-  pushVapidKey: "BMCdeUXKlzY4kgk4ULo7DKhdn7GlY1W1mEPyu24juywyaqv94NHA-csWPdpdVZDHB8ag10g-ML7B8_TGX0KzCHk"
+  pushVapidKey: "BFJ2zyKQwCHf437fomuZiJMk-Pq9eiX-Q1W0yiDB1auM_kwvb3xbUWUWwqgGfZmc5PyxvKw3w4S_o_1P6ht0rfk"
 };
 
 supabase = window.supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey);
