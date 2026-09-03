@@ -10,7 +10,12 @@ const GestionView = {
         }
         return `
             <div class="view">
-                <h2 class="reveal" style="color: var(--celeste-oscuro); margin-bottom:20px;">Módulo de Gestión</h2>
+                <div class="v-header reveal align-left">
+                    <span class="v-eyebrow">${Icons.shield} Administración</span>
+                    <h2 class="v-title">Módulo de <em>Gestión</em></h2>
+                    <p class="v-sub">Censo, inscritos, asistencia, comunicación y más herramientas para los coordinadores.</p>
+                </div>
+                <div class="v-section" style="padding-top:0;">
                 <div class="admin-tabs reveal" style="overflow-x: auto;">
                     <button class="admin-tab ${currentGestionTab === 'estadisticas' ? 'active' : ''}" onclick="GestionView.changeTab('estadisticas')">Estadísticas</button>
                     <button class="admin-tab ${currentGestionTab === 'usuarios' ? 'active' : ''}" onclick="GestionView.changeTab('usuarios')">Censo</button>
@@ -21,6 +26,7 @@ const GestionView = {
                     <button class="admin-tab ${currentGestionTab === 'blog' ? 'active' : ''}" onclick="GestionView.changeTab('blog')">Blog</button>
                 </div>
                 <div id="gestion-content" class="reveal"></div>
+                </div>
             </div>
         `;
     },
@@ -33,6 +39,10 @@ const GestionView = {
         } else {
             withUsers();
         }
+    },
+    destroy: function() {
+        Object.values(gestionCharts).forEach(chart => { if (chart && typeof chart.destroy === 'function') chart.destroy(); });
+        gestionCharts = {};
     },
     loadChartJS: function() {
         return new Promise((resolve, reject) => {
@@ -199,7 +209,7 @@ const GestionView = {
         let html = `
             <input type="text" class="search-bar" placeholder="Buscar joven por nombre, dirección o teléfono..." onkeyup="GestionView.filterCensus(this.value)">
             <div style="text-align: right; margin-bottom: 15px;"><button class="btn btn-outline" onclick="GestionView.exportExcel()">${Icons.download} Exportar a Excel</button></div>
-            <div class="table-container">
+            <div class="v-table-card" style="overflow-x:auto;">
                 <table>
                     <thead>
                         <tr>
@@ -239,7 +249,7 @@ const GestionView = {
         uids.forEach(uid => {
             const u = LumenData.users[uid];
             if (!u) return;
-            let roleBadge = u.role === 'admin' ? '<span class="table-badge approved" style="background:#005F8A; color:white;">Admin</span>' : '<span class="table-badge adult">Usuario</span>';
+            let roleBadge = u.role === 'admin' ? '<span class="table-badge approved is-admin">Admin</span>' : '<span class="table-badge adult">Usuario</span>';
             if (u.role === 'global') roleBadge = '<span class="table-badge minor">Global</span>';
             if (u.role === 'miembro') roleBadge = '<span class="table-badge approved">Juvemar</span>';
 
@@ -255,17 +265,17 @@ const GestionView = {
             
             rowsHTML += `
                 <tr>
-                    <td><strong>${LumenUI.escapeHTML(u.nombre)}</strong> ${ageBadge} ${roleBadge}</td>
-                    <td>${LumenUI.escapeHTML(u.edad) || 'N/A'}</td>
-                    <td>${LumenUI.escapeHTML(u.nacimiento) || 'N/A'}</td>
-                    <td>${LumenUI.escapeHTML(sacramentos)}</td>
-                    <td>${LumenUI.escapeHTML(juvemarInfo)}</td>
-                    <td>${LumenUI.escapeHTML(u.telefono) || 'N/A'}</td>
-                    <td>${LumenUI.escapeHTML(u.email) || 'N/A'}</td>
-                    <td>${LumenUI.escapeHTML(u.direccion) || 'N/A'}</td>
-                    <td>${LumenUI.escapeHTML(guardian)}</td>
-                    <td>${LumenUI.escapeHTML(guardianPhone)}</td>
-                    <td>${statusBadge} ${approveBtn} ${coordBtn}</td>
+                    <td data-label="Nombre"><strong>${LumenUI.escapeHTML(u.nombre)}</strong> ${ageBadge} ${roleBadge}</td>
+                    <td data-label="Edad">${LumenUI.escapeHTML(u.edad) || 'N/A'}</td>
+                    <td data-label="Nacimiento">${LumenUI.escapeHTML(u.nacimiento) || 'N/A'}</td>
+                    <td data-label="Sacramentos">${LumenUI.escapeHTML(sacramentos)}</td>
+                    <td data-label="Juvemar">${LumenUI.escapeHTML(juvemarInfo)}</td>
+                    <td data-label="Teléfono">${LumenUI.escapeHTML(u.telefono) || 'N/A'}</td>
+                    <td data-label="Email">${LumenUI.escapeHTML(u.email) || 'N/A'}</td>
+                    <td data-label="Dirección">${LumenUI.escapeHTML(u.direccion) || 'N/A'}</td>
+                    <td data-label="Representante">${LumenUI.escapeHTML(guardian)}</td>
+                    <td data-label="Tel. Rep.">${LumenUI.escapeHTML(guardianPhone)}</td>
+                    <td data-label="Estado">${statusBadge} ${approveBtn} ${coordBtn}</td>
                 </tr>
             `;
         });
@@ -321,7 +331,7 @@ const GestionView = {
         if (LumenData.state.eventos !== 'ideal') return `<div class="state-container">${Icons.empty_box}<h3>No hay actividades</h3></div>`;
         let eventOptions = '<option value="">Selecciona una actividad...</option>';
         LumenData.eventos.forEach(ev => { eventOptions += `<option value="${ev.id}">${LumenUI.escapeHTML(ev.titulo)}</option>`; });
-        return `<div style="background:var(--blanco); padding:20px; border-radius:12px; box-shadow:var(--sombra-media); margin-bottom:20px;"><div class="form-group" style="margin:0;"><label>Selecciona actividad para ver inscritos:</label><select id="inscritos-event-select" onchange="GestionView.loadInscritosList(this.value)">${eventOptions}</select></div></div><div id="inscritos-list-container"></div>`;
+        return `<div class="v-card" style="margin-bottom:20px;"><div class="form-group" style="margin:0;"><label>Selecciona actividad para ver inscritos:</label><select id="inscritos-event-select" onchange="GestionView.loadInscritosList(this.value)">${eventOptions}</select></div></div><div id="inscritos-list-container"></div>`;
     },
     profileMap: {},
     loadInscritosList: function(eventId) {
@@ -411,7 +421,7 @@ const GestionView = {
                     <select onchange="GestionView.changeMatrixDate(this.value, 'year')">${yearOptions}</select>
                 </div>
                 <div style="margin-left: auto; display:flex; gap:10px; flex-wrap:wrap;">
-                    <button class="btn btn-success" style="background:#25D366; color:white; border:none;" onclick="GestionView.messageAbsentees()">${LumenIcons.message} Msj Ausentes</button>
+                    <button class="btn btn-whatsapp" onclick="GestionView.messageAbsentees()">${LumenIcons.message} Msj Ausentes</button>
                     <button class="btn btn-outline" onclick="GestionView.exportMatrixExcel()">${Icons.download} Exportar a Excel</button>
                 </div>
             </div>
@@ -580,13 +590,13 @@ const GestionView = {
                     lastMonth = c.mes;
                 }
                 html += `
-                    <div class="attendance-card" style="${proximos ? 'border-left-color: #e74c3c; background: rgba(231,76,60,0.06);' : ''}">
-                        <div class="mini-event-date" style="background: ${proximos ? '#ffe0e0' : 'var(--celeste-suave, #e0f2fe)'}; color: ${proximos ? '#c0392b' : 'var(--celeste-oscuro)'};">
+                    <div class="attendance-card${proximos ? ' is-soon' : ''}">
+                        <div class="mini-event-date${proximos ? ' is-soon' : ''}">
                             <span>${c.dia}</span><small>${monthAbrev[c.mes - 1] || ''}</small>
                         </div>
                         <div class="mini-event-info">
                             <h4>${LumenUI.escapeHTML(c.nombre)}</h4>
-                            <p>${c.edad ? c.edad + ' años' : 'Edad no registrada'} ${proximos ? '· <strong style="color:#e74c3c;">' + (c.en_dias === 0 ? '¡HOY ES SU CUMPLEAÑOS!' : 'en ' + c.en_dias + ' día' + (c.en_dias === 1 ? '' : 's')) + '</strong>' : ''}</p>
+                            <p>${c.edad ? c.edad + ' años' : 'Edad no registrada'} ${proximos ? '· <strong class="is-danger-text">' + (c.en_dias === 0 ? '¡HOY ES SU CUMPLEAÑOS!' : 'en ' + c.en_dias + ' día' + (c.en_dias === 1 ? '' : 's')) + '</strong>' : ''}</p>
                         </div>
                     </div>
                 `;

@@ -1,7 +1,8 @@
-// LUMEN - Service Worker único (v26) en la RAÍZ (/sw.js)
+// LUMEN - Service Worker único (v27) en la RAÍZ (/sw.js)
+// v27: unificación de vistas estilo v-header + utilidades dark-safe + rosario avemarías numeradas
 // v26: banner instalación PWA (dark mode + botones por plataforma) + rediseño vistas Nosotros y Blog
 // v25: bitácora de exportaciones (migración 11)
-const CACHE = "lumen-cache-v26";
+const CACHE = "lumen-cache-v27";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";

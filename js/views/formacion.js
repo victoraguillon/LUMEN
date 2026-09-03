@@ -186,22 +186,24 @@ const FormacionView = {
 
         return `
         <div class="view">
-            <section class="formacion-hero reveal">
-                <div class="hero-label">Tu camino de fe paso a paso ${LumenUI.liturgicalBadgeHTML()}</div>
-                <h1 class="grad-title">Formación</h1>
-                <p>Módulos en unidades con puntos clave y referencias para crecer a tu ritmo. Sin necesidad de cuenta, abierta a todos.</p>
-                <div class="hero-actions" style="justify-content:flex-start;">
+            <div class="v-header reveal">
+                <span class="v-eyebrow">${LumenUI.liturgicalBadgeHTML()} Camino de fe</span>
+                <h2 class="v-title">Formación paso a <em>paso</em></h2>
+                <p class="v-sub">Módulos en unidades con puntos clave y referencias para crecer a tu ritmo. Sin necesidad de cuenta, abierta a todos.</p>
+                <div class="hero-actions" style="justify-content:center; margin-top:20px;">
                     <button class="btn" onclick="LumenRouter.navigateTo('favoritos')" aria-label="Ver favoritos">♥ Mis favoritos (${Object.keys(LumenUI.getFavorites()).length})</button>
                     ${LumenUI.streakChipHTML()}
                 </div>
-            </section>
-            <div class="formacion-grid">
-                ${cards}
             </div>
-            <section class="formacion-tip reveal">
-                <h3>${LumenIcons.lightbulb} ¿Cómo funciona?</h3>
-                <p>Cada módulo se divide en unidades y secciones. Léelas en orden o salta libremente: tu avance se guarda en este dispositivo y puedes marcar cada sección como completada.</p>
-            </section>
+            <div class="v-section" style="padding-top:0;">
+                <div class="formacion-grid">
+                    ${cards}
+                </div>
+                <section class="formacion-tip reveal">
+                    <h3>${LumenIcons.lightbulb} ¿Cómo funciona?</h3>
+                    <p>Cada módulo se divide en unidades y secciones. Léelas en orden o salta libremente: tu avance se guarda en este dispositivo y puedes marcar cada sección como completada.</p>
+                </section>
+            </div>
         </div>`;
     },
 

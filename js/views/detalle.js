@@ -21,7 +21,7 @@ const DetalleView = {
 
         let costoHTML = '';
         if (evento.costo) {
-            costoHTML = `<p style="color: var(--celeste-oscuro); font-weight:600;">💰 Costo/Aporte: ${LumenUI.escapeHTML(evento.costo)}</p>`;
+            costoHTML = `<p class="v-chip" style="margin:8px 0;">💰 Costo/Aporte: ${LumenUI.escapeHTML(evento.costo)}</p>`;
         }
 
         let ubicacionHTML = '';
@@ -41,17 +41,21 @@ const DetalleView = {
 
         return `
             <div class="view">
-                <button class="btn btn-outline" style="margin-bottom: 20px;" onclick="LumenRouter.navigateTo('actividades')">${Icons.arrow_down} Volver</button>
+                <div class="v-detailbar reveal">
+                    <button class="btn btn-icon" onclick="LumenRouter.navigateTo('actividades')" aria-label="Volver a actividades">←</button>
+                    <div class="fm-title"><span class="fm-mod">${evento.tipo === 'recurrente' ? Icons.calendar + ' Actividad semanal' : Icons.sparkles + ' Actividad única'}</span></div>
+                    <div class="fm-actions"></div>
+                </div>
                 
                 <div class="detail-layout">
                     <div class="detail-main">
                         ${imageHTML}
-                        <span class="card-badge ${evento.tipo === 'recurrente' ? 'badge-recurring' : 'badge-unique'}">${evento.tipo === 'recurrente' ? 'Semanal' : 'Único'}</span>
-                        <h1 style="color: var(--celeste-oscuro); margin: 15px 0 20px;">${LumenUI.escapeHTML(evento.titulo)}</h1>
+                        <span class="v-chip ${evento.tipo === 'recurrente' ? '' : 'is-dorado'}" style="margin:14px 0 0;">${evento.tipo === 'recurrente' ? 'Semanal' : 'Único'}</span>
+                        <h2 class="v-title detail-title">${LumenUI.escapeHTML(evento.titulo)}</h2>
                         
                         <div style="margin-bottom: 30px;">
-                            <h3 style="color: var(--celeste-oscuro); margin-bottom: 10px; display:flex; align-items:center; gap:8px;">${Icons.book} Descripción</h3>
-                            <p style="color: var(--texto-gris); white-space: pre-wrap; line-height: 1.8;">${LumenUI.escapeHTML(evento.descripcion)}</p>
+                            <div class="v-section-title">${Icons.book} Descripción</div>
+                            <p style="color: var(--texto-gris); white-space: pre-wrap; line-height: 1.8; margin-top:8px;">${LumenUI.escapeHTML(evento.descripcion)}</p>
                         </div>
                     </div>
 
@@ -74,5 +78,6 @@ const DetalleView = {
                 </div>
             </div>
         `;
-    }
+    },
+    init: function() { LumenRouter.initScrollReveal(); }
 };

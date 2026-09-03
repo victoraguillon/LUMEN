@@ -155,13 +155,15 @@ const ExamenView = {
             }).join('');
             return `
             <div class="view">
-                <section class="formacion-hero reveal">
-                    <div class="hero-label">Reflexión sincera ante Dios ${LumenUI.liturgicalBadgeHTML()}</div>
-                    <h1 class="grad-title">Examen de Conciencia</h1>
-                    <p>Guíate por los mandamientos y los preceptos de la Iglesia para preparar tu confesión con honestidad y paz.</p>
-                    <div class="hero-actions" style="justify-content:flex-start;">${LumenUI.streakChipHTML()}</div>
-                </section>
-                <div class="formacion-grid">${cards}</div>
+                <div class="v-header reveal">
+                    <span class="v-eyebrow">Reflexión sincera ante Dios ${LumenUI.liturgicalBadgeHTML()}</span>
+                    <h2 class="v-title">Examen de <em>Conciencia</em></h2>
+                    <p class="v-sub">Guíate por los mandamientos y los preceptos de la Iglesia para preparar tu confesión con honestidad y paz.</p>
+                    <div class="hero-actions" style="justify-content:center; margin-top:20px;">${LumenUI.streakChipHTML()}</div>
+                </div>
+                <div class="v-section" style="padding-top:0;">
+                    <div class="formacion-grid">${cards}</div>
+                </div>
             </div>`;
         }
 

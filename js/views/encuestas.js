@@ -7,10 +7,17 @@ const EncuestasView = {
         
         return `
             <div class="view">
-                <h2 style="color: var(--celeste-oscuro); margin-bottom:20px;">Encuestas Rápidas</h2>
-                ${adminButton}
-                <div id="encuestas-list" class="cards-grid">
-                    <div class="state-container"><div class="skeleton-card" style="height:200px; width:100%;"></div></div>
+                <div class="v-header reveal">
+                    <span class="v-eyebrow">${Icons.message} Comunidad</span>
+                    <h2 class="v-title">Encuestas <em>Rápidas</em></h2>
+                    <p class="v-sub">Comparte tu opinión y descubre qué prefiere la comunidad de Juvemar.</p>
+                </div>
+                <div class="v-section" style="padding-top:0;">
+                    ${adminButton}
+                    <div id="encuestas-list" class="v-grid">
+                        <div class="v-skeleton"></div>
+                        <div class="v-skeleton"></div>
+                    </div>
                 </div>
             </div>
         `;
@@ -26,10 +33,10 @@ const EncuestasView = {
         supabase.from('encuestas').select('*').order('timestamp', { ascending: false }).limit(10).then(({ data, error }) => {
             const list = document.getElementById('encuestas-list');
             if (!list) return;
-            if (error) { list.innerHTML = `<div class="state-container">${Icons.alert}<h3>Error al cargar</h3></div>`; return; }
+            if (error) { list.innerHTML = `<div class="v-empty">${Icons.alert}<h3>Error al cargar</h3><p>No pudimos cargar las encuestas. Intenta de nuevo.</p></div>`; return; }
             const encuestas = data || [];
             if (encuestas.length === 0) {
-                list.innerHTML = `<div class="state-container">${Icons.empty_box}<h3>No hay encuestas</h3><p>Crea una encuesta para que la comunidad decida.</p></div>`;
+                list.innerHTML = `<div class="v-empty">${Icons.empty_box}<h3>No hay encuestas</h3><p>Crea una encuesta para que la comunidad decida.</p></div>`;
                 return;
             }
             Promise.all(encuestas.map(e => this.loadVotes(e.id))).then(votesMaps => {
@@ -69,12 +76,13 @@ const EncuestasView = {
                     });
 
                     html += `
-                        <div class="card">
-                            <div class="card-header">${Icons.bell}<h3>${LumenUI.escapeHTML(enc.question)}</h3></div>
-                            <div class="card-body">
+                        <div class="v-card">
+                            <div class="v-card-meta">${Icons.bell} Encuesta</div>
+                            <h3>${LumenUI.escapeHTML(enc.question)}</h3>
+                            <div style="margin:12px 0;">
                                 ${optionsHTML}
-                                <p style="font-size: 12px; color: var(--texto-gris); margin-top: 10px;">Total de votos: ${totalVotes}</p>
                             </div>
+                            <p style="font-size:12px; color:var(--texto-gris); margin:10px 0 0;">Total de votos: ${totalVotes}</p>
                         </div>
                     `;
                 });

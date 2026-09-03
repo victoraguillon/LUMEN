@@ -56,23 +56,22 @@ const InicioView = {
             const frase = (typeof FRASES_SANTOS !== 'undefined' && FRASES_SANTOS.length) ? FRASES_SANTOS[(dayOfMonth - 1) % FRASES_SANTOS.length] : { frase: "Dios nos ama y nos acompaña siempre.", autor: "Lumen" };
             return `
                 <div class="view">
-                    <div class="welcome-header reveal">
-                        <div>
-                            <h2>¡Bienvenido a LUMEN!</h2>
-                            <p>Descubre nuestra comunidad, actividades y crecimiento espiritual.</p>
-                        </div>
+                    <div class="v-header reveal">
+                        <span class="v-eyebrow" style="align-self:center;">${Icons.sparkles} Pastoral Juvenil Digital</span>
+                        <h2 class="v-title">¡Bienvenido a <em>LUMEN</em>!</h2>
+                        <p class="v-sub">Descubre nuestra comunidad, actividades y crecimiento espiritual.</p>
                     </div>
 
                     <div class="bento-grid">
                         <div class="bento-box bento-large reveal" style="background: var(--gradiente-lumen); justify-content: center; text-align: center; padding: 40px;">
-                            <div class="bento-title" style="color: white; justify-content: center;">
+                            <div class="bento-title on-gradient" style="justify-content: center;">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                                 <span style="font-size: 22px;">Friendly Reminder</span>
                             </div>
                             <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
-                                <p class="verse-text-large" style="font-size: 28px; font-style: italic; font-weight: 300; margin-bottom: 24px; color: white; line-height: 1.45;">"${frase.frase}"</p>
-                                <cite style="font-size: 16px; font-weight: 600; opacity: 0.9; text-transform: uppercase; letter-spacing: 2px; color: white;">(${frase.autor})</cite>
-                                <button class="btn btn-outline btn-block" style="border-color: white; color: white; max-width: 280px; margin: 32px auto 0;" onclick="LumenRouter.navigateTo('devocional')">${LumenIcons.oraciones} Mira el pasaje y santo de hoy</button>
+                                <p class="verse-text-large on-gradient" style="font-size: 28px; font-style: italic; font-weight: 300; margin-bottom: 24px; line-height: 1.45;">"${frase.frase}"</p>
+                                <cite class="on-gradient" style="font-size: 16px; font-weight: 600; opacity: 0.9; text-transform: uppercase; letter-spacing: 2px;">(${frase.autor})</cite>
+                                <button class="btn btn-outline btn-block on-gradient" style="max-width: 280px; margin: 32px auto 0;" onclick="LumenRouter.navigateTo('devocional')">${LumenIcons.oraciones} Mira el pasaje y santo de hoy</button>
                             </div>
                         </div>
 
@@ -193,9 +192,9 @@ const InicioView = {
         if (isMember && !LumenAuth.isAdmin) {
             adminBox = `
                 <div class="admin-request-box" style="margin-top: 20px;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 32px; height: 32px; color: #f59e0b; flex-shrink: 0;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 32px; height: 32px; color: var(--warning); flex-shrink: 0;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
                     <div style="flex:1">
-                        <h4 style="margin-bottom: 5px; color: #f59e0b; font-family: 'Sora', sans-serif;">¿Quieres ayudar a coordinar?</h4>
+                        <h4 class="is-warning-title" style="margin-bottom: 5px;">¿Quieres ayudar a coordinar?</h4>
                         <p style="font-size:13px; margin-bottom:10px; color: var(--texto-gris);">Solicita ser administrador para añadir actividades y recursos.</p>
                         <button class="btn btn-primary" style="padding: 8px 20px; font-size: 13px;" onclick="LumenAuth.requestAdmin()">Solicitar Acceso</button>
                     </div>
@@ -207,8 +206,8 @@ const InicioView = {
         const isGlobal = LumenAuth.currentUser && !LumenAuth.isMember && !LumenAuth.isAdmin;
         if (isGlobal) {
             juvemarInviteBox = `
-            <div class="bento-box bento-wide reveal" style="border-left: 5px solid #f59e0b; background: rgba(245,158,11,0.05);">
-                <div class="bento-title" style="color: #f59e0b; justify-content: center;">
+            <div class="bento-box bento-wide warning-box reveal">
+                <div class="bento-title is-warning" style="justify-content: center;">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                     ¿Deseas ser parte de Juvemar?
                 </div>
@@ -219,29 +218,25 @@ const InicioView = {
 
         return `
             <div class="view">
-                <div class="welcome-header reveal">
-                    <div>
-                        <h2>${greeting}, ${firstName}!</h2>
-                        <p>${tenureMessage}</p>
-                    </div>
-                    <div class="stat-cards" style="margin:0; gap:15px; width:auto;">
-                        <div class="stat-card" style="padding: 15px 25px;">
-                            <h3 style="font-size: 24px;">${LumenData.eventos.length}</h3>
-                            <p>Actividades</p>
-                        </div>
+                <div class="v-header reveal align-left" style="text-align:left; align-items:flex-start;">
+                    <span class="v-eyebrow">${Icons.sparkles} Fraternidad</span>
+                    <h2 class="v-title">${greeting}, <em>${firstName}</em>!</h2>
+                    <p class="v-sub">${tenureMessage}</p>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:4px;">
+                        <span class="v-chip">${Icons.calendar} ${LumenData.eventos.length} Actividades</span>
                     </div>
                 </div>
 
                 <div class="bento-grid">
                     <div class="bento-box bento-large reveal" style="background: var(--gradiente-lumen); justify-content: center; text-align: center; padding: 40px;">
-                        <div class="bento-title" style="color: white; justify-content: center;">
+                        <div class="bento-title on-gradient" style="justify-content: center;">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                             <span style="font-size: 22px;">Friendly Reminder</span>
                         </div>
                         <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
-                            <p class="verse-text-large" style="font-size: 28px; font-style: italic; font-weight: 300; margin-bottom: 24px; color: white; line-height: 1.45;">"${fraseDelDia.frase}"</p>
-                            <cite style="font-size: 16px; font-weight: 600; opacity: 0.9; text-transform: uppercase; letter-spacing: 2px; color: white;">(${fraseDelDia.autor})</cite>
-                            <button class="btn btn-outline btn-block" style="border-color: white; color: white; max-width: 280px; margin: 32px auto 0;" onclick="LumenRouter.navigateTo('devocional')">${LumenIcons.oraciones} Mira el pasaje y santo de hoy</button>
+                            <p class="verse-text-large on-gradient" style="font-size: 28px; font-style: italic; font-weight: 300; margin-bottom: 24px; line-height: 1.45;">"${fraseDelDia.frase}"</p>
+                            <cite class="on-gradient" style="font-size: 16px; font-weight: 600; opacity: 0.9; text-transform: uppercase; letter-spacing: 2px;">(${fraseDelDia.autor})</cite>
+                            <button class="btn btn-outline btn-block on-gradient" style="max-width: 280px; margin: 32px auto 0;" onclick="LumenRouter.navigateTo('devocional')">${LumenIcons.oraciones} Mira el pasaje y santo de hoy</button>
                         </div>
                     </div>
 
@@ -256,7 +251,7 @@ const InicioView = {
                         <button class="btn btn-outline btn-block" style="margin-top:auto;" onclick="LumenRouter.navigateTo('actividades')">Ver todas</button>
                     </div>
 
-                    <div class="bento-box bento-wide reveal" id="cumple-hoy-box" style="border-left: 5px solid #ef4444; background: rgba(239,68,68,0.05); display:none;"></div>
+                    <div class="bento-box bento-wide danger-box reveal" id="cumple-hoy-box" style="display:none;"></div>
 
                     <div class="bento-box reveal" data-push-card>
                         <div class="bento-title">

@@ -13,16 +13,20 @@ const NotificacionesView = {
         }
 
         let html = `
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:15px;">
-                <h2 class="reveal" style="color: var(--celeste-oscuro); margin:0;">Centro de Notificaciones</h2>
-                <button class="btn btn-outline" style="padding: 8px 15px; font-size: 12px;" onclick="NotificacionesView.markAllRead()">✓ Marcar todo como leído</button>
+            <div class="v-header reveal align-left">
+                <span class="v-eyebrow">${Icons.bell} Avisos</span>
+                <h2 class="v-title">Centro de <em>Notificaciones</em></h2>
+                <p class="v-sub">Mantente al día con los avisos, recordatorios y noticias de Juvemar.</p>
+                <div style="margin-top:16px;">
+                    <button class="btn btn-outline" onclick="NotificacionesView.markAllRead()">✓ Marcar todo como leído</button>
+                </div>
             </div>
         `;
 
         if (notifs.length === 0) {
-            html += `<div class="state-container">${Icons.empty_box}<h3>Sin notificaciones</h3><p>No tienes notificaciones nuevas por ahora.</p></div>`;
+            html += `<div class="v-empty" style="max-width:1080px;margin:0 auto;">${Icons.empty_box}<h3>Sin notificaciones</h3><p>No tienes notificaciones nuevas por ahora.</p></div>`;
         } else {
-            html += '<div class="timeline">';
+            html += '<div class="timeline" style="max-width:1080px;margin:0 auto;">';
             notifs.forEach(n => {
                 // Lógica de colores según el texto de la notificación
                 let itemClass = 'admin-notif'; // Azul por defecto
@@ -38,11 +42,11 @@ const NotificacionesView = {
             });
             html += '</div>';
             if (notifs.length >= LumenData.notifTake) {
-                html += '<div style="text-align:center; margin-top:24px;"><button class="btn btn-outline" style="padding:10px 22px;" onclick="LumenData.loadMoreNotifications()">Cargar más avisos</button></div>';
+                html += '<div style="text-align:center; margin-top:24px;"><button class="btn btn-outline" onclick="LumenData.loadMoreNotifications()">Cargar más avisos</button></div>';
             }
         }
 
-        return `<div class="view">${html}</div>`;
+        return `<div class="view" style="padding-top:var(--view-pad-top);">${html}</div>`;
     },
     init: function() {
         // Al entrar a la vista, marcamos todas como leídas en el LocalStorage y actualizamos el badge

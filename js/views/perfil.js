@@ -40,9 +40,9 @@ const PerfilView = {
 
         // Badge de Rol
         let roleBadge = '<span class="table-badge pending">Pendiente</span>';
-        if (user.role === 'global') roleBadge = '<span class="table-badge minor" style="background:rgba(0,162,232,0.1); color:#005F8A;">Usuario Global</span>';
+        if (user.role === 'global') roleBadge = '<span class="table-badge minor is-global">Usuario Global</span>';
         if (user.role === 'miembro') roleBadge = '<span class="table-badge approved">Miembro Juvemar</span>';
-        if (user.role === 'admin') roleBadge = '<span class="table-badge approved" style="background:#005F8A; color:white;">Coordinador</span>';
+        if (user.role === 'admin') roleBadge = '<span class="table-badge approved is-admin">Coordinador</span>';
 
         let joinJuvemarBtn = user.role === 'global' ? `<button class="btn btn-primary" onclick="LumenAuth.requestJuvemarMembership()">Solicitar Ingreso a Juvemar</button>` : '';
         let requestAdminBtn = (user.role === 'miembro' && !LumenAuth.isAdmin) ? `<button class="btn btn-outline" onclick="LumenAuth.requestAdmin()">Solicitar ser Coordinador</button>` : '';
@@ -74,7 +74,7 @@ const PerfilView = {
                 ${user.kerigma_otra ? `<p><strong>Otra:</strong> ${LumenUI.escapeHTML(user.kerigma_otra)}</p>` : ''}
             </div>
             ${user.representante_nombre ? `
-            <div class="info-card" style="border-left-color: #f39c12;">
+            <div class="info-card is-representante">
                 <h4>${Icons.alert} Representante</h4>
                 <p><strong>Nombre:</strong> ${LumenUI.escapeHTML(user.representante_nombre)}</p>
                 <p><strong>Teléfono:</strong> ${LumenUI.escapeHTML(user.representante_telefono)}</p>
@@ -268,5 +268,8 @@ const PerfilView = {
                 LumenUI.showToast(LumenUI.getErrorMessage(err), 'error');
             });
     },
-    init: function() {}
+    init: function() { LumenRouter.initScrollReveal(); },
+    destroy: function() {
+        if (this.cropper) { try { this.cropper.destroy(); } catch (e) {} this.cropper = null; }
+    }
 };

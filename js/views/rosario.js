@@ -18,11 +18,12 @@ const RosarioView = {
 
     _build: function() {
         const TS = this._texts;
+        const ORDINALES = ['Primera','Segunda','Tercera','Cuarta','Quinta','Sexta','Séptima','Octava','Novena','Décima'];
         const steps = [
             { label: 'Señal de la Cruz', text: TS.cruz, icon: LumenIcons.cross },
             { label: 'Credo', text: TS.credo, icon: LumenIcons.cross },
             { label: 'Padre Nuestro', text: TS.padrenuestro, icon: LumenIcons.rosario },
-            { label: 'Tres Avemarías', text: TS.avemaria + ' ' + TS.avemaria + ' ' + TS.avemaria, icon: LumenIcons.feather },
+            { label: 'Primera, Segunda y Tercera Avemaría', text: TS.avemaria + ' ' + TS.avemaria + ' ' + TS.avemaria, icon: LumenIcons.feather },
             { label: 'Gloria', text: TS.gloria, icon: Icons.star }
         ];
         const misterios = (ROSARIO_DATA.sets[this._set] || []);
@@ -30,7 +31,7 @@ const RosarioView = {
             const m = misterios[d];
             steps.push({ label: 'Misterio ' + (d + 1) + (m && m.title ? ': ' + m.title : ''), mystery: m, text: m && m.biblicalText ? m.biblicalText : '', icon: LumenIcons.novenas });
             steps.push({ label: 'Padre Nuestro', text: TS.padrenuestro, icon: LumenIcons.rosario });
-            for (let a = 0; a < 10; a++) steps.push({ label: 'Avemaría', text: TS.avemaria, icon: LumenIcons.feather });
+            for (let a = 0; a < 10; a++) steps.push({ label: ORDINALES[a] + ' Avemaría', text: TS.avemaria, icon: LumenIcons.feather });
             steps.push({ label: 'Gloria', text: TS.gloria, icon: Icons.star });
             steps.push({ label: 'Oración de Fátima', text: TS.fatima, icon: LumenIcons.oraciones });
         }
@@ -132,13 +133,15 @@ const RosarioView = {
 
             return `
             <div class="view">
-                <section class="formacion-hero reveal">
-                    <div class="hero-label">${LumenIcons.rosario} Reza con guía paso a paso ${LumenUI.liturgicalBadgeHTML()}</div>
-                    <h1 class="grad-title">Rosario Interactivo</h1>
-                    <p>Los misterios de hoy son los <strong>${this.SET_LABEL[today]}</strong>. Ve avanzando cuenta por cuenta: cada misterio trae su pasaje bíblico para meditar.</p>
-                    <div class="hero-actions" style="justify-content:flex-start;">${LumenUI.streakChipHTML()}</div>
-                </section>
-                <div class="formacion-grid">${sets}</div>
+                <div class="v-header reveal">
+                    <span class="v-eyebrow">${LumenIcons.rosario} Reza con guía ${LumenUI.liturgicalBadgeHTML()}</span>
+                    <h2 class="v-title">Rosario <em>Interactivo</em></h2>
+                    <p class="v-sub">Los misterios de hoy son los <strong>${this.SET_LABEL[today]}</strong>. Ve avanzando cuenta por cuenta: cada misterio trae su pasaje bíblico para meditar.</p>
+                    <div class="hero-actions" style="justify-content:center; margin-top:20px;">${LumenUI.streakChipHTML()}</div>
+                </div>
+                <div class="v-section" style="padding-top:0;">
+                    <div class="formacion-grid">${sets}</div>
+                </div>
             </div>`;
         }
 

@@ -54,13 +54,15 @@ const OracionesView = {
             }).join('');
             return `
             <div class="view">
-                <section class="formacion-hero reveal">
-                    <div class="hero-label">La oración es el corazón ${LumenUI.liturgicalBadgeHTML()}</div>
-                    <h1 class="grad-title">Oraciones</h1>
-                    <p>Oraciones para cada momento: fundamentales, marianas, devocionales y litúrgicas.</p>
-                    <div class="hero-actions" style="justify-content:flex-start;">${LumenUI.streakChipHTML()}</div>
-                </section>
-                <div class="formacion-grid">${cats}</div>
+                <div class="v-header reveal">
+                    <span class="v-eyebrow">${LumenUI.liturgicalBadgeHTML()} Oración</span>
+                    <h2 class="v-title">Oraciones para <em>cada momento</em></h2>
+                    <p class="v-sub">Fundamentales, marianas, devocionales y litúrgicas.</p>
+                    <div class="hero-actions" style="justify-content:center; margin-top:20px;">${LumenUI.streakChipHTML()}</div>
+                </div>
+                <div class="v-section" style="padding-top:0;">
+                    <div class="formacion-grid">${cats}</div>
+                </div>
             </div>`;
         }
 

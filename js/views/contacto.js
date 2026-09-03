@@ -2,11 +2,16 @@ const ContactoView = {
     render: function() {
         return `
             <div class="view">
-                <h2 style="color: var(--celeste-oscuro); margin-bottom:20px;">Contáctanos</h2>
+                <div class="v-header reveal">
+                    <span class="v-eyebrow">${Icons.message} Contacto</span>
+                    <h2 class="v-title">Contáctanos</h2>
+                    <p class="v-sub">Si tienes alguna duda o quieres unirte a nuestra comunidad, escríbenos.</p>
+                </div>
+                <div class="v-section" style="padding-top:0;">
                 <div class="split-container">
                     <div class="contact-info-panel">
-                        <h3 style="font-size: 24px; margin-bottom: 15px;">¡Estamos para servirte!</h3>
-                        <p style="opacity: 0.9; margin-bottom: 30px;">Si tienes alguna duda o quieres unirte a nuestra comunidad, no dudes en contactarnos directamente a través de WhatsApp o redes sociales.</p>
+                        <h3 style="font-size: 22px; margin-bottom: 15px; font-family:'Sora',sans-serif; font-weight:800;">¡Estamos para servirte!</h3>
+                        <p style="opacity: 0.9; margin-bottom: 30px;">Puedes contactarnos directamente a través de WhatsApp o redes sociales.</p>
                         
                         <a href="https://wa.me/584126413737" target="_blank" rel="noopener noreferrer" class="contact-info-item" style="text-decoration: none; color: white;">
                             ${Icons.whatsapp}
@@ -41,19 +46,20 @@ const ContactoView = {
                         </a>
                     </div>
 
-                    <div style="padding: 20px;">
-                        <h4 style="color: var(--celeste-oscuro); margin-bottom: 15px;">Envíanos un mensaje</h4>
+                    <div class="v-card" style="padding: 28px;">
+                        <h4 style="font-family:'Sora',sans-serif; font-size:18px; font-weight:700; color: var(--texto-oscuro); margin-bottom: 18px;">Envíanos un mensaje</h4>
                         <form id="contact-form">
-                            <div class="form-group" style="position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden;" aria-hidden="true">
+                            <div style="position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden;" aria-hidden="true">
                                 <label>No rellenar este campo</label>
                                 <input type="text" id="contact-honey" tabindex="-1" autocomplete="off">
                             </div>
-                            <div class="form-group"><label>Nombre:</label><input type="text" id="contact-name" autocomplete="name" required></div>
-                            <div class="form-group"><label>Correo Electrónico:</label><input type="email" id="contact-email" autocomplete="email" required></div>
-                            <div class="form-group"><label>Mensaje:</label><textarea id="contact-message" rows="5" maxlength="1000" required></textarea></div>
+                            <div class="v-field"><label>Nombre:</label><input type="text" id="contact-name" autocomplete="name" required></div>
+                            <div class="v-field"><label>Correo Electrónico:</label><input type="email" id="contact-email" autocomplete="email" required></div>
+                            <div class="v-field"><label>Mensaje:</label><textarea id="contact-message" rows="5" maxlength="1000" required></textarea></div>
                             <button type="submit" class="btn btn-primary btn-block">Enviar Mensaje</button>
                         </form>
                     </div>
+                </div>
                 </div>
             </div>
         `;

@@ -13,16 +13,18 @@ const RecursosView = {
         let tabsHTML = '';
         if (categorias.length > 0) {
             if (!categorias.includes(currentResourceTab)) currentResourceTab = categorias[0];
+            tabsHTML = `<div class="seg-tabs reveal">`;
             categorias.forEach(cat => {
-                tabsHTML += `<button class="tab-btn ${cat === currentResourceTab ? 'active' : ''}" onclick="RecursosView.changeTab('${cat}')">${cat}</button>`;
+                tabsHTML += `<button class="seg-tab ${cat === currentResourceTab ? 'active' : ''}" onclick="RecursosView.changeTab('${cat}')">${cat}</button>`;
             });
+            tabsHTML += `</div>`;
         }
 
         let content = '';
         if (LumenData.state.recursos === 'loading') {
-            content = `<div class="skeleton-card" style="height:100px; width:100%; margin-bottom:20px;"></div>`;
+            content = `<div class="v-skeleton"></div>`;
         } else if (LumenData.state.recursos === 'empty' || categorias.length === 0) {
-            content = `<div class="state-container">${Icons.empty_box}<h3>No hay recursos disponibles</h3><p>Pronto subiremos materiales de formación.</p></div>`;
+            content = `<div class="v-empty">${Icons.empty_box}<h3>No hay recursos disponibles</h3><p>Pronto subiremos materiales de formación.</p></div>`;
         } else {
             const recursosTab = LumenData.recursos[currentResourceTab] || {};
             let filteredResources = Object.keys(recursosTab).map(k => ({ id: k, ...recursosTab[k] }));
@@ -33,7 +35,7 @@ const RecursosView = {
             }
 
             if (filteredResources.length === 0) {
-                content = `<div class="state-container">${Icons.empty_box}<h3>Sin resultados</h3><p>No se encontraron recursos para tu búsqueda.</p></div>`;
+                content = `<div class="v-empty">${Icons.empty_box}<h3>Sin resultados</h3><p>No se encontraron recursos para tu búsqueda.</p></div>`;
             } else {
                 let cardsHTML = '';
                 filteredResources.forEach(res => {
@@ -43,14 +45,14 @@ const RecursosView = {
                     else if ((res.tipo || '').toLowerCase().includes('audio') || (res.tipo || '').toLowerCase().includes('música')) icon = Icons.music;
                     
                     cardsHTML += `
-                        <div class="resource-grid-card reveal" onclick="RecursosView.showResourceDetails('${res.id}')">
-                            ${icon}
-                            <h4>${LumenUI.escapeHTML(res.titulo)}</h4>
-                            <p>${LumenUI.escapeHTML(res.tipo)}</p>
-                        </div>
+                        <button class="v-card reveal" onclick="RecursosView.showResourceDetails('${res.id}')" style="align-items:stretch; text-align:left;">
+                            <div class="v-card-icon" style="margin-bottom:12px;">${icon}</div>
+                            <h3>${LumenUI.escapeHTML(res.titulo)}</h3>
+                            <span class="v-chip" style="align-self:flex-start; margin-top:8px;">${LumenUI.escapeHTML(res.tipo)}</span>
+                        </button>
                     `;
                 });
-                content = `<input type="text" class="search-bar" placeholder="Buscar recurso…" onkeyup="RecursosView.search(this.value)" value="${LumenUI.escapeHTML(resourceSearchQuery)}"><div class="resource-grid">${cardsHTML}</div>`;
+                content = `<input type="text" class="search-bar" placeholder="Buscar recurso…" onkeyup="RecursosView.search(this.value)" value="${LumenUI.escapeHTML(resourceSearchQuery)}"><div class="v-grid">${cardsHTML}</div>`;
             }
         }
 
@@ -58,10 +60,16 @@ const RecursosView = {
 
         return `
             <div class="view">
-                <h2 class="reveal" style="color: var(--celeste-oscuro); margin-bottom:20px;">Recursos y Formación</h2>
-                <div class="reveal">${adminButton}</div>
-                ${categorias.length > 0 ? `<div class="tabs">${tabsHTML}</div>` : ''}
-                ${content}
+                <div class="v-header reveal">
+                    <span class="v-eyebrow">${Icons.book} Formación</span>
+                    <h2 class="v-title">Recursos y <em>Formación</em></h2>
+                    <p class="v-sub">Materiales de formación, oraciones y guías exclusivas para miembros.</p>
+                </div>
+                <div class="v-section" style="padding-top:0;">
+                    <div class="reveal">${adminButton}</div>
+                    ${tabsHTML}
+                    ${content}
+                </div>
             </div>
         `;
     },

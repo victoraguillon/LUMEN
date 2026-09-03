@@ -77,13 +77,15 @@ const NovenasView = {
             }, this).join('');
             return `
             <div class="view">
-                <section class="formacion-hero reveal">
-                    <div class="hero-label">Nueve días de oración y espera ${LumenUI.liturgicalBadgeHTML()}</div>
-                    <h1 class="grad-title">Novenas</h1>
-                    <p>Reza durante nueve días pidiendo la intercesión de la Virgen, los santos y las devociones. Marca cada día al completarlo.</p>
-                    <div class="hero-actions" style="justify-content:flex-start;">${LumenUI.streakChipHTML()}</div>
-                </section>
-                <div class="formacion-grid">${cards}</div>
+                <div class="v-header reveal">
+                    <span class="v-eyebrow">Nueve días de oración ${LumenUI.liturgicalBadgeHTML()}</span>
+                    <h2 class="v-title">Novenas de <em>fe y espera</em></h2>
+                    <p class="v-sub">Reza durante nueve días pidiendo la intercesión de la Virgen, los santos y las devociones. Marca cada día al completarlo.</p>
+                    <div class="hero-actions" style="justify-content:center; margin-top:20px;">${LumenUI.streakChipHTML()}</div>
+                </div>
+                <div class="v-section" style="padding-top:0;">
+                    <div class="formacion-grid">${cards}</div>
+                </div>
             </div>`;
         }
 

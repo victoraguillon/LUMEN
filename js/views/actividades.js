@@ -7,20 +7,20 @@ const ActividadesView = {
         let adminButton = LumenAuth.isAdmin ? `<button class="btn btn-add" onclick="ActividadesView.showAddForm()">${Icons.plus} Crear Nueva Actividad</button>` : '';
 
         if (LumenData.state.eventos === 'loading') {
-            let skeletons = ''; for(let i=0; i<3; i++) skeletons += `<div class="skeleton-card"></div>`;
-            content = `<div class="cards-grid">${skeletons}</div>`;
+            let skeletons = ''; for(let i=0; i<3; i++) skeletons += `<div class="v-skeleton"></div>`;
+            content = `<div class="v-grid">${skeletons}</div>`;
         } 
         else if (LumenData.state.eventos === 'empty') {
-            content = `<div class="state-container">${Icons.empty_box}<h3>No hay actividades programadas</h3><p>Vuelve pronto para ver los próximos retiros y misiones.</p></div>`;
+            content = `<div class="v-empty">${Icons.empty_box}<h3>No hay actividades programadas</h3><p>Vuelve pronto para ver los próximos retiros y misiones.</p></div>`;
         } 
         else if (LumenData.state.eventos === 'ideal') {
             // Chips de Filtro
             let chipsHTML = `
-                <div class="filter-chips reveal">
-                    <div class="chip ${activeFilter === 'Todos' ? 'active' : ''}" onclick="ActividadesView.setFilter('Todos')">Próximas</div>
-                    <div class="chip ${activeFilter === 'historial' ? 'active' : ''}" onclick="ActividadesView.setFilter('historial')">Historial</div>
-                    <div class="chip ${activeFilter === 'unico' ? 'active' : ''}" onclick="ActividadesView.setFilter('unico')">Únicos</div>
-                    <div class="chip ${activeFilter === 'recurrente' ? 'active' : ''}" onclick="ActividadesView.setFilter('recurrente')">Recurrentes</div>
+                <div class="seg-tabs reveal" style="margin-bottom: var(--v-gap);">
+                    <div class="seg-tab ${activeFilter === 'Todos' ? 'active' : ''}" onclick="ActividadesView.setFilter('Todos')">Próximas</div>
+                    <div class="seg-tab ${activeFilter === 'historial' ? 'active' : ''}" onclick="ActividadesView.setFilter('historial')">Historial</div>
+                    <div class="seg-tab ${activeFilter === 'unico' ? 'active' : ''}" onclick="ActividadesView.setFilter('unico')">Únicos</div>
+                    <div class="seg-tab ${activeFilter === 'recurrente' ? 'active' : ''}" onclick="ActividadesView.setFilter('recurrente')">Recurrentes</div>
                 </div>
             `;
 
@@ -30,7 +30,7 @@ const ActividadesView = {
             const filteredEvents = baseList.filter(ev => activeFilter === 'Todos' || activeFilter === 'historial' || ev.tipo === activeFilter);
             
             if (filteredEvents.length === 0) {
-                cardsHTML = `<div class="state-container">${Icons.empty_box}<h3>${activeFilter === 'historial' ? 'Aún no hay actividades finalizadas' : 'No hay actividades de este tipo'}</h3></div>`;
+                cardsHTML = `<div class="v-empty" style="grid-column:1/-1;">${Icons.empty_box}<h3>${activeFilter === 'historial' ? 'Aún no hay actividades finalizadas' : 'No hay actividades de este tipo'}</h3></div>`;
             } else {
                 filteredEvents.forEach(evento => {
                     let adminButtons = LumenAuth.isAdmin ? `
@@ -46,24 +46,34 @@ const ActividadesView = {
                     if (fueFinalizada) fechaText += ` · Finalizada`;
 
                     cardsHTML += `
-                        <div class="card reveal">
-                            ${evento.image_url ? `<img src="${LumenUI.escapeHTML(evento.image_url)}" alt="${LumenUI.escapeHTML(evento.titulo)}" loading="lazy" width="400" height="180" style="width:100%; height: 180px; object-fit: cover;">` : ''}
-                            <div class="card-header">${Icons.calendar}<h3>${LumenUI.escapeHTML(evento.titulo)}</h3></div>
-                            <div class="card-body">
-                                <span class="card-badge ${badgeClass}">${badgeText}</span>
-                                <p><strong>Fecha:</strong> ${LumenUI.escapeHTML(fechaText)}</p>
-                                <p>${LumenUI.escapeHTML((evento.descripcion || '').substring(0, 60))}...</p>
-                                <button class="btn btn-primary btn-block" onclick="LumenData.selectedEventId='${evento.id}'; LumenRouter.navigateTo('detalle')">Ver Detalle</button>
-                                ${adminButtons}
+                        <div class="v-card">
+                            <div class="v-card-meta">${Icons.calendar} ${LumenUI.escapeHTML(fechaText)}</div>
+                            <h3>${LumenUI.escapeHTML(evento.titulo)}</h3>
+                            <div style="margin:10px 0;">
+                                <span class="v-chip ${evento.tipo === 'recurrente' ? '' : 'is-dorado'}">${badgeText}</span>
                             </div>
+                            ${evento.image_url ? `<img src="${LumenUI.escapeHTML(evento.image_url)}" alt="${LumenUI.escapeHTML(evento.titulo)}" loading="lazy" style="width:100%; height:160px; object-fit:cover; border-radius:12px; margin-bottom:12px;">` : ''}
+                            <p>${LumenUI.escapeHTML((evento.descripcion || '').substring(0, 60))}...</p>
+                            <button class="btn btn-primary btn-block" onclick="LumenData.selectedEventId='${evento.id}'; LumenRouter.navigateTo('detalle')">Ver Detalle</button>
+                            ${adminButtons}
                         </div>
                     `;
                 });
             }
-            content = `${chipsHTML}<div class="cards-grid">${cardsHTML}</div>`;
+            content = `${chipsHTML}<div class="v-grid">${cardsHTML}</div>`;
         }
 
-        return `<div class="view"><h2 class="reveal" style="color: var(--celeste-oscuro); margin-bottom:20px;">Actividades</h2><p class="reveal" style="color:var(--texto-gris); margin-top:-10px; margin-bottom:15px;">${activeFilter === 'historial' ? 'Actividades únicas ya realizadas.' : 'Próximas actividades y encuentros.'}</p><div class="reveal">${adminButton}</div>${content}</div>`;
+        return `<div class="view">
+            <div class="v-header reveal align-left">
+                <span class="v-eyebrow">${Icons.calendar} Agenda</span>
+                <h2 class="v-title">Actividades</h2>
+                <p class="v-sub">${activeFilter === 'historial' ? 'Actividades únicas ya realizadas.' : 'Próximas actividades y encuentros.'}</p>
+            </div>
+            <div class="v-section" style="padding-top:0;">
+                <div class="reveal">${adminButton}</div>
+                ${content}
+            </div>
+        </div>`;
     },
     setFilter: function(filter) {
         activeFilter = filter;
@@ -226,5 +236,9 @@ const ActividadesView = {
         
         const action = id ? LumenData.updateActivity(id, data) : LumenData.saveActivity(data);
         action.then(() => { LumenUI.closeModal('admin-modal'); LumenUI.showToast('Actividad guardada', 'success'); });
+    },
+    init: function() { LumenRouter.initScrollReveal(); },
+    destroy: function() {
+        if (this.cropper) { try { this.cropper.destroy(); } catch (e) {} this.cropper = null; }
     }
 };

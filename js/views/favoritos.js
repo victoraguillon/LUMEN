@@ -32,12 +32,12 @@ const FavoritosView = {
         const ids = Object.keys(favs);
         if (!ids.length) {
             return `<div class="view">
-                <section class="formacion-hero reveal">
-                    <div class="hero-label">Guarda lo que te alimenta ${LumenUI.liturgicalBadgeHTML()}</div>
-                    <h1 class="grad-title">Mis Favoritos</h1>
-                    <p>Toca ♥ en cualquier sección, oración, novena o santo para guardarlo aquí.</p>
-                </section>
-                <div class="state-container">${typeof Icons !== 'undefined' ? Icons.empty_box : '📭'}<h3>Sin favoritos todavía</h3><p>Explora Formación, Oraciones o Novenas y marca lo que más te guste.</p><button class="btn btn-primary" style="margin-top:15px;" onclick="LumenRouter.navigateTo('formacion')">Explorar Formación</button></div>
+                <div class="v-header reveal">
+                    <span class="v-eyebrow">Tus guardados ${LumenUI.liturgicalBadgeHTML()}</span>
+                    <h2 class="v-title">Mis <em>Favoritos</em></h2>
+                    <p class="v-sub">Toca ♥ en cualquier sección, oración, novena o santo para guardarlo aquí.</p>
+                </div>
+                <div class="v-empty reveal" style="max-width:1080px; margin:0 auto;">${typeof Icons !== 'undefined' ? Icons.empty_box : '📭'}<h3>Sin favoritos todavía</h3><p>Explora Formación, Oraciones o Novenas y marca lo que más te guste.</p><button class="btn btn-primary" onclick="LumenRouter.navigateTo('formacion')">Explorar Formación</button></div>
             </div>`;
         }
 
@@ -70,12 +70,14 @@ const FavoritosView = {
         }, this);
 
         return `<div class="view">
-            <section class="formacion-hero reveal">
-                <div class="hero-label">Tus guardados ${LumenUI.liturgicalBadgeHTML()}</div>
-                <h1 class="grad-title">Mis Favoritos</h1>
-                <p>${ids.length} elemento${ids.length === 1 ? '' : 's'} guardado${ids.length === 1 ? '' : 's'}.</p>
-            </section>
-            ${blocks}
+            <div class="v-header reveal">
+                <span class="v-eyebrow">Tus guardados ${LumenUI.liturgicalBadgeHTML()}</span>
+                <h2 class="v-title">Mis <em>Favoritos</em></h2>
+                <p class="v-sub">${ids.length} elemento${ids.length === 1 ? '' : 's'} guardado${ids.length === 1 ? '' : 's'}.</p>
+            </div>
+            <div class="v-section" style="padding-top:0;">
+                ${blocks}
+            </div>
         </div>`;
     },
 
