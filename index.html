@@ -101,7 +101,7 @@
         <a href="#inicio" class="drawer-link" data-view="inicio" onclick="LumenUI.toggleDrawer()">Inicio</a>
         <a href="#nosotros" class="drawer-link" data-view="nosotros" onclick="LumenUI.toggleDrawer()">Nosotros</a>
         <a href="#actividades" class="drawer-link" data-view="actividades" onclick="LumenUI.toggleDrawer()">Actividades</a>
-        <details class="drawer-group" open>
+        <details class="drawer-group">
             <summary class="drawer-summary"><span>Espiritualidad</span><span class="drawer-caret">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </span></summary>
@@ -115,7 +115,7 @@
                 <a href="#favoritos" class="drawer-link" data-view="favoritos" onclick="LumenUI.toggleDrawer()">Mis Favoritos</a>
             </div>
         </details>
-        <details class="drawer-group" open>
+        <details class="drawer-group">
             <summary class="drawer-summary"><span>Comunidad</span><span class="drawer-caret">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </span></summary>
@@ -257,12 +257,17 @@
             </div>
             <form id="register-form">
                 <section class="reg-step active" id="reg-step-0">
+                    <div class="form-group"><label for="reg-fullname">Nombre y Apellido: *</label><input type="text" id="reg-fullname" placeholder="Ej: Ana María Pérez" autocomplete="name" enterkeyhint="next" required></div>
                     <div class="form-grid-2">
-                        <div class="form-group"><label for="reg-fullname">Nombre y Apellido: *</label><input type="text" id="reg-fullname" placeholder="Ej: Ana María Pérez" autocomplete="name" enterkeyhint="next" required></div>
-                        <div class="form-group"><label for="reg-age">Edad: *</label><input type="number" id="reg-age" min="10" max="30" readonly class="readonly-field" aria-label="Edad calculada"></div>
-                    </div>
-                    <div class="form-grid-2">
-                        <div class="form-group"><label for="reg-birthdate">Fecha de cumpleaños: *</label><input type="text" id="reg-birthdate" placeholder="DD/MM/YYYY" inputmode="numeric" autocomplete="bday" enterkeyhint="next" pattern="\d{2}/\d{2}/\d{4}" required></div>
+                        <div class="form-group">
+                            <label for="reg-birthdate">Fecha de cumpleaños: *</label>
+                            <input type="text" id="reg-birthdate" placeholder="DD/MM/YYYY" inputmode="numeric" autocomplete="bday" enterkeyhint="next" pattern="\d{2}/\d{2}/\d{4}" required>
+                            <div class="form-group" style="margin-top:14px;">
+                                <label for="reg-age">Edad: *</label>
+                                <input type="number" id="reg-age" min="10" max="30" readonly class="readonly-field" aria-label="Edad calculada">
+                                <p class="form-hint" style="margin-top:6px; color:var(--texto-gris);">* La edad se calcula automáticamente a partir de la fecha de nacimiento.</p>
+                            </div>
+                        </div>
                         <div class="form-group"><label for="reg-phone-user">Número telefónico: *</label><input type="tel" id="reg-phone-user" inputmode="tel" autocomplete="tel-national" enterkeyhint="next" required></div>
                     </div>
                     <div class="form-grid-2">

@@ -582,44 +582,6 @@ const LumenUI = {
         document.getElementById('drawer-overlay').classList.toggle('active');
     },
 
-    initDrawerGestures: function() {
-        const drawer = document.getElementById('side-drawer');
-        const overlay = document.getElementById('drawer-overlay');
-        if (!drawer || !overlay) return;
-        let startX = 0, currentX = 0, dragging = false;
-
-        const onStart = (e) => {
-            if (!drawer.classList.contains('active')) return;
-            startX = e.clientX;
-            currentX = startX;
-            dragging = false;
-        };
-        const onMove = (e) => {
-            if (!drawer.classList.contains('active')) return;
-            currentX = e.clientX;
-            let diff = startX - currentX;
-            if (!dragging && Math.abs(diff) < 8) return; // espera a movimiento real
-            dragging = true;
-            if (diff < 0) diff = 0; // no tirar del borde derecho
-            drawer.style.transition = 'none';
-            drawer.style.transform = `translateX(${-diff}px)`;
-        };
-        const onEnd = () => {
-            if (!drawer.classList.contains('active') || !dragging) return;
-            drawer.style.transition = '';
-            drawer.style.transform = '';
-            if (startX - currentX > 80) {
-                this.toggleDrawer();
-            }
-            dragging = false;
-        };
-
-        drawer.addEventListener('pointerdown', onStart);
-        drawer.addEventListener('pointermove', onMove);
-        drawer.addEventListener('pointerup', onEnd);
-        drawer.addEventListener('pointercancel', onEnd);
-    },
-
 };
 
 document.addEventListener('click', (e) => { if (e.target.closest('.btn, .nav-link, .modal-close, .tab-btn, .checkbox-item, .admin-tab, .poll-option, .dropdown-trigger')) LumenUI.playSound(); });

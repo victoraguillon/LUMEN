@@ -198,7 +198,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => { const preloader = document.getElementById('preloader'); if (preloader) preloader.classList.add('hidden'); }, 1500);
 
     if (typeof LumenUI !== 'undefined' && LumenUI.initDarkMode) LumenUI.initDarkMode();
-    if (typeof LumenUI !== 'undefined' && LumenUI.initDrawerGestures) LumenUI.initDrawerGestures();
 
     // Push: se habilita SOLO cuando el usuario lo pide desde la tarjeta "Activa Notificaciones"
     // (Ya no se pide permiso automáticamente al abrir la app).

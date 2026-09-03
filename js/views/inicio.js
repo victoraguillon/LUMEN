@@ -57,8 +57,7 @@ const InicioView = {
             return `
                 <div class="view">
                     <div class="v-header reveal">
-                        <span class="v-eyebrow" style="align-self:center;">${Icons.sparkles} Pastoral Juvenil Digital</span>
-                        <h2 class="v-title">¡Bienvenido a <em>LUMEN</em>!</h2>
+                        <h2 class="v-title">¡Bienvenido a <em>LUMEN</em>    !</h2>
                         <p class="v-sub">Descubre nuestra comunidad, actividades y crecimiento espiritual.</p>
                     </div>
 
@@ -209,7 +208,7 @@ const InicioView = {
             <div class="bento-box bento-wide warning-box reveal">
                 <div class="bento-title is-warning" style="justify-content: center;">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                    ¿Deseas ser parte de Juvemar?
+                    ¿Deseas ser parte de LUMEN?
                 </div>
                 <p style="color: var(--texto-gris); text-align: center; margin: 10px 0;">Únete a nuestra comunidad juvenil: formación, actividades, apostolado y vida fraterna.</p>
                 <button class="btn btn-primary btn-block" style="max-width: 300px; margin: 0 auto;" onclick="LumenUI.openJuvemarJoin()">Quiero unirme</button>
@@ -219,7 +218,6 @@ const InicioView = {
         return `
             <div class="view">
                 <div class="v-header reveal align-left" style="text-align:left; align-items:flex-start;">
-                    <span class="v-eyebrow">${Icons.sparkles} Fraternidad</span>
                     <h2 class="v-title">${greeting}, <em>${firstName}</em>!</h2>
                     <p class="v-sub">${tenureMessage}</p>
                     <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:4px;">
