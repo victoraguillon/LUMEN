@@ -221,13 +221,20 @@ const GestionView = {
             </div>
         `;
         
-        setTimeout(() => this.renderCensusRows(Object.keys(LumenData.users)), 100);
+        setTimeout(() => this.renderCensusRows(this.pendingJuvemarUids()), 100);
         return html;
+    },
+
+    pendingJuvemarUids: function() {
+        return Object.keys(LumenData.users).filter(uid => {
+            const u = LumenData.users[uid];
+            return u && u.role === 'miembro' && u.status === 'pending';
+        });
     },
     
     filterCensus: function(query) {
         query = query.toLowerCase();
-        const filtered = Object.keys(LumenData.users).filter(uid => {
+        const filtered = this.pendingJuvemarUids().filter(uid => {
             const u = LumenData.users[uid];
             return (u.nombre && u.nombre.toLowerCase().includes(query)) || 
                    (u.direccion && u.direccion.toLowerCase().includes(query)) || 
@@ -285,7 +292,8 @@ const GestionView = {
     exportExcel: function() {
         if (!LumenData.users) return LumenUI.showToast('No hay datos para exportar', 'error');
         let data = [];
-        Object.values(LumenData.users).forEach(u => {
+        this.pendingJuvemarUids().forEach(uid => {
+            const u = LumenData.users[uid];
             data.push({
                 "Nombre": u.nombre || 'N/A', "Edad": u.edad || 'N/A', "Nacimiento": u.nacimiento || 'N/A',
                 "Sacramentos": (u.sacramentos || []).join(', ') || 'N/A',
@@ -307,7 +315,7 @@ const GestionView = {
             if (confirmed) {
                 supabase.from('profiles').update({ status: 'approved' }).eq('id', uid).then(() => {
                     LumenUI.showToast('Usuario aprobado con éxito', 'success');
-                    LumenData.loadUsers().then(() => this.renderCensusRows(Object.keys(LumenData.users)));
+                    LumenData.loadUsers().then(() => this.renderCensusRows(this.pendingJuvemarUids()));
                 });
             }
         });
@@ -319,7 +327,7 @@ const GestionView = {
                 supabase.from('profiles').update({ role: 'admin', status: 'approved' }).eq('id', uid)
                     .then(() => {
                         LumenUI.showToast('Ahora es Coordinador', 'success');
-                        LumenData.loadUsers().then(() => this.renderCensusRows(Object.keys(LumenData.users)));
+                        LumenData.loadUsers().then(() => this.renderCensusRows(this.pendingJuvemarUids()));
                     })
                     .catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
             }
