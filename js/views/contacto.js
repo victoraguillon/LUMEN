@@ -3,7 +3,6 @@ const ContactoView = {
         return `
             <div class="view">
                 <div class="v-header reveal">
-                    <span class="v-eyebrow">${Icons.message} Contacto</span>
                     <h2 class="v-title">Contáctanos</h2>
                     <p class="v-sub">Si tienes alguna duda o quieres unirte a nuestra comunidad, escríbenos.</p>
                 </div>
