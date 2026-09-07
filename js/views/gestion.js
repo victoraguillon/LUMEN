@@ -11,7 +11,7 @@ const GestionView = {
         return `
             <div class="view">
                 <div class="v-header reveal align-left">
-                    <span class="v-eyebrow">${Icons.shield} Administración</span>
+                    <span class="v-eyebrow">${LumenIcons.shield} Administración</span>
                     <h2 class="v-title">Módulo de <em>Gestión</em></h2>
                     <p class="v-sub">Censo, inscritos, asistencia, comunicación y más herramientas para los coordinadores.</p>
                 </div>

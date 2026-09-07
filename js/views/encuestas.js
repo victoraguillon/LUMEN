@@ -8,7 +8,7 @@ const EncuestasView = {
         return `
             <div class="view">
                 <div class="v-header reveal">
-                    <span class="v-eyebrow">${Icons.message} Comunidad</span>
+                    <span class="v-eyebrow">${LumenIcons.message} Comunidad</span>
                     <h2 class="v-title">Encuestas <em>Rápidas</em></h2>
                     <p class="v-sub">Comparte tu opinión y descubre qué prefiere la comunidad de Juvemar.</p>
                 </div>
