@@ -32,7 +32,8 @@ const GestionView = {
     },
     init: function() {
         const withUsers = () => {
-            if (!LumenData.users) { LumenData.loadUsers().then(() => this.renderContent()); } else { this.renderContent(); }
+            const empty = (LumenData.users && Object.keys(LumenData.users).length === 0);
+            if (!LumenData.users || empty) { LumenData.loadUsers().then(() => this.renderContent()); } else { this.renderContent(); }
         };
         if (typeof Chart === 'undefined') {
             this.loadChartJS().then(withUsers).catch(() => withUsers());

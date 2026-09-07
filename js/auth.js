@@ -13,6 +13,7 @@ const LumenAuth = {
             if (user) {
                 this.currentUser = user;
                 this.loadProfile(user);
+                if (typeof LumenData !== 'undefined' && LumenData.loadUsers) LumenData.loadUsers();
             } else {
                 this.currentUser = null; this.userProfile = null; this.isAdmin = false;
                 this.updateUI();

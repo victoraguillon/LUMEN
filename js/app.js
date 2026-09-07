@@ -36,13 +36,13 @@ const LumenRouter = {
             case 'contacto': viewObj = typeof ContactoView !== 'undefined' ? ContactoView : null; title = "Contacto"; break;
             case 'blog': viewObj = typeof BlogView !== 'undefined' ? BlogView : null; title = "Blog"; break;
             case 'devocional': viewObj = typeof DevocionalView !== 'undefined' ? DevocionalView : null; title = "Devocional"; break;
-            default: viewObj = typeof LandingView !== 'undefined' ? LandingView : null;
+            default: viewObj = null; title = "Página no encontrada";
         }
 
         document.title = `LUMEN | ${title}`;
 
         if (!viewObj || !viewObj.render) {
-            container.innerHTML = `<div class="state-container"><h3>Error de carga</h3><p>La vista no se encontró.</p></div>`;
+            container.innerHTML = `<div class="state-container"><h3>404 · Página no encontrada</h3><p>La vista no existe o se movió.</p><button class="btn btn-primary" onclick="LumenRouter.navigateTo('landing')">Volver al inicio</button></div>`;
             return;
         }
 
