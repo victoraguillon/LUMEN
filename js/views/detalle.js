@@ -43,7 +43,7 @@ const DetalleView = {
             <div class="view">
                 <div class="v-detailbar reveal">
                     <button class="btn btn-icon" onclick="LumenRouter.navigateTo('actividades')" aria-label="Volver a actividades">←</button>
-                    <div class="fm-title"><span class="fm-mod">${evento.tipo === 'recurrente' ? Icons.calendar + ' Actividad semanal' : Icons.sparkles + ' Actividad única'}</span></div>
+                    <div class="fm-title"><span class="fm-mod">${evento.tipo === 'recurrente' ? Icons.calendar + ' Actividad semanal' : LumenIcons.sparkles + ' Actividad única'}</span></div>
                     <div class="fm-actions"></div>
                 </div>
                 
