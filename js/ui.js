@@ -246,19 +246,19 @@ const LumenUI = {
         const user = LumenAuth.userProfile;
         const userAge = parseInt(user.edad);
 
-        if (evento.requisito_edad === 'mayor15' && userAge < 15) return this.showToast('Requisito: Mayores de 15 años.', 'error');
-        if (evento.requisito_edad === 'mayor18' && userAge < 18) return this.showToast('Requisito: Mayores de 18 años.', 'error');
-        if (evento.requisito_edad === 'rango_edad' && evento.requisito_min_edad && evento.requisito_max_edad) {
+        if (evento.requisitos_edad === 'mayor15' && userAge < 15) return this.showToast('Requisito: Mayores de 15 años.', 'error');
+        if (evento.requisitos_edad === 'mayor18' && userAge < 18) return this.showToast('Requisito: Mayores de 18 años.', 'error');
+        if (evento.requisitos_edad === 'rango_edad' && evento.requisito_min_edad && evento.requisito_max_edad) {
             if (userAge < parseInt(evento.requisito_min_edad) || userAge > parseInt(evento.requisito_max_edad)) {
                 return this.showToast(`Requisito: Edad entre ${evento.requisito_min_edad} y ${evento.requisito_max_edad} años.`, 'error');
             }
         }
-        if ((evento.requisito_edad === 'nacido_antes' || evento.requisito_edad === 'nacido_desde') && evento.requisito_fecha) {
+        if ((evento.requisitos_edad === 'nacido_antes' || evento.requisitos_edad === 'nacido_desde') && evento.requisito_fecha) {
             const parts = user.nacimiento.split('/');
             const birthDate = new Date(parts[2], parts[1] - 1, parts[0]);
             const limitDate = new Date(evento.requisito_fecha);
-            if (evento.requisito_edad === 'nacido_antes' && birthDate > limitDate) return this.showToast('Requisito: Nacidos antes de ' + evento.requisito_fecha, 'error');
-            if (evento.requisito_edad === 'nacido_desde' && birthDate < limitDate) return this.showToast('Requisito: Nacidos desde ' + evento.requisito_fecha, 'error');
+            if (evento.requisitos_edad === 'nacido_antes' && birthDate > limitDate) return this.showToast('Requisito: Nacidos antes de ' + evento.requisito_fecha, 'error');
+            if (evento.requisitos_edad === 'nacido_desde' && birthDate < limitDate) return this.showToast('Requisito: Nacidos desde ' + evento.requisito_fecha, 'error');
         }
 
         const uid = LumenAuth.currentUser.id;

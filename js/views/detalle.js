@@ -13,11 +13,11 @@ const DetalleView = {
         }
 
         let reqHTML = '<p>Ninguno (Todos pueden participar).</p>';
-        if (evento.requisito_edad === 'mayor15') reqHTML = '<p style="color: var(--error); font-weight:600;">Solo para mayores de 15 años.</p>';
-        if (evento.requisito_edad === 'mayor18') reqHTML = '<p style="color: var(--error); font-weight:600;">Solo para mayores de 18 años.</p>';
-        if (evento.requisito_edad === 'nacido_antes') reqHTML = `<p style="color: var(--error); font-weight:600;">Solo para nacidos antes del ${LumenUI.escapeHTML(evento.requisito_fecha) || 'fecha no especificada'}.</p>`;
-        if (evento.requisito_edad === 'nacido_desde') reqHTML = `<p style="color: var(--error); font-weight:600;">Solo para nacidos desde el ${LumenUI.escapeHTML(evento.requisito_fecha) || 'fecha no especificada'}.</p>`;
-        if (evento.requisito_edad === 'rango_edad') reqHTML = `<p style="color: var(--error); font-weight:600;">Solo para jóvenes entre ${LumenUI.escapeHTML(evento.requisito_min_edad)} y ${LumenUI.escapeHTML(evento.requisito_max_edad)} años.</p>`;
+        if (evento.requisitos_edad === 'mayor15') reqHTML = '<p style="color: var(--error); font-weight:600;">Solo para mayores de 15 años.</p>';
+        if (evento.requisitos_edad === 'mayor18') reqHTML = '<p style="color: var(--error); font-weight:600;">Solo para mayores de 18 años.</p>';
+        if (evento.requisitos_edad === 'nacido_antes') reqHTML = `<p style="color: var(--error); font-weight:600;">Solo para nacidos antes del ${LumenUI.escapeHTML(evento.requisito_fecha) || 'fecha no especificada'}.</p>`;
+        if (evento.requisitos_edad === 'nacido_desde') reqHTML = `<p style="color: var(--error); font-weight:600;">Solo para nacidos desde el ${LumenUI.escapeHTML(evento.requisito_fecha) || 'fecha no especificada'}.</p>`;
+        if (evento.requisitos_edad === 'rango_edad') reqHTML = `<p style="color: var(--error); font-weight:600;">Solo para jóvenes entre ${LumenUI.escapeHTML(evento.requisito_min_edad)} y ${LumenUI.escapeHTML(evento.requisito_max_edad)} años.</p>`;
 
         let costoHTML = '';
         if (evento.costo) {

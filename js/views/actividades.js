@@ -113,19 +113,19 @@ const ActividadesView = {
                 <div class="form-group">
                     <label>Requisitos de Edad:</label>
                     <select id="act-req-edad" onchange="ActividadesView.toggleReqFields(this.value)">
-                        <option value="ninguno" ${evento.requisito_edad === 'ninguno' || !evento.requisito_edad ? 'selected' : ''}>Ninguno</option>
-                        <option value="mayor15" ${evento.requisito_edad === 'mayor15' ? 'selected' : ''}>Mayores de 15 años</option>
-                        <option value="mayor18" ${evento.requisito_edad === 'mayor18' ? 'selected' : ''}>Mayores de 18 años</option>
-                        <option value="nacido_antes" ${evento.requisito_edad === 'nacido_antes' ? 'selected' : ''}>Nacidos antes de una fecha</option>
-                        <option value="nacido_desde" ${evento.requisito_edad === 'nacido_desde' ? 'selected' : ''}>Nacidos desde una fecha</option>
-                        <option value="rango_edad" ${evento.requisito_edad === 'rango_edad' ? 'selected' : ''}>Rango de edad</option>
+                        <option value="ninguno" ${evento.requisitos_edad === 'ninguno' || !evento.requisitos_edad ? 'selected' : ''}>Ninguno</option>
+                        <option value="mayor15" ${evento.requisitos_edad === 'mayor15' ? 'selected' : ''}>Mayores de 15 años</option>
+                        <option value="mayor18" ${evento.requisitos_edad === 'mayor18' ? 'selected' : ''}>Mayores de 18 años</option>
+                        <option value="nacido_antes" ${evento.requisitos_edad === 'nacido_antes' ? 'selected' : ''}>Nacidos antes de una fecha</option>
+                        <option value="nacido_desde" ${evento.requisitos_edad === 'nacido_desde' ? 'selected' : ''}>Nacidos desde una fecha</option>
+                        <option value="rango_edad" ${evento.requisitos_edad === 'rango_edad' ? 'selected' : ''}>Rango de edad</option>
                     </select>
                 </div>
-                <div id="req-fecha-wrap" class="sub-input" style="display:${(evento.requisito_edad === 'nacido_antes' || evento.requisito_edad === 'nacido_desde') ? 'block' : 'none'}; margin-bottom: 15px;">
+                <div id="req-fecha-wrap" class="sub-input" style="display:${(evento.requisitos_edad === 'nacido_antes' || evento.requisitos_edad === 'nacido_desde') ? 'block' : 'none'}; margin-bottom: 15px;">
                     <label>Fecha límite de nacimiento (Ej: 2006-01-01)</label>
                     <input type="date" id="act-req-fecha" value="${LumenUI.escapeHTML(evento.requisito_fecha || '')}">
                 </div>
-                <div id="req-rango-wrap" class="sub-input" style="display:${evento.requisito_edad === 'rango_edad' ? 'block' : 'none'}; margin-bottom: 15px;">
+                <div id="req-rango-wrap" class="sub-input" style="display:${evento.requisitos_edad === 'rango_edad' ? 'block' : 'none'}; margin-bottom: 15px;">
                     <div class="form-grid-2">
                         <div class="form-group"><label>Edad Mínima:</label><input type="number" id="act-req-min-edad" value="${LumenUI.escapeHTML(evento.requisito_min_edad || '')}"></div>
                         <div class="form-group"><label>Edad Máxima:</label><input type="number" id="act-req-max-edad" value="${LumenUI.escapeHTML(evento.requisito_max_edad || '')}"></div>
@@ -148,7 +148,7 @@ const ActividadesView = {
             </form>
         `;
         LumenUI.openAdminModal(id ? 'Editar Actividad' : 'Crear Actividad', formHTML);
-        if(id) { this.toggleFechaFields(evento.tipo); this.toggleReqFields(evento.requisito_edad || 'ninguno'); this.toggleCostField(evento.costo ? 'si' : 'no'); }
+        if(id) { this.toggleFechaFields(evento.tipo); this.toggleReqFields(evento.requisitos_edad || 'ninguno'); this.toggleCostField(evento.costo ? 'si' : 'no'); }
     },
     handlePicUpload: function(e) {
         const file = e.target.files[0];
