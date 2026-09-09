@@ -15,7 +15,7 @@ test.describe('Offline · shell y contenido estático', () => {
   test('Tras visitar online, la app funciona sin conexión', async ({ page, context }) => {
     await controlled(page);
 
-    for (const v of ['devocional', 'formacion', 'oraciones', 'rosario']) {
+    for (const v of ['devocional', 'formacion', 'oraciones', 'rosario', 'evangelio']) {
       await page.evaluate((x) => LumenRouter.navigateTo(x), v);
       await page.waitForTimeout(500);
     }
@@ -34,6 +34,9 @@ test.describe('Offline · shell y contenido estático', () => {
 
     await page.evaluate(() => LumenRouter.navigateTo('rosario'));
     await expect(page.getByRole('heading', { name: /Rosario/i }).first()).toBeVisible();
+
+    await page.evaluate(() => LumenRouter.navigateTo('evangelio'));
+    await expect(page.locator('.evangelio-hero')).toBeVisible();
   });
 
   test('El shell está precacheador (manifest y raíz servibles offline)', async ({ page }) => {

@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { go } from '../_support/nav.js';
 
-const VIEWS = ['landing', 'nosotros', 'actividades', 'calendario', 'blog', 'devocional', 'formacion', 'intenciones', 'encuestas', 'contacto'];
+const VIEWS = ['landing', 'nosotros', 'actividades', 'calendario', 'blog', 'devocional', 'evangelio', 'formacion', 'intenciones', 'encuestas', 'contacto'];
 
 async function noOverflow(page) {
   return page.evaluate(() => {

@@ -52,6 +52,14 @@ test.describe('Guardia CI · Flujos públicos (solo lectura)', () => {
     await expect(page.locator('#app-container')).not.toContainText('undefined');
   });
 
+  test('Evangelio del día pinta el hero y las lecturas', async ({ page }) => {
+    await go(page, 'evangelio');
+    const deployed = await page.evaluate(() => typeof EvangelioView !== 'undefined');
+    test.skip(!deployed, 'Evangelio aún no desplegado en este entorno');
+    await expect(page.locator('.evangelio-hero')).toBeVisible();
+    await expect(page.locator('#app-container')).not.toContainText('undefined');
+  });
+
   test('Formación expone los módulos de catequesis', async ({ page }) => {
     await go(page, 'formacion');
     await expect(page.getByText('Catecismo', { exact: true })).toBeVisible();
@@ -62,8 +70,10 @@ test.describe('Guardia CI · Flujos públicos (solo lectura)', () => {
     await page.goto('/');
     await page.waitForFunction(() => typeof LumenRouter !== 'undefined');
     const withCal = await page.evaluate(() => typeof CalendarioView !== 'undefined');
+    const withEva = await page.evaluate(() => typeof EvangelioView !== 'undefined');
     const views = ['inicio', 'nosotros', 'actividades', 'blog'];
     if (withCal) views.push('calendario');
+    if (withEva) views.push('evangelio');
     const errors = await goAndCheckJsErrors(page, views);
     expect(errors).toEqual([]);
   });

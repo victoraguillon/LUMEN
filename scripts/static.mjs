@@ -4,6 +4,7 @@ import { createServer } from "node:http";
 import { readFile, stat } from "node:fs/promises";
 import { join, normalize, extname } from "node:path";
 import { fileURLToPath } from "node:url";
+import evangelioHandler from "../api/evangelio.mjs";
 
 const ROOT = join(fileURLToPath(new URL(".", import.meta.url)), "..");
 const PORT = Number(process.env.PORT || process.argv[2] || 3000);
@@ -40,6 +41,12 @@ createServer(async (req, res) => {
     res.statusCode = 400;
     res.end("Bad Request");
     return;
+  }
+  // Endpoint de la vista Evangelio del día (mismo handler que Vercel), para
+  // probar el flujo completo en local: /api/evangelio -> Vatican News -> JSON.
+  if (pathname === "/api/evangelio") {
+    req.body = req.body || undefined;
+    return evangelioHandler(req, res);
   }
   if (pathname === "/") pathname = "/index.html";
   const filePath = normalize(join(ROOT, pathname));

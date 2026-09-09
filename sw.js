@@ -1,9 +1,10 @@
-// LUMEN - Service Worker único (v28) en la RAÍZ (/sw.js)
+// LUMEN - Service Worker único (v29) en la RAÍZ (/sw.js)
+// v29: vista Evangelio del día — network-first sobre /api/evangelio (offline usa última copia)
 // v28: Fase B offline — store.js (caché IndexedDB + outbox) precacheador
 // v27: unificación de vistas estilo v-header + utilidades dark-safe + rosario avemarías numeradas
 // v26: banner instalación PWA (dark mode + botones por plataforma) + rediseño vistas Nosotros y Blog
 // v25: bitácora de exportaciones (migración 11)
-const CACHE = "lumen-cache-v28";
+const CACHE = "lumen-cache-v30";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";
@@ -36,6 +37,7 @@ const SHELL = [
   "/js/views/calendario.js",
   "/js/views/detalle.js",
   "/js/views/devocional.js",
+  "/js/views/evangelio.js",
   "/js/views/recursos.js",
   "/js/views/perfil.js",
   "/js/views/notificaciones.js",
@@ -97,6 +99,29 @@ self.addEventListener("fetch", (event) => {
           .catch(() => null);
         return cached || net;
       })
+    );
+    return;
+  }
+
+  // Evangelio del día (/api/evangelio): network-first. En línea se devuelve
+  // siempre la versión fresca (y se guarda en caché); sin conexión se sirve la
+  // última copia cacheada. Va ANTES del branch genérico de assets/datos.
+  const url = new URL(req.url);
+  if (url.pathname === "/api/evangelio") {
+    event.respondWith(
+      fetch(req)
+        .then((res) => {
+          if (res && res.status === 200) {
+            const clone = res.clone();
+            caches.open(CACHE).then((c) => c.put(req, clone));
+            return res;
+          }
+          if (res && res.status >= 500) {
+            return caches.match(req).then((hit) => hit || res);
+          }
+          return res;
+        })
+        .catch(() => caches.match(req))
     );
     return;
   }

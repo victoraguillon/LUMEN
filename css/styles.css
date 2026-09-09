@@ -3838,3 +3838,248 @@ body.dark-theme .module-icon { background: rgba(0,162,232,0.14); color: var(--ce
     .cal-controls { gap: 8px; }
     .cal-today { margin-left: 0; }
 }
+
+/* ============================================
+   EVANGELIO DEL DÍA
+   ============================================ */
+/* Hero */
+.evangelio-hero {
+    background: var(--gradiente-lumen);
+    color: var(--blanco);
+    padding: 44px 40px;
+    border-radius: 24px;
+    text-align: center;
+    box-shadow: var(--sombra-media);
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+}
+.evangelio-hero::after {
+    content: '✟';
+    position: absolute;
+    top: 16px; right: 26px;
+    font-size: 150px;
+    opacity: 0.06;
+    pointer-events: none;
+    line-height: 1;
+}
+.evangelio-hero .hero-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.12);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 2;
+}
+.evangelio-date-text {
+    font-size: 13px;
+    text-transform: capitalize;
+    opacity: 0.8;
+    margin: 0 0 6px;
+    position: relative;
+    z-index: 2;
+}
+.evangelio-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 8px;
+    position: relative;
+    z-index: 2;
+}
+.evangelio-sub {
+    font-size: 14px;
+    line-height: 1.6;
+    opacity: 0.85;
+    margin: 0 auto;
+    max-width: 520px;
+    position: relative;
+    z-index: 2;
+}
+.evangelio-hero-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 22px;
+    position: relative;
+    z-index: 2;
+}
+.evangelio-hero-actions .btn {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    font-size: 13px;
+    padding: 8px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.18s ease, transform 0.15s var(--ease-out), box-shadow 0.2s var(--ease-out);
+}
+.evangelio-hero-actions .btn:hover {
+    background: rgba(255,255,255,0.25);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.evangelio-hero-actions .btn:active { transform: scale(0.97); }
+
+/* Tarjetas de lectura */
+.evangelio-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 26px 28px;
+    margin-bottom: 20px;
+    box-shadow: var(--sombra-suave);
+    transition: box-shadow 0.28s var(--ease-out), transform 0.28s var(--ease-out);
+}
+.evangelio-card:hover {
+    box-shadow: var(--sombra-fuerte);
+    transform: translateY(-2px);
+}
+.evangelio-card-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--celeste-oscuro);
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.evangelio-card-gospel {
+    background: linear-gradient(150deg, var(--card-bg), var(--card-bg-elevated, var(--card-bg)));
+    border-color: var(--celeste-primario);
+}
+.evangelio-card-gospel .evangelio-card-title { color: var(--celeste-primario); }
+.evangelio-card-ref {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--celeste-primario);
+    margin: 0 0 14px;
+    letter-spacing: 0.4px;
+}
+.evangelio-card-text {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--texto-oscuro);
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+.evangelio-card-text p { margin: 0 0 12px; }
+.evangelio-card-text p:last-child { margin-bottom: 0; }
+
+/* Meditación */
+.evangelio-meditacion {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--celeste-primario);
+    border-radius: 20px;
+    padding: 26px 28px;
+    margin-bottom: 20px;
+    box-shadow: var(--sombra-suave);
+}
+.evangelio-meditacion h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--celeste-oscuro);
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.evangelio-med-text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--texto-oscuro);
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+.evangelio-med-text p { margin: 0; }
+.evangelio-med-cite {
+    display: block;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border-color);
+    font-style: normal;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--texto-gris);
+}
+
+/* Fuente y atribución */
+.evangelio-source {
+    font-size: 12px;
+    color: var(--texto-gris);
+    text-align: center;
+    margin: 8px 0 0;
+}
+.evangelio-source a { color: var(--celeste-primario); text-decoration: underline; }
+
+/* Skeleton */
+.evangelio-skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.sk-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 26px 28px;
+}
+.sk-card-gospel { border-color: var(--celeste-primario); }
+.sk-line {
+    height: 12px;
+    border-radius: 8px;
+    background: var(--border-color);
+    margin-bottom: 12px;
+    animation: skShimmer 1.4s ease-in-out infinite;
+    opacity: 0.55;
+}
+.sk-line:last-child { margin-bottom: 0; }
+@keyframes skShimmer {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 0.75; }
+}
+
+/* Estado de error */
+.evangelio-error {
+    text-align: center;
+    background: var(--card-bg);
+    border: 1px dashed var(--border-color);
+    border-radius: 20px;
+    padding: 40px 24px;
+    color: var(--texto-gris);
+}
+.evangelio-error svg { color: var(--celeste-primario); margin-bottom: 12px; }
+.evangelio-error h3 {
+    color: var(--texto-oscuro);
+    font-size: 18px;
+    margin: 0 0 6px;
+}
+.evangelio-error p { font-size: 14px; margin: 0 0 18px; }
+
+@media (prefers-reduced-motion: reduce) {
+    .evangelio-hero, .evangelio-card, .evangelio-meditacion { transform: none !important; }
+    .sk-line { animation: none !important; }
+}
+
+@media (max-width: 640px) {
+    .evangelio-hero { padding: 34px 20px; border-radius: 18px; }
+    .evangelio-title { font-size: 24px; }
+    .evangelio-hero-actions { flex-direction: column; }
+    .evangelio-hero-actions .btn { width: 100%; justify-content: center; }
+    .evangelio-card, .evangelio-meditacion { padding: 20px 18px; }
+    .evangelio-card-text, .evangelio-med-text { font-size: 14px; }
+}

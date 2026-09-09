@@ -37,6 +37,7 @@ const LumenRouter = {
             case 'contacto': viewObj = typeof ContactoView !== 'undefined' ? ContactoView : null; title = "Contacto"; break;
             case 'blog': viewObj = typeof BlogView !== 'undefined' ? BlogView : null; title = "Blog"; break;
             case 'devocional': viewObj = typeof DevocionalView !== 'undefined' ? DevocionalView : null; title = "Devocional"; break;
+            case 'evangelio': viewObj = typeof EvangelioView !== 'undefined' ? EvangelioView : null; title = "Evangelio del día"; break;
             default: viewObj = null; title = "Página no encontrada";
         }
 
