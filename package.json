@@ -8,8 +8,7 @@
     "node": ">=18"
   },
   "scripts": {
-    "dev": "node scripts/local-server.mjs",
-    "push": "node scripts/local-server.mjs",
+    "dev": "node scripts/static.mjs",
     "test:unit": "node --test api/_lib/evangelio-parser.test.mjs",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",

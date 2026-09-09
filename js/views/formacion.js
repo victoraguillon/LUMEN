@@ -159,7 +159,7 @@ const FormacionView = {
 
     renderHub: function() {
         const imgMap = {
-            introduccion: 'assets/introducciónalafe.jpg',
+            introduccion: 'assets/introduccionalafe.jpg',
             catecismo: 'assets/catecismo.jpg',
             liturgia: 'assets/liturgiaysacramentos.jpg',
             apologetica: 'assets/apologetica.jpg',

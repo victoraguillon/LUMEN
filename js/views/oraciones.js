@@ -33,9 +33,9 @@ const OracionesView = {
     render: function() {
         if (!this._cat) {
             const imgMap = {
-                'fundamental-prayers': 'assets/oración.jpg',
+                'fundamental-prayers': 'assets/oracion.jpg',
                 'marian-prayers': 'assets/oracionesmariana.jpg',
-                'devotional-prayers': 'assets/devoción.jpg',
+                'devotional-prayers': 'assets/devocion.jpg',
                 'liturgical-special': 'assets/oracionesliturgicas.jpg',
             };
             const cats = ORACIONES_DATA.categorias.map(function(c) {

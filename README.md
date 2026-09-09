@@ -143,7 +143,7 @@ LUMEN/
 │       ├── rosario.js
 │       └── ...
 ├── scripts/
-│   └── local-server.mjs
+│   └── static.mjs
 ├── supabase/
 │   └── migrations/
 │       ├── schema.sql
@@ -191,12 +191,13 @@ npm install
 npm run dev
 ```
 
-El proyecto levanta el servidor local de la API de push y deja disponible el endpoint de pruebas.
+Levanta el servidor local completo en `http://localhost:3000`: sirve la app estática y las APIs `/api/evangelio` y `/api/send-push`, para probar el flujo completo antes de desplegar.
 
-### Endpoint local
+### Endpoints locales
 
 ```bash
-http://localhost:8787/api/send-push
+http://localhost:3000/api/evangelio
+http://localhost:3000/api/send-push
 ```
 
 ---
@@ -217,7 +218,7 @@ VAPID_SUBJECT=mailto:tu_correo
 CRON_SECRET=tu_secreto_de_cron
 ```
 
-> Hay una plantilla versionable en `.env.example`. Puerto local opcional: `PORT=8787`.
+> Hay una plantilla versionable en `.env.example`. Puerto local opcional: `PORT=3000`.
 > Nunca compartas tus secretos en el repositorio. Usa variables de entorno reales en local o en despliegue.
 
 ---

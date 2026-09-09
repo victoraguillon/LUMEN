@@ -1,10 +1,12 @@
-// LUMEN · Servidor estático de desarrollo (sin dependencias).
+// LUMEN · Servidor local de desarrollo (app estática + APIs, sin dependencias de Vercel).
 // Uso:  node scripts/static.mjs [puerto]   (por defecto 3000)
+import "dotenv/config";
 import { createServer } from "node:http";
 import { readFile, stat } from "node:fs/promises";
 import { join, normalize, extname } from "node:path";
 import { fileURLToPath } from "node:url";
 import evangelioHandler from "../api/evangelio.mjs";
+import pushHandler from "../api/send-push.mjs";
 
 const ROOT = join(fileURLToPath(new URL(".", import.meta.url)), "..");
 const PORT = Number(process.env.PORT || process.argv[2] || 3000);
@@ -29,11 +31,6 @@ const MIME = {
 };
 
 createServer(async (req, res) => {
-  if (req.method !== "GET" && req.method !== "HEAD") {
-    res.statusCode = 405;
-    res.end("Method Not Allowed");
-    return;
-  }
   let pathname;
   try {
     pathname = decodeURIComponent(new URL(req.url, "http://localhost").pathname);
@@ -42,11 +39,27 @@ createServer(async (req, res) => {
     res.end("Bad Request");
     return;
   }
+  // API de notificaciones push (mismo handler que Vercel), para probar el
+  // flujo completo en local: /api/send-push (POST).
+  if (pathname === "/api/send-push") {
+    let raw = "";
+    req.on("data", (chunk) => (raw += chunk));
+    req.on("end", () => {
+      req.body = raw ? raw : undefined;
+      pushHandler(req, res);
+    });
+    return;
+  }
   // Endpoint de la vista Evangelio del día (mismo handler que Vercel), para
   // probar el flujo completo en local: /api/evangelio -> Vatican News -> JSON.
   if (pathname === "/api/evangelio") {
     req.body = req.body || undefined;
     return evangelioHandler(req, res);
+  }
+  if (req.method !== "GET" && req.method !== "HEAD") {
+    res.statusCode = 405;
+    res.end("Method Not Allowed");
+    return;
   }
   if (pathname === "/") pathname = "/index.html";
   const filePath = normalize(join(ROOT, pathname));

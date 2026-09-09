@@ -112,7 +112,7 @@ const DevocionalView = {
                     </div>
                     <div class="ora-grid">
                         <a href="#/oraciones" class="ora-card" style="--tone:#3d8bfd;" onclick="LumenRouter.navigateTo('oraciones')" aria-label="Ir a Oraciones">
-                            <span class="ora-icon"><img src="assets/oración.jpg" alt="Oraciones" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"></span>
+                            <span class="ora-icon"><img src="assets/oracion.jpg" alt="Oraciones" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"></span>
                             <span class="ora-info">
                                 <strong>Oraciones</strong>
                                 <small>con texto, audio y recordatorios</small>
@@ -136,7 +136,7 @@ const DevocionalView = {
                             <span class="ora-arrow">${Icons.chevron_right || LumenIcons.chevron_right}</span>
                         </a>
                         <a href="#/examen" class="ora-card" style="--tone:#7c3aed;" onclick="LumenRouter.navigateTo('examen')" aria-label="Ir a Examen de Conciencia">
-                            <span class="ora-icon"><img src="assets/devoción.jpg" alt="Examen de Conciencia" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"></span>
+                            <span class="ora-icon"><img src="assets/devocion.jpg" alt="Examen de Conciencia" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"></span>
                             <span class="ora-info">
                                 <strong>Examen de Conciencia</strong>
                                 <small>una pausa para mirar tu día</small>
