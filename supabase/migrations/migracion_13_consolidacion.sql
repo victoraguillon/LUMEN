@@ -7,6 +7,10 @@
 --  3) Publicación realtime ampliada a las tablas que leerá Fase D/E.
 -- ============================================================
 
+-- Todo el script en una sola transacción: si cualquier sentencia falla, se
+-- revierte (incluida la reactivación del guard) y no quedan piezas a medias.
+BEGIN;
+
 -- ---------- 1) updated_at ----------
 
 CREATE OR REPLACE FUNCTION public.touch_updated_at()
@@ -24,8 +28,14 @@ $$;
 ALTER TABLE public.profiles
   ADD COLUMN IF NOT EXISTS updated_at timestamptz;
 
+-- El guard guard_profiles_privileges bloquea CUALQUIER UPDATE sobre filas
+-- admin aunque role/status no cambien, y el SQL Editor de Studio corre sin
+-- auth.uid() (is_admin() = false). Se desactiva SOLO durante el backfill y
+-- se reactiva en el mismo bloque transaccional.
+ALTER TABLE public.profiles DISABLE TRIGGER guard_profiles_privileges;
 UPDATE public.profiles SET updated_at = created_at WHERE updated_at IS NULL AND created_at IS NOT NULL;
 UPDATE public.profiles SET updated_at = now() WHERE updated_at IS NULL;
+ALTER TABLE public.profiles ENABLE TRIGGER guard_profiles_privileges;
 
 DROP TRIGGER IF EXISTS trg_profiles_touch_updated_at ON public.profiles;
 CREATE TRIGGER trg_profiles_touch_updated_at
@@ -72,3 +82,5 @@ END $$;
 ALTER TABLE public.inscripciones REPLICA IDENTITY FULL;
 ALTER TABLE public.asistencia REPLICA IDENTITY FULL;
 ALTER TABLE public.export_logs REPLICA IDENTITY FULL;
+
+COMMIT;
