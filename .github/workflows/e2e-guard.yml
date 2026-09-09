@@ -1,0 +1,86 @@
+name: E2E Guard
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'js/**'
+      - 'css/**'
+      - 'tests/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/e2e-guard.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'js/**'
+      - 'index.html'
+      - 'package.json'
+      - 'tests/**'
+      - '.github/workflows/e2e-guard.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  sintaxis:
+    name: Sintaxis JS (node --check)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Validar sintaxis de todos los .js
+        run: |
+          set -euo pipefail
+          while IFS= read -r f; do
+            echo "check: $f"
+            node --check "$f"
+          done < <(find . -name '*.js' -not -path './node_modules/*' -not -path './.vercel/*')
+
+  e2e-preview:
+    name: E2E público contra preview de Vercel
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: [sintaxis]
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - name: Instalar dependencias
+        run: npm ci
+      - name: Instalar navegador de Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Vincular proyecto y traer configuración de Vercel
+        run: npx vercel pull --yes --environment=preview --token=$VERCEL_TOKEN
+      - name: Compilar con Vercel
+        run: npx vercel build --token=$VERCEL_TOKEN
+      - name: Desplegar preview y capturar URL
+        id: deploy
+        run: |
+          url=$(npx vercel deploy --prebuilt --token=$VERCEL_TOKEN)
+          echo "Preview: $url"
+          echo "BASE_URL=$url" >> "$GITHUB_ENV"
+      - name: Ejecutar suite E2E (flujos públicos, solo lectura)
+        run: npx playwright test
+      - name: Subir reporte en fallo
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 7

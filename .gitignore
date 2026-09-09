@@ -56,5 +56,11 @@ supabase/.temp/
 # dotenv environment variables file
 .env
 
+# Playwright
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
 # dataconnect generated files
 .dataconnect
