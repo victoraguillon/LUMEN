@@ -26,10 +26,18 @@ const LumenUI = {
     openModal: function(modalId) {
         const modal = document.getElementById(modalId);
         if (!modal) return;
+        if (modal.classList.contains('active')) return;
         if (modalId === 'register-modal') this._resetRegister();
+        this._lastFocused = document.activeElement;
         modal.classList.add('active');
+        modal.setAttribute('role', 'dialog');
+        modal.setAttribute('aria-modal', 'true');
+        if (!modal.getAttribute('aria-label')) {
+            const title = modal.querySelector('.modal-title, h2, h3');
+            modal.setAttribute('aria-label', title ? title.textContent.trim().slice(0, 120) : '');
+        }
         document.body.classList.add('modal-open');
-        const first = modal.querySelector('input:not([readonly]):not([type="hidden"]), textarea, select');
+        const first = modal.querySelector('input:not([readonly]):not([type="hidden"]), textarea, select, [tabindex]:not([tabindex="-1"])');
         if (first) { try { window.setTimeout(function() { first.focus({ preventScroll: true }); }, 60); } catch(e) {} }
     },
     closeModal: function(modalId) {
@@ -40,6 +48,9 @@ const LumenUI = {
         if (form) form.reset();
         if (modalId === 'register-modal') this._resetRegister();
         if (!document.querySelector('.modal-overlay.active')) document.body.classList.remove('modal-open');
+        const prev = this._lastFocused;
+        this._lastFocused = null;
+        if (prev && document.contains(prev)) { try { prev.focus({ preventScroll: true }); } catch(e) {} }
     },
     openAdminModal: function(title, contentHTML) {
         document.getElementById('admin-modal-title').innerText = title;
@@ -235,6 +246,22 @@ const LumenUI = {
         const show = unread > 0;
         if (badge) { badge.style.display = show ? 'inline-block' : 'none'; badge.innerText = unread; }
         if (drawerBadge) { drawerBadge.style.display = show ? 'inline-block' : 'none'; drawerBadge.innerText = unread; }
+    },
+
+    // Badge "Sin conexión": visible mientras se navega con datos cacheados.
+    setOfflineBadge: function(show) {
+        let el = document.getElementById('offline-badge');
+        if (show && !el) {
+            el = document.createElement('div');
+            el.id = 'offline-badge';
+            el.setAttribute('role', 'status');
+            el.textContent = 'Sin conexión: los datos pueden estar desactualizados';
+            document.body.appendChild(el);
+        }
+        if (el) {
+            el.classList.toggle('show', !!show);
+            if (!show) { try { window.setTimeout(function() { if (el && !el.classList.contains('show')) el.remove(); }, 500); } catch(e) {} }
+        }
     },
 
     // --- FIN NUEVAS FUNCIONES ---
@@ -679,6 +706,19 @@ document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
         const open = document.querySelectorAll('.modal-overlay.active');
         if (open.length) LumenUI.closeModal(open[open.length - 1].id);
+    }
+    if (e.key === 'Tab') {
+        const modal = document.querySelector('.modal-overlay.active');
+        if (!modal) return;
+        const focusables = modal.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (!focusables.length) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault(); last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault(); first.focus();
+        }
     }
 });
 document.addEventListener('click', function(e) {

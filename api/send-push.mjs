@@ -39,6 +39,12 @@ const WINDOW_MS = 60 * 60 * 1000;
 const LIMITS = { self: 20, all: 5 };
 const buckets = new Map();
 
+function clientIp(req) {
+  const xff = req.headers["x-forwarded-for"];
+  if (xff) return String(xff).split(",")[0].trim() || "n/a";
+  return req.socket && req.socket.remoteAddress || "n/a";
+}
+
 function throttleOk(key, limit) {
   const now = Date.now();
   const recent = (buckets.get(key) || []).filter((t) => now - t < WINDOW_MS);
@@ -61,6 +67,10 @@ export default async function handler(req, res) {
   }
   if (req.method !== "POST") return done(res, { error: "Método no permitido" }, 405);
 
+  // Guarda por IP: acota aquí cualquier abuso, con o sin sesión.
+  const ip = clientIp(req);
+  if (!throttleOk(`ip:${ip}`, 300)) return done(res, { error: "Demasiadas solicitudes. Intenta de nuevo más tarde." }, 429);
+
   try {
     const body = await readBody(req);
     const mode = body.mode;
@@ -72,6 +82,7 @@ export default async function handler(req, res) {
     }
 
     if (mode === "sw-received") {
+      if (!throttleOk(`swck:${ip}`, 120)) return done(res, { error: "Demasiados recibos. Intenta de nuevo más tarde." }, 429);
       await markSwReceived(body.pingId, body.ok, body.ua);
       return done(res, { ok: true });
     }

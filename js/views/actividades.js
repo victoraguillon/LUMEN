@@ -1,4 +1,5 @@
 let activeFilter = 'Todos';
+let actividadSearchQuery = '';
 
 const ActividadesView = {
     cropper: null, 
@@ -14,6 +15,15 @@ const ActividadesView = {
             content = `<div class="v-empty">${Icons.empty_box}<h3>No hay actividades programadas</h3><p>Vuelve pronto para ver los próximos retiros y misiones.</p></div>`;
         } 
         else if (LumenData.state.eventos === 'ideal') {
+            let pushMiniHTML = '';
+            if (typeof LumenPush !== 'undefined') {
+                pushMiniHTML = `
+                    <div class="push-card-mini reveal" data-push-card>
+                        <div class="push-card-mini-copy">${Icons.bell}<p>Recibe recordatorios de cada actividad antes de que comience.</p></div>
+                        <button type="button" class="btn btn-primary btn-block" data-push-action onclick="LumenPush.activarNotificaciones()">${Icons.bell} Activar Avisos</button>
+                    </div>`;
+            }
+
             // Chips de Filtro
             let chipsHTML = `
                 <div class="seg-tabs reveal" style="margin-bottom: var(--v-gap);">
@@ -46,7 +56,7 @@ const ActividadesView = {
                     if (fueFinalizada) fechaText += ` · Finalizada`;
 
                     cardsHTML += `
-                        <div class="v-card">
+                        <div class="v-card" data-titulo="${LumenUI.escapeHTML((evento.titulo || '').toLowerCase())}">
                             <div class="v-card-meta">${Icons.calendar} ${LumenUI.escapeHTML(fechaText)}</div>
                             <h3>${LumenUI.escapeHTML(evento.titulo)}</h3>
                             <div style="margin:10px 0;">
@@ -60,7 +70,13 @@ const ActividadesView = {
                     `;
                 });
             }
-            content = `${chipsHTML}<div class="v-grid">${cardsHTML}</div>`;
+            content = `${pushMiniHTML}
+                <input type="text" class="search-bar" placeholder="Buscar actividad por título…" aria-label="Buscar actividad por título" value="${LumenUI.escapeHTML(actividadSearchQuery)}" oninput="ActividadesView.search(this.value)">
+                ${chipsHTML}
+                <div id="act-list" class="v-grid">${cardsHTML}</div>
+                <div id="act-search-empty" class="v-empty" style="display:none; grid-column:1/-1;">
+                    ${Icons.empty_box}<h3>Sin resultados</h3><p>No se encontró ninguna actividad con ese título.</p>
+                </div>`;
         }
 
         return `<div class="view">
@@ -77,7 +93,21 @@ const ActividadesView = {
     },
     setFilter: function(filter) {
         activeFilter = filter;
+        actividadSearchQuery = '';
         LumenRouter.navigateTo('actividades');
+    },
+    search: function(q) {
+        actividadSearchQuery = q;
+        const term = (q || '').trim().toLowerCase();
+        let visible = 0;
+        document.querySelectorAll('#act-list .v-card').forEach(card => {
+            const t = (card.getAttribute('data-titulo') || '').toLowerCase();
+            const show = !term || t.includes(term);
+            card.style.display = show ? '' : 'none';
+            if (show) visible++;
+        });
+        const empty = document.getElementById('act-search-empty');
+        if (empty) empty.style.display = visible ? 'none' : '';
     },
     showAddForm: function(id = null) {
         const evento = id ? LumenData.eventos.find(e => e.id === id) : {};
@@ -237,8 +267,12 @@ const ActividadesView = {
         const action = id ? LumenData.updateActivity(id, data) : LumenData.saveActivity(data);
         action.then(() => { LumenUI.closeModal('admin-modal'); LumenUI.showToast('Actividad guardada', 'success'); });
     },
-    init: function() { LumenRouter.initScrollReveal(); },
+    init: function() {
+        if (typeof LumenPush !== 'undefined' && LumenPush.aplicarEstadoUI) LumenPush.aplicarEstadoUI();
+        LumenRouter.initScrollReveal();
+    },
     destroy: function() {
         if (this.cropper) { try { this.cropper.destroy(); } catch (e) {} this.cropper = null; }
+        actividadSearchQuery = '';
     }
 };

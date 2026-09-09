@@ -1,8 +1,9 @@
-// LUMEN - Service Worker único (v27) en la RAÍZ (/sw.js)
+// LUMEN - Service Worker único (v28) en la RAÍZ (/sw.js)
+// v28: Fase B offline — store.js (caché IndexedDB + outbox) precacheador
 // v27: unificación de vistas estilo v-header + utilidades dark-safe + rosario avemarías numeradas
 // v26: banner instalación PWA (dark mode + botones por plataforma) + rediseño vistas Nosotros y Blog
 // v25: bitácora de exportaciones (migración 11)
-const CACHE = "lumen-cache-v27";
+const CACHE = "lumen-cache-v28";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";
@@ -16,6 +17,7 @@ const SHELL = [
   "/js/icons.js",
   "/js/ui.js",
   "/js/auth.js",
+  "/js/store.js",
   "/js/data.js",
   "/js/push.js",
   "/js/app.js",
@@ -31,6 +33,7 @@ const SHELL = [
   "/js/views/inicio.js",
   "/js/views/nosotros.js",
   "/js/views/actividades.js",
+  "/js/views/calendario.js",
   "/js/views/detalle.js",
   "/js/views/devocional.js",
   "/js/views/recursos.js",
@@ -77,23 +80,31 @@ self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET" || !req.url.startsWith(self.location.origin)) return;
 
-  // Navegaciones: red primero (HTML siempre fresco), caché como respaldo.
+  // Navegaciones: stale-while-revalidate. Se sirve el shell de cach� al
+  // instante y se refresca la copia en segundo plano (el HTML nuevo entra
+  // en la pr�xima visita). Sin cach� -> red directa.
   if (req.mode === "navigate") {
     event.respondWith(
-      fetch(req)
-        .then((res) => {
-          const clone = res.clone();
-          caches.open(CACHE).then((c) => c.put(req, clone));
-          return res;
-        })
-        .catch(() => caches.match("/"))
+      caches.match("/").then((cached) => {
+        const net = fetch(req)
+          .then((res) => {
+            if (res && res.status === 200) {
+              const clone = res.clone();
+              caches.open(CACHE).then((c) => c.put("/", clone));
+            }
+            return res;
+          })
+          .catch(() => null);
+        return cached || net;
+      })
     );
     return;
   }
 
-  // Assets/datos: cache-first con actualización en segundo plano.
+  // Assets/datos: stale-while-revalidate con claves exactas por recurso
+  // (sin ignoreSearch) para no devolver cach�frias que mienten.
   event.respondWith(
-    caches.match(req, { ignoreSearch: true }).then((hit) => {
+    caches.match(req).then((hit) => {
       const online = fetch(req)
         .then((res) => {
           if (res && res.status === 200) {

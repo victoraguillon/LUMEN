@@ -241,7 +241,22 @@ const LumenAuth = {
             })
             .catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
     },
-    logout: function() { supabase.auth.signOut().then(() => LumenUI.showToast('Sesión cerrada', 'success')); },
+    logout: async function() {
+        // Logout push: al cerrar sesión se elimina la suscripción de ESTE
+        // dispositivo para que no reciba más avisos (otras siguen activas).
+        try {
+            if (this.currentUser && navigator.serviceWorker) {
+                const reg = await navigator.serviceWorker.getRegistration().catch(() => null);
+                if (reg && reg.pushManager) {
+                    const sub = await reg.pushManager.getSubscription().catch(() => null);
+                    if (sub && sub.endpoint) {
+                        await supabase.from('push_subscriptions').delete().eq('endpoint', sub.endpoint).catch(() => {});
+                    }
+                }
+            }
+        } catch (e) { console.error('[LUMEN] logout push', e); }
+        return supabase.auth.signOut().then(() => LumenUI.showToast('Sesión cerrada', 'success'));
+    },
     deleteAccount: function() {
         if (!this.currentUser) return;
         const uid = this.currentUser.id;

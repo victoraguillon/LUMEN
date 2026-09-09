@@ -20,6 +20,7 @@ const LumenRouter = {
             case 'inicio': viewObj = typeof InicioView !== 'undefined' ? InicioView : null; title = "Dashboard"; break;
             case 'nosotros': viewObj = typeof NosotrosView !== 'undefined' ? NosotrosView : null; title = "Nosotros"; break;
             case 'actividades': viewObj = typeof ActividadesView !== 'undefined' ? ActividadesView : null; title = "Actividades"; break;
+            case 'calendario': viewObj = typeof CalendarioView !== 'undefined' ? CalendarioView : null; title = "Calendario"; break;
             case 'detalle': viewObj = typeof DetalleView !== 'undefined' ? DetalleView : null; title = "Detalle"; break;
             case 'recursos': viewObj = typeof RecursosView !== 'undefined' ? RecursosView : null; title = "Recursos"; break;
             case 'formacion': viewObj = typeof FormacionView !== 'undefined' ? FormacionView : null; title = "Formación"; break;

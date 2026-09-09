@@ -1,23 +1,5 @@
 import { test, expect } from '@playwright/test';
-
-const DIRECT = {
-  inicio: '.nav-link[data-view="inicio"]',
-  nosotros: '.nav-link[data-view="nosotros"]',
-  actividades: '.nav-link[data-view="actividades"]',
-  blog: '.nav-link[data-view="blog"]',
-  contacto: '.nav-link[data-view="contacto"]'
-};
-
-const DROPDOWN = {
-  intenciones: 'comunidad-dropdown'
-};
-
-async function openDropdown(page, id) {
-  await page.evaluate((did) => {
-    document.getElementById(did)?.classList.add('active');
-  }, id);
-  await page.waitForTimeout(250);
-}
+import { go, goAndCheckJsErrors } from '../_support/nav.js';
 
 test.describe('Guardia CI · Flujos públicos (solo lectura)', () => {
   test('Landing carga la portada', async ({ page }) => {
@@ -28,61 +10,61 @@ test.describe('Guardia CI · Flujos públicos (solo lectura)', () => {
   });
 
   test('Blog muestra el artículo de bienvenida', async ({ page }) => {
-    await page.goto('/');
-    await page.locator(DIRECT.blog).first().click();
+    await go(page, 'blog');
     await expect(page.getByRole('heading', { name: /Bienvenidos a Lumen/i }).first()).toBeVisible();
   });
 
   test('Actividades lista las actividades sin errores', async ({ page }) => {
-    await page.goto('/');
-    await page.locator(DIRECT.actividades).first().click();
+    await go(page, 'actividades');
     await expect(page.getByRole('heading', { name: /Actividades/i }).first()).toBeVisible();
     await expect(page.locator('#app-container')).not.toContainText('Error al cargar');
     await expect(page.locator('#app-container')).not.toContainText('undefined');
   });
 
   test('Intenciones bloquea publicar a invitados', async ({ page }) => {
-    await page.goto('/');
-    await openDropdown(page, DROPDOWN.intenciones);
-    await page.locator(`.nav-link[data-view="intenciones"]`).click();
+    await go(page, 'intenciones');
     await expect(page.locator('#app-container').getByText('Solo los miembros de Juvemar pueden publicar intenciones.')).toBeVisible();
     await expect(page.locator('#app-container').getByRole('button', { name: 'Iniciar Sesión' })).toBeVisible();
   });
 
   test('Encuestas requiere acceso de miembro', async ({ page }) => {
-    await page.goto('/');
-    await page.evaluate(() => LumenRouter.navigateTo('encuestas'));
+    await go(page, 'encuestas');
     await expect(page.getByRole('heading', { name: 'Acceso para miembros' })).toBeVisible();
   });
 
   test('Avisos requiere acceso de miembro', async ({ page }) => {
-    await page.goto('/');
-    await page.evaluate(() => LumenRouter.navigateTo('notificaciones'));
+    await go(page, 'notificaciones');
     await expect(page.getByRole('heading', { name: 'Acceso para miembros' })).toBeVisible();
   });
 
   test('Recursos requiere acceso de miembro', async ({ page }) => {
-    await page.goto('/');
-    await page.evaluate(() => LumenRouter.navigateTo('recursos'));
+    await go(page, 'recursos');
     await expect(page.getByRole('heading', { name: 'Acceso para miembros' })).toBeVisible();
   });
 
+  test('Calendario pinta el mes sin errores', async ({ page }) => {
+    await go(page, 'calendario');
+    const deployed = await page.evaluate(() => typeof CalendarioView !== 'undefined');
+    test.skip(!deployed, 'Calendario aún no desplegado en este entorno');
+    await expect(page.locator('.cal-grid')).toBeVisible();
+    await expect(page.locator('.cal-day').first()).toBeVisible();
+    await expect(page.locator('#app-container')).not.toContainText('Error al cargar');
+    await expect(page.locator('#app-container')).not.toContainText('undefined');
+  });
+
   test('Formación expone los módulos de catequesis', async ({ page }) => {
-    await page.goto('/');
-    await page.evaluate(() => { document.getElementById('espiritualidad-dropdown')?.classList.add('active'); });
-    await page.locator(`.nav-link[data-view="formacion"]`).click();
+    await go(page, 'formacion');
     await expect(page.getByText('Catecismo', { exact: true })).toBeVisible();
     await expect(page.locator('#app-container')).not.toContainText('Error al cargar');
   });
 
   test('Vistas públicas no generan excepciones JS', async ({ page }) => {
-    const errors = [];
-    page.on('pageerror', e => errors.push(e.message));
-    for (const view of ['inicio', 'nosotros', 'actividades', 'blog']) {
-      await page.goto('/');
-      await page.locator(DIRECT[view]).first().click();
-      await page.waitForTimeout(400);
-    }
+    await page.goto('/');
+    await page.waitForFunction(() => typeof LumenRouter !== 'undefined');
+    const withCal = await page.evaluate(() => typeof CalendarioView !== 'undefined');
+    const views = ['inicio', 'nosotros', 'actividades', 'blog'];
+    if (withCal) views.push('calendario');
+    const errors = await goAndCheckJsErrors(page, views);
     expect(errors).toEqual([]);
   });
 });
