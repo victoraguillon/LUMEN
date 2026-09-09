@@ -438,8 +438,10 @@ body.dark-theme .platform-intro-text h2 { color: var(--celeste-primario); }
 .how-it-works { margin-bottom: 60px; }
 .how-it-works h2 { text-align: center; color: var(--texto-oscuro); margin-bottom: 40px; font-size: 28px; font-weight: 700; }
 body.dark-theme .how-it-works h2 { color: var(--celeste-primario); }
-.steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+.steps-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
 .step-card {
+    flex: 1 1 230px;
+    max-width: calc(50% - 15px);
     background: var(--card-bg); padding: 35px 25px; border-radius: 16px;
     box-shadow: var(--sombra-suave); text-align: center;
     transition: transform 300ms var(--ease-out), box-shadow 300ms ease, border-color 300ms ease;
@@ -2098,7 +2100,7 @@ body.dark-theme .skeleton-card::after {
     .btn-row .btn { min-width: 0; }
     .info-grid { grid-template-columns: 1fr; }
     .stat-cards { grid-template-columns: 1fr; }
-    .resource-grid { grid-template-columns: 1fr; }
+.resource-grid { grid-template-columns: 1fr; }
     .team-grid { grid-template-columns: repeat(2, 1fr); }
     .devocional-hero .hero-quote { font-size: 18px; }
     .devocional-hero .hero-actions { flex-direction: column; }
@@ -2330,11 +2332,14 @@ color: var(--texto-oscuro);
 
 /* ---- Formación: hub y tarjetas ---- */
 .formacion-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 16px;
 }
 .formacion-card {
+    flex: 1 1 250px;
+    max-width: calc(50% - 8px);
     display: flex;
     align-items: flex-start;
     gap: 14px;
@@ -2877,8 +2882,7 @@ padding: 5px 13px;
     }
     .formacion-index .fi-summary { display: flex; }
     .formacion-index .fi-body { max-height: 60vh; overflow: auto; margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--border-color); }
-    .reader-toolbar { position: static; }
-    .formacion-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+.reader-toolbar { position: static; }
 }
 @media (min-width: 901px) {
     .formacion-index .fi-summary {
@@ -3063,10 +3067,10 @@ padding: 7px 16px; border-radius: 10px;
 
 /* Equipo: monogramas */
 .team-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    display: flex; flex-wrap: wrap; justify-content: center;
     gap: 32px 18px; max-width: 900px; margin: 26px auto 0;
 }
-.team-card { text-align: center; }
+.team-card { text-align: center; flex: 0 0 160px; }
 .team-avatar {
     width: 84px; height: 84px; margin: 0 auto 12px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
@@ -3137,7 +3141,7 @@ padding: 7px 16px; border-radius: 10px;
 }
 
 .blog-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
     gap: 24px; max-width: 1100px; margin: 0 auto;
 }
 .blog-card, .blog-featured-card {
@@ -3300,7 +3304,7 @@ text-transform: uppercase; color: var(--dorado-texto);
 
 /* Grid de tarjetas */
 .v-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 18px;
 }
 .v-card {

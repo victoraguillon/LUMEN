@@ -128,7 +128,7 @@ const LandingView = {
 
     _counts: function() {
         const members = (typeof LumenData !== 'undefined' && LumenData.users)
-            ? Object.keys(LumenData.users).length : 0;
+            ? Object.values(LumenData.users).filter(u => u && (u.role === 'miembro' || u.role === 'admin') && u.status === 'approved').length : 0;
         const activities = (typeof LumenData !== 'undefined' && LumenData.eventos)
             ? (LumenData.eventos || []).length : 0;
         return { members, activities };
@@ -267,6 +267,11 @@ const LandingView = {
                             <h3>Crece y Anuncia</h3>
                             <p>Recibe notificaciones de actividades, lleva control de tu asistencia y sé luz en el mundo.</p>
                         </div>
+                        <div class="step-card reveal reveal-delay-3">
+                            <div class="step-number">4</div>
+                            <h3>Comparte e Invita</h3>
+                            <p>Invita a otros jóvenes a unirse, comparte los recursos y haz crecer la comunidad.</p>
+                        </div>
                     </div>
                 </div>
 
@@ -282,7 +287,6 @@ const LandingView = {
 
                 <div class="how-it-works reveal" style="margin-top: 60px;">
                     <div class="section-heading">
-                        <span class="section-kicker">Nuestros pilares</span>
                         <h2 class="section-title">Dentro de LUMEN</h2>
                         <p class="section-sub">Todo lo que necesitas para crecer en la fe, unido en un solo lugar.</p>
                     </div>
@@ -302,7 +306,7 @@ const LandingView = {
                 <div class="how-it-works reveal">
                     <div class="section-heading">
                         <span class="section-kicker">Nuestros pilares</span>
-                        <h2 class="section-title">Fe · Hermandad · Misión</h2>
+                        <h2 class="section-title">Fe · Hermandad · Misión · Servicio</h2>
                     </div>
                     <div class="steps-grid">
                         <div class="step-card reveal">
@@ -319,6 +323,11 @@ const LandingView = {
                             <div class="step-number"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg></div>
                             <h3>Misión</h3>
                             <p>Ser luz para el mundo. Llevar la alegría del Evangelio a todos los rincones con nuestras misiones.</p>
+                        </div>
+                        <div class="step-card reveal reveal-delay-3">
+                            <div class="step-number"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"></path></svg></div>
+                            <h3>Servicio</h3>
+                            <p>Amar al prójimo con obras concretas: cada entrega es el fruto visible de la fe, la hermandad y la misión.</p>
                         </div>
                     </div>
                 </div>

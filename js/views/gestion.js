@@ -150,7 +150,7 @@ const GestionView = {
         if (!LumenData.users) {
             return `<div class="state-container"><div class="skeleton-card" style="height:300px; width:100%;"></div></div>`;
         }
-        const users = Object.values(LumenData.users).filter(u => u.status === 'approved' || u.role === 'admin');
+        const users = this.activos();
         const totalActivos = users.length;
         const totalPendientes = Object.values(LumenData.users).filter(u => u.status === 'pending').length;
         const totalEventos = LumenData.eventos.length;
@@ -169,7 +169,7 @@ const GestionView = {
     },
     initCharts: function() {
         if (currentGestionTab !== 'estadisticas' || !LumenData.users) return;
-        const users = Object.values(LumenData.users).filter(u => u.status === 'approved' || u.role === 'admin');
+        const users = this.activos();
 
         let rango14_17 = 0, rango18_21 = 0, rango22_27 = 0;
         users.forEach(u => {
@@ -222,20 +222,30 @@ const GestionView = {
             </div>
         `;
         
-        setTimeout(() => this.renderCensusRows(this.pendingJuvemarUids()), 100);
+        setTimeout(() => this.renderCensusRows(this.juvemarUids()), 100);
         return html;
     },
 
-    pendingJuvemarUids: function() {
-        return Object.keys(LumenData.users).filter(uid => {
-            const u = LumenData.users[uid];
-            return u && u.role === 'miembro' && u.status === 'pending';
-        });
+    esJuvemar: function(u) {
+        return u && (u.role === 'miembro' || u.role === 'admin');
     },
-    
+    // Censo: todas las personas que forman parte de Juvemar (aprobadas, pendientes y coordinadores).
+    juvemarUids: function() {
+        return Object.keys(LumenData.users)
+            .filter(uid => this.esJuvemar(LumenData.users[uid]))
+            .sort((a, b) => (LumenData.users[a].nombre || '').localeCompare(LumenData.users[b].nombre || ''));
+    },
+    // Miembros Juvemar activos = aprobados (excluye globales y pendientes).
+    activos: function() {
+        return Object.values(LumenData.users).filter(u => this.esJuvemar(u) && u.status === 'approved');
+    },
+    activosUids: function() {
+        return Object.keys(LumenData.users).filter(uid => this.esJuvemar(LumenData.users[uid]) && LumenData.users[uid].status === 'approved');
+    },
+
     filterCensus: function(query) {
         query = query.toLowerCase();
-        const filtered = this.pendingJuvemarUids().filter(uid => {
+        const filtered = this.juvemarUids().filter(uid => {
             const u = LumenData.users[uid];
             return (u.nombre && u.nombre.toLowerCase().includes(query)) || 
                    (u.direccion && u.direccion.toLowerCase().includes(query)) || 
@@ -293,7 +303,7 @@ const GestionView = {
     exportExcel: function() {
         if (!LumenData.users) return LumenUI.showToast('No hay datos para exportar', 'error');
         let data = [];
-        this.pendingJuvemarUids().forEach(uid => {
+        this.juvemarUids().forEach(uid => {
             const u = LumenData.users[uid];
             data.push({
                 "Nombre": u.nombre || 'N/A', "Edad": u.edad || 'N/A', "Nacimiento": u.nacimiento || 'N/A',
@@ -316,7 +326,7 @@ const GestionView = {
             if (confirmed) {
                 supabase.from('profiles').update({ status: 'approved' }).eq('id', uid).then(() => {
                     LumenUI.showToast('Usuario aprobado con éxito', 'success');
-                    LumenData.loadUsers().then(() => this.renderCensusRows(this.pendingJuvemarUids()));
+                    LumenData.loadUsers().then(() => this.renderCensusRows(this.juvemarUids()));
                 });
             }
         });
@@ -328,7 +338,7 @@ const GestionView = {
                 supabase.from('profiles').update({ role: 'admin', status: 'approved' }).eq('id', uid)
                     .then(() => {
                         LumenUI.showToast('Ahora es Coordinador', 'success');
-                        LumenData.loadUsers().then(() => this.renderCensusRows(this.pendingJuvemarUids()));
+                        LumenData.loadUsers().then(() => this.renderCensusRows(this.juvemarUids()));
                     })
                     .catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
             }
@@ -443,7 +453,7 @@ const GestionView = {
     messageAbsentees: function() {
         if (!LumenData.users || !LumenData.eventos) return LumenUI.showToast('No hay datos cargados', 'error');
         
-        const activeUsers = Object.keys(LumenData.users).filter(uid => LumenData.users[uid].status === 'approved' || LumenData.users[uid].role === 'admin');
+        const activeUsers = this.activosUids();
         const columns = this.getColumnsForMonth();
         
         if (columns.length === 0) return LumenUI.showToast('No hay actividades en este mes', 'error');
@@ -484,7 +494,7 @@ const GestionView = {
             return;
         }
 
-        const activeUsers = Object.keys(LumenData.users).filter(uid => LumenData.users[uid].status === 'approved' || LumenData.users[uid].role === 'admin');
+        const activeUsers = this.activosUids();
         const columns = this.getColumnsForMonth();
 
         if (columns.length === 0) {
@@ -524,7 +534,7 @@ const GestionView = {
         if (!LumenData.users) return LumenUI.showToast('No hay datos de usuarios', 'error');
         if (!LumenData.eventos || LumenData.eventos.length === 0) return LumenUI.showToast('No hay actividades', 'error');
 
-        const activeUsers = Object.keys(LumenData.users).filter(uid => LumenData.users[uid].status === 'approved' || LumenData.users[uid].role === 'admin');
+        const activeUsers = this.activosUids();
         const columns = this.getColumnsForMonth();
 
         if (columns.length === 0) return LumenUI.showToast('No hay actividades en este mes para exportar', 'error');
