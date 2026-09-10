@@ -8,7 +8,12 @@ const FORMACION_ICONS = {
     apologetica: LumenIcons.apologetica,
     santos: LumenIcons.santos,
     glosario: LumenIcons.scroll,
-    faq: LumenIcons.message
+    faq: LumenIcons.message,
+    moral: LumenIcons.shield,
+    'doctrina-social': LumenIcons.users,
+    vocacion: LumenIcons.compass,
+    virgen: LumenIcons.heart,
+    'mundo-actual': LumenIcons.globe
 };
 
 const FormacionView = {
