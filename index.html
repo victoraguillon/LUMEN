@@ -98,6 +98,19 @@
 
     <main id="app-container"></main>
 
+    <footer class="app-footer">
+        <div class="footer-brand">
+            <span class="footer-logo">LUMEN</span>
+            <p> Developed by Victor M. Aguillón</p>
+        </div>
+        <div class="footer-links">
+            <a href="/privacidad">Privacidad</a>
+            <a href="/terminos">Términos</a>
+            <a href="/cookies">Cookies</a>
+            <a href="#" onclick="event.preventDefault();LumenRouter.navigateTo('contacto')">Contacto</a>
+        </div>
+    </footer>
+
     <!-- MENÚ LATERAL MÓVIL (Drawer) -->
     <div class="drawer-overlay" id="drawer-overlay" onclick="LumenUI.toggleDrawer()"></div>
     <aside class="side-drawer" id="side-drawer" role="dialog" aria-modal="true" aria-label="Menú de navegación">

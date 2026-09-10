@@ -366,19 +366,6 @@ const LandingView = {
                            <p>Únete a LUMEN. Tu camino en la fe comienza aquí.</p>
                            <button class="btn btn-outline btn-lg" onclick="LumenUI.openModal('register-modal')">Únete a la Comunidad</button>`}
                 </section>
-
-                <footer class="landing-footer">
-                    <div class="footer-brand">
-                        <span class="footer-logo">LUMEN</span>
-                        <p> Developed by Victor M. Aguillón</p>
-                    </div>
-                    <div class="footer-links">
-                        <a href="/privacidad">Privacidad</a>
-                        <a href="/terminos">Términos</a>
-                        <a href="/cookies">Cookies</a>
-                        <a href="#" onclick="event.preventDefault();LumenRouter.navigateTo('contacto')">Contacto</a>
-                    </div>
-                </footer>
             </div>
         `;
     },

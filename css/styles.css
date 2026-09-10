@@ -3730,10 +3730,13 @@ body.dark-theme .module-icon { background: rgba(0,162,232,0.14); color: var(--ce
 .landing-cta .btn-outline { background: rgba(255,255,255,0.12); border-color: var(--blanco); color: var(--blanco); font-size: 16px; padding: 13px 30px; }
 .landing-cta .btn-outline:hover { background: var(--blanco); color: var(--celeste-oscuro); }
 
-/* ============ Footer del landing ============ */
-.landing-footer {
+/* ============ Footer global ============ */
+.app-footer {
     display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-    gap: 18px; padding: 26px 6px 10px;
+    gap: 18px;
+    max-width: 1200px; width: 100%; margin: 0 auto;
+    box-sizing: border-box;
+    padding: 30px 20px 44px;
     border-top: 1px solid var(--border-color);
 }
 .footer-logo { font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 800; letter-spacing: 0.04em; color: var(--texto-oscuro); }

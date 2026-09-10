@@ -1,11 +1,12 @@
-// LUMEN - Service Worker único (v30) en la RAÍZ (/sw.js)
+// LUMEN - Service Worker único (v31) en la RAÍZ (/sw.js)
+// v31: footer global en todas las vistas del SPA (index.html + styles)
 // v30: fix censo de gestión + 5 módulos nuevos de Formación (bumpeo de caché para forzar actualización en clientes)
 // v29: vista Evangelio del día — network-first sobre /api/evangelio (offline usa última copia)
 // v28: Fase B offline — store.js (caché IndexedDB + outbox) precacheador
 // v27: unificación de vistas estilo v-header + utilidades dark-safe + rosario avemarías numeradas
 // v26: banner instalación PWA (dark mode + botones por plataforma) + rediseño vistas Nosotros y Blog
 // v25: bitácora de exportaciones (migración 11)
-const CACHE = "lumen-cache-v31";
+const CACHE = "lumen-cache-v32";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";
