@@ -171,6 +171,11 @@ const FormacionView = {
             santos: 'assets/santos.jpg',
             glosario: 'assets/glosario.jpg',
             faq: 'assets/santosyvidasejemplares.webp',
+            moral: 'assets/moralcristiana.jpg',
+            'doctrina-social': 'assets/doctrinasocial.jpeg',
+            vocacion: 'assets/vocacionyproposito.jpg',
+            virgen: 'assets/lavirgenmaria.jpg',
+            'mundo-actual': 'assets/feymundoactual.jpg',
         };
         const cards = (FORMACION_DATA.modules || []).map(function(mod) {
             const pct = this._modProgress(mod.id);
