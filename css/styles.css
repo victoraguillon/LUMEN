@@ -202,6 +202,7 @@ h3 { font-size: clamp(1.12rem, 0.8vw + 0.85rem, 1.35rem); }
     width: 70px; height: 70px;
     margin-bottom: 20px;
 }
+.loader-logo img { width: 100%; height: 100%; object-fit: cover; border-radius: 18px; box-shadow: var(--sombra-media); }
 .loader-text { font-family: 'Sora', sans-serif; color: var(--blanco); font-size: 32px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px; }
 #preloader p { color: rgba(255,255,255,0.7); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; }
 
@@ -237,6 +238,7 @@ body.dark-theme .navbar {
 }
 .logo:hover { transform: scale(1.05); }
 .logo svg { width: 24px; height: 24px; }
+.logo img { width: 28px; height: 28px; border-radius: 8px; object-fit: cover; display: block; }
 
 .nav-links { 
     list-style: none; 
