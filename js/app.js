@@ -1,11 +1,104 @@
 const LumenRouter = {
     currentView: 'landing',
     _activeView: null,
+    _pendingHash: null,
+
+    _switchView: function(viewName) {
+        switch(viewName) {
+            case 'landing': return { obj: typeof LandingView !== 'undefined' ? LandingView : null, title: "Inicio" };
+            case 'inicio': return { obj: typeof InicioView !== 'undefined' ? InicioView : null, title: "Dashboard" };
+            case 'nosotros': return { obj: typeof NosotrosView !== 'undefined' ? NosotrosView : null, title: "Nosotros" };
+            case 'actividades': return { obj: typeof ActividadesView !== 'undefined' ? ActividadesView : null, title: "Actividades" };
+            case 'calendario': return { obj: typeof CalendarioView !== 'undefined' ? CalendarioView : null, title: "Calendario" };
+            case 'detalle': return { obj: typeof DetalleView !== 'undefined' ? DetalleView : null, title: "Detalle" };
+            case 'recursos': return { obj: typeof RecursosView !== 'undefined' ? RecursosView : null, title: "Recursos" };
+            case 'formacion': return { obj: typeof FormacionView !== 'undefined' ? FormacionView : null, title: "Formación" };
+            case 'oraciones': return { obj: typeof OracionesView !== 'undefined' ? OracionesView : null, title: "Oraciones" };
+            case 'rosario': return { obj: typeof RosarioView !== 'undefined' ? RosarioView : null, title: "Rosario" };
+            case 'novenas': return { obj: typeof NovenasView !== 'undefined' ? NovenasView : null, title: "Novenas" };
+            case 'examen': return { obj: typeof ExamenView !== 'undefined' ? ExamenView : null, title: "Examen de Conciencia" };
+            case 'favoritos': return { obj: typeof FavoritosView !== 'undefined' ? FavoritosView : null, title: "Favoritos" };
+            case 'notificaciones': return { obj: typeof NotificacionesView !== 'undefined' ? NotificacionesView : null, title: "Avisos" };
+            case 'intenciones': return { obj: typeof IntencionesView !== 'undefined' ? IntencionesView : null, title: "Intenciones" };
+            case 'encuestas': return { obj: typeof EncuestasView !== 'undefined' ? EncuestasView : null, title: "Encuestas" };
+            case 'perfil': return { obj: typeof PerfilView !== 'undefined' ? PerfilView : null, title: "Mi Perfil" };
+            case 'gestion': return { obj: typeof GestionView !== 'undefined' ? GestionView : null, title: "Gestión" };
+            case 'contacto': return { obj: typeof ContactoView !== 'undefined' ? ContactoView : null, title: "Contacto" };
+            case 'blog': return { obj: typeof BlogView !== 'undefined' ? BlogView : null, title: "Blog" };
+            case 'devocional': return { obj: typeof DevocionalView !== 'undefined' ? DevocionalView : null, title: "Devocional" };
+            case 'evangelio': return { obj: typeof EvangelioView !== 'undefined' ? EvangelioView : null, title: "Evangelio del día" };
+            default: return null;
+        }
+    },
+
+    viewFor: function(viewName) {
+        const m = this._switchView(viewName);
+        return m && m.obj && m.obj.render ? m.obj : null;
+    },
+
+    // Lee location.hash como ruta canónica: '#/vista/param1/param2?clave=valor'
+    _parseHash: function() {
+        const raw = String(location.hash || '').replace(/^#\/?/, '');
+        const qi = raw.indexOf('?');
+        let path = raw, query = null;
+        if (qi > -1) { query = raw.slice(qi + 1); path = raw.slice(0, qi); }
+        const parts = path.split('/').filter(Boolean).map(function(p) { return decodeURIComponent(p); });
+        return { parts: parts, query: query };
+    },
+
+    // Refleja el estado de la vista activa en la URL (la URL es un espejo, no la fuente).
+    _syncHash: function() {
+        const viewObj = this._activeView;
+        if (!viewObj) return;
+        let parts = [], query = null;
+        if (typeof viewObj.route === 'function') {
+            const r = viewObj.route() || {};
+            parts = r.parts || [];
+            query = r.query || null;
+        }
+        const root = this.currentView === 'landing' ? '' : this.currentView;
+        let h = '#/' + root;
+        if (parts.length) h += '/' + parts.map(encodeURIComponent).join('/');
+        if (query) h += '?' + query;
+        if (location.hash === h) return;
+        this._pendingHash = h;
+        try { location.hash = h; } catch (e) {}
+    },
+
+    _onHashChange: function() {
+        if (this._pendingHash) {
+            if (this._pendingHash === location.hash) { this._pendingHash = null; return; }
+            this._pendingHash = null;
+        }
+        this._applyHashRoute();
+    },
+
+    _applyHashRoute: function() {
+        let parsed;
+        try { parsed = this._parseHash(); } catch (e) { this.navigateTo('landing'); return; }
+        const viewName = parsed.parts[0] || 'landing';
+        const params = parsed.parts.slice(1);
+        const viewObj = this.viewFor(viewName);
+        if (!viewObj) { this.navigateTo('landing'); return; }
+        try {
+            if (typeof viewObj.applyRoute === 'function') viewObj.applyRoute(params, parsed.query);
+        } catch (e) { console.error('[LumenRouter] applyRoute', viewName, e); }
+        this.navigateTo(viewName, viewName === this.currentView);
+    },
+
+    boot: function() {
+        window.addEventListener('hashchange', () => this._onHashChange());
+        const h = String(location.hash || '');
+        if (h.replace(/^#\/?/, '').length) this._applyHashRoute();
+        else this.navigateTo('landing');
+    },
+
     navigateTo: function(viewName, skipTransition) {
         this.currentView = viewName;
         const container = document.getElementById('app-container');
-        let viewObj;
-        let title = "LUMEN";
+        const meta = this._switchView(viewName) || null;
+        const viewObj = meta ? meta.obj : null;
+        const title = meta ? meta.title : "Página no encontrada";
 
         // Cerrar menú lateral móvil si está abierto
         const drawer = document.getElementById('side-drawer');
@@ -13,32 +106,6 @@ const LumenRouter = {
         if (drawer && drawer.classList.contains('active')) {
             drawer.classList.remove('active');
             if (drawerOverlay) drawerOverlay.classList.remove('active');
-        }
-
-        switch(viewName) {
-            case 'landing': viewObj = typeof LandingView !== 'undefined' ? LandingView : null; title = "Inicio"; break;
-            case 'inicio': viewObj = typeof InicioView !== 'undefined' ? InicioView : null; title = "Dashboard"; break;
-            case 'nosotros': viewObj = typeof NosotrosView !== 'undefined' ? NosotrosView : null; title = "Nosotros"; break;
-            case 'actividades': viewObj = typeof ActividadesView !== 'undefined' ? ActividadesView : null; title = "Actividades"; break;
-            case 'calendario': viewObj = typeof CalendarioView !== 'undefined' ? CalendarioView : null; title = "Calendario"; break;
-            case 'detalle': viewObj = typeof DetalleView !== 'undefined' ? DetalleView : null; title = "Detalle"; break;
-            case 'recursos': viewObj = typeof RecursosView !== 'undefined' ? RecursosView : null; title = "Recursos"; break;
-            case 'formacion': viewObj = typeof FormacionView !== 'undefined' ? FormacionView : null; title = "Formación"; break;
-            case 'oraciones': viewObj = typeof OracionesView !== 'undefined' ? OracionesView : null; title = "Oraciones"; break;
-            case 'rosario': viewObj = typeof RosarioView !== 'undefined' ? RosarioView : null; title = "Rosario"; break;
-            case 'novenas': viewObj = typeof NovenasView !== 'undefined' ? NovenasView : null; title = "Novenas"; break;
-            case 'examen': viewObj = typeof ExamenView !== 'undefined' ? ExamenView : null; title = "Examen de Conciencia"; break;
-            case 'favoritos': viewObj = typeof FavoritosView !== 'undefined' ? FavoritosView : null; title = "Favoritos"; break;
-            case 'notificaciones': viewObj = typeof NotificacionesView !== 'undefined' ? NotificacionesView : null; title = "Avisos"; break;
-            case 'intenciones': viewObj = typeof IntencionesView !== 'undefined' ? IntencionesView : null; title = "Intenciones"; break;
-            case 'encuestas': viewObj = typeof EncuestasView !== 'undefined' ? EncuestasView : null; title = "Encuestas"; break; 
-            case 'perfil': viewObj = typeof PerfilView !== 'undefined' ? PerfilView : null; title = "Mi Perfil"; break;
-            case 'gestion': viewObj = typeof GestionView !== 'undefined' ? GestionView : null; title = "Gestión"; break;
-            case 'contacto': viewObj = typeof ContactoView !== 'undefined' ? ContactoView : null; title = "Contacto"; break;
-            case 'blog': viewObj = typeof BlogView !== 'undefined' ? BlogView : null; title = "Blog"; break;
-            case 'devocional': viewObj = typeof DevocionalView !== 'undefined' ? DevocionalView : null; title = "Devocional"; break;
-            case 'evangelio': viewObj = typeof EvangelioView !== 'undefined' ? EvangelioView : null; title = "Evangelio del día"; break;
-            default: viewObj = null; title = "Página no encontrada";
         }
 
         document.title = `LUMEN | ${title}`;
@@ -58,6 +125,7 @@ const LumenRouter = {
             activeLinks.forEach(link => link.classList.add('active'));
             this.initScrollReveal();
             LumenUI.updateNotifBadge();
+            this._syncHash();
         };
 
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -261,5 +329,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initServiceWorker();
 
-    LumenRouter.navigateTo('landing');
+    LumenRouter.boot();
 });

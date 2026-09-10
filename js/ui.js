@@ -1,6 +1,61 @@
 const LumenUI = {
     audioCtx: null,
     escapeHTML: function(str) { return String(str ?? '').replace(/[&<>"']/g, function(c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); },
+    _regEsc: function(s) { return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); },
+    prose: function(text) {
+        let out = this.escapeHTML(text || '');
+        if (typeof LUMEN_GLOS_LINKS === 'undefined') return out;
+        for (let i = 0; i < LUMEN_GLOS_LINKS.length; i++) {
+            const l = LUMEN_GLOS_LINKS[i];
+            const re = new RegExp('\\b(' + this._regEsc(l.term) + ')\\b', 'gi');
+            const href = '#/' + l.to.join('/') + (l.query ? '?' + l.query : '');
+            out = out.replace(re, function(match) {
+                return '<a class="glos-link" href="' + href + '">' + match + '</a>';
+            });
+        }
+        return out;
+    },
+    breadcrumb: function(items) {
+        const arr = (items || []).filter(function(it) { return it && it.label; });
+        const lis = arr.map(function(it, i) {
+            const last = i === arr.length - 1;
+            if (!last && it.href) {
+                return '<li><a href="' + this.escapeHTML(it.href) + '">' + this.escapeHTML(it.label) + '</a></li>';
+            }
+            return '<li><span class="crumb-now">' + this.escapeHTML(it.label) + '</span></li>';
+        }, this).join('');
+        if (!lis) return '';
+        return '<nav class="vcrumbs" aria-label="Ruta de navegación"><ol>' + lis + '</ol></nav>';
+    },
+    relatedHTML: function(key) {
+        if (typeof LUMEN_RELATED === 'undefined') return '';
+        const seen = {};
+        const links = [];
+        const push = function(list) {
+            (list || []).forEach(function(l) {
+                if (!l) return;
+                const href = '#/' + (l.parts || []).map(encodeURIComponent).join('/');
+                if (seen[href]) return;
+                seen[href] = true;
+                links.push({ href: href, label: l.label, icon: l.icon, query: l.query });
+            });
+        };
+        push(LUMEN_RELATED[key]);
+        if (typeof LUMEN_RELATED_DEFAULT !== 'undefined') {
+            push(LUMEN_RELATED_DEFAULT[String(key).split(':')[0]]);
+        }
+        if (!links.length) return '';
+        const cards = links.map(function(l) {
+            const icon = (typeof LumenIcons !== 'undefined' && LumenIcons[l.icon]) ? LumenIcons[l.icon] : '';
+            const href = l.href + (l.query ? '?' + l.query : '');
+            return '<a class="rel-card" href="' + this.escapeHTML(href) + '">'
+                + (icon ? '<span class="rel-icon">' + icon + '</span>' : '')
+                + '<span class="rel-label">' + this.escapeHTML(l.label) + '</span>'
+                + '<span class="rel-arrow">→</span>'
+                + '</a>';
+        }, this).join('');
+        return '<section class="related-block reveal"><h4>Seguir explorando</h4><div class="rel-grid">' + cards + '</div></section>';
+    },
     sanitizeImageUrl: function(value) {
         const v = String(value ?? '').trim();
         if (!v) return '';

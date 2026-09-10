@@ -1,6 +1,17 @@
 const OracionesView = {
     _cat: null,
 
+    route: function() {
+        return { parts: this._cat ? [this._cat] : [], query: null };
+    },
+    applyRoute: function(params) {
+        if (params[0] && ORACIONES_DATA.categorias.some(function(c) { return c.id === params[0]; })) {
+            this._cat = params[0]; this._sel = null;
+        } else {
+            this._cat = null; this._sel = null;
+        }
+    },
+
     openCat: function(id) { this._cat = id; this._sel = null; LumenRouter.navigateTo('oraciones', true); },
     back: function() { this._cat = null; LumenRouter.navigateTo('oraciones', true); },
 

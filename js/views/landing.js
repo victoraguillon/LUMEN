@@ -292,14 +292,14 @@ const LandingView = {
                     </div>
                     <div class="modules-grid">
                         ${mods.map((m, i) => `
-                            <div class="module-card reveal ${i > 3 ? 'reveal-delay-1' : ''}" tabindex="0" role="link" onclick="LumenRouter.navigateTo('${m.view}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();LumenRouter.navigateTo('${m.view}')}">
-                                <div class="module-icon">${m.icon}</div>
-                                <div class="module-info">
+                            <a href="#/${m.view}" class="module-card reveal ${i > 3 ? 'reveal-delay-1' : ''}">
+                                <span class="module-icon">${m.icon}</span>
+                                <span class="module-info">
                                     <h3>${m.name}</h3>
                                     <p>${m.desc}</p>
-                                </div>
+                                </span>
                                 <span class="module-arrow" aria-hidden="true">→</span>
-                            </div>`).join('')}
+                            </a>`).join('')}
                     </div>
                 </div>
 

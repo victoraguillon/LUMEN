@@ -8,6 +8,37 @@ const CalendarioView = {
 
     WEEKDAYS: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
 
+    route: function() {
+        const parts = [];
+        if (this._selected) parts.push(this._selected);
+        else if (this._year !== null) parts.push(this._year + '-' + String(this._month + 1).padStart(2, '0'));
+        return { parts: parts, query: null };
+    },
+    applyRoute: function(params) {
+        const p = params[0] || '';
+        const m = /^(\d{4})(?:-(\d{2}))?(?:-(\d{2}))?$/.exec(p);
+        if (m) {
+            const y = Number(m[1]);
+            const mo = m[2] ? Number(m[2]) : null;
+            const d = m[3] ? Number(m[3]) : null;
+            if ((mo !== null && (mo < 1 || mo > 12)) || (d !== null && (d < 1 || d > 31))) {
+                this._year = null; this._month = null; this._selected = null;
+                return;
+            }
+            this._year = y;
+            this._month = (mo !== null ? mo : new Date().getMonth() + 1) - 1;
+            this._selected = d !== null
+                ? (y + '-' + String(mo).padStart(2, '0') + '-' + String(d).padStart(2, '0'))
+                : null;
+            if (this._selected) {
+                const dt = new Date(this._selected + 'T00:00:00');
+                if (isNaN(dt.getTime()) || dt.getDate() !== d || dt.getMonth() + 1 !== mo) this._selected = null;
+            }
+        } else {
+            this._year = null; this._month = null; this._selected = null;
+        }
+    },
+
     _norm: function(s) {
         return String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
     },

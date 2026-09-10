@@ -1,4 +1,18 @@
 const DetalleView = {
+    route: function() {
+        return { parts: (typeof LumenData !== 'undefined' && LumenData.selectedEventId)
+            ? [LumenData.selectedEventId]
+            : [], query: null };
+    },
+    applyRoute: function(params) {
+        if (typeof LumenData === 'undefined') return;
+        if (params[0] && (LumenData.eventos || []).some(function(e) { return e.id === params[0]; })) {
+            LumenData.selectedEventId = params[0];
+        } else {
+            LumenData.selectedEventId = null;
+        }
+    },
+
     render: function() {
         const evento = LumenData.eventos.find(e => e.id === LumenData.selectedEventId);
         if (!evento) return `<div class="state-container"><h3>Actividad no encontrada</h3></div>`;

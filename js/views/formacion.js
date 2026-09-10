@@ -20,6 +20,7 @@ const FormacionView = {
     _moduleId: null,
     _unitId: null,
     _subId: null,
+    _autoSub: false,
     _glosQ: '',
 
     // ---- helpers ----
@@ -72,19 +73,75 @@ const FormacionView = {
     _unit: function(mod, id) { return (mod.units || []).find(function(u) { return u.id === id; }); },
 
     // ---- navegación ----
+    route: function() {
+        const parts = [];
+        let query = null;
+        if (this._moduleId) {
+            const mod = this._mod(this._moduleId);
+            parts.push(this._moduleId);
+            if (mod) {
+                if (mod.tipo === 'curso' || mod.tipo === 'preguntas') {
+                    if (this._unitId) {
+                        parts.push(this._unitId);
+                        if (this._subId && !this._autoSub) parts.push(this._subId);
+                    }
+                } else if (mod.tipo === 'santos') {
+                    if (this._unitId) parts.push(this._unitId);
+                }
+                if (mod.tipo === 'glosario' && this._glosQ) {
+                    query = 't=' + encodeURIComponent(this._glosQ);
+                }
+            }
+        }
+        return { parts: parts, query: query };
+    },
+
+    applyRoute: function(params, query) {
+        this._glosQ = '';
+        if (query && query.indexOf('t=') === 0) this._glosQ = decodeURIComponent(query.slice(2) || '');
+        const modId = params[0] || null;
+        const mod = modId ? this._mod(modId) : null;
+        this._moduleId = mod ? mod.id : null;
+        this._unitId = null;
+        this._subId = null;
+        this._autoSub = false;
+        if (mod && params[1]) {
+            const u = this._unit(mod, params[1]);
+            if (u) {
+                this._unitId = u.id;
+                if (mod.tipo === 'curso' || mod.tipo === 'preguntas') {
+                    const firstOfUnit = function(flat) { return flat.find(function(f) { return f.unitId === u.id; }); };
+                    if (params[2]) {
+                        const items = (u.subsections || u.topics || []);
+                        const s = items.find(function(x) { return x.id === params[2]; });
+                        if (s) this._subId = s.id;
+                        else {
+                            const first = firstOfUnit(this._flat(mod));
+                            if (first) { this._subId = first.subId; this._autoSub = true; }
+                        }
+                    } else {
+                        const first = firstOfUnit(this._flat(mod));
+                        if (first) { this._subId = first.subId; this._autoSub = true; }
+                    }
+                }
+            }
+        }
+    },
+
     home: function() {
-        this._moduleId = null; this._unitId = null; this._subId = null;
+        this._moduleId = null; this._unitId = null; this._subId = null; this._autoSub = false;
         LumenRouter.navigateTo('formacion', true);
     },
     go: function(moduleId, unitId, subId) {
         this._moduleId = moduleId;
         this._unitId = unitId || null;
         this._subId = subId || null;
+        this._autoSub = false;
         const mod = this._mod(moduleId);
         if (mod && (mod.tipo === 'curso' || mod.tipo === 'preguntas') && unitId && !subId) {
             const flat = this._flat(mod);
             const first = flat.find(function(f) { return f.unitId === unitId; });
-            if (first) this._subId = first.subId;
+            if (first) { this._subId = first.subId; this._autoSub = true; }
         }
         LumenRouter.navigateTo('formacion', true);
     },
@@ -251,7 +308,7 @@ const FormacionView = {
         let contentHTML = '';
         if (mod.tipo === 'curso') {
             const paras = String(item.content || '').split('\n\n').map(function(p) {
-                return `<p>${p}</p>`;
+                return `<p>${LumenUI.prose(p)}</p>`;
             }).join('');
             contentHTML = `
                 <div class="reading-surface formacion-body">
@@ -264,10 +321,10 @@ const FormacionView = {
             contentHTML = `
                 <div class="reading-surface formacion-body qa-body">
                     <h2 class="reading-h">${item.question}</h2>
-                    <div class="reading-prose">${String(item.answer || '').replace(/\n\n/g, '<br><br>')}</div>
+                    <div class="reading-prose">${LumenUI.prose(String(item.answer || '')).replace(/\n\n/g, '<br><br>')}</div>
                     ${item.scripture ? `<blockquote class="scripture-quote"><span class="sq-label">${LumenIcons.cross} Escritura</span><p>${item.scripture}</p></blockquote>` : ''}
                     ${item.catechism ? `<blockquote class="catechism-quote"><span class="sq-label">${LumenIcons.compass} Catecismo</span><p>${item.catechism}</p></blockquote>` : ''}
-                    ${item.explanation ? `<div class="qa-explanation"><h4>Explicación</h4><p>${item.explanation}</p></div>` : ''}
+                    ${item.explanation ? `<div class="qa-explanation"><h4>Explicación</h4><p>${LumenUI.prose(item.explanation)}</p></div>` : ''}
                 </div>`;
         }
 
@@ -284,6 +341,12 @@ const FormacionView = {
                     <button class="btn-sm" onclick="FormacionView._toggleDone('${mod.id}','${uid}','${sid}')">${done ? '✓ Hecho' : 'Marcar hecho'}</button>
                 </div>
             </header>
+            ${LumenUI.breadcrumb([
+                { label: 'Formación', href: '#/formacion' },
+                { label: mod.title, href: '#/formacion/' + mod.id },
+                { label: unit.title, href: '#/formacion/' + mod.id + '/' + uid },
+                { label: item.title || item.question || '' }
+            ])}
             <div class="formacion-layout">
                 <aside class="formacion-index reveal reveal-delay-1">
                     <details class="fi-details"${compactSide ? '' : ' open'}>
@@ -302,6 +365,7 @@ const FormacionView = {
                         <span>${pos + 1} / ${flat.length}</span>
                         <button class="btn btn-outline" ${pos >= flat.length - 1 ? 'disabled' : ''} onclick="FormacionView.flatNext()">Siguiente →</button>
                     </nav>
+                    <div class="related-wrap">${LumenUI.relatedHTML('formacion:' + mod.id + ':' + uid + ':' + sid)}</div>
                 </main>
             </div>
         </div>`;
@@ -337,8 +401,14 @@ const FormacionView = {
                 <div class="fm-title"><span class="fm-mod">${LumenIcons.santos}${mod.title}</span></div>
                 <div class="fm-actions">${this.favHeart('formacion', mod.id + '||', mod.title)}</div>
             </header>
+            ${LumenUI.breadcrumb([
+                { label: 'Formación', href: '#/formacion' },
+                { label: mod.title, href: '#/formacion/' + mod.id },
+                { label: unit.title || '' }
+            ])}
             <div class="devocional-tabs sainttabs" role="tablist">${tabs}</div>
             <div class="santos-grid">${cards}</div>
+            <div class="related-wrap">${LumenUI.relatedHTML('formacion:santos' + (unit.id ? ':' + unit.id : ''))}</div>
         </div>`;
     },
 
@@ -373,10 +443,15 @@ const FormacionView = {
                 <div class="fm-title"><span class="fm-mod">${LumenIcons.scroll}${mod.title} <span class="fm-count">${all.length} términos</span></span></div>
                 <div class="fm-actions">${this.favHeart('formacion', mod.id + '||', mod.title)}</div>
             </header>
+            ${LumenUI.breadcrumb([
+                { label: 'Formación', href: '#/formacion' },
+                { label: mod.title || '' }
+            ])}
             <div class="glos-search reveal">
                 <input type="search" id="glos-input" class="style-input" placeholder="Buscar término… (ej. Eucaristía)" value="${this._glosQ}" oninput="FormacionView.glosSearch(this.value)">
             </div>
             <div id="glos-grid" class="glos-grid">${this._renderGlosTerms()}</div>
+            <div class="related-wrap">${LumenUI.relatedHTML('formacion:glosario')}</div>
         </div>`;
     },
 
@@ -397,7 +472,12 @@ const FormacionView = {
                 <div class="fm-title"><span class="fm-mod">${LumenIcons.message}${mod.title}</span></div>
                 <div class="fm-actions">${this.favHeart('formacion', mod.id + '||', mod.title)}</div>
             </header>
+            ${LumenUI.breadcrumb([
+                { label: 'Formación', href: '#/formacion' },
+                { label: mod.title || '' }
+            ])}
             <div class="faq-list">${sections}</div>
+            <div class="related-wrap">${LumenUI.relatedHTML('formacion:faq')}</div>
         </div>`;
     },
 
@@ -406,5 +486,22 @@ const FormacionView = {
         LumenUI.applyReaderPrefs();
         const glos = document.getElementById('glos-input');
         if (glos && this._glosQ) glos.value = this._glosQ;
+        if (this._moduleId === 'glosario' && this._glosQ) {
+            const grid = document.getElementById('glos-grid');
+            if (grid) {
+                const items = grid.querySelectorAll('.glos-item');
+                const q = this._glosQ.toLowerCase();
+                for (let i = 0; i < items.length; i++) {
+                    const sum = items[i].querySelector('summary');
+                    if (sum && sum.textContent.toLowerCase().indexOf(q) > -1) {
+                        const det = items[i].querySelector('details');
+                        if (det) det.open = true;
+                        items[i].classList.add('is-target');
+                        setTimeout((function(el) { return function() { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }; })(items[i]), 120);
+                        break;
+                    }
+                }
+            }
+        }
     }
 };

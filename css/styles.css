@@ -4087,3 +4087,33 @@ body.dark-theme .module-icon { background: rgba(0,162,232,0.14); color: var(--ce
     .evangelio-card, .evangelio-meditacion { padding: 20px 18px; }
     .evangelio-card-text, .evangelio-med-text { font-size: 14px; }
 }
+
+/* ============ Módulos como enlaces ============ */
+a.module-card { color: inherit; text-decoration: none; }
+
+/* ============ Breadcrumbs ============ */
+.vcrumbs { margin: 14px 2px 4px; }
+.vcrumbs ol { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0; padding: 0; }
+.vcrumbs li { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--texto-gris); }
+.vcrumbs li + li::before { content: "/"; color: var(--texto-gris); opacity: 0.55; }
+.vcrumbs a { color: var(--celeste-primario); text-decoration: none; font-weight: 600; }
+.vcrumbs a:hover { text-decoration: underline; }
+.crumb-now { color: var(--texto-oscuro); font-weight: 600; }
+body.dark-theme .crumb-now { color: var(--texto-claro); }
+
+/* ============ Bloque "Seguir explorando" ============ */
+.related-block { max-width: 860px; margin: 26px auto 6px; }
+.related-block h4 { font-family: 'Sora', sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--texto-gris); margin: 0 0 12px; }
+.rel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+.rel-card { display: flex; align-items: center; gap: 12px; padding: 13px 15px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; color: var(--texto-oscuro); text-decoration: none; transition: transform 200ms var(--ease-out), box-shadow 200ms ease, border-color 200ms ease; }
+.rel-card:hover { transform: translateY(-3px); box-shadow: var(--sombra-media); border-color: var(--celeste-primario); }
+.rel-icon { flex-shrink: 0; width: 38px; height: 38px; border-radius: 11px; display: flex; align-items: center; justify-content: center; background: var(--celeste-claro); color: var(--celeste-oscuro); }
+body.dark-theme .rel-icon { background: rgba(0,162,232,0.14); color: var(--celeste-primario); }
+.rel-icon svg { width: 19px; height: 19px; }
+.rel-label { flex: 1; font-size: 13px; font-weight: 600; line-height: 1.35; }
+.rel-arrow { color: var(--celeste-primario); font-weight: 700; }
+
+/* ============ Enlaces de términos (glosario) ============ */
+.glos-link { color: var(--celeste-primario); text-decoration: none; border-bottom: 1px dotted rgba(0,130,200,0.5); }
+.glos-link:hover { text-decoration: underline; }
+.glos-item.is-target { outline: 2px solid var(--celeste-primario); outline-offset: 4px; border-radius: 14px; scroll-margin-top: 96px; box-shadow: var(--sombra-media); }

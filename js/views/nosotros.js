@@ -5,6 +5,13 @@ function avatarInitials(name) {
 }
 
 const NosotrosView = {
+    route: function() {
+        return { parts: currentAboutTab ? [currentAboutTab] : [], query: null };
+    },
+    applyRoute: function(params) {
+        if (params[0] && (params[0] === 'juvemar' || params[0] === 'samuel')) currentAboutTab = params[0];
+    },
+
     render: function() {
         return `
             <div class="view">

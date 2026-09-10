@@ -4,6 +4,14 @@ const ExamenView = {
     _idx: 0,
     _answers: {},
 
+    route: function() {
+        return { parts: this._cat ? [this._cat] : [], query: null };
+    },
+    applyRoute: function(params) {
+        this._cat = (params[0] && EXAMEN_DATA.some(function(c) { return c.id === params[0]; })) ? params[0] : null;
+        this._idx = 0; this._answers = {};
+    },
+
     open: function(id) {
         this._cat = id; this._idx = 0; this._answers = {};
         LumenRouter.navigateTo('examen', true);

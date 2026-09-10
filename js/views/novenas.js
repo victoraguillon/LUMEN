@@ -2,6 +2,13 @@
 const NovenasView = {
     _nov: null,
 
+    route: function() {
+        return { parts: this._nov ? [this._nov] : [], query: null };
+    },
+    applyRoute: function(params) {
+        this._nov = (params[0] && NOVENAS_DATA.some(function(n) { return n.id === params[0]; })) ? params[0] : null;
+    },
+
     _progKey: 'lumen-novenas-progress',
     _read: function() { try { return JSON.parse(localStorage.getItem(this._progKey)) || {}; } catch (e) { return {}; } },
     _save: function(p) { localStorage.setItem(this._progKey, JSON.stringify(p)); },

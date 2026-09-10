@@ -23,6 +23,7 @@ const SHELL = [
   "/js/data.js",
   "/js/push.js",
   "/js/app.js",
+  "/js/links_data.js",
   "/js/santoral.js",
   "/js/devocional_data.js",
   "/js/frases_santos.js",

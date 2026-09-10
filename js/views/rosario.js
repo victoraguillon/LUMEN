@@ -49,6 +49,18 @@ const RosarioView = {
 
     _todaySet: function() { return this.DAY_MAP[new Date().getDay()] || 'gozosos'; },
 
+    route: function() {
+        return { parts: this._set ? [this._set] : [], query: null };
+    },
+    applyRoute: function(params) {
+        if (params[0] && ROSARIO_DATA.sets && ROSARIO_DATA.sets[params[0]]) {
+            this._set = params[0];
+            this._pos = this._readPos()[params[0]] || 0;
+        } else {
+            this._set = null; this._pos = 0;
+        }
+    },
+
     pick: function(s) {
         this._set = s;
         const saved = this._readPos();
