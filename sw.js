@@ -1,5 +1,6 @@
 // LUMEN - Service Worker único (v32) en la RAÍZ (/sw.js)
-// v32: nuevo logo de la app (logo.png reemplaza a icons antiguos)
+// v34: celeste de la app alineado al azul del nuevo logo (#245888)
+// v33: nuevo logo de la app (logo.png reemplaza a icons antiguos)
 // v31: footer global en todas las vistas del SPA (index.html + styles)
 // v30: fix censo de gestión + 5 módulos nuevos de Formación (bumpeo de caché para forzar actualización en clientes)
 // v29: vista Evangelio del día — network-first sobre /api/evangelio (offline usa última copia)
@@ -7,7 +8,7 @@
 // v27: unificación de vistas estilo v-header + utilidades dark-safe + rosario avemarías numeradas
 // v26: banner instalación PWA (dark mode + botones por plataforma) + rediseño vistas Nosotros y Blog
 // v25: bitácora de exportaciones (migración 11)
-const CACHE = "lumen-cache-v33";
+const CACHE = "lumen-cache-v34";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";

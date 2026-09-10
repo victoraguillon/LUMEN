@@ -181,7 +181,7 @@ const GestionView = {
 
         gestionCharts.edades = new Chart(document.getElementById('chart-edades'), {
             type: 'doughnut',
-            data: { labels: ['14-17 años', '18-21 años', '22-27 años'], datasets: [{ data: [rango14_17, rango18_21, rango22_27], backgroundColor: ['#00A2E8', '#005F8A', '#2ecc71'] }] },
+            data: { labels: ['14-17 años', '18-21 años', '22-27 años'], datasets: [{ data: [rango14_17, rango18_21, rango22_27], backgroundColor: ['#245888', '#005F8A', '#2ecc71'] }] },
             options: { plugins: { title: { display: true, text: 'Rangos de Edad' } } }
         });
 
@@ -196,7 +196,7 @@ const GestionView = {
 
         gestionCharts.sacramentos = new Chart(document.getElementById('chart-sacramentos'), {
             type: 'bar',
-            data: { labels: ['Bautismo', 'Comunión', 'Confirmación'], datasets: [{ label: 'Jóvenes', data: [bautismo, comunion, confirmacion], backgroundColor: '#00A2E8' }] },
+            data: { labels: ['Bautismo', 'Comunión', 'Confirmación'], datasets: [{ label: 'Jóvenes', data: [bautismo, comunion, confirmacion], backgroundColor: '#245888' }] },
             options: { plugins: { title: { display: true, text: 'Sacramentos Recibidos' } } }
         });
     },
