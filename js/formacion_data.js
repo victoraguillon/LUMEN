@@ -3246,6 +3246,1634 @@ const FORMACION_DATA = {
    ],
    "count": 138
   },
+   {
+    "id": "moral",
+    "title": "Moral y Vida en Cristo",
+    "subtitle": "Disciplina",
+    "description": "Conciencia, virtudes, mandamientos y perdón: vivir la fe en lo concreto de cada día",
+    "tipo": "curso",
+    "count": 17,
+    "units": [
+     {
+      "id": "conciencia",
+      "title": "Conciencia y Libertad",
+      "subtitle": "El timón interior",
+      "description": "La conciencia es el lugar donde Dios te habla y la brújula de tus decisiones",
+      "subsections": [
+       {
+        "id": "conciencia-dios",
+        "title": "La conciencia, voz de Dios",
+        "content": "La conciencia es el núcleo más secreto del ser humano, el santuario donde se encuentra a solas con Dios, cuya voz resuena en su interior llamándole a hacer el bien y evitar el mal (CIC 1776). No es un capricho ni un sentimiento pasajero: es un juicio de la razón que aplica la ley de Dios a una situación concreta. Por eso no decide a ciegas: mira, pesa y considera antes de afirmar que algo es bueno o malo.\n\nUna cosa es sentir inclinación y otra muy distinta saber si algo conduce a Dios. La conciencia ilumina la decisión, pero la decisión sigue siendo tuya: libre y responsable. Cuanto mejor formada está tu conciencia, más seguro es tu juicio y más auténtica tu libertad, porque eliges con conocimiento y con amor.\n\nDios puso esta voz en todos los corazones para que, aun antes de conocerlo, el hombre pueda distinguir el bien del mal. Formarla bien, escucharla con docilidad y obedecerla es el primer paso de toda vida moral seria: quien educa su conciencia aprende a amar libremente y a decidir con paz. Aprender a apartarse del mal y abrazar el bien no es tarea de un día, sino un entrenamiento que dura toda la vida y que se perfecciona en la oración, en la humildad y en la presencia constante de Dios.",
+        "keyPoints": [
+         "La conciencia es el lugar donde Dios nos habla",
+         "Es un juicio de la razón, no un simple sentimiento",
+         "Nos orienta a hacer el bien y evitar el mal",
+         "Debe formarse y educarse cada día",
+         "Obedecer una conciencia bien formada agrada a Dios"
+        ],
+        "references": [
+         "Romanos 2,15",
+         "CIC 1776-1802",
+         "1 Timoteo 1,5"
+        ]
+       },
+       {
+        "id": "formar-conciencia",
+        "title": "Formar la conciencia",
+        "content": "Formar la conciencia significa iluminarla con la Palabra de Dios y la enseñanza de la Iglesia, que son como un espejo donde aprender a ver las cosas como las ve Dios. No basta con \"sentir\" que algo está bien o mal: los sentimientos pueden engañar, el miedo puede confundir y la moda puede arrastrar. Hace falta estudio, oración y buen ejemplo.\n\nUna conciencia bien formada no es la que lo sabe todo de memoria, sino la que ha aprendido a pensar con la fe: aplica los principios del Evangelio a cada situación real de la vida, como un buen conductor que responde ante cada imprevisto del camino. Por eso su formación no termina nunca: cada etapa, cada pregunta nueva y cada desafío del mundo la vuelven a poner a prueba y a hacer crecer.\n\nSe forma leyendo la Escritura, recibiendo los sacramentos, escuchando la catequesis, preguntando a personas de confianza y examinando cada día cómo se ha vivido. Una conciencia bien educada evita dos extremos: la conciencia laxa, que se excusa a sí misma y mueve el límite para convencerse; y la conciencia escrupulosa, que se condena sin motivo y vive sin paz. El equilibrio se alcanza en la fe humilde y en el consejo de personas de confianza.",
+        "keyPoints": [
+         "Se forma con la Palabra de Dios y la doctrina de la Iglesia",
+         "Los sentimientos solos no deciden la verdad moral",
+         "Los sacramentos y la catequesis la alimentan",
+         "Evita la conciencia laxa y la escrupulosa",
+         "El buen consejo ayuda a juzgar con rectitud"
+        ],
+        "references": [
+         "CIC 1783-1794",
+         "Filipenses 4,8",
+         "Proverbios 3,5-6"
+        ]
+       },
+       {
+        "id": "libertad-ama",
+        "title": "Libertad que ama",
+        "content": "La libertad no es \"hacer lo que me dé la gana\", sino la capacidad de elegir el bien verdadero y hacerlo por amor. Por eso ser libre no significa carecer de reglas, sino madurar para querer lo que de verdad nos hace plenos. Una persona que obedece a cada impulso no es libre: es esclava de sus apetitos, del qué dirán y de la moda del momento.\n\nEl pecado no libera: esclaviza. Cada vez que eliges una mentira, una falta o un abuso, no te haces más dueño de ti, sino menos. Esa es la gran paradoja que el mundo no quiere ver: la verdad, y no el capricho, es lo que hace libre. Jesús lo dijo con claridad: solo la verdad nos hace libres, y Él mismo es la Verdad que libera de verdad.\n\nCuanto más ama una persona, más libre es, porque el amor ordena los deseos y da fuerzas para resistir las apetencias que nos arrastran. Dios no quitó la libertad a los ángeles ni a los primeros hombres: la respeta y la quiere, porque el amor sin libertad no sería amor. Usar bien la libertad es un arte que se aprende eligiendo el bien una y otra vez, hasta que decidir bien se vuelve lo más natural de la vida.",
+        "keyPoints": [
+         "Libertad es elegir el bien, no hacer lo que se antoja",
+         "El pecado esclaviza; la verdad libera",
+         "El amor hace libre y ordena los deseos",
+         "Dios respeta nuestra libertad y llama a usarla bien",
+         "Elegir el bien con constancia nos hace maduros"
+        ],
+        "references": [
+         "Juan 8,32",
+         "Gálatas 5,13-14",
+         "CIC 1730-1748"
+        ]
+       },
+       {
+        "id": "pecado-misericordia",
+        "title": "El pecado y la misericordia",
+        "content": "El pecado es una ofensa a Dios y una herida en nosotros y en los demás. Quiebra la amistad con el Señor, oscurece la conciencia y contagia: nadie peca solo, y cada falta tiene ondas que tocan a otros. El pecado mortal rompe la vida de la gracia, porque rechaza a Dios libre y conscientemente en algo grave; el venial la debilita, sin romperla del todo.\n\nTomar el pecado en serio es señal de madurez, no de miedo: quien ama no quiere ofender a quien ama. Por eso el cristiano no se burla del pecado ni se acostumbra a él, pero tampoco cae en el terror. La medida justa se aprende en el corazón de Dios: odio a la falta, misericordia con el que la comete, empezando por uno mismo.\n\nPero la misericordia de Dios es siempre más grande que nuestro pecado. No existe falta que Él no pueda perdonar si nos acercamos con humildad y arrepentimiento sincero. Reconocer el pecado no es desesperarse: es abrir la puerta a la curación y descubrir cuánto nos ama Dios en el perdón. Donde abundó el pecado, sobreabundó la gracia.",
+        "keyPoints": [
+         "El pecado ofende a Dios y daña a la persona",
+         "El pecado mortal rompe la gracia; el venial la debilita",
+         "Tomarlo en serio es señal de amor, no de miedo",
+         "La misericordia de Dios es más grande que cualquier falta",
+         "El perdón cura, reconcilia y fortalece"
+        ],
+        "references": [
+         "1 Juan 1,8-10",
+         "CIC 1854-1870",
+         "Romanos 5,20"
+        ]
+       },
+       {
+        "id": "examen-conciencia",
+        "title": "El examen de conciencia",
+        "content": "El examen de conciencia es una breve revisión diaria a la luz de Dios: dar gracias, pedir luz, repasar con sinceridad lo hecho (bueno y malo), arrepentirse y proponer mejorar. Apenas cuesta unos minutos, y sin embargo cambia la dirección de la vida: quien se examina cada noche va aprendiendo a conocerse, a agradecer y a corregirse con serenidad.\n\nPuedes hacerlo en cinco pasos fáciles de recordar. Primero, ponte en presencia de Dios y dale gracias por los dones del día. Segundo, pídele al Espíritu Santo que te enseñe a verte con verdad, no con excusas. Tercero, repasa la jornada: lo bueno que merece gratitud y lo que falló en obras, palabras u omisiones. Cuarto, pide perdón con dolor sincero. Quinto, propón algo concreto y sencillo para mañana.\n\nNo sirve para angustiarse, sino para crecer. Antes de la Confesión, este examen se hace más detenido, para confesar con claridad y recibir la misericordia con corazón preparado. Hecho con amor, termina siempre en confianza: la noche se cierra en paz, porque la misericordia de Dios es nueva cada mañana.",
+        "keyPoints": [
+         "Revisión diaria a la luz de Dios",
+         "Pasos: gracias, luz, examen, arrepentimiento y propósito",
+         "Cuesta pocos minutos y ordena la vida",
+         "Busca crecer, no angustiarse",
+         "Prepara la Confesión sacramental"
+        ],
+        "references": [
+         "Salmo 139,23-24",
+         "Lamentaciones 3,40",
+         "2 Corintios 13,5"
+        ]
+       }
+      ]
+     },
+     {
+      "id": "virtudes",
+      "title": "Las Virtudes",
+      "subtitle": "Fortaleza del alma",
+      "description": "Hábitos buenos que se entrenan y nos hacen mejores personas",
+      "subsections": [
+       {
+        "id": "cardinales",
+        "title": "Las virtudes cardinales",
+        "content": "Las virtudes cardinales son los cuatro hábitos que sostienen toda vida recta: prudencia, justicia, fortaleza y templanza. La prudencia elige el medio correcto para cada acto; la justicia da a cada uno lo suyo, empezando por la dignidad de la persona; la fortaleza vence los miedos y las dificultades sin retroceder; la templanza modera los placeres y los impulsos para que no nos dominen.\n\nSe llaman cardinales porque son \"goznes\" (cardo, en latín) sobre los que giran todas las demás virtudes humanas: sin estas cuatro, ninguna otra se sostiene. Son también las virtudes que todas las culturas han valorado, porque responden a lo que el ser humano necesita para vivir bien en cualquier tiempo y lugar. Un cristiano sin ellas es un edificio sin cimientos.\n\nSe adquieren repitiéndonos en el bien: decidir bien, ser justos, resistir y dominar nuestros impulsos hasta que se vuelve parte de nosotros. No nacen de golpe, sino que crecen con el esfuerzo diario y con la gracia. La prudencia elige, la justicia ordena, la fortaleza sostiene y la templanza equilibra: juntas forman el esqueleto moral de una vida entera, bien plantada en el bien.",
+        "keyPoints": [
+         "Prudencia: elegir el medio correcto",
+         "Justicia: dar a cada uno lo suyo",
+         "Fortaleza: vencer el miedo y la dificultad",
+         "Templanza: moderar deseos y placeres",
+         "Se entrenan con la repetición del bien"
+        ],
+        "references": [
+         "Sabiduría 8,7",
+         "CIC 1805-1809",
+         "2 Pedro 1,5-7"
+        ]
+       },
+       {
+        "id": "teologales",
+        "title": "Las virtudes teologales",
+        "content": "Fe, esperanza y caridad son las virtudes teologales: Dios mismo las infunde en el alma en el bautismo y nos unen directamente a Él. La fe cree en Dios y en todo lo que ha revelado, aun sin verlo; la esperanza confía en su promesa de vida eterna, aun en medio de las pruebas; la caridad ama a Dios sobre todas las cosas y al prójimo como a nosotros mismos. Son humanas y divinas a la vez: disposiciones reales y raíces de toda vida cristiana.\n\nLa fe abre los ojos del alma, la esperanza sostiene el corazón en la espera y la caridad pone en movimiento todo lo demás. No se fabrican con esfuerzo puro: se reciben de Dios y se alimentan. Crece la fe leyendo la Palabra, crece la esperanza con la Comunión y crece la caridad cada vez que amamos de verdad. Por eso el cristiano pide a Dios: aumenta mi fe, sostén mi esperanza, ensancha mi amor.\n\nSon el alimento que hace crecer todas las demás virtudes: sin caridad, la prudencia puede volverse egoísmo y la fortaleza dureza. Con la caridad, hasta la virtud más pequeña se convierte en camino de santidad. Se purifican cuando amamos a Dios sobre todo y al prójimo por amor a Él: ese es el secreto que San Pablo guarda al final de su himno al amor, porque de las tres, la mayor es la caridad.",
+        "keyPoints": [
+         "Fe: adherirse a Dios y a su revelación",
+         "Esperanza: confiar en sus promesas",
+         "Caridad: amar a Dios y al prójimo",
+         "Son infusas: don y tarea a la vez",
+         "Dan vida a todas las virtudes humanas"
+        ],
+        "references": [
+         "1 Corintios 13,13",
+         "CIC 1812-1829",
+         "Gálatas 5,6"
+        ]
+       },
+       {
+        "id": "virtud-caracter",
+        "title": "Virtud y carácter",
+        "content": "La virtud es un hábito: una disposición firme a hacer el bien que se adquiere con la repetición. Del mismo modo que el deporte entrena el cuerpo, la práctica entrena el corazón. Cada acto bueno deja una huella y facilita el siguiente: la primera vez cuesta, la décima es más natural y, con el tiempo, decidir bien se vuelve una segunda naturaleza.\n\nComo todo entrenamiento, tiene sus leyes: empieza por lo pequeño, sé constante, no te desanimes con los fallos y vuelve a intentarlo cuantas veces sea necesario. Una virtud no se gana en un intento ni se pierde en una caída: se construye con la suma de decisiones pequeñas y fieles. La constancia importa más que el entusiasmo de un día.\n\nPor eso el carácter no es algo que \"se tiene\" de golpe, sino algo que se construye todos los días con decisiones pequeñas: decir la verdad aunque cueste, ayudar sin que nos vean, levantarse y volver a intentarlo después de caer. Los modelos y los amigos virtuosos son compañeros de entrenamiento privilegiados: santo es quien se rodea de santos que lo hacen mejor.",
+        "keyPoints": [
+         "La virtud es un hábito que se entrena",
+         "Cada acto bueno facilita el siguiente",
+         "El carácter se construye con decisiones diarias",
+         "Las virtudes pequeñas sostienen las grandes",
+         "Los buenos amigos y modelos ayudan a crecer"
+        ],
+        "references": [
+         "CIC 1803-1804, 1810-1811",
+         "Proverbios 4,18",
+         "1 Corintios 9,24-27"
+        ]
+       },
+       {
+        "id": "frutos-espiritu",
+        "title": "Los frutos del Espíritu Santo",
+        "content": "San Pablo describe los frutos que produce en nosotros el Espíritu Santo cuando lo dejamos actuar: amor, alegría, paz, paciencia, amabilidad, bondad, fidelidad, humildad y dominio propio. No son logros que presumir, sino señales de que la gracia va transformando nuestra vida desde dentro, como un árbol da buen fruto cuando tiene savia sana.\n\nConviene distinguir el fruto del simple esfuerzo humano: se puede aguantar con paciencia por orgullo o ser amable por interés. El fruto del Espíritu, en cambio, brota de la docilidad: es lo que Dios hace en nosotros cuando dejamos de pelear con su gracia. La prueba está en la estabilidad: los frutos aparecen también en casa, en el fracaso y ante quienes no nos convienen.\n\nNo se fabrican con esfuerzo puro: brotan de la oración, de la vida sacramental y de la docilidad al Espíritu. La mejor manera de cultivarlos es sencilla: pedir cada día el Espíritu Santo, acudir a los sacramentos y obedecerlo en lo concreto. Cuando estos frutos aparecen en tu vida, en tu casa, en tu grupo o en el aula, es señal de que Dios está obrando y de que vas creciendo como discípulo de Cristo.",
+        "keyPoints": [
+         "El Espíritu transforma desde dentro",
+         "Frutos: amor, alegría, paz, paciencia, bondad...",
+         "Broten de la oración y los sacramentos",
+         "Se reconocen en la vida diaria",
+         "Son señal de crecimiento espiritual"
+        ],
+        "references": [
+         "Gálatas 5,22-23",
+         "CIC 1832",
+         "Efesios 5,9"
+        ]
+       }
+      ]
+     },
+     {
+      "id": "mandamientos",
+      "title": "Los Diez Mandamientos en la vida diaria",
+      "subtitle": "Reglas de amor",
+      "description": "Los mandamientos no son un límite: son caminos para amar a Dios y al prójimo",
+      "subsections": [
+       {
+        "id": "amar-dios",
+        "title": "Amar a Dios sobre todas las cosas",
+        "content": "El primer mandamiento nos invita a poner a Dios en el centro: adorarlo solo a Él, con exclusividad y de todo corazón. Es la raíz de los demás, porque de dónde pongamos el corazón depende todo lo demás. Amar a Dios con todo el corazón, con toda el alma y con todas las fuerzas es reconocer que Él es el único que merece el primer lugar.\n\nUn ídolo no es una estatua de madera ni de piedra: es cualquier cosa que ocupe el lugar de Dios en el corazón. Puede ser el dinero, que promete seguridad; la fama, que promete ser visto; el físico, que promete ser deseado; el propio yo, que se pone en el centro de todo. Lo que domina tu corazón, tus tiempos, tus sueños y tus decisiones, eso es tu dios.\n\nLa adoración y la oración ponen a Dios primero: cuando dedicas tiempo a Dios, tu vida entera se ordena, porque las cosas vuelven a su lugar. Servir a Dios no esclaviza, libera: al encontrarlo a Él, encuentras tu verdadera dignidad y tu paz. Quien pone a Dios primero vive ligero, porque ya no tiene que sostener el mundo sobre sus hombros. Reconoce en tu día los ídolos pequeños y devuelve al Señor el trono de tu corazón: donde está tu dinero, tu tiempo y tu afecto, ahí está tu dios.",
+        "keyPoints": [
+         "Amar a Dios con todo el corazón",
+         "Rechazar todo ídolo moderno",
+         "La adoración y la oración lo ponen primero",
+         "Lo que domina tu corazón es tu dios",
+         "Servir a Dios da libertad verdadera"
+        ],
+        "references": [
+         "Éxodo 20,2-6",
+         "Mateo 4,10",
+         "CIC 2083-2094"
+        ]
+       },
+       {
+        "id": "nombre-domingo",
+        "title": "El nombre de Dios y el día del Señor",
+        "content": "El segundo mandamiento protege el santo nombre de Dios: no se usa para jurar en vano, para maldecir ni para blasfemar. El nombre expresa a la persona: pronunciar el nombre de Dios es pronunciar a Dios mismo. Por eso el cristiano lo trata con reverencia, y lo bendice en la alegría y en la prueba, como hace la Escritura de principio a fin.\n\nEl tercer mandamiento celebra el domingo: el día del Señor. Es el día de la Misa, de la familia, del descanso y de la caridad. No es una prohibición contra la alegría, sino su defensa: el domingo protege al hombre de convertirse en máquina de producir y de consumir. Descansar de verdad es recuperar la libertad de los hijos de Dios.\n\nEn un mundo que trata el domingo como un día más de compras y pantallas, participar en la Eucaristía dominical es un acto de libertad: se da el tiempo a Aquel que da sentido a la semana. La Misa del domingo no es un deber pesado: es el manantial donde se bebe la fuerza para los seis días siguientes. Quien empieza la semana adorando a Dios, la vive de otro modo.",
+        "keyPoints": [
+         "El nombre de Dios se trata con reverencia",
+         "El domingo es día de Misa y descanso",
+         "La Eucaristía dominical es el centro de la semana",
+         "El descanso verdadero es el que incluye a Dios",
+         "Es un acto de libertad ante el ajetreo"
+        ],
+        "references": [
+         "Éxodo 20,7-11",
+         "Hechos 20,7",
+         "CIC 2142-2173"
+        ]
+       },
+       {
+        "id": "vida-familia",
+        "title": "Vida, familia y pureza",
+        "content": "Los mandamientos quinto, sexto y noveno protegen tres tesoros inseparables: la vida, el amor y la pureza. El quinto dice no matar, porque toda vida es sagrada: no se hiere ni se desprecia a nadie, ni con las manos, ni con la lengua, ni con el descuido. El sexto y el noveno protegen el amor verdadero: la fidelidad, la dignidad del cuerpo y la hondura del corazón.\n\nEstos mandamientos no son un recetario de prohibiciones: son el marco donde el amor puede crecer seguro. El amor que se entrega sin medida, la amistad limpia, el respeto del cuerpo propio y ajeno: todo eso queda protegido. Donde se desprecia la vida y se banaliza el amor, la sociedad enferma y la persona queda a merced de sus instintos.\n\nLa pureza del corazón no es castrarse: es aprender a mirar, hablar y amar con respeto. Hoy, cuando la imagen vale más que la verdad y el deseo se vende como amor, la pureza es una fuerza que forma corazones capaces de amar de verdad y de esperar el amor que Dios sueña para ti. La castidad es el entrenamiento del amor: prepara para un amor fiel, real y sin máscaras.",
+        "keyPoints": [
+         "La vida humana es sagrada e inviolable",
+         "El amor conyugal es fiel y abierto a la vida",
+         "La pureza enseña a mirar y a tratar con respeto",
+         "La castidad es entrenamiento del amor",
+         "Protege tu corazón y tu mirada"
+        ],
+        "references": [
+         "Éxodo 20,13-14.17",
+         "Mateo 5,8.27-28",
+         "CIC 2258, 2331-2339"
+        ]
+       },
+       {
+        "id": "verdad-deseos",
+        "title": "Verdad, honradez y deseos del corazón",
+        "content": "El octavo mandamiento prohíbe la mentira, la calumnia y el engaño: la verdad edifica la confianza, y sin confianza ninguna sociedad ni amistad puede vivir. Mentir no es solo decir algo falso: es también callar lo que debe decirse, exagerar lo que conviene y torcer los hechos para que nos vean mejor. La palabra tiene un peso sagrado, porque con ella construimos o destruimos a las personas.\n\nEl décimo mandamiento invita a la sobriedad de deseos: no envidiar ni ambicionar lo ajeno. La envidia corroe por dentro y convierte al prójimo en rival; la codicia nunca se sacia y convierte la vida en una carrera sin meta. El corazón insatisfecho es tu peor hambre, porque por más que acumule, nunca queda lleno. La gratitud es su medicina.\n\nSé de palabra: di la verdad con caridad, cumple lo prometido y cuida la reputación de los demás. La honradez se nota en lo pequeño: en el examen que no se mira, en el vuelto que no se pide, en el like que no se finge. Quien es fiel en lo poco, es digno de confianza en lo mucho.",
+        "keyPoints": [
+         "La verdad construye la confianza",
+         "Prohibidos la mentira, la calumnia y el engaño",
+         "La envidia corroe el corazón",
+         "La sobriedad de deseos trae paz",
+         "La honradez se nota en lo pequeño"
+        ],
+        "references": [
+         "Éxodo 20,16-17",
+         "Efesios 4,25",
+         "CIC 2464-2503"
+        ]
+       }
+      ]
+     },
+     {
+      "id": "reconciliacion",
+      "title": "Perdón y Reconciliación",
+      "subtitle": "Volver a empezar",
+      "description": "Dios siempre perdona y nos llama a perdonar de corazón",
+      "subsections": [
+       {
+        "id": "consecuencias",
+        "title": "El pecado y sus consecuencias",
+        "content": "Cada pecado deja huella en quien lo comete, en sus relaciones y en la comunidad. La herida se ve en la conciencia, que se oscurece; en el carácter, que se endurece; y en la confianza, que se pierde. La mentira obliga a otras mentiras, la falta de respeto contagia desprecio y el mal hábito se convierte en cadena: el pecado tiene memoria y proyecto propios.\n\nPor eso el pecado no es un \"asunto privado\": ofende a Dios, hiere al que lo comete y resuena en el Cuerpo de Cristo, porque todos estamos unidos. San Pablo lo expresó con una imagen fuerte: si un miembro sufre, todos los miembros sufren con él (1 Cor 12,26). Nadie peca solo, ni se salva solo.\n\nReconocer las consecuencias no lleva a la desesperanza, sino a la humildad: descubrimos que necesitamos a Dios y a los demás, y que la victoria no depende solo de nuestra voluntad. Esa es la buena noticia escondida en la caída: el mismo pecado que hunde al orgulloso es el que hace resurgir al humilde. Del que cae y se levanta pidiendo perdón a Dios, Dios hace un santo.",
+        "keyPoints": [
+         "El pecado deja huella en la persona y en sus relaciones",
+         "No es un asunto privado: daña la comunión",
+         "Reconocer las consecuencias forma en humildad",
+         "Abrir la herida a Dios es el primer paso",
+         "Del pecado no se vuelve igual: se vuelve más humilde"
+        ],
+        "references": [
+         "Salmo 51",
+         "1 Corintios 12,26",
+         "2 Samuel 12,13"
+        ]
+       },
+       {
+        "id": "confesion",
+        "title": "El sacramento de la Reconciliación",
+        "content": "En la Confesión, Dios nos perdona por medio de la Iglesia: el sacerdote actúa en nombre de Cristo, no en nombre propio. Confesamos los pecados con dolor y con propósito de enmienda, recibimos la absolución y una penitencia, y salimos reconciliados y con la gracia restaurada. Es el sacramento del encuentro del hijo pródigo con su Padre.\n\nNo es un interrogatorio ni un tribunal para humillar: es un encuentro de misericordia. Todo lo que se confiesa queda protegido por el secreto inviolable: el sacerdote está obligado a guardarlo, pase lo que pase. Dios no espera una lista perfecta de quien ya es santo: espera un corazón arrepentido y sincero. Lo que el pecado enterró, la absolución lo resucita.\n\nLa confesión frecuente (mensual, o al menos unas veces al año) es medicina del alma: purifica la conciencia, fortalece la voluntad, debilita las malas costumbres y devuelve la paz. Es buena para la santidad y para la salud del espíritu. Quien se confiesa con frecuencia vive con una limpieza de corazón que se nota en la serenidad, en el trato y en la alegría.",
+        "keyPoints": [
+         "Cristo perdona por medio del sacerdote",
+         "Requiere examen, dolor, confesión y propósito",
+         "La penitencia une el perdón con la reparación",
+         "La confesión frecuente es medicina del alma",
+         "Devuelve la paz y fortalece la voluntad"
+        ],
+        "references": [
+         "Juan 20,22-23",
+         "Lucas 15,21-24",
+         "CIC 1420-1498"
+        ]
+       },
+       {
+        "id": "perdonar",
+        "title": "Perdonar de corazón",
+        "content": "Perdonar es un acto de libertad y de fe, no una sensación. Primero se decide, y el sentir llega después, a veces poco a poco. Quien perdona por amor a Dios no espera a que el otro lo merezca ni a olvidar lo ocurrido: elige renunciar a la venganza y dejar la justicia en las manos de Dios, que es justo y conoce el fondo de cada historia.\n\nPerdonar no es olvidar ni justificar lo injusto: no significa que lo sucedido estuviera bien, ni que haya que volver a confiar a ciegas. Perdonar es soltar la cadena que te ataba a la herida y a la persona que te la hizo. Quien se niega a perdonar no castiga al otro: se encadena a sí mismo y conserva el dolor como un huésped envenenado.\n\nPuede costar tiempo y oración pedir la gracia de querer perdonar: ese deseo ya es un primer paso que Dios acoge. Reza por quien te hirió: eso ablanda el corazón y te devuelve la paz. Dios nos perdona como nosotros perdonamos, y su medida es la nuestra: quien perdona de corazón abre la puerta a recibir también él el perdón.",
+        "keyPoints": [
+         "Perdonar es un acto de libertad y fe",
+         "No es olvidar ni justificar lo injusto",
+         "Quien no perdona se encadena a sí mismo",
+         "Rezar por el ofensor ablanda el corazón",
+         "El perdón devuelve la paz al que perdona"
+        ],
+        "references": [
+         "Mateo 6,14-15",
+         "Mateo 18,21-35",
+         "Colosenses 3,13"
+        ]
+       },
+       {
+        "id": "empezar",
+        "title": "Comenzar de nuevo",
+        "content": "La vida cristiana es un camino que siempre se puede retomar. Santa Teresa de Jesús decía que Dios no se cansa de llamar y que la vida es una sucesión de recomenzar: lo importante no es no caer nunca, sino levantarse siempre y volver a caminar. Nadie está destinado a quedarse en la caída, por grande o repetida que sea.\n\nDespués del perdón, hay que confiar y avanzar. Cambia lo que se puede cambiar, pide ayuda cuando el hábito sea fuerte, evita las ocasiones que te arrastran y no camines solo: la comunidad, el acompañante y los sacramentos sostienen la decisión. Vencer un vicio no es gesto de un día, es fidelidad de cada día; y cada victoria pequeña suma.\n\nSobre todo, no desconfíes de la misericordia. El enemigo quiere que creas que ya es tarde; Dios viene a decirte que siempre es temprano para empezar. Dios escribe derecho con renglones que nosotros torcemos, y con nosotros propone empezar hoy mismo. Esta noche puedes hacer tu examen, pedir perdón y dormir en paz: mañana ya es un día nuevo de gracia.",
+        "keyPoints": [
+         "La vida cristiana siempre se puede recomenzar",
+         "Nadie está destinado a quedarse caído",
+         "Confiar en la misericordia después del perdón",
+         "Evitar ocasiones y buscar ayuda",
+         "Dios propone empezar de nuevo hoy"
+        ],
+        "references": [
+         "Lamentaciones 3,22-23",
+         "Proverbios 24,16",
+         "CIC 1472-1473"
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "doctrina-social",
+    "title": "Doctrina Social de la Iglesia",
+    "subtitle": "Fe en la ciudad",
+    "description": "El amor de Cristo aplicado a la familia, el trabajo, la política y la casa común",
+    "tipo": "curso",
+    "count": 16,
+    "units": [
+     {
+      "id": "principios",
+      "title": "Los principios de la enseñanza social",
+      "subtitle": "Los cimientos",
+      "description": "Las ideas raíz desde las que la Iglesia lee la vida en sociedad",
+      "subsections": [
+       {
+        "id": "dignidad",
+        "title": "La dignidad de la persona",
+        "content": "La Doctrina Social parte de una verdad que ningún otro sistema pone como base: toda persona humana, creada a imagen de Dios y redimida por Cristo, tiene una dignidad inviolable. Y esa dignidad no depende de la familia en que se nace, del color de la piel, de las condiciones o de la historia: es de todos por el solo hecho de ser persona. Es la raíz de todos los derechos humanos, aun antes de que ninguna ley los reconozca.\n\nEsta dignidad no se gana ni se concede: se reconoce. Nadie tiene que demostrar que merece ser tratado como persona, y nadie la pierde por estar preso, enfermo, anciano, pobre o equivocado. Quien la olvida termina midiendo a los demás por su utilidad, y esa es la raíz de todas las injusticias.\n\nDe aquí se sigue algo decisivo: ninguna persona puede ser un medio para fines ajenos. Ni la economía, ni la ideología, ni el Estado, ni el mercado pueden usar a nadie como instrumento. Toda estructura social y toda ley debe medirse por una sola pregunta: ¿protege o aplasta la dignidad de las personas? Si una ley la protege, es justa; si la humilla, es injusta por muy defendida que esté.",
+        "keyPoints": [
+         "La persona es imagen de Dios",
+         "La dignidad no se gana ni concede: se reconoce",
+         "Nadie puede ser usado como medio",
+         "Las leyes deben proteger a la persona",
+         "Es la piedra angular de toda la doctrina social"
+        ],
+        "references": [
+         "Génesis 1,27",
+         "Gaudium et spes 27",
+         "CIC 1700-1702"
+        ]
+       },
+       {
+        "id": "bien-comun",
+        "title": "El bien común",
+        "content": "El bien común es el conjunto de condiciones sociales que permiten a cada persona y a cada familia realizarse plenamente: paz, justicia, trabajo, educación, salud, seguridad y participación. No es un lujo ni un ideal abstracto: es lo que hace posible que la vida de todos, comenzando por los más frágiles, sea digna y plena. Cuando esas condiciones faltan, la sociedad entera enferma, aunque algunos prosperen.\n\nNo es la suma de intereses privados, ni el beneficio de la mayoría que ignora a los últimos. Tampoco es lo que decide el más fuerte ni el que grita más. El bien común mira a todos, y por eso pide cuidar de manera especial a los más débiles: la justicia no se mide por cómo le va al que le va bien, sino por cómo le va al que menos tiene.\n\nConstruir el bien común es deber de todos, cada uno según su función: el Estado garantizando las condiciones, la sociedad civil participando, y cada persona contribuyendo con su trabajo, su testimonio y su responsabilidad. No es cosa solo de gobernantes: cada decisión de compra, cada voto y cada servicio construye o destruye el bien común.",
+        "keyPoints": [
+         "Condiciones sociales para que todos se realicen",
+         "No es suma de intereses privados",
+         "Es tarea del Estado, la sociedad y cada persona",
+         "Pide atender primero a los más vulnerables",
+         "El bien común es también responsabilidad del ciudadano"
+        ],
+        "references": [
+         "Gaudium et spes 26",
+         "CIC 1905-1912",
+         "Amoris laetitia 294"
+        ]
+       },
+       {
+        "id": "subsidiariedad",
+        "title": "Subsidiariedad y participación",
+        "content": "El principio de subsidiariedad protege a la persona y a los grupos intermedios: la familia, el barrio, las asociaciones, la parroquia, los clubes y las organizaciones vecinales. Ninguna instancia mayor debe absorber lo que las personas y las comunidades pueden hacer por sí mismas. Subsidiariedad viene de subsidium, ayuda: los niveles más altos ayudan, no sustituyen; apoyan, no aplastan.\n\nEl Estado no debe hacer por la familia lo que la familia puede hacer sola, ni la familia hacer por la persona lo que la persona puede hacer por sí. Así se respeta la legítima autonomía de cada nivel y se impide que el poder lo absorba todo. Una sociedad donde el Estado trata a los ciudadanos como incapaces no es más protegida: es más dependiente y más débil.\n\nPero la subsidiariedad pide también participación: cada persona y cada comunidad tienen derecho y deber de aportar a la vida social. Se complementa con la solidaridad: los niveles más altos ayudan, no suplantan; y los más pequeños crecen, no se aíslan. Familias, barrios y asociaciones son agentes de la vida común, no súbditos: ciudadanía activa, no tutela.",
+        "keyPoints": [
+         "No suplantar a la persona ni a los grupos intermedios",
+         "El Estado ayuda y ordena, no absorbe",
+         "Toda persona tiene derecho a participar",
+         "Se complementa con la solidaridad",
+         "Familia, barrio y asociaciones son agentes, no súbditos"
+        ],
+        "references": [
+         "Quadragesimo anno 79-80",
+         "CIC 1883-1885",
+         "Centesimus annus 48"
+        ]
+       },
+       {
+        "id": "solidaridad",
+        "title": "La solidaridad",
+        "content": "La solidaridad es la virtud que hace propios los bienes y sufrimientos de los demás: el dolor del otro se vuelve mi dolor, y su bien, mi bien. No es una limosna que se da de arriba hacia abajo ni una moda que pasa: es una consecuencia de la fe, porque todos somos hijos de un mismo Padre y miembros de un solo cuerpo en Cristo.\n\nLa solidaridad tiene dos pies que no pueden separarse: se traduce en estructuras justas y en gestos concretos. Por un lado, denuncia y trabaja para cambiar las causas que generan injusticia; por otro, comparte el tiempo, la alegría, los talentos y el pan con el hermano que ahora mismo necesita. Quien solo da limosna sin cuestionar la injusticia se queda a medias; quien solo critica sin ayudar se queda vacío.\n\nDonde falla la justicia, la solidaridad denuncia y remedia; donde reina la indiferencia, despierta la responsabilidad por el hermano. Es virtud personal y también social: se vive en la familia, en la calle, en el trabajo y en las decisiones públicas. Ser solidario es responder por el otro como hermano.",
+        "keyPoints": [
+         "Hacer propios los bienes y sufrimientos del prójimo",
+         "Somos un solo cuerpo en Cristo",
+         "Va más allá de la limosna: pide estructuras justas",
+         "Denuncia la indiferencia",
+         "Compartir tiempo, talentos y pan es solidaridad"
+        ],
+        "references": [
+         "Solicitudo rei socialis 38-40",
+         "1 Corintios 12,26",
+         "CIC 1939-1942"
+        ]
+       }
+      ]
+     },
+     {
+      "id": "familia-vida",
+      "title": "Familia y vida",
+      "subtitle": "El primer hogar",
+      "description": "La familia, la vida humana y la educación de los hijos",
+      "subsections": [
+       {
+        "id": "familia-sociedad",
+        "title": "La familia, primera sociedad",
+        "content": "La familia es la primera y más fundamental sociedad humana: el lugar donde se aprenden el amor, la confianza, el lenguaje, el perdón y la fe. Antes que la escuela y antes que el Estado, la casa es la primera escuela de humanidad: allí se descubre que no somos individuos aislados, sino personas en relación, llamadas a dar y a recibir.\n\nLa familia es anterior al Estado, y debe ser protegida y fortalecida, no sustituida ni suplida. El Estado y la sociedad existen para servirla, no al revés. Cuando las leyes, la economía o la cultura tratan a la familia como un estorbo o una simple opción personal, la sociedad entera se queda sin su cimiento más sólido.\n\nDel mismo modo que la salud de un cuerpo depende de sus células, la salud de la ciudad depende de sus familias. Una sociedad que descuida a la familia siembra soledad y crisis; una que la cuida siembra hombres y mujeres capaces de compromiso, de trabajo y de bien común. Ninguna mejora social puede construirse sobre la ruina de las familias.",
+        "keyPoints": [
+         "La familia es la primera sociedad",
+         "Se aprende en ella a amar y a servir",
+         "Es anterior al Estado",
+         "La salud de la ciudad depende de sus familias",
+         "Proteger la familia protege a toda la sociedad"
+        ],
+        "references": [
+         "Gaudium et spes 47-52",
+         "Amoris laetitia 66-68",
+         "CIC 2201-2213"
+        ]
+       },
+       {
+        "id": "derecho-vida",
+        "title": "El derecho a la vida",
+        "content": "El derecho a la vida es el primero y el fundamento de todos los demás: sin vida no hay derechos que ejercer, ni decisiones libres, ni valores que defender. Por eso la Iglesia lo proclama con voz clara y lo defiende desde la concepción hasta la muerte natural, sin excepciones: toda vida humana tiene un valor infinito y una dignidad que nadie puede arrebatar, dependa de quien dependa la decisión.\n\nEsta defensa no es un capricho religioso: es la consecuencia lógica de creer que Dios crea a cada persona con amor y a su imagen. Donde se relativiza el derecho a la vida, se relativiza todo: si una vida puede decidirse descartarla, ninguna está verdaderamente protegida. Las sociedades que empiezan desechando al no nacido terminan desechando al anciano, al enfermo y al que estorba.\n\nSe defiende igualmente toda vida frágil y descartada: el inmigrante, el enfermo, el anciano, el pobre, el que ya nadie necesita. Defender la vida no es una postura de un solo tema: es amar a Dios abrazando a su criatura más desprotegida. Cada persona desechada es una herida al prójimo y un llamado a la conversión.",
+        "keyPoints": [
+         "La vida es el primer derecho",
+         "Se defiende desde la concepción hasta la muerte",
+         "Toda vida tiene valor infinito",
+         "Incluye al inmigrante, al enfermo y al anciano",
+         "Amar a Dios es abrazar a su criatura"
+        ],
+        "references": [
+         "Evangelium vitae 1-3, 57",
+         "Salmo 139,13-16",
+         "CIC 2258-2275"
+        ]
+       },
+       {
+        "id": "matrimonio-educacion",
+        "title": "Matrimonio y educación de los hijos",
+        "content": "El matrimonio entre un hombre y una mujer, fiel, indisoluble y abierto a la vida, es la base de la familia que la sociedad necesita. No es un trámite ni una costumbre: es una vocación, un camino de santidad y una escuela de donación mutua. En el amor de los esposos, los hijos aprenden cómo se ama, cómo se perdona, cómo se trabaja y cómo se vive la fe en lo ordinario.\n\nEl matrimonio cristiano está sostenido por el sacramento: Dios se hace presente en esa alianza, la bendice y la fortalece. Por eso es un signo del amor de Cristo por su Iglesia: un amor fiel hasta el final, capaz de entregarse y de acoger la vida. Esa es su vocación, grande y ordinaria a la vez.\n\nLa educación de los hijos es un derecho y deber primero de los padres, que no delegan ni venden este tesoro. Escuela, parroquia y sociedad colaboran; pero son los padres quienes orientan, eligen y forman el corazón. Educar es más que instruir: es transmitir el sentido de la vida, la fe y la capacidad de amar. Una sociedad que respeta a los padres educa mejor a sus hijos.",
+        "keyPoints": [
+         "El matrimonio es vocación y escuela de amor",
+         "Fiel, indisoluble y abierto a la vida",
+         "Los padres son los primeros educadores",
+         "La escuela y la parroquia colaboran, no suplantan",
+         "Educar es transmitir sentido y fe"
+        ],
+        "references": [
+         "Génesis 2,24",
+         "Amoris laetitia 84-88, 259-263",
+         "CIC 1652-1666, 2221-2231"
+        ]
+       }
+      ]
+     },
+     {
+      "id": "trabajo-economia",
+      "title": "Trabajo y economía",
+      "subtitle": "Ganar el pan con dignidad",
+      "description": "El trabajo, el salario justo y la mirada preferencial por los pobres",
+      "subsections": [
+       {
+        "id": "trabajo-vocacion",
+        "title": "El trabajo como vocación",
+        "content": "El trabajo no es un castigo ni una simple manera de ganar dinero: es la participación del hombre en la obra creadora de Dios. Dios trabajó los primeros días del mundo, Cristo trabajó como carpintero en Nazaret y los apóstoles trabajaban con sus manos. Todo trabajo honesto dignifica, ordena la vida y hace del hombre un colaborador de Dios.\n\nTrabajar es servir: poner los talentos al servicio de la familia y de la comunidad, y sostener con el propio esfuerzo la vida de los demás. Por eso el trabajo no es solo un derecho: es también una responsabilidad. Quien trabaja bien entrega algo valioso al prójimo; quien solo cuenta las horas se empobrece a sí mismo.\n\nTambién para el estudiante su trabajo es el estudio: una tarea que se ofrece a Dios y que prepara un servicio futuro. Aprender con honestidad es ya una forma de servir. Vivir una vocación de trabajo es vivir el Evangelio en el taller, en la oficina, en el aula: trabajar como para el Señor, sabiendo que lo que se hace con amor, Dios lo recibe y lo multiplica.",
+        "keyPoints": [
+         "Participar en la obra creadora de Dios",
+         "Todo trabajo honesto dignifica",
+         "Cristo trabajó y santificó el trabajo",
+         "Trabajar es servir a la familia y a la comunidad",
+         "También el estudio es trabajo y vocación"
+        ],
+        "references": [
+         "Génesis 2,15",
+         "Laborem exercens 4-6, 24",
+         "Colosenses 3,23"
+        ]
+       },
+       {
+        "id": "justicia-salario",
+        "title": "Justicia salarial y descanso",
+        "content": "Un salario justo es el que permite a la persona y a su familia vivir dignamente: alimentación, vivienda, salud, educación y un pequeño ahorro. No se mide por la ganancia del empleador, sino por la vida real del trabajador: si con su paga una persona no alcanza a vivir con dignidad, ese trabajo no se sostiene sobre la justicia. Un sueldo que no alcanza para vivir no es salario: es explotación encubierta.\n\nLa justicia salarial es también justicia social, porque cada sueldo injusto empobrece a una familia y a toda la comunidad. De la misma manera, deben respetarse condiciones dignas, seguridad, estabilidad y trato humano: el trabajador no es una máquina ni una mercancía, es una persona con derechos anteriores a cualquier contrato.\n\nEl descanso también es justicia y don: el trabajador tiene derecho al reposo, al domingo y a tiempo para la familia y para Dios. Alguien que solo produce y nunca descansa pierde el sentido de su vida. Poner la economía al servicio de la persona, y no al revés, es la raíz de toda justicia laboral.",
+        "keyPoints": [
+         "El salario justo debe sostener a la familia",
+         "El salario indigno es explotación encubierta",
+         "El descanso y el domingo son derecho y don",
+         "La economía sirve a la persona, no al revés",
+         "Justicia laboral es también justicia social"
+        ],
+        "references": [
+         "Laborem exercens 19",
+         "CIC 2426-2436",
+         "Levítico 19,13"
+        ]
+       },
+       {
+        "id": "opcion-pobres",
+        "title": "La opción preferencial por los pobres",
+        "content": "Jesús se hizo pobre y se hizo uno con los pobres: cuanto hicisteis a uno de estos pequeños, a mí me lo hicisteis, dice el Evangelio. Por eso la Iglesia mira con amor preferencial a los pobres, sin excluir a nadie. Es una opción por quien más sufre la injusticia: no para castigar a los ricos, sino para recordar que los últimos tienen el primer lugar en el corazón de Dios y en el nuestro.\n\nNo es una ideología de clases ni una guerra entre pobres y ricos: es el Evangelio del Dios que se abajó. Nos impulsa a compartir lo que tenemos, a denunciar las estructuras que generan pobreza, a crear oportunidades reales de salir de ella y a estar cerca, no solo a dar desde lejos. La caridad sin compromiso con la justicia deja el problema intacto.\n\nEl pobre no es un problema social ni un caso: es una persona con nombre y rostro, y además un rostro de Cristo que nos evangeliza y nos interpela. Ante él no se discute ideología: se comparte el pan, se escucha su historia y se camina a su lado. Quien se acerca a los pobres descubre que recibe más de lo que da.",
+        "keyPoints": [
+         "Cristo se identifica con los pobres",
+         "Opción preferencial, sin excluir a nadie",
+         "Es Evangelio, no ideología",
+         "Impulsa a compartir y a denunciar la injusticia",
+         "El pobre es un rostro de Cristo que nos interpela"
+        ],
+        "references": [
+         "Mateo 25,40",
+         "2 Corintios 8,9",
+         "Exhortación apostólica Evangelii gaudium 198"
+        ]
+       }
+      ]
+     },
+     {
+      "id": "sociedad-politica",
+      "title": "Sociedad y política",
+      "subtitle": "Ser ciudadanos",
+      "description": "Autoridad, participación y la construcción de la paz",
+      "subsections": [
+       {
+        "id": "autoridad",
+        "title": "Autoridad y bien común",
+        "content": "Toda autoridad legítima viene de Dios y se ordena al bien común. No es un privilegio para mandar ni una escalera para medrar: es un servicio. Por eso la política, bien entendida, es una vocación noble: quienes se dedican al servicio de la sociedad participan de una forma altísima de caridad, como recuerda el Papa Francisco en Evangelii gaudium. Quien entra en política buscando su beneficio, entró equivocado.\n\nLa autoridad que se sirve a sí misma se corrompe: usada para el enriquecimiento, el amiguismo o el abuso, pierde su honor y su legitimidad moral. En cambio, la autoridad que usa el poder para proteger al pequeño, para administrar con honradez y para defender la verdad, hace el bien que la hace digna del nombre. El poder se conserva sirviendo, y se pierde agarrándolo.\n\nPor eso el ciudadano debe obedecer lo justo y resistir, con medios legítimos y pacíficos, lo que atenta contra la persona, la verdad y el bien común. Obedecer a la autoridad no es callar ante la injusticia: es colaborar con el orden justo y corregir, denunciar y resistir lo injusto. Ciudadano es el que participa, no el que se somete.",
+        "keyPoints": [
+         "La autoridad sirve al bien común",
+         "La política es servicio y forma de caridad",
+         "El poder que se corrompe pierde legitimidad",
+         "Obediencia a lo justo, resistencia legítima a lo injusto",
+         "Todo cristiano es convocado a la responsabilidad pública"
+        ],
+        "references": [
+         "Romanos 13,1-7",
+         "CIC 1888-1897",
+         "Evangelii gaudium 205"
+        ]
+       },
+       {
+        "id": "participacion",
+        "title": "Participación ciudadana",
+        "content": "Toda persona tiene derecho y deber de participar en la vida pública: votar, informarse, opinar con verdad, denunciar la corrupción, sumarse a causas justas y defender al que es atacado. La democracia sana necesita ciudadanos despiertos, no súbditos dormidos. La participación es un derecho que nadie debe regalarnos y un deber que nadie puede hacer por nosotros.\n\nInformarse es el primer paso de la participación: el ciudadano que no lee, que no contrasta, que repite lo que le llega, se convierte en un instrumento fácil. Participar es también tomar la palabra con respeto, votar con conciencia y exigir cuentas a quienes gobiernan. No se participa para ganar, sino para servir al bien común.\n\nParticipar no es solo votar cada tantos años: es implicarse en el barrio, en la parroquia, en el colegio, en los gremios y en los movimientos. Un cristiano que se lava las manos de la ciudad abandona el mandato de amar al prójimo en concreto: la caridad también se vive en la política, en la organización del barrio y en las decisiones comunes. La fe no se queda en la sacristía.",
+        "keyPoints": [
+         "Participar es derecho y deber",
+         "Votar, informarse y denunciar la corrupción",
+         "Implicarse en el barrio, la parroquia y la comunidad",
+         "La democracia necesita ciudadanos despiertos",
+         "Lavarse las manos de la ciudad es abandonar al prójimo"
+        ],
+        "references": [
+         "Gaudium et spes 73-75",
+         "CIC 1897-1904, 2238-2243",
+         "Evangelii gaudium 220"
+        ]
+       },
+       {
+        "id": "paz-justicia",
+        "title": "Paz y justicia",
+        "content": "La paz no es la simple ausencia de guerra ni el silencio de los vencidos: es el fruto de la justicia y de la reconciliación. No basta que no se pelee para que haya paz; hace falta que se reconozca al otro, que se repare lo injusto y que se construyan relaciones de respeto. Mientras haya quien oprime, margina o desprecia, no hay paz, hay solo violencia que se calla.\n\nJesús llama bienaventurados a los que trabajan por la paz y nos llama a ser artesanos de paz en la familia, la escuela y el barrio. La paz se empieza a tejer en lo pequeño: en la palabra amable, en el perdón sin condiciones, en el no sumarse a los rumores y en la defensa del inocente. Quien siembra paz en su casa, siembra paz en el mundo.\n\nLa construcción de la paz pide perdonar, reconocerse, buscar la verdad de los hechos, sanar las heridas y construir instituciones justas. El odio se hereda de generación en generación solo si los cristianos lo adoptan. La verdadera paz nace de corazones reconciliados; la paz impuesta y la vengativa no es paz: es tregua.",
+        "keyPoints": [
+         "La paz es fruto de la justicia",
+         "Bienaventurados los que trabajan por la paz",
+         "Ser artesano de paz en el lugar propio",
+         "Perdón y verdad sanan las heridas",
+         "La impune y la vengativa no es paz: es tregua"
+        ],
+        "references": [
+         "Mateo 5,9",
+         "Santiago 3,17-18",
+         "CIC 2302-2317"
+        ]
+       }
+      ]
+     },
+     {
+      "id": "creacion",
+      "title": "La casa común",
+      "subtitle": "Cuidar lo creado",
+      "description": "Administrar la creación, los bienes y la ecología integral",
+      "subsections": [
+       {
+        "id": "administrar",
+        "title": "Administradores y no dueños absolutos",
+        "content": "Dios confió al hombre la tierra para que la labrara y la cuidara: no la entregó para saquearla ni para dominarla con arrogancia, sino para administrarla con responsabilidad y con generosidad frente a las generaciones futuras. Dominar en lenguaje bíblico significa velar, ordenar y hacer crecer, no explotar ni arrasar: el hombre es administrador, no dueño absoluto de lo creado.\n\nLo que recibimos no es solo nuestro: nos viene confiado. Por eso cada generación debe entregar a la siguiente una tierra al menos tan habitable como la recibió. Derrochar recursos, contaminar los ríos y talar sin reposición no es progreso: es robarles a los que vienen después. La naturaleza no es un simple recurso: es un regalo y una responsabilidad.\n\nFrente a la cultura del descarte, el cristiano está llamado a una conversión ecológica: consumir con sobriedad, reciclar, no despilfarrar, proteger la naturaleza y denunciar el uso destructivo de los recursos. Crear hábitos sencillos en casa puede ser la predicación más hermosa: cuidar el agua, la luz, lo que se compra y lo que se descarta es una forma concreta de respeto al Creador y al prójimo.",
+        "keyPoints": [
+         "La tierra se recibe como administración",
+         "Responsabilidad frente a las generaciones futuras",
+         "Dominar es velar, no explotar",
+         "Conversión ecológica: sobriedad y cuidado",
+         "Los hábitos sencillos de casa predican más que los discursos"
+        ],
+        "references": [
+         "Génesis 2,15",
+         "Laudato si' 62-69",
+         "Salmo 24,1-2"
+        ]
+       },
+       {
+        "id": "bienes",
+        "title": "El destino universal de los bienes",
+        "content": "Los bienes de la tierra están destinados, en primer lugar, a todos: Dios creó para todos, no para unos pocos. El derecho de propiedad es legítimo y necesario, pero nunca absoluto: está ordenado al bien común y a la ley de la caridad y la justicia. Lo que uno tiene no es solo suyo: sobre todo bien pesa una hipoteca social. El que tiene de sobra debe compartir; el que tiene poco debe recibir.\n\nEste principio ordena la vida económica. Los bienes que no se usan, la riqueza que se acumula mientras otros pasan hambre, la comida que se tira: son una herida en el cuerpo de la humanidad. No es cuestión de lástima: es justicia. Darnos cuenta de que los recursos son escasos y mal repartidos debe movernos a ordenar el reparto, empezando por lo nuestro.\n\nCompartir no empobrece: humaniza y multiplica la alegría. El destino universal de los bienes es la base de la limosna, de la solidaridad y de la justicia social: enseñar a dar, a compartir y a amar la sencillez. Quien aprende a compartir de niño, sabrá gobernar la abundancia de adulto sin esclavizarse a ella.",
+        "keyPoints": [
+         "Los bienes son para todos",
+         "La propiedad es legítima pero no absoluta",
+         "El que tiene de sobra debe compartir",
+         "La riqueza acumulada con hambre ajena es herida",
+         "Compartir humaniza y ordena la economía"
+        ],
+        "references": [
+         "Hechos 2,44-45",
+         "CIC 2401-2406",
+         "Gaudium et spes 69"
+        ]
+       },
+       {
+        "id": "ecologia-integral",
+        "title": "Ecología integral",
+        "content": "La ecología cristiana une el cuidado del planeta con el cuidado de las personas: el deterioro ambiental golpea primero a los pobres, que viven donde el agua falta y los desechos abundan; y la miseria humana degrada también la casa común. Por eso hablamos de ecología integral: todo está conectado. No se puede cuidar la naturaleza sin cuidar al hombre, ni amar al hombre sin defender su medio.\n\nEl ambiente en que vivimos y la sociedad que formamos se dañan o se sanan juntos. Cuidar el agua y el aire va de la mano con cuidar el barrio, defender al que sufre, proteger la vida y promover el trabajo justo. Una ciudad con basura en sus calles delata también una basura moral; un pueblo que defiende sus ríos defiende a sus familias. La conversión personal y la conversión social van unidas.\n\nLa crisis ecológica es, en el fondo, una crisis moral y espiritual: el egoísmo, el afán de tener más y el descuido del que vendrá nos revelan lo que hay en el corazón. Nos llama a un estilo de vida sobrio, agradecido y sencillo, que se enseña en familia y se celebra en comunidad. Cuidar lo creado es un acto de fe: reverencia a Dios y amor al prójimo.",
+        "keyPoints": [
+         "Todo está conectado: ambiente y personas",
+         "El daño ambiental golpea primero a los pobres",
+         "Ecología integral une cuidado y justicia",
+         "La crisis ecológica es crisis moral",
+         "Estilo de vida sobrio, agradecido y sencillo"
+        ],
+        "references": [
+         "Laudato si' 13-16, 137-142",
+         "Génesis 1,31",
+         "Santiago 5,1-5"
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "vocacion",
+    "title": "Vocación y Propósito",
+    "subtitle": "Llamados",
+    "description": "Descubre para qué te creó Dios y cómo discernir tu camino",
+    "tipo": "curso",
+    "count": 14,
+    "units": [
+     {
+      "id": "llamados",
+      "title": "Llamados por Dios",
+      "subtitle": "Un plan de amor",
+      "description": "Dios tiene un plan personal y hermoso para cada vida",
+      "subsections": [
+       {
+        "id": "plan",
+        "title": "Dios tiene un plan para ti",
+        "content": "No llegaste al mundo por casualidad. El Salmo 139 lo dice con ternura: \"fuiste tejido en el seno de tu madre\" y \"tus días estaban escritos antes de que existieran\". Dios te piensa, te ama y te ha dado una misión que solo tú puedes cumplir. No eres un accidente del azar ni una mezcla de coincidencias: eres una respuesta de amor a una llamada de amor.\n\nMuchas voces te dicen que tu valor depende de lo que rindes, de cómo te ves o de lo que posees: son mentiras. Tu valor no se gana ni se pierde: viene de Dios, que te creó a su imagen y te redimió con su Hijo. Descubrirlo cambia la manera de caminar: quien sabe que vale por lo que es, y no por lo que aparenta, vive con seguridad y con paz.\n\nDescubrir tu vocación es descubrir el proyecto de amor que Él ha soñado para tu felicidad y para el bien de los demás. No es un plan rígido que haya que adivinar: es un camino que se abre caminando, con la oración, el consejo y la fidelidad a cada paso. Dios no esconde el plan: Él mismo es tu guía, y te ha puesto en el mundo porque te quiere feliz y santo.",
+        "keyPoints": [
+         "Nadie llega a la vida por casualidad",
+         "Dios te piensa y te conoce por tu nombre",
+         "Tienes una misión irrepetible",
+         "Tu valor no depende de tu rendimiento",
+         "La vocación es un proyecto de amor de Dios"
+        ],
+        "references": [
+         "Salmo 139,1-18",
+         "Jeremías 1,5",
+         "Efesios 2,10"
+        ]
+       },
+       {
+        "id": "vocacion-vida",
+        "title": "La vida como vocación",
+        "content": "Vocación viene del latín vocatio, \"llamado\". Tu vida entera es una respuesta: primero a la llamada a existir, luego a ser hijo de Dios en el bautismo, después a cada etapa y a cada tarea concreta. Vivir es dejarse llamar: Dios no cesa de invitarte a amar, a crecer, a servir y a ser feliz.\n\nPor eso la vocación no se reduce al futuro (¿de qué trabajaré? ¿a qué me dedicaré?): es el presente. Hoy Dios te llama a ser buen estudiante, buen amigo, buen hijo, buen hermano, discípulo misionero. La pregunta no es solo qué seré mañana, sino quién estoy siendo hoy: esa es la vocación de ahora.\n\nQuien responde bien a las llamadas pequeñas aprende a oír las grandes. La fidelidad de cada día entrena el oído del corazón: el que ora, estudia y sirve hoy, sabrá reconocer la voz de Dios cuando le proponga un paso más grande. Nadie recibe una misión grande sin haber sido fiel en las cotidianas. Escucha hoy: esa escucha te prepara para el mañana.",
+        "keyPoints": [
+         "Vocación significa \"llamado\"",
+         "La vocación incluye el presente, no solo el futuro",
+         "Responder a las llamadas pequeñas prepara las grandes",
+         "Tu vida entera es una respuesta",
+         "Ser discípulo misionero es vocación de hoy"
+        ],
+        "references": [
+         "1 Pedro 2,9",
+         "Romanos 12,1-2",
+         "CIC 1"
+        ]
+       },
+       {
+        "id": "senales",
+        "title": "Señales de la llamada",
+        "content": "Dios habla por varios canales que conviene aprender a leer: los deseos profundos del corazón, los talentos y las limitaciones, las circunstancias, los acontecimientos, la palabra de personas de fe, y sobre todo su Palabra y la enseñanza de la Iglesia. Ningún canal basta por separado: la sabiduría consiste en leerlos juntos, como piezas de un mismo mensaje.\n\nUna señal fuerte es la paz interior: cuando algo proviene de Dios, deja una paz profunda que atraviesa las dificultades, los miedos y las dudas. Otra señal es el fruto: si lo que sientes te hace más generoso, más veraz, más libre y más amigo de los demás, ahí hay huella de Dios. Los deseos que nos acercan a los demás y a Dios llevan su sello; los que nos aíslan y nos vuelven egoístas, no.\n\nLas señales se confirman en la oración y con acompañamiento. No hay que decidir a solas ni a toda prisa: se presentan a Dios, se hablan con una persona de confianza y se contrastan con el Evangelio. Cuando las señales coinciden, la certeza crece. Dios no se cansa de hablar: se cansa de no ser escuchado.",
+        "keyPoints": [
+         "Dios habla por el corazón, los talentos y las circunstancias",
+         "La paz profunda acompaña a la voluntad de Dios",
+         "Los frutos delatan la huella de Dios",
+         "La Palabra y la Iglesia ordenan las señales",
+         "Las señales se confirman con acompañamiento"
+        ],
+        "references": [
+         "Isaías 30,21",
+         "1 Reyes 19,11-13",
+         "Salmo 37,5-6"
+        ]
+       }
+      ]
+     },
+     {
+      "id": "estados",
+      "title": "Los estados de vida",
+      "subtitle": "Caminos de santidad",
+      "description": "Las vocaciones por las que Dios llama a vivir y amar",
+      "subsections": [
+       {
+        "id": "matrimonio",
+        "title": "La vocación al matrimonio",
+        "content": "El matrimonio es el camino de santidad de la gran mayoría de los cristianos: una vocación al amor fiel, indisoluble y fecundo, que refleja el amor de Cristo por su Iglesia. Por el sacramento, Dios se hace presente para sostener a los esposos en los días felices y en los difíciles: no se casan solos, se casan con Él.\n\nNo es el refugio de los que no sirven para más ni el plan B de los que no fueron llamados a otra cosa: es una vocación plena, grande y exigente, con su propio camino de santidad. El amor conyugal se aprende y se entrena: la paciencia, el perdón, la comunicación y la ternura se cultivan cada día como un jardín.\n\nPrepararse para el matrimonio es también un camino espiritual: la pureza, la amistad, la madurez y el trabajo acompañan a una vocación que no busca \"encontrar a la persona perfecta\", sino aprender a amar a una persona real, con sus luces y sus cruces. El amor verdadero no se encuentra: se edifica. Y se edifica por dentro, en el corazón, mucho antes de la boda.",
+        "keyPoints": [
+         "Matrimonio: vocación al amor fiel y fecundo",
+         "Refleja el amor de Cristo por la Iglesia",
+         "Es un camino de santidad ordinario y grande",
+         "La preparación empieza con pureza y madurez",
+         "Amar a una persona real, no a una idea"
+        ],
+        "references": [
+         "Efesios 5,25-33",
+         "Amoris laetitia 11-13, 121-123",
+         "CIC 1601-1606"
+        ]
+       },
+       {
+        "id": "consagrada",
+        "title": "La virginidad consagrada",
+        "content": "La Iglesia alaba y santifica también el camino de la virginidad consagrada: entregar el corazón entero a Dios en la vida religiosa o en la consagración laical, como signo del Reino que viene y como amor sin reservas. Es una respuesta radical al primer mandamiento: amar a Dios con todo el corazón, sin dividirlo.\n\nEsta elección no desprecia el matrimonio: es otra forma de amarse a sí mismo, otro modo de fecundidad. No se elige por miedo al compromiso, sino por amor audaz y con libertad. En ella la persona se hace esposa o esposo de Cristo y madre o padre espiritual de muchísimos, a veces sin conocerlos.\n\nLa virginidad es un signo que el mundo necesita: proclama que Dios vale más que todo, y que la vida no se agota en lo que se posee o se disfruta. No todos están llamados a ella, pero los que la reciben la viven con alegría y la sirven a la Iglesia. Una llamada semejante se discierne con un acompañante y se confirma con paz y con fruto.",
+        "keyPoints": [
+         "Entregar el corazón entero a Dios",
+         "Signo del Reino que viene",
+         "No desprecia el matrimonio: es otro amor",
+         "Se elige por amor y libertad, no por miedo",
+         "Es fecundidad espiritual"
+        ],
+        "references": [
+         "1 Corintios 7,32-35",
+         "Mateo 19,12",
+         "CIC 914-924"
+        ]
+       },
+       {
+        "id": "sacerdocio",
+        "title": "El sacerdocio y la vida religiosa",
+        "content": "Dios sigue llamando a jóvenes a ser sacerdotes, religiosas, religiosos y misioneros: hombres y mujeres que gastan su vida en anunciar el Evangelio, servir a los pobres, orar y consagrar. Es una vida feliz, porque es una vida entregada. Ninguna vocación promete una vida sin problemas; la entrega promete una vida con sentido y con alegría profunda.\n\nSi sientes un deseo profundo de servir a Dios en esta vocación, no lo reprimas: háblalo con un sacerdote o con un acompañante espiritual. Esa inquietud, hecha oración y conversación, se aclara; enterrada en silencio, atormenta. La Iglesia necesita jóvenes generosos que digan sí como María, y que estén dispuestos a gastar y a desgastarse por el Evangelio.\n\nEl quizá se descubre solo cuando se toma en serio, y se descubre en la oración. No hace falta ser perfecto: los santos fueron pecadores lavados por la gracia. Dios llama a personas reales, con luces y sombras, y les confía a su Iglesia. Si esa llamada golpea tu corazón, recíbela como un regalo y muéstrasela a un guía.",
+        "keyPoints": [
+         "Sigue habiendo vocaciones sacerdotales y religiosas",
+         "Es una vida entregada y feliz",
+         "No reprimir un deseo profundo de servir",
+         "Conversar con un acompañante espiritual",
+         "El sí generoso es fruto de la oración"
+        ],
+        "references": [
+         "Marcos 3,13-15",
+         "Juan 15,16",
+         "Evangelii gaudium 24"
+        ]
+       },
+       {
+        "id": "laical",
+        "title": "La vocación laical",
+        "content": "Los laicos no son cristianos de segunda: son la mayoría del Pueblo de Dios, y su vocación es santificar el mundo desde dentro, transformando la familia, el trabajo, la parroquia, la política y la cultura con el Evangelio. No tienen que huir del mundo para ser santos: están llamados a santificarlo.\n\nJesús no llamó a todos a dejar el mundo, sino a todos a comprometerse con él: ser luz en el aula, en la oficina, en el equipo, en el barrio. El laico vive su fe en lo ordinario y convierte lo ordinario en camino de santidad: la maternidad, el oficio, la amistad, el descanso, todo puede ser lugar de encuentro con Dios.\n\nEl laico que vive su fe en lo concreto es el \"santo de la puerta de al lado\" que el Papa Francisco propone en Gaudete et exsultate: el de la vida diaria, sin disfraz, sin necesidad de que lo aplaudan. Su testimonio silencioso llega a mundos que un sacerdote jamás visitará. Esa es su grandeza y su misión.",
+        "keyPoints": [
+         "Los laicos son la mayoría del Pueblo de Dios",
+         "Santificar el mundo desde dentro",
+         "Transformar familia, trabajo y cultura",
+         "Ser luz en lo ordinario",
+         "El santo de la puerta de al lado"
+        ],
+        "references": [
+         "Leonis XIII (Apostolicam actuositatem) 2",
+         "Gaudete et exsultate 7",
+         "Mateo 5,14-16"
+        ]
+       }
+      ]
+     },
+     {
+      "id": "discernimiento",
+      "title": "Discernimiento paso a paso",
+      "subtitle": "Decidir con Dios",
+      "description": "Cómo descubrir la voluntad de Dios sin atragantarse",
+      "subsections": [
+       {
+        "id": "orar",
+        "title": "Orar para decidir",
+        "content": "El discernimiento comienza y termina en la oración: ponerte delante de Dios, abrirle el corazón, pedirle luz y silencio interior. No se discierne corriendo, sino saboreando la presencia de Dios. La oración no es un trámite antes de decidir: es el lugar donde la decisión se ilumina y se ordena.\n\nPuedes orar con la Palabra, con el Rosario, con la adoración o simplemente en el silencio de tu habitación. Pídele al Espíritu Santo que te vaya mostrando el camino y que quite el miedo que entorpece la escucha. No temas decirle a Dios tu deseo y tu confusión: Él ya los conoce, y quiere que se los entregues con confianza.\n\nUna decisión orada ya es una decisión caminada. La oración no suprime la responsabilidad: la ilumina. Regresa a la oración cada vez que dudes, y vuelve a preguntarte con sinceridad: ¿esto que elijo me acerca a Dios, a los demás y a la verdad, o me aleja? La respuesta, lenta y serena, suele llegar en la oración perseverante.",
+        "keyPoints": [
+         "Discernir es orar antes que planear",
+         "Abrir el corazón a Dios con libertad",
+         "La Palabra y los sacramentos iluminan",
+         "Pedir al Espíritu que quite el miedo",
+         "Una decisión orada es una decisión caminada"
+        ],
+        "references": [
+         "Salmo 25,4-5",
+         "Santiago 1,5",
+         "Lucas 6,12-13"
+        ]
+       },
+       {
+        "id": "consejo",
+        "title": "Consejo y acompañamiento",
+        "content": "Nadie discerne bien solo. Es sabio abrir tu proyecto a una persona de confianza: un sacerdote, un catequista, un acompañante espiritual experimentado en los caminos de Dios. Hablarlo ya ordena el pensamiento y quita poder a los miedos escondidos: lo que se esconde crece sin control; lo que se dice, se ve con claridad.\n\nEl verdadero consejero no decide por ti, sino que te ayuda a mirarte con verdad y a escuchar a Dios. No te fabrica decisiones, te enseña a tomarlas. Desconfía del acompañante que solo te dice lo que quieres oír: ese te deja sin fuerzas; busca a quien te hace preguntas honestas y te impulsa a la generosidad, con respeto y con cariño.\n\nLa puerta del acompañamiento se abre con la valentía de pedirlo: no es debilidad, es sabiduría. Prueba con alguien que ore por ti, que conozca tu historia y que no tenga miedo de decirte la verdad. Con el tiempo, podrás tú también acompañar a otros: el que ha sido guiado aprende a guiar.",
+        "keyPoints": [
+         "Nadie discierne bien a solas",
+         "Un sacerdote o acompañante experimentado ayuda",
+         "Hablarlo ordena y quita poder a los miedos",
+         "El buen consejero pregunta, no decide",
+         "Buscar honestidad y generosidad en el consejo"
+        ],
+        "references": [
+         "Proverbios 11,14",
+         "Proverbios 15,22",
+         "CIC 2690"
+        ]
+       },
+       {
+        "id": "pruebas",
+        "title": "Pruebas y confirmación",
+        "content": "Las pruebas ayudan a purificar el discernimiento: si una decisión es de Dios, soporta el tiempo, la contrariedad y la cruz sin hundirse. Lo que se construye sobre la arena se cae con el primer viento; lo que es de Dios, pasa la prueba. Por eso no hay que decidir huyendo de la dificultad, sino reconociendo lo que en ella se sostiene.\n\nLas pruebas sacan a la luz motivos escondidos: a veces queremos lo de Dios, pero por gloria, comodidad o ansia de control. La prueba desnuda las intenciones y nos muestra el verdadero porqué de nuestras ganas. Ese examen interior, con humildad y sin culpabilizarse, es parte del mismo discernimiento.\n\nLa confirmación llega cuando, una vez decidido, crece la paz, el sentido y los frutos. No se necesitan signos espectaculares: basta la fidelidad perseverante. La voluntad de Dios no se descubre solo en el asombro del primer momento, sino también en el paso firme del que sigue caminando cuando pasa la novedad.",
+        "keyPoints": [
+         "Las pruebas purifican el discernimiento",
+         "Lo de Dios soporta tiempo y cruz",
+         "Las pruebas revelan motivos escondidos",
+         "La confirmación llega con paz y frutos",
+         "No se necesitan signos espectaculares"
+        ],
+        "references": [
+         "Romanos 5,3-5",
+         "1 Pedro 1,6-7",
+         "Filipenses 4,7"
+        ]
+       },
+       {
+        "id": "tiempo",
+        "title": "Tiempo y paciencia",
+        "content": "Dios no tiene prisa, y las decisiones grandes maduran. Hay que dar tiempo al tiempo: escuchar, probar, esperar, y no decidir desde la angustia ni desde la pasión del momento. La impaciencia suele ser la hermana del error: lo que se decide con prisa, sin madurar, luego hay que vivirlo con calma, y eso pesa.\n\nMientras tanto, vive hoy: Dios nunca pide que adivines el futuro, y sí que seas fiel al presente. Las vocaciones se descubren caminando; muchas respuestas llegan cuando tú ya estás ocupado haciendo el bien. No abandones tu estudio, tu servicio, tus amistades y tu oración esperando una señal: la señal llega al que ya está en camino.\n\nEsperar en Dios no es estar quieto: es avanzar confiando, con el corazón atento y las manos ocupadas. Prepara tu corazón mientras esperas: una vocación encuentra a un corazón dócil, no a uno distraído. El tiempo de espera no es tiempo perdido: es tiempo de crecimiento silencioso, como la semilla bajo la tierra.",
+        "keyPoints": [
+         "Las decisiones grandes maduran con el tiempo",
+         "No decidir desde la angustia ni la pasión",
+         "La impaciencia es hermana del error",
+         "Ser fiel al presente es ya responder",
+         "Esperar en Dios es avanzar confiando"
+        ],
+        "references": [
+         "Isaías 40,31",
+         "Salmo 27,14",
+         "Eclesiastés 3,1"
+        ]
+       }
+      ]
+     },
+     {
+      "id": "mision",
+      "title": "Misión y talentos",
+      "subtitle": "Frutos de la llamada",
+      "description": "Para esto te ha dado Dios sus dones",
+      "subsections": [
+       {
+        "id": "talentos",
+        "title": "Talentos para servir",
+        "content": "Los talentos no son un adorno ni un premio: son un préstamo de Dios para el servicio. La parábola de los talentos lo recuerda con fuerza: el siervo fiel no es el que multiplica para sí, sino el que pone a trabajar los dones para el Señor. No preguntes solo qué tienes, pregunta para quién lo tienes.\n\nDescubre lo que se te da bien y pregúntate para quién lo usas. La música, el estudio, el deporte, la alegría, la creatividad, el trato fácil, la escucha, la palabra: todo es herramienta de misión. No hay talentos pequeños a los ojos de Dios: hay dones fieles o dones escondidos, y Él mira la fidelidad, no el tamaño.\n\nUn talento escondido por miedo se convierte en peso: el que no lo usa termina enterrándolo y enterrándose con él. Un talento compartido se convierte en fiesta: multiplica, alegra y edifica. Dios no te pide ser el más dotado: te pide que pongas a trabajar lo que recibiste, con confianza y generosidad. El día de la cosecha, la pregunta será: ¿qué hiciste con lo que te di?",
+        "keyPoints": [
+         "Los talentos son préstamos de Dios para servir",
+         "La fidelidad es multiplicar al servicio",
+         "Todo don es herramienta de misión",
+         "El talento escondido por miedo pesa",
+         "El talento compartido convierte en fiesta"
+        ],
+        "references": [
+         "Mateo 25,14-30",
+         "1 Pedro 4,10",
+         "Lucas 12,48"
+        ]
+       },
+       {
+        "id": "evangelizar",
+        "title": "Evangelizar donde vives",
+        "content": "Tu misión empieza donde ya estás: en casa, en el colegio, en tu cuadra, en tu grupo. Evangelizar no es bombardear a otros con frases: es amar, escuchar, vivir con coherencia y estar disponible para cuando te pregunten. La semilla del Evangelio se siembra mejor con la vida que con el discurso.\n\nEl anuncio más eficaz del joven es su vida diferente: un estudiante honrado, un amigo que consuela, alguien que no se burla, que perdona, que invita a misa sin obligar. Cuando tu vida destaca por la coherencia, la alegría y el respeto, otros se acercan a preguntar: eso es evangelizar. La fe se transmite por contagio, no por presión.\n\nDios ha sembrado tu misión en tu entorno: no hace falta ir lejos para empezar. Mira alrededor: el que sufre en tu aula, el que está solo en tu parroquia, el que busca sentido en tu barrio. Cada amor concreto, cada pequeño servicio hecho por Cristo, es el anuncio más verdadero. El que es fiel en su entorno, Dios lo llevará lejos también.",
+        "keyPoints": [
+         "La misión empieza donde ya vives",
+         "Evangelizar es amar, escuchar y ser coherente",
+         "Tu vida diferente predica en silencio",
+         "Estar disponible para cuando pregunten",
+         "No hace falta ir lejos para sembrar"
+        ],
+        "references": [
+         "Mateo 28,19-20",
+         "Hechos 1,8",
+         "Colosenses 4,5-6"
+        ]
+       },
+       {
+        "id": "apostolado",
+        "title": "Apostolado en el día a día",
+        "content": "El apostolado laical organiza ese servicio: pertenecer a un grupo de la parroquia, servir en la catequesis, en el coro, en el voluntariado, en los movimientos juveniles. No es una actividad más: es vivir la fe en comunidad misionera. Servir en grupo multiplica las fuerzas y sostiene la vocación cuando flaquea.\n\nPero el apostolado diario es también el pequeño gesto constante: visitar al enfermo, ayudar al hermano que va mal en clase, poner la mesa, escuchar sin prisa, estar atento al que nadie atiende. A veces la santidad se juega en la fidelidad a lo que nadie aplaude, pero que Dios ve. Lo pequeño hecho con amor es grande a sus ojos.\n\nEl apostolado no se mide por el ruido, sino por la fidelidad y el fruto. No hace falta ser brillante: hace falta estar disponible. El que sirve con constancia descubre que recibe más de lo que da, y que la alegría de dar se multiplica cuando se hace en comunidad. Tu grupo de jóvenes puede ser el mejor predicador de tu barrio.",
+        "keyPoints": [
+         "Servir en grupos, catequesis, coro o voluntariado",
+         "Vivir la fe en comunidad misionera",
+         "El gesto pequeño y constante es apostolado",
+         "La santidad se juega en la fidelidad diaria",
+         "Lo que nadie aplaude, lo ve Dios"
+        ],
+        "references": [
+         "Colosenses 3,23",
+         "Mateo 6,1-4",
+         "Hebreos 13,16"
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "virgen",
+    "title": "La Virgen María",
+    "subtitle": "Madre nuestra",
+    "description": "María en la Escritura, los dogmas marianos, el Rosario y el camino de amor hacia Jesús",
+    "tipo": "curso",
+    "count": 19,
+    "units": [
+     {
+      "id": "maria-escritura",
+      "title": "María en la Sagrada Escritura",
+      "subtitle": "La llena de gracia",
+      "description": "Los grandes momentos de María narrados en los Evangelios",
+      "subsections": [
+       {
+        "id": "anunciacion",
+        "title": "La Anunciación y la Encarnación",
+        "content": "En Nazaret, el Ángel Gabriel anuncia a María que será la Madre del Hijo de Dios. María pregunta, escucha y responde con el sí más fecundo de la historia: \"hágase en mí según tu palabra\". Por su sí, el Verbo se hizo carne y Dios entró en la historia. Desde ese momento, el infinito cabe en un seno humano.\n\nEn la Anunciación se cruzan la humildad de una joven pobre de Galilea y la grandeza del plan de Dios. María no lo comprende todo, pero confía: no cierra la puerta porque no entienda, la abre porque cree. Su fe es la de quien escucha, pregunta y obedece, y ese camino vale para nosotros en cada anuncio de Dios.\n\nEl sí de María no fue solo de palabras: fue una entrega total que la acompañaría toda la vida, hasta la cruz. Dios sigue anunciándonos su voluntad en la oración, en la Iglesia y en la vida cotidiana. Nuestro sí pequeño, entregado cada día, hace posible que Dios siga entrando en la historia a través de nosotros.",
+        "keyPoints": [
+         "El Ángel anuncia a María la maternidad divina",
+         "María responde con un sí de fe y obediencia",
+         "Por su sí, el Verbo se hizo carne",
+         "La humildad y la confianza se abrazan en Ella",
+         "María es modelo de fe que escucha y obedece"
+        ],
+        "references": [
+         "Lucas 1,26-38",
+         "Juan 1,14",
+         "Filipenses 2,6-8"
+        ]
+       },
+       {
+        "id": "cana",
+        "title": "Caná: el primer signo",
+        "content": "En las bodas de Caná, María nota que falta el vino y acude a Jesús: \"no tienen vino\". Intercede antes de que se lo pidan y da a los sirvientes la clave de toda la vida cristiana: \"hagan lo que Él les diga\". Jesús realiza su primer signo por la intercesión de su Madre: el agua se transforma en vino de fiesta.\n\nCaná enseña dos cosas. La primera: que María intercede siempre por nosotros; no espera que le pidamos para atender nuestras necesidades, se adelanta con ternura. La segunda: que la obediencia a Jesús transforma lo ordinario en extraordinario. Lo que faltaba, el vino de la alegría, se convierte en símbolo del gozo que Dios quiere para los suyos.\n\nLa presencia de María en la boda anuncia que la alegría y el amor de Dios son posibles en lo humano: en una familia, en una amistad, en un proyecto. Jesús acude a las bodas, bendice el amor humano y comienza ahí sus signos. Si queremos que Dios transforme nuestra vida, hagamos como los sirvientes: obedezcamos lo que Él dice, aunque parezca no tener sentido.",
+        "keyPoints": [
+         "María intercede antes de que se lo pidan",
+         "\"Hagan lo que Él les diga\": clave del discípulo",
+         "Jesús hace su primer signo por su Madre",
+         "María presencia en la fiesta humana",
+         "La obediencia a Jesús convierte el agua en vino"
+        ],
+        "references": [
+         "Juan 2,1-11",
+         "Lucas 1,38",
+         "CIC 2618"
+        ]
+       },
+       {
+        "id": "cruz",
+        "title": "Al pie de la cruz",
+        "content": "María sigue a Jesús hasta el Calvario y se queda al pie de la cruz cuando casi todos huyen. Desde la cruz, Jesús la entrega a Juan y a Juan a ella: \"mujer, ahí tienes a tu hijo\". En ese momento nos recibe a todos como hijos: el discípulo amado, en quien estaba representada toda la Iglesia, recibió a María como madre. Desde entonces, nadie queda huérfano.\n\nSu firmeza al pie de la cruz no es frialdad: es fe que se sostiene en la oscuridad. María calla, se queda y cree cuando todo parece perdido. No niega el dolor ni lo disimula: lo atraviesa con amor, en silencio, junto a su Hijo. Ese modo de estar es escuela para nosotros cuando la vida se vuelve cruz.\n\nMaría es la Madre de los que sufren y la esperanza de los que atraviesan su propio calvario. Nadie entiende mejor tu cruz que quien estuvo junto a la de su Hijo; por eso, cuando el sufrimiento aprieta, déjate sostener por ella. No te pide heroicidad: te pide que permanezcas, que creas y que resistas, como ella.",
+        "keyPoints": [
+         "María permanece fiel al pie de la cruz",
+         "Jesús nos entrega a María y a María nos entrega",
+         "Su fe se sostuvo en la oscuridad",
+         "Es la Madre de los que sufren",
+         "Nadie entiende tu cruz como quien estuvo junto a la cruz"
+        ],
+        "references": [
+         "Juan 19,25-27",
+         "Lucas 2,35",
+         "Apocalipsis 12,1-17"
+        ]
+       },
+       {
+        "id": "madre-iglesia",
+        "title": "María, Madre de la Iglesia",
+        "content": "María estuvo con los apóstoles en el Cenáculo, en oración, esperando el Espíritu Santo. La Iglesia nace en Pentecostés con María presente, que no se retira después de la cruz: acompaña el comienzo y la vida entera de la comunidad. Donde se reza en unidad, ella está; donde nace la fe, ella sostiene.\n\nPor eso es Madre de la Iglesia: engendró a la Cabeza, Cristo, y sostiene con su oración al Cuerpo, que somos todos. Su maternidad no terminó en Nazaret ni en el Calvario: es espiritual y universal, y abraza a todos los que creen en su Hijo, de toda lengua y de todo tiempo. Nadie queda fuera de su cuidado.\n\nRecurrir a ella es propio de hijos; enseñar a otros a recurrir a ella es tarea de discípulos. Una Iglesia que ora con María, que contempla la vida de Jesús con ella y que aprende a fiarse, es una Iglesia que se parece más a la del Cenáculo: unida, en oración y abierta al Espíritu. Cuenta con tu lugar en esa familia.",
+        "keyPoints": [
+         "María ora con la Iglesia en el Cenáculo",
+         "La Iglesia nace con Ella presente",
+         "Engendró a Cristo y sostiene su Cuerpo",
+         "Su maternidad es espiritual y universal",
+         "Recurrir a Ella es de hijos"
+        ],
+        "references": [
+         "Hechos 1,14",
+         "Hechos 2,1-4",
+         "Lumen gentium 63-65"
+        ]
+       }
+      ]
+     },
+     {
+      "id": "dogmas",
+      "title": "Los dogmas marianos",
+      "subtitle": "Verdades de fe",
+      "description": "Las cuatro verdades que la Iglesia ha definido sobre María",
+      "subsections": [
+       {
+        "id": "madre-dios",
+        "title": "María, Madre de Dios",
+        "content": "El primer dogma mariano fue definido en el Concilio de Éfeso (431): María es Theotokos, Madre de Dios, porque engendró a la persona divina de Jesucristo. No se define para honrar a María aisladamente, sino para defender quién es Jesús: Dios verdadero y hombre verdadero. Si el niño del pesebre no fuera Dios, no podría salvarnos.\n\nSi María es la Madre de Dios, rompió la distancia entre el cielo y la tierra de un modo único: el Creador tuvo madre. Aceptar este dogma es aceptar la más alta dignidad que puede recibir una criatura, y el amor con que Dios quiso entrar en la historia. El que es eterno aceptó ser llevado en brazos de una joven de Nazaret.\n\nEste título sostiene también la grandeza de la humanidad de Jesús: si María es su Madre, Cristo es verdaderamente uno de nosotros, con nuestra misma carne. Por eso todo lo que afirmamos de María defiende, en el fondo, a Cristo y su obra de salvación. Amamos a María porque ella nos lo dio todo, empezando por el Salvador.",
+        "keyPoints": [
+         "Definido en Éfeso (431): Theotokos",
+         "Defiende la divinidad de Jesús",
+         "El Creador tuvo madre",
+         "La más alta dignidad de una criatura",
+         "Dios entra en la historia por el seno de María"
+        ],
+        "references": [
+         "Lucas 1,43",
+         "Gálatas 4,4",
+         "CIC 495"
+        ]
+       },
+       {
+        "id": "siempre-virgen",
+        "title": "María, siempre Virgen",
+        "content": "La Iglesia confiesa que María fue Virgen antes, durante y después del nacimiento de Cristo: su virginidad no es desprecio del cuerpo, sino signo del actuar de Dios y de la entrega total de su corazón. El nacimiento de Jesús fue obrado por el Espíritu Santo, sin intervención humana: es la nueva creación, obra directa del poder creador de Dios.\n\nLos \"hermanos de Jesús\" que aparecen en el Evangelio eran parientes (primos o allegados), como era costumbre llamarlos en el mundo bíblico, donde la misma palabra abarcaba distintas formas de parentesco. La Escritura no menciona en ningún momento hermanos carnales del Señor: habla siempre de otra cosa.\n\nLa virginidad perpetua de María significa, sobre todo, que su corazón y su cuerpo estuvieron consagrados totalmente al Señor y a su plan. No es una lejanía, es una cercanía: su humanidad entera quedó entregada, sin reservas, a la obra de Dios. En ella contemplamos que el amor se vive mejor cuando se da por entero.",
+        "keyPoints": [
+         "Virgen antes, durante y después del nacimiento",
+         "El nacimiento de Jesús es obra del Espíritu",
+         "Sus \"hermanos\" eran parientes, según la costumbre",
+         "Virginidad es entrega total a Dios",
+         "Defiende el poder y el ser de Dios"
+        ],
+        "references": [
+         "Lucas 1,34-35",
+         "Mateo 1,24-25",
+         "CIC 496-507"
+        ]
+       },
+       {
+        "id": "inmaculada",
+        "title": "La Inmaculada Concepción",
+        "content": "La Inmaculada Concepción (definida en 1854) enseña que María fue preservada de todo pecado desde el primer instante de su concepción, por los méritos de Cristo. No fue salvada después de caer: fue salvada de un modo más admirable, sin llegar a caer nunca. La gracia que en nosotros limpia, en ella previno.\n\nDios, que preparó para su Hijo una carne santa, preparó también para su Madre un corazón sin mancha. La Inmaculada no es una ventaja que la aleje de nosotros: es la prueba de que la gracia de Cristo es capaz de todo. Lo que Dios hizo en ella, que es lo más grande, es la señal de lo que su amor quiere hacer en cada uno.\n\nSu pureza no es orgullo ni lejanía: es humildad. La llena de gracia es la que se llama a sí misma esclava, y su grandeza se pone al servicio de su Hijo y de los hermanos. Contemplarla limpia el desánimo: si Dios pudo preservar a una criatura del mal, puede liberar a cualquier pecador. Ella es consuelo y esperanza para todos.",
+        "keyPoints": [
+         "Definida en 1854",
+         "Preservada del pecado desde su concepción",
+         "Salvada por los méritos de Cristo, de modo más admirable",
+         "Gracias del poder de Dios",
+         "Consuelo y esperanza para todos"
+        ],
+        "references": [
+         "Génesis 3,15",
+         "Lucas 1,28",
+         "CIC 490-493"
+        ]
+       },
+       {
+        "id": "asuncion",
+        "title": "La Asunción de María",
+        "content": "La Asunción (definida en 1950) enseña que María, al terminar su vida terrena, fue llevada en cuerpo y alma a la gloria del cielo. No quedó en la corrupción de la sepultura: fue elevada para participar plenamente de la resurrección de su Hijo. Lo que en Cristo es primicia, en María es prenda cumplida.\n\nLa Asunción es prenda de nuestra esperanza: en María, la Iglesia contempla anticipado el destino que Dios prepara a la humanidad entera. Nuestro cuerpo, a menudo despreciado y herido, también está llamado a la gloria: no somos almas que se salvan sin la materia, somos personas enteras que Dios quiere transfigurar.\n\nPor eso la Asunción se celebra como fiesta de esperanza para todos los que vivimos aún en el camino. Si María, una criatura como nosotros, fue elevada en cuerpo y alma, la resurrección es una promesa real y cercana. La mirada se levanta: la muerte no tiene la última palabra, y la carne que sufre y espera tiene un mañana de gloria.",
+        "keyPoints": [
+         "Definida en 1950",
+         "Llevada en cuerpo y alma al cielo",
+         "Participación plena en la resurrección de Cristo",
+         "Prenda de nuestra esperanza",
+         "El cuerpo también está llamado a la gloria"
+        ],
+        "references": [
+         "1 Corintios 15,42-44",
+         "Lucas 1,46-49",
+         "Lumen gentium 59"
+        ]
+       }
+      ]
+     },
+     {
+      "id": "rosario",
+      "title": "El Santo Rosario",
+      "subtitle": "Escuela de oración",
+      "description": "El arma espiritual que medita la vida de Cristo con María",
+      "subsections": [
+       {
+        "id": "historia",
+        "title": "Historia y estructura del Rosario",
+        "content": "El Rosario nace del deseo de los fieles, muchos sin saber leer, de rezar los 150 Salmos: se fueron sustituyendo por Avemarías, agrupadas en decenas meditadas. Santo Domingo y la tradición dominica lo popularizaron; múltiples Papas lo propusieron como oración familiar. Es una oración de memoria y de corazón, nacida del pueblo y confirmada por la Iglesia.\n\nSu estructura es sencilla: el Credo, un Padrenuestro, tres Avemarías, y cinco decenas (Padrenuestro + diez Avemarías + Gloria), cada decena meditando un misterio. Se reza en comunidad o a solas, con el rosario en la mano y el corazón en Cristo. No hace falta ningún talento: solo presencia y sencillez.\n\nEl Rosario acompaña los momentos de la vida: el viaje en autobús, la espera, la noche, la sala de un hospital. Es una oración para todas las edades y para todos los tiempos. \"El Rosario es la oración de los sencillos\", decía San Pío X: quien no sabe hablar con Dios, lo aprende en el regazo de María.",
+        "keyPoints": [
+         "Sustituyó el rezo de los 150 Salmos",
+         "Popularizado especialmente por los dominicos",
+         "Estructura: Credo, Padrenuestro, Avemarías y decenas",
+         "Cada decena medita un misterio",
+         "Oración de los sencillos y de los sabios"
+        ],
+        "references": [
+         "Rosarium Virginis Mariae 1-10",
+         "CIC 2678",
+         "Lucas 1,28-42"
+        ]
+       },
+       {
+        "id": "misterios",
+        "title": "Los misterios del Rosario",
+        "content": "Los misterios son los \"pasajes\" de la vida de Cristo meditados con María. Gozosos (lunes y sábado): la anunciación, la visitación, el nacimiento, la presentación, el hallazgo en el Templo. Dolorosos (martes y viernes): la agonía, los azotes, la corona de espinas, la cruz y el camino al Calvario. Gloriosos (miércoles y domingo): la resurrección, la ascensión, Pentecostés, la asunción y la coronación. Luminosos (jueves): el bautismo, las bodas de Caná, el anuncio del Reino, la Transfiguración y la Eucaristía, añadidos por San Juan Pablo II.\n\nMeditar los misterios convierte el Rosario en un \"compendio del Evangelio\": no se reza solo con los labios, sino con los ojos del alma, acompañando a María los acontecimientos de la salvación. Cada misterio es una escena para contemplar despacio, como quien mira un cuadro, y para dejar que hable a la propia vida.\n\nLa distribución por días recuerda que la vida entera cabe en el Rosario: cada semana vuelve a pasar por el gozo, el dolor, la luz y la gloria de Cristo. Con el tiempo, los misterios se graban en el corazón y enseñan a mirar la propia historia con la mirada de la fe. Así se aprende a reconocer a Dios en lo cotidiano.",
+        "keyPoints": [
+         "Misterios: gozosos, dolorosos, gloriosos y luminosos",
+         "Distribución por días de la semana",
+         "Luminosos añadidos por San Juan Pablo II",
+         "El Rosario es compendio del Evangelio",
+         "Se reza con el corazón, meditando la vida de Cristo"
+        ],
+        "references": [
+         "Rosarium Virginis Mariae 19-25",
+         "Lucas 1,30-38",
+         "Mateo 26,36-46"
+        ]
+       },
+       {
+        "id": "rezarlo",
+        "title": "Cómo rezarlo bien",
+        "content": "Rezar el Rosario bien no es cuestión de velocidad ni de repetir sin pensar: es saborear despacio cada misterio mientras se recitan las Avemarías. Se puede empezar rezando solo una decena al día, mejor bien recitada que veinte mal. La calidad vale más que la cantidad: quien reza con lentitud y amor, ora de verdad.\n\nAntes de empezar, ofrécelo: por tu familia, por un amigo, por una intención concreta, por una necesidad que conoces. Ofrecer da dirección a la oración y la vuelve intercesión. Al terminar, reza la Salve y deja que el silencio cierre la oración: lo que se dice a María termina entrando en el corazón.\n\nCon el tiempo, el Rosario se convierte en una compañía que da paz, en un camino de contemplación que peregrina con nosotros a todas partes. No se trata de repetir sin más: se trata de que cada Avemaría sea como un latido que acompaña la mirada puesta en Cristo. Rezado así, el Rosario cambia la manera de vivir el día.",
+        "keyPoints": [
+         "Saborear cada misterio, no repetir deprisa",
+         "Una decena bien rezada vale más que veinte distraídas",
+         "Se ofrece por intenciones concretas",
+         "La Salve y el silencio final lo cierran",
+         "Con la práctica, acompaña toda la vida"
+        ],
+        "references": [
+         "Lucas 11,9-13",
+         "Rosarium Virginis Mariae 26-37",
+         "Santiago 5,16"
+        ]
+       },
+       {
+        "id": "meditar",
+        "title": "Meditar la vida de Cristo",
+        "content": "El fin último del Rosario no es honrar a María, sino contemplar a Cristo con Ella: \"María es el camino más seguro para llegar a Jesús\", decía San Bernardo. Meditando la vida, pasión, muerte y resurrección del Señor, se aprende a vivir como discípulo. Ella no se detiene el amor: lo orienta hacia su Hijo.\n\nCada misterio dice algo a tu vida: la paciencia de la espera en la Anunciación, la obediencia de José y María, la fortaleza de la cruz, la alegría de la resurrección, la novedad de Pentecostés. El Rosario no es una fuga del mundo: es una escuela para mirar la vida con la mirada de Dios y encontrarle en cada etapa.\n\nPor eso el Rosario forma la vida: lo que se contempla, se imita. Quien medita la misericordia de Cristo, se vuelve misericordioso; quien contempla su entrega, aprende a entregarse. Al final, el discípulo que reza con María se descubre mirando, amando y sirviendo como Cristo. Esa es la meta: parecerse cada día más a Jesús, de la mano de su Madre.",
+        "keyPoints": [
+         "Contemplar a Cristo con María",
+         "María es el camino más seguro a Jesús",
+         "Cada misterio ilumina tu vida",
+         "Lo que se contempla, se imita",
+         "El Rosario es escuela de discípulos"
+        ],
+        "references": [
+         "Juan 19,26-27",
+         "Filipenses 2,5-11",
+         "Rosarium Virginis Mariae 1"
+        ]
+       }
+      ]
+     },
+     {
+      "id": "apariciones",
+      "title": "Consagración y apariciones",
+      "subtitle": "Caminos de amor",
+      "description": "Entregarse a María y escuchar su llamada en las apariciones aprobadas",
+      "subsections": [
+       {
+        "id": "consagracion",
+        "title": "Consagración a María",
+        "content": "Consagrarse a María (como enseña San Luis María Grignion de Montfort) es entregarse a Jesús por las manos de su Madre: hacerse \"esclavo de amor\" para pertenecer totalmente a Cristo. No es una devoción entre muchas: es un camino completo de santidad, porque entrega a la Madre lo que se quiere dar al Hijo.\n\nLa consagración se prepara con oración y con un tiempo de formación, se hace el día elegido y se renueva cada día con una jaculatoria breve: \"Soy todo tuyo, Madre mía\". Es, en el fondo, un acto de confianza total: le confías a María tu corazón, tu vida, tu vocación y tus batallas.\n\nSus frutos son bien conocidos: una profunda paz, un amor creciente a la Eucaristía, al Rosario y a la voluntad de Dios. Montfort la llamaba \"el secreto para llegar a Jesús\", porque quien se entrega a María llega, por ella, a Cristo. Si buscas un paso audaz en tu vida espiritual, esta entrega puede abrirte un camino nuevo y seguro.",
+        "keyPoints": [
+         "Entregarse a Jesús por las manos de María",
+         "San Luis María Grignion de Montfort es su maestro",
+         "Se prepara, se hace y se renueva cada día",
+         "Frutos: paz, amor a la Eucaristía y a la voluntad",
+         "\"El secreto para llegar a Jesús\""
+        ],
+        "references": [
+         "Juan 19,27",
+         "Tratado de la verdadera devoción 1-9",
+         "CIC 2675-2676"
+        ]
+       },
+       {
+        "id": "guadalupe",
+        "title": "Guadalupe y Lourdes",
+        "content": "En 1531, la Virgen se apareció a San Juan Diego, un indígena humilde, en el Tepeyac, y dejó su imagen estampada en su tilma. En ella se une el mundo indígena y el cristiano: María es Madre de todos, especialmente de los pequeños. La imagen, que el tiempo no ha borrado a pesar de los siglos, sigue hablando de acogida y de esperanza.\n\nEn Lourdes (1858) se apareció a Santa Bernardita, una niña pobre, y se presentó con estas palabras: \"Yo soy la Inmaculada Concepción\". Su mensaje fue sencillo y exigente: conversión, oración, penitencia, presencia ante la gruta y cuidado de los enfermos. Lourdes se convirtió así en lugar de curación del cuerpo y del alma.\n\nAmbas apariciones tocan a los pequeños y llaman a la confianza: Dios elige a los que el mundo desprecia para mostrar su poder. San Juan Diego y Santa Bernardita enseñan que la santidad no exige títulos, sino humildad y fe. María no busca a los grandes del mundo: busca a quien la escucha con un corazón abierto.",
+        "keyPoints": [
+         "Guadalupe (1531) se apareció a San Juan Diego",
+         "La imagen une el mundo indígena y cristiano",
+         "Lourdes (1858) a Santa Bernardita",
+         "\"Yo soy la Inmaculada Concepción\"",
+         "Dios elige a los pequeños"
+        ],
+        "references": [
+         "Lucas 1,48",
+         "Apocalipsis 12,1",
+         "Santiago 2,5"
+        ]
+       },
+       {
+        "id": "fatima",
+        "title": "Fátima y el llamado a la oración",
+        "content": "En Fátima (1917), la Virgen se apareció a tres pastorcitos y pidió oración por la paz, el rezo diario del Rosario y la consagración de Rusia. Sus mensajes invitan a reparar, a convertir el corazón y a apartar el error y la guerra. Fátima fue un grito de amor y de esperanza en horas oscuras de Europa.\n\nLos pastorcitos Francisco, Jacinta y Lucía, especialmente los dos primeros, muy pequeños, son prueba de que la santidad no espera la adultez: se es santo desde niño, con pocos años y gran amor. Ellos ofrecieron sacrificios pequeños, rezaron el Rosario cada día y aceptaron el sufrimiento con fe sencilla y alegre.\n\nFátima enseña a los jóvenes de hoy: el Rosario, el sacrificio ofrecido y la fidelidad a María construyen la paz allí donde parecía imposible. No hace falta hacer grandes gestas: hace falta orar, ofrecer y permanecer fieles. La paz se edifica también desde la habitación, el colegio y la familia, con la oración constante y el corazón convertido.",
+        "keyPoints": [
+         "Fátima (1917), a tres pastorcitos",
+         "Llamado al Rosario y a la oración por la paz",
+         "Mensaje de conversión y reparación",
+         "Los niños también son santos",
+         "El Rosario construye la paz"
+        ],
+        "references": [
+         "Lucas 2,52",
+         "Mateo 18,3-4",
+         "1 Timoteo 2,1-2"
+        ]
+       },
+       {
+        "id": "pastora",
+        "title": "La Divina Pastora",
+        "content": "La Divina Pastora de Barquisimeto es una de las devociones marianas más queridas de Venezuela: el pueblo la invoca como \"Pastora de almas\" que guía, protege y conduce hacia su Hijo. Su procesión del 14 de enero reúne a cientos de miles de peregrinos en una de las manifestaciones de fe más grandes de América: es la calle entera hecha oración.\n\nSu advocación recuerda que Dios es el Buen Pastor y que María, su Madre, tiene esta tarea: reunir, cuidar y guiar al rebaño. Como una pastora atiende a la oveja perdida y enferma, ella cuida al pueblo sencillo, le muestra el camino y lo sostiene en las dificultades. Su imagen con el Niño Jesús y la ovejita en brazos es un Evangelio pintado.\n\nQuien camina tras la Virgen no anda perdido, sino bajo una mirada que conoce de cerca al Pastor. La fe venezolana brota en ella en la alegría de las fiestas y en la fuerza de la adversidad: cuando todo falla, el pueblo sigue peregrinando y rezando. La Divina Pastora recuerda a cada creyente que nadie caminó jamás sin rumbo junto a María.",
+        "keyPoints": [
+         "Devoción mariana muy querida en Venezuela",
+         "La procesión del 14 de enero es multitudinaria",
+         "Recuerda a Dios, el Buen Pastor",
+         "María guía hacia su Hijo",
+         "La fe del pueblo se abraza a Ella en la alegría y la prueba"
+        ],
+        "references": [
+         "Salmo 23",
+         "Juan 10,14-16",
+         "Lucas 1,46-55"
+        ]
+       }
+      ]
+     },
+     {
+      "id": "hoy",
+      "title": "María en nuestra vida",
+      "subtitle": "La Madre cercana",
+      "description": "Cómo caminar cada día con María al lado",
+      "subsections": [
+       {
+        "id": "modelo",
+        "title": "María, modelo de fe",
+        "content": "María es el modelo de fe de todos los discípulos: creyó, guardó, meditó y permaneció. Guardaba todas las cosas en su corazón (Lc 2,19) y supo esperar en la oscuridad sin perder la confianza. Es \"la primera cristiana\": antes que los apóstoles, acogió al Mesías y lo llevó en su seno. Su fe no arranca de una gran teología, sino de un corazón atento a la palabra de Dios.\n\nPonerse \"a la escuela de María\" es aprender su silencio escuchante, su prontitud para servir (fue a ayudar a Isabel), su valentía serena en el Calvario y su fidelidad sostenida en la espera de Pentecostés. Cada una de sus actitudes es una lección para el discípulo de hoy: escuchar antes de hablar, servir sin anunciar, resistir sin quejarse, esperar sin desesperarse.\n\nSu fe no fue fácil ni sin pruebas: creyó cuando anunciaban el amor hasta la cruz y cuando la contradicción se cernía sobre su Hijo. Por eso acompaña nuestra fe frágil y la hace crecer: sabe lo que cuesta creer. Mirarla no es admirar una estatua, es aprender de una hermana mayor que recorrió el mismo camino y nunca soltó la mano de Dios.",
+        "keyPoints": [
+         "María guardaba y meditaba en su corazón",
+         "Es la primera cristiana",
+         "Su fe no fue sin pruebas ni sombras",
+         "Aprender a escuchar, servir y permanecer",
+         "Acompaña nuestra fe frágil"
+        ],
+        "references": [
+         "Lucas 2,19.51",
+         "Lucas 1,39-45",
+         "Hebreos 11,1"
+        ]
+       },
+       {
+        "id": "por-maria",
+        "title": "Por María a Jesús",
+        "content": "\"A Jesús por María\" resume siglos de espiritualidad católica: recurrir a la Madre no separa de Cristo, al contrario, es el camino más corto y seguro hacia Él. María no se queda con el amor que se le da: lo hace crecer, lo purifica y lo entrega entero a su Hijo. Quien la ama termina conociendo más y mejor a Jesús, porque ella siempre señala al Salvador.\n\nPor eso confiar la vida, los estudios, las amistades y las decisiones a María es subir peldaños hacia Jesús: cada confianza depositada en ella nos deja más cerca de Cristo. Pedirle el don de la oración, de la pureza, de la vocación, es pedir lo que a ella más le importa: que vivamos como su Hijo. No pedimos cosas pequeñas; pedimos el don de parecernos a Jesús.\n\nSu sí se renueva en el nuestro: así como ella entregó su vida al plan de Dios, nosotros entregamos la nuestra a sus manos. Este camino no aleja de la vida real: la hace más honda, más orada y más valiente. Quien camina \"a Jesús por María\" descubre que el amor a la Madre es escuela del amor a Dios.",
+        "keyPoints": [
+         "A Jesús por María",
+         "María no retiene el amor: lo entrega a Jesús",
+         "Confiar la vida entera a la Madre",
+         "Pedirle oración, pureza y vocación",
+         "Su sí se renueva en nuestro sí"
+        ],
+        "references": [
+         "Juan 2,5",
+         "Lucas 1,38",
+         "CIC 2666-2670"
+        ]
+       },
+       {
+        "id": "piedad-popular",
+        "title": "La piedad popular mariana",
+        "content": "La piedad popular es la fe viva que se expresa en gestos sencillos y profundos: el rosario de la abuela, el escapulario, las procesiones, los cánticos, el \"Dios te salve María\" repetido en la noche, la medallita protectora. Es un tesoro de la fe del pueblo, que el Papa Francisco llama \"obra de Dios, no solo del pueblo\" (Evangelii gaudium 122-123): nace del Espíritu y del corazón fiel de los sencillos.\n\nEstos gestos no sustituyen la Eucaristía y los sacramentos, pero los preparan y los prolongan en la vida diaria. El rosario lleva a la comunión más que a la distracción; la procesión de la Divina Pastora desemboca en la Misa. La piedad popular es una puerta de entrada a la fe profunda, no un sustituto de ella. Por eso la Iglesia la acompaña y la orienta con alegría.\n\nCuidarlos, explicarlos y vivirlos con fe es educar el corazón: lo que se expresa con el cuerpo y con la alegría también entra en el alma y se vuelve testimonio para otros. Quien reza el rosario de su abuela y entiende lo que hace, no se queda en el gesto: se convierte en discípulo. Esa es la meta de toda piedad: dejarse tocar y transformar por Dios.",
+        "keyPoints": [
+         "La piedad popular expresa la fe del pueblo",
+         "Rosario, escapulario, procesiones y cánticos",
+         "Es \"obra de Dios\", dice el Papa Francisco",
+         "Prepara y prolonga la vida sacramental",
+         "Los gestos llenos de fe evangelizan el alma"
+        ],
+        "references": [
+         "Evangelii gaudium 122-123, 125",
+         "Lucas 1,28-45",
+         "CIC 1674-1676"
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "mundo-actual",
+    "title": "Fe y Mundo Actual",
+    "subtitle": "Creer hoy",
+    "description": "Vivir, razonar y dar testimonio de la fe en las redes, la ciencia y la cultura",
+    "tipo": "curso",
+    "count": 16,
+    "units": [
+     {
+      "id": "creer-hoy",
+      "title": "Creer en el mundo de hoy",
+      "subtitle": "Sin miedo al tiempo",
+      "description": "La fe no se refugia en el pasado: se vive y se razona hoy",
+      "subsections": [
+       {
+        "id": "distraido",
+        "title": "Un mundo distraído",
+        "content": "Nunca hubo tantos estímulos compitiendo por tu atención: notificaciones, series, memes, noticias, mensajes que no cesan. El mundo no persigue la fe: simplemente la aplasta con el ruido. Y el ruido no deja oír, ni a Dios ni a los demás; quien vive siempre conectado termina sin escuchar a nadie, ni siquiera a sí mismo.\n\nVivir la fe hoy es aprender a hacer silencio y a custodiar la atención: apagar, desconectar, caminar sin pantallas, rezar. No hace falta huir del mundo, sino habitar el mundo despierto. El silencio no es vacío: es el espacio donde Dios habla y donde el corazón vuelve a respirar. Una hora al día, unos minutos a solas, marcan la diferencia.\n\nQuien no se deja hipnotizar por la pantalla recupera el gusto por los encuentros reales y por la voz de Dios. La atención es hoy una forma de libertad: decidir a qué das tu tiempo es decidir a quién das tu vida. Empieza por algo pequeño: deja el teléfono en la mesa a la hora de comer, y verás cómo vuelve el diálogo y la paz.",
+        "keyPoints": [
+         "El ruido multiplicado silencia la fe",
+         "La fe se pierde por exceso de estímulos, no por falta de argumentos",
+         "Hacer silencio es un acto de libertad",
+         "Custodiar la atención como un tesoro",
+         "Despiertos en el mundo, no hipnotizados"
+        ],
+        "references": [
+         "1 Reyes 19,11-13",
+         "Mateo 6,22-23",
+         "Salmo 46,11"
+        ]
+       },
+       {
+        "id": "secularismo",
+        "title": "Secularismo y relativismo",
+        "content": "El secularismo sano reconoce la autonomía de la sociedad civil: la política, la ciencia y las instituciones tienen su propio terreno legítimo. El secularismo ideológico es otra cosa: excluye a Dios de la vida pública, como si la fe fuera un asunto privado e irracional que hay que esconder. El relativismo, por su parte, niega que exista la verdad y deja a cada cual con \"su\" opinión, como si todas valieran igual.\n\nEl cristiano no teme a la razón ni al diálogo: ama la verdad y la busca con libertad. Frente al \"todo es igual\", la Iglesia proclama que algunas cosas son verdad y otras no, que el amor tiene exigencias y que la persona vale más que cualquier opinión. Defender esto hoy no es intransigencia: es fidelidad y caridad, porque solo la verdad hace libres.\n\nLa fe no pide privilegios, sino un lugar en la conversación pública: proponer, no imponer. Un cristiano que argumenta con respeto, que aporta al bien común y que vive según lo que cree, desmonta con su vida el mito de que la religión es enemiga de la sociedad. La santidad en el mundo es también laicidad bien entendida.",
+        "keyPoints": [
+         "Distinguir secularismo sano e ideológico",
+         "El relativismo niega la verdad",
+         "La fe no es irracional ni solo privada",
+         "El cristiano ama y busca la verdad",
+         "Defender la verdad es caridad"
+        ],
+        "references": [
+         "Juan 18,38",
+         "Gaudium et spes 36",
+         "Evangelii gaudium 33"
+        ]
+       },
+       {
+        "id": "supersticion",
+        "title": "La fe no es superstición",
+        "content": "La fe cristiana no es magia ni superstición: no \"usa\" a Dios con amuletos, horóscopos, \"echos\" ni pactos. La fe es relación personal con un Dios vivo que se entrega por amor y respeta nuestra libertad. La superstición, en cambio, confía en fuerzas impersonales que se manipulan con ritos y talismanes; es una esclavitud disfrazada de protección.\n\nRezar no es asegurar que te salga bien el examen ni obligar a Dios a hacer tu voluntad: es entrar en diálogo con Quien te ama y te quiere libre. El que reza no compra favores: se abre a la gracia. Por eso la oración verdadera cambia más al que ora que a la situación: da paz, lucidez y valentía para actuar.\n\nQuien cree de verdad no vive atado a la suerte ni al miedo, sino confiado en la providencia y agradecido por los dones. La diferencia salta a la vista: el supersticioso vive pendiente de señales y de miedos; el creyente vive libre, sereno y esperanzado. Dios no se compra ni se negocia: se ama, se respeta y se abraza con fe.",
+        "keyPoints": [
+         "La fe es relación, la superstición es manipulación",
+         "Rechazar amuletos, horóscopos y pactos",
+         "La oración no \"obliga\" a Dios",
+         "La fe respeta la libertad",
+         "Confianza en vez de miedo"
+        ],
+        "references": [
+         "Isaías 44,6-8",
+         "Mateo 6,25-34",
+         "CIC 2110-2117"
+        ]
+       }
+      ]
+     },
+     {
+      "id": "redes",
+      "title": "Redes sociales e identidad",
+      "subtitle": "El hombre conectado",
+      "description": "Navegar las redes sin perderse el reflejo",
+      "subsections": [
+       {
+        "id": "redes-don",
+        "title": "Redes: un don y una trampa",
+        "content": "Las redes son un don real: acercan distancias, propagan el Evangelio, apoyan causas justas, comparten arte y fe. Permiten pedir ayuda, encontrar comunidad y dar a conocer lo bueno. Usadas con criterio, son un puente hacia los demás y hacia una misión nueva que no existía antes.\n\nPero como toda herramienta, tienen una trampa: el tiempo se nos va sin darnos cuenta, la comparación nos hiere y la imagen se come a la persona. Cada foto perfecta ajena puede pesarnos más que nuestra propia vida real sin filtros. Ese desgaste silencioso hay que reconocerlo y ponerle nombre.\n\nLa sabiduría cristiana no demoniza las redes, pero las usa con medida y con horario: es una señal de libertad saber cuándo entras y cuándo sales, a quién sigues y qué dejas en tu feed. Un teléfono no es un amo: es una herramienta al servicio de tu vida real. Si la pantalla te roba el sueño, la oración o los abrazos, algo hay que ajustar.",
+        "keyPoints": [
+         "Las redes acercan y evangelizan",
+         "La comparación continua hiere",
+         "La imagen puede comerse a la persona",
+         "Limitar el tiempo y elegir a quién seguir",
+         "El teléfono sirve a la vida real, no al revés"
+        ],
+        "references": [
+         "Efesios 5,15-16",
+         "1 Corintios 10,31",
+         "Christus vivit 86-90"
+        ]
+       },
+       {
+        "id": "identidad-digital",
+        "title": "Identidad en la era digital",
+        "content": "Todos tenemos dos vidas: la real y la digital. El peligro es que la segunda se convierta en un escaparate que oculta la primera: mostrar una vida perfecta mientras la de verdad se apaga. Cuida más lo que eres que lo que aparentas: la identidad no se construye con \"likes\", sino con la verdad de lo que eres ante Dios. Un perfil brillante con un alma vacía es una ruina disfrazada.\n\nEl cristiano está llamado a la coherencia: ser el mismo en persona, en el chat y en el comentario. Lo que no dirías en la mesa de tu casa, no lo escribas en la red; lo que no harías en público, no lo mires a escondidas en la pantalla. La coherencia digital es una forma moderna de honestidad y de testimonio.\n\nLa fama digital es efímera; el buen nombre, el carácter y la amistad verdadera no se miden en seguidores. Hoy se borra un perfil en un minuto, pero el carácter que construyes dura toda la vida. Que tu perfil no desmienta tu alma: edítate por dentro antes que por fuera, y la red reflejará a la mejor versión de ti.",
+        "keyPoints": [
+         "La identidad no se construye con likes",
+         "El escaparate perfecto oculta la vida real",
+         "La coherencia vale más que la audiencia",
+         "La fama digital es efímera",
+         "Que tu perfil no desmienta tu alma"
+        ],
+        "references": [
+         "Gálatas 1,10",
+         "Mateo 5,37",
+         "Gaudete et exsultate 72-73"
+        ]
+       },
+       {
+        "id": "mirada",
+        "title": "Pureza y cuidado de la mirada",
+        "content": "Los ojos son la puerta del corazón: lo que miras con gusto termina habitando en ti. No es moralismo: es sencilla psicología y sabiduría antigua. Lo que llena tus ojos deja huella en tu alma, para bien o para mal, y acaba modelando tus deseos, tus palabras y tus decisiones. Por eso cuidar la mirada es cuidar la vida.\n\nEl Señor no prohibió mirar para esclavizar, sino para liberarte: \"si tu ojo te escandaliza, arráncalo\" (Mt 5,29) es un modo de decir: corta el mal de raíz, no juegues con el fuego. Cuidar la mirada hoy incluye el contenido que consumes: series, páginas, videos y memes. Lo que se cultiva en la pantalla se siembra en el corazón.\n\nLa pureza no es represión hipócrita: es elegir lo bello y lo sano, y pedir ayuda para no quedar enredado en lo que te avergüenza. Una mirada limpia ve más y mejor; una mirada cristiana descubre la dignidad de las personas, no su utilidad. Adiestra tus ojos como entrenas tu cuerpo: mira hacia lo alto y lo bueno.",
+        "keyPoints": [
+         "Los ojos son la puerta del corazón",
+         "Lo que miras con gusto habita en ti",
+         "Cortar de raíz lo que daña",
+         "Cuidar el contenido que consumes",
+         "La pureza es elegir lo sano, no reprimir"
+        ],
+        "references": [
+         "Mateo 5,27-29",
+         "Filipenses 4,8",
+         "CIC 2520-2526"
+        ]
+       },
+       {
+        "id": "testimonio-digital",
+        "title": "Testimonio digital",
+        "content": "Las redes son una misión: un comentario sereno, una palabra de fe, un video que evangeliza o simplemente una sonrisa real en un mundo de falsedades. Cada interacción puede ser Cristo pasando de nuevo. El Papa Francisco llama a los jóvenes a ser \"ciudadanos digitales\" que no permanecen mudos en la plaza pública que hoy son las redes.\n\nPero el mejor testimonio digital es el que no grita: la coherencia. Un joven que no insulta, que no difunde rumores, que defiende al que es atacado y que comparte belleza y verdad hace más por la fe que cien publicaciones ruidosas. La paciencia y la gracia de responder bien cuando te provocan se notan y se contagian. Nadie siguió jamás a un perfil, sino a una persona consecuente.\n\nSé la semilla honesta en el campo digital: no todo comentario tiene que ser evangelizador, pero todo puede ser humano y digno. Pregúntate antes de publicar: ¿esto edifica, consuela, aclara o divierte sanamente? Las redes necesitan voces nuevas: las tuyas, serenas, limpias y valientes. Ese es un apostolado para hoy.",
+        "keyPoints": [
+         "Las redes son terreno de misión",
+         "Compartir fe, belleza y verdad",
+         "Ser \"ciudadano digital\" sano",
+         "El mejor testimonio es la coherencia",
+         "La semilla honesta en el campo digital"
+        ],
+        "references": [
+         "Mateo 5,13-16",
+         "Colosenses 4,6",
+         "Christus vivit 86-89"
+        ]
+       }
+      ]
+     },
+     {
+      "id": "ciencia-fe",
+      "title": "Ciencia y fe",
+      "subtitle": "Dos luces de una misma verdad",
+      "description": "La fe no teme al conocimiento: lo agradece y lo ilumina",
+      "subsections": [
+       {
+        "id": "ciencia-o-fe",
+        "title": "¿Ciencia o fe?",
+        "content": "La ciencia y la fe no son enemigas: responden preguntas distintas. La ciencia descubre cómo funciona el mundo natural; la fe responde al porqué último y al sentido. Son \"dos alas de una misma ave\", decía San Juan Pablo II en la encíclica Fides et ratio: el conocimiento del mundo y el encuentro con Dios no compiten, se completan.\n\nMuchos grandes científicos fueron cristianos profundos: Newton, Pasteur, Mendel, y también Georges Lemaître, padre de la teoría del Big Bang y sacerdote católico. La historia muestra diálogo, no choque: los mismos hombres que medían el universo se arrodillaban ante su Creador. La ciencia amplía el asombro que conduce a la adoración.\n\nElegir entre Dios y la razón es un falso dilema: usar la razón es también un don de Dios. El cristiano no tiene miedo al conocimiento: lo abraza, lo estudia con rigor y lo pone al servicio de los demás. Una fe que teme a la ciencia es débil; una ciencia que desprecia la fe es incompleta. Ambas son regalos del mismo Dios.",
+        "keyPoints": [
+         "Ciencia: cómo funciona el mundo; fe: su sentido último",
+         "Dos alas de un mismo vuelo (Fides et ratio)",
+         "Grandes científicos fueron creyentes",
+         "El diálogo, no el choque, es lo normal",
+         "Elegir entre Dios y la razón es un falso dilema"
+        ],
+        "references": [
+         "Fides et ratio 1",
+         "Romanos 1,20",
+         "Génesis 1,1"
+        ]
+       },
+       {
+        "id": "origen",
+        "title": "El origen y el sentido de todo",
+        "content": "La ciencia investiga cómo surgieron las estrellas, la vida y el hombre; la fe añade la pregunta que la ciencia no puede responder: ¿por qué existe algo en lugar de nada? ¿Qué sentido tiene mi vida? El origen responde al \"qué\" y al \"cómo\"; el sentido, al \"por qué\" y al \"para quién\". Son dos niveles, no dos enemigos: la razón y la fe no se excluyen, se iluminan.\n\nAceptar la evolución como mecanismo no contradice la fe: la fe afirma que Dios crea, sostiene y da sentido a cuanto existe. Como decía San Agustín, \"creo para comprender y comprendo para creer\": el creyente no deja su inteligencia en la puerta de la iglesia. La Escritura enseña el porqué de la creación; la ciencia estudia cómo se desplegó en el tiempo.\n\nCreador y creación, oración y estudio, se abrazan en el cristiano íntegro. Quien contempla el universo con fe y lo estudia con rigor no se estrella contra la contradicción: se asombra más. La creación entera es un libro abierto que habla de Dios, y la ciencia una lupa para leerlo mejor, no para cerrarlo.",
+        "keyPoints": [
+         "Ciencia: cómo y cuándo; fe: por qué y para qué",
+         "La evolución como mecanismo no niega la creación",
+         "Dios crea, sostiene y da sentido",
+         "La Biblia enseña a salvarse, no a hacer física",
+         "Creación y ciencia se abrazan en el creyente"
+        ],
+        "references": [
+         "Génesis 1,1-31",
+         "CIC 282-289",
+         "Humani generis 5-6"
+        ]
+       },
+       {
+        "id": "verdad",
+        "title": "La verdad y el diálogo",
+        "content": "La verdad no es propiedad de una disciplina: es única, porque Dios es la Verdad. Por eso el cristiano busca la verdad donde se encuentre, con rigor y con alegría, sabiendo que toda verdad, descubierta por quien la descubra, viene de Dios y nos acerca a Él. Buscar la verdad con amor es ya una forma de orar.\n\nEl diálogo cristiano es valiente y humilde: propone la verdad con argumentos abiertos al examen, escucha con respeto y rechaza el fanatismo que identifica la fe con imposición. La verdad no se impone: se propone y se testimonia, porque el corazón libre es el único que puede acogerla. Quien ama de verdad la verdad no teme las preguntas difíciles.\n\nCiencia y fe se purifican mutuamente: la ciencia cuida a la fe de supersticiones; la fe cuida a la ciencia de absolutizarse. Ninguna verdad humana es contraria a Dios, porque toda verdad procede de Él. El cristiano no cierra los ojos: los abre más, y confiesa que hay más luz de la que la razón alcanza a ver. La Verdad se llama y se encuentra en Cristo.",
+        "keyPoints": [
+         "La verdad es una, porque Dios es la Verdad",
+         "Toda verdad viene de Dios",
+         "Buscar con rigor y dialogar con amor",
+         "La fe propone, no impone",
+         "Ciencia y fe se purifican mutuamente"
+        ],
+        "references": [
+         "Juan 14,6",
+         "Fides et ratio 32",
+         "1 Pedro 3,15-16"
+        ]
+       }
+      ]
+     },
+     {
+      "id": "amistad-comunidad",
+      "title": "Amistad y comunidad",
+      "subtitle": "No se puede creer solo",
+      "description": "La fe crece en buena compañía y se cura de la soledad",
+      "subsections": [
+       {
+        "id": "amistad",
+        "title": "Amistades que elevan",
+        "content": "Los amigos son un regalo de Dios, pero no todas las amistades llevan al mismo lugar. \"El que anda con sabios, será sabio\", dice Proverbios; y el que se junta con necios se vuelve confuso. Las amistades verdaderas te hacen mejor: te apoyan, te corrigen con cariño y no te dejan solo en las malas. Un buen amigo es un tesoro que vale más que el oro.\n\nNo se trata de juzgar ni de aislarse, sino de elegir: busca amigos con quienes puedas crecer, reír y también hablar de Dios. Una amistad que te arrastra a lo que degrada no es amistad, por mucha química que tenga. Las fronteras y las buenas compañías no son muros: son puertas que protegen tu corazón para personas mejores.\n\nLa amistad cristiana, como la de Jesús con sus discípulos, es santa, leal y capaz de dar la vida. Se propone, se cuida, se perdona y se agradece. Este curso, tu grupo de jóvenes, tu equipo, pueden albergar amigos para toda la vida si pones corazón y lealtad. Y recuerda el mejor test: ¿esta persona me acerca a Dios o me aleja de Él?",
+        "keyPoints": [
+         "Las amistades moldean el carácter",
+         "El amigo verdadero corrige y apoya",
+         "Elegir amigos con quienes crecer",
+         "La amistad que degrada no es amistad",
+         "Jesús llama amigos a sus discípulos"
+        ],
+        "references": [
+         "Proverbios 13,20",
+         "Juan 15,12-15",
+         "Eclesiástico 6,14-17"
+        ]
+       },
+       {
+        "id": "pertenecer",
+        "title": "Pertenecer a una comunidad",
+        "content": "Ser cristiano no es un asunto de uno solo: es pertenecer a un Cuerpo, la Iglesia, la familia de Dios. En la comunidad se recibe la fe, se comparte la alegría y la cruz, se aprende a servir. \"Un cristiano solo es un cristiano en peligro\": la fe que no se vive en comunidad se enfría, se deforma y se pierde. Ningún discípulo fue creado para caminar solo.\n\nTu grupo juvenil, tu parroquia, tu movimiento, son ese regalo: un lugar donde ser conocido, querido y desafiado a crecer. Aquí descubres tu vocación, aquí pruebas el servicio, aquí encuentras hermanos que oren contigo y por ti. La participación no es opcional para el discípulo: es el oxígeno para su fe.\n\nPertenecer no es ir de vez en cuando: es comprometerse, aportar, servirse y dejar que la comunidad te sostenga cuando todo se pone difícil. Cada uno tiene algo que dar, aunque no lo crea. Tu presencia, tu voz, tu trabajo o tu oración sostienen a los demás sin que lo sepas. La Iglesia te necesita y tú necesitas a la Iglesia: ese vínculo se llama familia.",
+        "keyPoints": [
+         "La fe se vive en el Cuerpo de Cristo",
+         "La Iglesia es familia y comunidad",
+         "Un cristiano solo está en peligro",
+         "Aportar y dejarse sostener",
+         "El grupo juvenil es escuela de pertenencia"
+        ],
+        "references": [
+         "1 Corintios 12,12-27",
+         "Hechos 2,42-47",
+         "CIC 752-753"
+        ]
+       },
+       {
+        "id": "soledad",
+        "title": "Soledad y compañía de Cristo",
+        "content": "Muchos jóvenes se sienten solos en medio de miles de seguidores: la soledad del alma no se cura con más pantallas, sino con presencia. Cristo prometió estar con nosotros \"todos los días hasta el fin del mundo\", y lo cumple especialmente en la oración, la Eucaristía y los hermanos. Cuando la soledad toca a la puerta, no estábamos hechos para vivir en el vacío.\n\nLa soledad bien vivida también es un maestro: el desierto fue lugar de encuentro para los profetas y para Jesús mismo. Aprender a estar a solas con Dios cura la necesidad de ser siempre acompañado y nos hace dueños de nuestro corazón. Un joven capaz de estar en silencio ante Dios no se siente perdido cuando queda solo.\n\nY cuando la soledad aprieta, el cristiano la convierte en oración y en apertura a los que están más solos que nosotros. Hay mucha gente aislada a nuestro alrededor esperando una visita, un mensaje, un rato de compañía. Salir de la propia soledad tendiendo la mano a la del otro es la medicina más antigua y más eficaz que existe.",
+        "keyPoints": [
+         "La soledad no se cura con pantallas",
+         "Cristo promete estar con nosotros",
+         "El desierto enseña a encontrarse con Dios",
+         "La soledad bien vivida hace oración",
+         "Acercarse a los que están más solos"
+        ],
+        "references": [
+         "Mateo 28,20",
+         "Mateo 4,1-11",
+         "Salmo 25,16"
+        ]
+       }
+      ]
+     },
+     {
+      "id": "testigos",
+      "title": "Testigos jóvenes",
+      "subtitle": "Los tuyos",
+      "description": "Santos y jóvenes que cambiaron su entorno: tú puedes",
+      "subsections": [
+       {
+        "id": "santos-jovenes",
+        "title": "Santos cercanos a tu edad",
+        "content": "Santo Domingo Savio murió a los 14; Santa María Goretti a los 11; Santa Cecilia, mártir y joven romana; Santa Tarsicia, de la Iglesia antigua; los santos pastorcitos de Fátima, que hablaron con la Virgen siendo muy niños. La santidad no espera a ser adulto: Dios llama también con quince años y con diez. No hay edad mínima para amar.\n\nEstos jóvenes no fueron \"perfectos\" de repente: fueron valientes. Rezaron, guardaron el corazón, perdonaron hasta el extremo y dieron la vida por Cristo. Domingo Savio se preguntaba cómo hacer \"grandes cosas por Dios\"; María Goretti, muriendo, perdonó a quien la agredía, y ese perdón cambió una vida. No hicieron gestas de adultos: hicieron gestas de santos.\n\nSu ejemplo dice a cada joven que la santidad no es rebajar la edad, sino elevar la vida: sé santo hoy, donde estás, con lo que tienes. Los santos jóvenes no son figuras del pasado para admirar en un altar: son compañeros de camino y abogados en el cielo. Tu adolescencia puede ser tu tiempo de santidad, no un ensayo de un futuro lejano.",
+        "keyPoints": [
+         "La santidad no espera la adultez",
+         "Santo Domingo Savio, Santa María Goretti, los pastorcitos",
+         "Fueron valientes, no perfectos",
+         "La santidad eleva la edad",
+         "Ser santo hoy, donde estás"
+        ],
+        "references": [
+         "1 Timoteo 4,12",
+         "Mateo 18,3",
+         "Christus vivit 49-50"
+        ]
+       },
+       {
+        "id": "cambian",
+        "title": "Jóvenes que cambiaron su entorno",
+        "content": "La historia está llena de jóvenes que transformaron su tiempo: San Francisco de Asís renovó la Iglesia con veinticuatro años; Santa Teresa de Jesús se convirtió de joven y reformó el Carmelo; Chiara Luce Badano, italiana, dio testimonio de alegría en la enfermedad a los dieciocho años y fue beatificada. No esperaron ser mayores para responder: respondieron cuando Dios llamó.\n\nNo hace falta esperar un cargo: tu entorno es tu misión. Un joven que estudia con honradez, que anima a su equipo, que visita a su abuelo, que convive en paz en su barrio, ya está cambiando el mundo. Los grandes cambios no empiezan con discursos: empiezan en el aula, en la cuadra, en la casa, con decisiones pequeñas y valientes repetidas cada día.\n\nLa santidad social empieza por el vecino de al lado. Dios te llama no solo a ser bueno contigo mismo, sino a ser bueno para otros: un fermento que haga crecer de verdad la comunidad. Cada generación tiene su misión y su modo de decir \"sí\". La tuya puede empezar hoy, con lo que tienes en la mano.",
+        "keyPoints": [
+         "San Francisco renovó la Iglesia joven",
+         "Chiara Luce Badano: alegría en la prueba",
+         "Tu entorno es tu misión",
+         "La honradez y la amistad cambian el mundo",
+         "La santidad social empieza al lado"
+        ],
+        "references": [
+         "Hechos 2,17",
+         "1 Tesalonicenses 4,11-12",
+         "Gaudete et exsultate 31"
+        ]
+       },
+       {
+        "id": "tu-testimonio",
+        "title": "Tu testimonio vale",
+        "content": "Quizá no harás milagros visibles, pero tu \"sí\" cuenta: ahí donde estás, con tus estudios, tu barrio, tu grupo, Cristo sigue pasando por ti. No hace falta que llames la atención para que Él actúe en tu vida: tu fidelidad silenciosa ya es una misión. Vives en tu curso, en tu sala, en tu equipo, y el Evangelio se propaga por contagio silencioso.\n\nLo que Dios te pide no es ser mejor que los demás, sino ser más fiel: amarle en lo concreto, perdonar sin publicidad, servir sin aplauso, pedir perdón sin excusas. La fidelidad en lo pequeño, repetida cada día, construye una vida entera con la que Dios va a contar. Nadie ve la cosecha del sembrador, pero todos la disfrutan.\n\nTu testimonio, pequeño y constante, es la semilla que otros verán crecer aunque tú no lo notes. El mundo no necesita superhéroes: necesita jóvenes santos que amen de verdad. Ese es tu lugar, tu tarea y tu título de gloria: ser de los que aman. Y cuando dudes, acuérdate: Dios no te pide resultados, te pide fidelidad.",
+        "keyPoints": [
+         "Tu sí cuenta donde estás",
+         "El Evangelio se propaga por contagio",
+         "Ser más fiel, no mejor que otros",
+         "Servir sin necesidad de aplauso",
+         "El mundo necesita jóvenes que amen de verdad"
+        ],
+        "references": [
+         "Mateo 5,14-16",
+         "Gálatas 6,9",
+         "1 Corintios 13,4-7"
+        ]
+       }
+      ]
+     }
+    ]
+   },
   {
    "id": "glosario",
    "title": "Glosario",
@@ -3933,1633 +5561,5 @@ const FORMACION_DATA = {
    ],
 "count": 27
    },
-   {
-    "id": "moral",
-    "title": "Moral y Vida en Cristo",
-    "subtitle": "Disciplina",
-    "description": "Conciencia, virtudes, mandamientos y perdón: vivir la fe en lo concreto de cada día",
-    "tipo": "curso",
-    "count": 17,
-    "units": [
-     {
-      "id": "conciencia",
-      "title": "Conciencia y Libertad",
-      "subtitle": "El timón interior",
-      "description": "La conciencia es el lugar donde Dios te habla y la brújula de tus decisiones",
-      "subsections": [
-       {
-        "id": "conciencia-dios",
-        "title": "La conciencia, voz de Dios",
-        "content": "La conciencia es el núcleo más secreto del ser humano, el santuario donde se encuentra a solas con Dios, cuya voz resuena en su interior llamándole a hacer el bien y evitar el mal (CIC 1776). No es un capricho ni un sentimiento pasajero: es un juicio de la razón que aplica la ley de Dios a una situación concreta.\n\nDios la puso en todos los corazones para que, aun antes de conocerlo, el hombre pueda distinguir el bien del mal. Formarla bien, escucharla con docilidad y obedecerla es el primer paso de toda vida moral seria: quien educa su conciencia aprende a amar libremente y a decidir con paz.",
-        "keyPoints": [
-         "La conciencia es el lugar donde Dios nos habla",
-         "Es un juicio de la razón, no un simple sentimiento",
-         "Nos orienta a hacer el bien y evitar el mal",
-         "Debe formarse y educarse cada día",
-         "Obedecer una conciencia bien formada agrada a Dios"
-        ],
-        "references": [
-         "Romanos 2,15",
-         "CIC 1776-1802",
-         "1 Timoteo 1,5"
-        ]
-       },
-       {
-        "id": "formar-conciencia",
-        "title": "Formar la conciencia",
-        "content": "Formar la conciencia significa iluminarla con la Palabra de Dios y la enseñanza de la Iglesia, que son como un espejo donde aprender a ver las cosas como las ve Dios. No basta con \"sentir\" que algo está bien o mal: los sentimientos pueden engañar. Hace falta estudio, oración y buen ejemplo.\n\nSe forma leyendo la Escritura, recibiendo los sacramentos, escuchando la catequesis, preguntando a personas de confianza y examinando cada día cómo se ha vivido. Una conciencia bien formada evita dos extremos: la conciencia laxa, que se excusa a sí misma, y la conciencia escrupulosa, que se condena sin motivo.",
-        "keyPoints": [
-         "Se forma con la Palabra de Dios y la doctrina de la Iglesia",
-         "Los sentimientos solos no deciden la verdad moral",
-         "Los sacramentos y la catequesis la alimentan",
-         "Evita la conciencia laxa y la escrupulosa",
-         "El buen consejo ayuda a juzgar con rectitud"
-        ],
-        "references": [
-         "CIC 1783-1794",
-         "Filipenses 4,8",
-         "Proverbios 3,5-6"
-        ]
-       },
-       {
-        "id": "libertad-ama",
-        "title": "Libertad que ama",
-        "content": "La libertad no es \"hacer lo que me dé la gana\", sino la capacidad de elegir el bien verdadero y hacerlo por amor. Por eso ser libre no significa carecer de reglas, sino madurar para querer lo que de verdad nos hace plenos. El pecado no libera: esclaviza. Sólo la verdad nos hace libres.\n\nCuanto más ama una persona, más libre es, porque el amor ordena los deseos y da fuerzas para resistir las apetencias que nos arrastran. Dios no quitó la libertad a los ángeles ni a los primeros hombres: la respeta y la quiere, porque el amor sin libertad no sería amor.",
-        "keyPoints": [
-         "Libertad es elegir el bien, no hacer lo que se antoja",
-         "El pecado esclaviza; la verdad libera",
-         "El amor hace libre y ordena los deseos",
-         "Dios respeta nuestra libertad y llama a usarla bien",
-         "Elegir el bien con constancia nos hace maduros"
-        ],
-        "references": [
-         "Juan 8,32",
-         "Gálatas 5,13-14",
-         "CIC 1730-1748"
-        ]
-       },
-       {
-        "id": "pecado-misericordia",
-        "title": "El pecado y la misericordia",
-        "content": "El pecado es una ofensa a Dios y una herida en nosotros y en los demás. Quiebra la amistad con el Señor, oscurece la conciencia y contagia. El pecado mortal rompe la vida de la gracia; el venial la debilita. Tomarlo en serio es señal de madurez, no de miedo: quien ama no quiere ofender.\n\nPero la misericordia de Dios es siempre más grande que nuestro pecado. No existe falta que Él no pueda perdonar si nos acercamos con humildad. Reconocer el pecado no es desesperarse: es abrir la puerta a la curación y descubrir cuánto nos ama Dios en el perdón.",
-        "keyPoints": [
-         "El pecado ofende a Dios y daña a la persona",
-         "El pecado mortal rompe la gracia; el venial la debilita",
-         "Tomarlo en serio es señal de amor, no de miedo",
-         "La misericordia de Dios es más grande que cualquier falta",
-         "El perdón cura, reconcilia y fortalece"
-        ],
-        "references": [
-         "1 Juan 1,8-10",
-         "CIC 1854-1870",
-         "Romanos 5,20"
-        ]
-       },
-       {
-        "id": "examen-conciencia",
-        "title": "El examen de conciencia",
-        "content": "El examen de conciencia es una breve revisión diaria a la luz de Dios: dar gracias, pedir luz, repasar con sinceridad lo hecho (bueno y malo), arrepentirse y proponer mejorar. Cuesta unos minutos y cambia la dirección de la vida.\n\nNo sirve para angustiarse, sino para crecer: agradezco los dones del día, pido perdón por lo que falló y termino confiando en la gracia de Dios. Antes de la Confesión, este examen se hace más detenido, para confesar con claridad y recibir la misericordia con corazón preparado.",
-        "keyPoints": [
-         "Revisión diaria a la luz de Dios",
-         "Pasos: gracias, luz, examen, arrepentimiento y propósito",
-         "Cuesta pocos minutos y ordena la vida",
-         "Busca crecer, no angustiarse",
-         "Prepara la Confesión sacramental"
-        ],
-        "references": [
-         "Salmo 139,23-24",
-         "Lamentaciones 3,40",
-         "2 Corintios 13,5"
-        ]
-       }
-      ]
-     },
-     {
-      "id": "virtudes",
-      "title": "Las Virtudes",
-      "subtitle": "Fortaleza del alma",
-      "description": "Hábitos buenos que se entrenan y nos hacen mejores personas",
-      "subsections": [
-       {
-        "id": "cardinales",
-        "title": "Las virtudes cardinales",
-        "content": "Las virtudes cardinales son los cuatro hábitos que sostienen toda vida recta: prudencia, justicia, fortaleza y templanza. La prudencia elige el medio correcto para cada acto; la justicia da a cada uno lo suyo; la fortaleza vence los miedos y las dificultades; la templanza modera los placeres y los impulsos.\n\nSe llaman cardinales porque son \"goznes\" (cardo, en latín) sobre los que giran todas las demás virtudes humanas. Se adquieren repitiéndonos en el bien: decidir bien, ser justos, resistir y dominar nuestros impulsos hasta que se vuelve parte de nosotros.",
-        "keyPoints": [
-         "Prudencia: elegir el medio correcto",
-         "Justicia: dar a cada uno lo suyo",
-         "Fortaleza: vencer el miedo y la dificultad",
-         "Templanza: moderar deseos y placeres",
-         "Se entrenan con la repetición del bien"
-        ],
-        "references": [
-         "Sabiduría 8,7",
-         "CIC 1805-1809",
-         "2 Pedro 1,5-7"
-        ]
-       },
-       {
-        "id": "teologales",
-        "title": "Las virtudes teologales",
-        "content": "Fe, esperanza y caridad son las virtudes que Dios mismo infunde y que nos unen directamente a Él. La fe cree en Dios y en todo lo que ha revelado; la esperanza confía en su promesa de vida eterna; la caridad ama a Dios sobre todas las cosas y al prójimo como a nosotros mismos.\n\nSon el alimento que hace crecer todas las demás virtudes: sin caridad, la prudencia puede volverse egoísmo; con ella, hasta la virtud más pequeña se convierte en camino de santidad. Se purifican cuando amamos a Dios sobre todo y al prójimo por amor a Él.",
-        "keyPoints": [
-         "Fe: adherirse a Dios y a su revelación",
-         "Esperanza: confiar en sus promesas",
-         "Caridad: amar a Dios y al prójimo",
-         "Son infusas: don y tarea a la vez",
-         "Dan vida a todas las virtudes humanas"
-        ],
-        "references": [
-         "1 Corintios 13,13",
-         "CIC 1812-1829",
-         "Gálatas 5,6"
-        ]
-       },
-       {
-        "id": "virtud-caracter",
-        "title": "Virtud y carácter",
-        "content": "La virtud es un hábito: una disposición firme a hacer el bien que se adquiere con la repetición. Del mismo modo que el deporte entrena el cuerpo, la práctica entrena el corazón. Cada acto bueno deja una huella y facilita el siguiente.\n\nPor eso el carácter no es algo que \"se tiene\" de golpe, sino algo que se construye todos los días con decisiones pequeñas: decir la verdad aunque cueste, ayudar sin que nos vean, levantarse y volver a intentarlo después de caer. Los modelos y los amigos virtuosos son compañeros de entrenamiento privilegiados.",
-        "keyPoints": [
-         "La virtud es un hábito que se entrena",
-         "Cada acto bueno facilita el siguiente",
-         "El carácter se construye con decisiones diarias",
-         "Las virtudes pequeñas sostienen las grandes",
-         "Los buenos amigos y modelos ayudan a crecer"
-        ],
-        "references": [
-         "CIC 1803-1804, 1810-1811",
-         "Proverbios 4,18",
-         "1 Corintios 9,24-27"
-        ]
-       },
-       {
-        "id": "frutos-espiritu",
-        "title": "Los frutos del Espíritu Santo",
-        "content": "San Pablo describe los frutos que produce en nosotros el Espíritu Santo cuando lo dejamos actuar: amor, alegría, paz, paciencia, amabilidad, bondad, fidelidad, humildad y dominio propio. Son señales de que la gracia va transformando nuestra vida desde dentro.\n\nNo se fabrican con esfuerzo puro: brotan de la oración, de la vida sacramental y de la docilidad al Espíritu. Cuando estos frutos aparecen en tu vida (en tu casa, en tu grupo, en el aula), es señal de que Dios está obrando y de que vas creciendo como discípulo de Cristo.",
-        "keyPoints": [
-         "El Espíritu transforma desde dentro",
-         "Frutos: amor, alegría, paz, paciencia, bondad...",
-         "Broten de la oración y los sacramentos",
-         "Se reconocen en la vida diaria",
-         "Son señal de crecimiento espiritual"
-        ],
-        "references": [
-         "Gálatas 5,22-23",
-         "CIC 1832",
-         "Efesios 5,9"
-        ]
-       }
-      ]
-     },
-     {
-      "id": "mandamientos",
-      "title": "Los Diez Mandamientos en la vida diaria",
-      "subtitle": "Reglas de amor",
-      "description": "Los mandamientos no son un límite: son caminos para amar a Dios y al prójimo",
-      "subsections": [
-       {
-        "id": "amar-dios",
-        "title": "Amar a Dios sobre todas las cosas",
-        "content": "El primer mandamiento nos invita a poner a Dios en el centro: adorarlo solo a Él, sin ídolos ni dioses falsos. Un ídolo no es una estatua: es cualquier cosa que ocupen el lugar de Dios en el corazón: el dinero, la fama, el físico, el \"yo\".",
-        "keyPoints": [
-         "Amar a Dios con todo el corazón",
-         "Rechazar todo ídolo moderno",
-         "La adoración y la oración lo ponen primero",
-         "Lo que domina tu corazón es tu dios",
-         "Servir a Dios da libertad verdadera"
-        ],
-        "references": [
-         "Éxodo 20,2-6",
-         "Mateo 4,10",
-         "CIC 2083-2094"
-        ]
-       },
-       {
-        "id": "nombre-domingo",
-        "title": "El nombre de Dios y el día del Señor",
-        "content": "El segundo mandamiento respeta el santo nombre de Dios: no se usa para cursitos ni blasfemias. El tercero celebra el domingo: la Misa y el descanso para descansar con Dios y con la familia.\n\nEn un mundo que trata el domingo como un día más de compras, participar en la Eucaristía dominical es un acto de libertad: se da el tiempo a Aquel que da sentido a la semana.",
-        "keyPoints": [
-         "El nombre de Dios se trata con reverencia",
-         "El domingo es día de Misa y descanso",
-         "La Eucaristía dominical es el centro de la semana",
-         "El descanso verdadero es el que incluye a Dios",
-         "Es un acto de libertad ante el ajetreo"
-        ],
-        "references": [
-         "Éxodo 20,7-11",
-         "Hechos 20,7",
-         "CIC 2142-2173"
-        ]
-       },
-       {
-        "id": "vida-familia",
-        "title": "Vida, familia y pureza",
-        "content": "Los mandamientos quinto, sexto y noveno protegen la vida, el amor y la pureza: no matar, no pecar contra el matrimonio y no desear lo ilícito. Protegen la dignidad de cada persona y el tesoro del amor verdadero.\n\nLa pureza del corazón no es castrarse: es aprender a mirar, hablar y amar con respeto. Hoy, cuando la imagen vale más que la verdad, la pureza es una fuerza que forma corazones capaces de amar de verdad y de esperar el amor que Dios sueña para ti.",
-        "keyPoints": [
-         "La vida humana es sagrada e inviolable",
-         "El amor conyugal es fiel y abierto a la vida",
-         "La pureza enseña a mirar y a tratar con respeto",
-         "La castidad es entrenamiento del amor",
-         "Protege tu corazón y tu mirada"
-        ],
-        "references": [
-         "Éxodo 20,13-14.17",
-         "Mateo 5,8.27-28",
-         "CIC 2258, 2331-2339"
-        ]
-       },
-       {
-        "id": "verdad-deseos",
-        "title": "Verdad, honradez y deseos del corazón",
-        "content": "El octavo mandamiento prohíbe la mentira, la calumnia y el engaño: la verdad construye la confianza y la vida en común. El décimo invita a la sobriedad de deseos: no envidiar ni ambicionar lo ajeno, porque el corazón insatisfecho es tu peor hambre.\n\nSé de palabra: decir la verdad con caridad, cumplir lo prometido y cuidar la reputación de los demás. La honradez se nota en lo pequeño: en el examen que no se mira, en el vuelto que no se pide, en el like que no se finge.",
-        "keyPoints": [
-         "La verdad construye la confianza",
-         "Prohibidos la mentira, la calumnia y el engaño",
-         "La envidia corroe el corazón",
-         "La sobriedad de deseos trae paz",
-         "La honradez se nota en lo pequeño"
-        ],
-        "references": [
-         "Éxodo 20,16-17",
-         "Efesios 4,25",
-         "CIC 2464-2503"
-        ]
-       }
-      ]
-     },
-     {
-      "id": "reconciliacion",
-      "title": "Perdón y Reconciliación",
-      "subtitle": "Volver a empezar",
-      "description": "Dios siempre perdona y nos llama a perdonar de corazón",
-      "subsections": [
-       {
-        "id": "consecuencias",
-        "title": "El pecado y sus consecuencias",
-        "content": "Cada pecado deja huella en quien lo comete, en las relaciones y en la comunidad. La herida se ve en la conciencia, en el carácter, en la cofianza que se pierde. Por eso el pecado no es un \"asunto privado\": ofende a Dios y baja al Cuerpo de Cristo.\n\nReconocer las consecuencias no lleva a la desesperanza, sino a la humildad: descubrimos que necesitamos a Dios y a los demás. El mismo pecado que hunde al orgulloso es el que hace resurgir al humilde.",
-        "keyPoints": [
-         "El pecado deja huella en la persona y en sus relaciones",
-         "No es un asunto privado: daña la comunión",
-         "Reconocer las consecuencias forma en humildad",
-         "Abrir la herida a Dios es el primer paso",
-         "Del pecado no se vuelve igual: se vuelve más humilde"
-        ],
-        "references": [
-         "Salmo 51",
-         "1 Corintios 12,26",
-         "2 Samuel 12,13"
-        ]
-       },
-       {
-        "id": "confesion",
-        "title": "El sacramento de la Reconciliación",
-        "content": "En la Confesión, Dios nos perdona por medio de la Iglesia: el sacerdote actúa en nombre de Cristo. Confesamos los pecados con dolor y propósito de enmienda, recibimos el perdón y una penitencia, y salimos reconciliados y con la gracia restaurada.\n\nNo es un interrogatorio ni un tribunal para humillar: es un encuentro de misericordia. La confesión frecuente (mensual, o al menos unas veces al año) es medicina del alma: purifica la conciencia, fortalece la voluntad y devuelve la paz.",
-        "keyPoints": [
-         "Cristo perdona por medio del sacerdote",
-         "Requiere examen, dolor, confesión y propósito",
-         "La penitencia une el perdón con la reparación",
-         "La confesión frecuente es medicina del alma",
-         "Devuelve la paz y fortalece la voluntad"
-        ],
-        "references": [
-         "Juan 20,22-23",
-         "Lucas 15,21-24",
-         "CIC 1420-1498"
-        ]
-       },
-       {
-        "id": "perdonar",
-        "title": "Perdonar de corazón",
-        "content": "Perdonar es un acto de libertad y de fe, no una sensación. Dios nos perdona como nosotros perdonamos: quien se niega a perdonar se encadena al daño recibido. Perdonar no es olvidar ni justificar lo injusto: es renunciar a la venganza y entregar el perdón a Dios, que es justo.\n\nPuede costar tiempo y oración pedir la gracia de querer perdonar. Reza por quien te hirió: eso ablanda el corazón y te devuelve a ti la paz, porque la falta de perdón hiere sobre todo al que la guarda.",
-        "keyPoints": [
-         "Perdonar es un acto de libertad y fe",
-         "No es olvidar ni justificar lo injusto",
-         "Quien no perdona se encadena a sí mismo",
-         "Rezar por el ofensor ablanda el corazón",
-         "El perdón devuelve la paz al que perdona"
-        ],
-        "references": [
-         "Mateo 6,14-15",
-         "Mateo 18,21-35",
-         "Colosenses 3,13"
-        ]
-       },
-       {
-        "id": "empezar",
-        "title": "Comenzar de nuevo",
-        "content": "La vida cristiana es un camino que siempre se puede retomar: Santa Teresa de Jesús decía que Dios no se cansa de llamar y que la vida es una sucesión de recomenzar. Nadie está destinado a quedarse en la caída.\n\nDespués del perdón, hay que confiar y avanzar: cambiar lo que se puede, pedir ayuda, evitar las ocasiones de pecado y, sobre todo, no desconfiar de la misericordia. Dios escribe derecho con renglones que nosotros torcemos: contigo propone empezar hoy mismo.",
-        "keyPoints": [
-         "La vida cristiana siempre se puede recomenzar",
-         "Nadie está destinado a quedarse caído",
-         "Confiar en la misericordia después del perdón",
-         "Evitar ocasiones y buscar ayuda",
-         "Dios propone empezar de nuevo hoy"
-        ],
-        "references": [
-         "Lamentaciones 3,22-23",
-         "Proverbios 24,16",
-         "CIC 1472-1473"
-        ]
-       }
-      ]
-     }
-    ]
-   },
-   {
-    "id": "doctrina-social",
-    "title": "Doctrina Social de la Iglesia",
-    "subtitle": "Fe en la ciudad",
-    "description": "El amor de Cristo aplicado a la familia, el trabajo, la política y la casa común",
-    "tipo": "curso",
-    "count": 16,
-    "units": [
-     {
-      "id": "principios",
-      "title": "Los principios de la enseñanza social",
-      "subtitle": "Los cimientos",
-      "description": "Las ideas raíz desde las que la Iglesia lee la vida en sociedad",
-      "subsections": [
-       {
-        "id": "dignidad",
-        "title": "La dignidad de la persona",
-        "content": "La Doctrina Social parte de una verdad: toda persona humana, creada a imagen de Dios y redimida por Cristo, tiene dignidad inviolable, por nacer en cualquier familia, por tener cualquier color, condición o historia. Esta dignidad no se gana ni se concede: se reconoce.\n\nDe aquí se sigue que ninguna persona puede ser un medio para fines ajenos: ni la economía, ni la ideología, ni el Estado pueden usar a nadie. Toda estructura social y toda ley debe medirse por una pregunta: ¿protege o aplasta la dignidad de las personas?",
-        "keyPoints": [
-         "La persona es imagen de Dios",
-         "La dignidad no se gana ni concede: se reconoce",
-         "Nadie puede ser usado como medio",
-         "Las leyes deben proteger a la persona",
-         "Es la piedra angular de toda la doctrina social"
-        ],
-        "references": [
-         "Génesis 1,27",
-         "Gaudium et spes 27",
-         "CIC 1700-1702"
-        ]
-       },
-       {
-        "id": "bien-comun",
-        "title": "El bien común",
-        "content": "El bien común es el conjunto de condiciones sociales que permiten a cada persona y a cada familia realizarse plenamente: paz, justicia, trabajo, educación, salud, participación. No es la suma de intereses privados, ni el beneficio de la mayoría que ignora a los últimos.\n\nConstruir el bien común es deber de todos, cada uno según su función: el Estado garantizando las condiciones, la sociedad civil participando, y cada persona contribuyendo con su trabajo y su testimonio. El bien común pide cuidar especialmente a los más débiles.",
-        "keyPoints": [
-         "Condiciones sociales para que todos se realicen",
-         "No es suma de intereses privados",
-         "Es tarea del Estado, la sociedad y cada persona",
-         "Pide atender primero a los más vulnerables",
-         "El bien común es también responsabilidad del ciudadano"
-        ],
-        "references": [
-         "Gaudium et spes 26",
-         "CIC 1905-1912",
-         "Amoris laetitia 294"
-        ]
-       },
-       {
-        "id": "subsidiariedad",
-        "title": "Subsidiariedad y participación",
-        "content": "El principio de subsidiariedad protege a la persona y a los grupos intermedios (familia, barrio, asociaciones): ninguna instancia mayor debe absorber lo que las personas y las comunidades pueden hacer por sí mismas. El Estado no debe hacer por la familia lo que la familia puede hacer sola.\n\nPero la subsidiariedad pide también participación: cada persona y cada comunidad tienen derecho y deber de aportar a la vida social. Complementa a la solidaridad: los niveles más altos ayudan, no suplantan; y los más pequeños crecen, no se aíslan.",
-        "keyPoints": [
-         "No suplantar a la persona ni a los grupos intermedios",
-         "El Estado ayuda y ordena, no absorbe",
-         "Toda persona tiene derecho a participar",
-         "Se complementa con la solidaridad",
-         "Familia, barrio y asociaciones son agentes, no súbditos"
-        ],
-        "references": [
-         "Quadragesimo anno 79-80",
-         "CIC 1883-1885",
-         "Centesimus annus 48"
-        ]
-       },
-       {
-        "id": "solidaridad",
-        "title": "La solidaridad",
-        "content": "La solidaridad es la virtud que hace propios los bienes y sufrimientos de los demás: no es una limosna ni una moda, sino una consecuencia de la fe en que todos somos hijos de un mismo Padre y miembros de un solo cuerpo.\n\nSe traduce en estructuras justas y en gestos concretos: compartir el tiempo, la alegría, los talentos, el pan. Donde falla la justicia, la solidaridad denuncia y remedia. Donde reina la indiferencia, la solidaridad despierta a la responsabilidad por el hermano.",
-        "keyPoints": [
-         "Hacer propios los bienes y sufrimientos del prójimo",
-         "Somos un solo cuerpo en Cristo",
-         "Va más allá de la limosna: pide estructuras justas",
-         "Denuncia la indiferencia",
-         "Compartir tiempo, talentos y pan es solidaridad"
-        ],
-        "references": [
-         "Solicitudo rei socialis 38-40",
-         "1 Corintios 12,26",
-         "CIC 1939-1942"
-        ]
-       }
-      ]
-     },
-     {
-      "id": "familia-vida",
-      "title": "Familia y vida",
-      "subtitle": "El primer hogar",
-      "description": "La familia, la vida humana y la educación de los hijos",
-      "subsections": [
-       {
-        "id": "familia-sociedad",
-        "title": "La familia, primera sociedad",
-        "content": "La familia es la primera y más fundamental sociedad humana: el lugar donde se aprenden el amor, la confianza, el lenguaje y la fe. Es anterior al Estado y debe ser protegida y fortalecida, no sustituida ni suplida.\n\nDel mismo modo que la salud de un cuerpo depende de sus células, la salud de la ciudad depende de sus familias. Una sociedad que descuida a la familia siembra soledad y crisis; una that la cuida siembra hombres capaces de compromiso y de bien común.",
-        "keyPoints": [
-         "La familia es la primera sociedad",
-         "Se aprende en ella a amar y a servir",
-         "Es anterior al Estado",
-         "La salud de la ciudad depende de sus familias",
-         "Proteger la familia protege a toda la sociedad"
-        ],
-        "references": [
-         "Gaudium et spes 47-52",
-         "Amoris laetitia 66-68",
-         "CIC 2201-2213"
-        ]
-       },
-       {
-        "id": "derecho-vida",
-        "title": "El derecho a la vida",
-        "content": "El derecho a la vida es el primero y fundamento de todos los demás: sin vida no hay derechos que ejercer. La Iglesia lo defiende desde la concepción hasta la muerte natural, porque toda vida humana tiene un valor infinito y una dignidad que nadie puede arrebatar.\n\nSe defiende igualmente toda vida frágil y descartada: el inmigrante, el enfermo, el anciano, el pobre, el que ya nadie necesita. Defender la vida no es una postura de un solo tema: es amar a Dios abrazando a su criatura más desprotegida.",
-        "keyPoints": [
-         "La vida es el primer derecho",
-         "Se defiende desde la concepción hasta la muerte",
-         "Toda vida tiene valor infinito",
-         "Incluye al inmigrante, al enfermo y al anciano",
-         "Amar a Dios es abrazar a su criatura"
-        ],
-        "references": [
-         "Evangelium vitae 1-3, 57",
-         "Salmo 139,13-16",
-         "CIC 2258-2275"
-        ]
-       },
-       {
-        "id": "matrimonio-educacion",
-        "title": "Matrimonio y educación de los hijos",
-        "content": "El matrimonio entre un hombre y una mujer, fiel, indisoluble y abierto a la vida, es la base de la familia que la sociedad necesita. Es una vocación, un camino de santidad y una escuela de donación mutua que hace madurar a los esposos y acoge a los hijos.\n\nLa educación de los hijos es un derecho y deber primero de los padres, que no delegan este tesoro. Escuela, parroquia y sociedad colaboran; los padres orientan. Educar es más que instruir: es transmitir el sentido de la vida, la fe y la capacidad de amar.",
-        "keyPoints": [
-         "El matrimonio es vocación y escuela de amor",
-         "Fiel, indisoluble y abierto a la vida",
-         "Los padres son los primeros educadores",
-         "La escuela y la parroquia colaboran, no suplantan",
-         "Educar es transmitir sentido y fe"
-        ],
-        "references": [
-         "Génesis 2,24",
-         "Amoris laetitia 84-88, 259-263",
-         "CIC 1652-1666, 2221-2231"
-        ]
-       }
-      ]
-     },
-     {
-      "id": "trabajo-economia",
-      "title": "Trabajo y economía",
-      "subtitle": "Ganar el pan con dignidad",
-      "description": "El trabajo, el salario justo y la mirada preferencial por los pobres",
-      "subsections": [
-       {
-        "id": "trabajo-vocacion",
-        "title": "El trabajo como vocación",
-        "content": "El trabajo no es un castigo ni una simple manera de ganar dinero: es la participación del hombre en la obra creadora de Dios. Dios trabajó los primeros días, Cristo trabajó como carpintero, y todo trabajo honesto dignifica y ordena la vida.\n\nTrabajar es servir: poner los talentos al servicio de la familia y de la comunidad. Por eso también para el estudiante su \"trabajo\" es el estudio: una tarea que se ofrece a Dios y que prepara un servicio futuro. Vivir una vocación de trabajo es vivir el Evangelio en el taller, en la oficina, en el aula.",
-        "keyPoints": [
-         "Participar en la obra creadora de Dios",
-         "Todo trabajo honesto dignifica",
-         "Cristo trabajó y santificó el trabajo",
-         "Trabajar es servir a la familia y a la comunidad",
-         "También el estudio es trabajo y vocación"
-        ],
-        "references": [
-         "Génesis 2,15",
-         "Laborem exercens 4-6, 24",
-         "Colosenses 3,23"
-        ]
-       },
-       {
-        "id": "justicia-salario",
-        "title": "Justicia salarial y descanso",
-        "content": "Un salario justo es el que permite a la persona y a su familia vivir dignamente: alimentación, vivienda, salud, educación y un pequeño ahorro. Paga que no alcanza para vivir no es salario: es explotación encubierta.\n\nEl descanso también es justicia y don: el trabajador tiene derecho al reposo, al domingo y a tiempo para la familia y Dios. Poner la economía al servicio de la persona (y no al revés) es la raíz de toda justicia laboral.",
-        "keyPoints": [
-         "El salario justo debe sostener a la familia",
-         "El salario indigno es explotación encubierta",
-         "El descanso y el domingo son derecho y don",
-         "La economía sirve a la persona, no al revés",
-         "Justicia laboral es también justicia social"
-        ],
-        "references": [
-         "Laborem exercens 19",
-         "CIC 2426-2436",
-         "Levítico 19,13"
-        ]
-       },
-       {
-        "id": "opcion-pobres",
-        "title": "La opción preferencial por los pobres",
-        "content": "Jesús se hizo pobre y se hizo uno con los pobres: \"cuanto hicisteis a uno de estos, a mí me lo hicisteis\". Por eso la Iglesia mira con amor preferencial a los pobres, sin excluir a nadie: es la opción por quien más sufre la injusticia.\n\nNo es una ideología de clases: es el Evangelio. Nos impulsa a compartir, a denunciar la injusticia, a crear oportunidades y a reconocer en el pobre no un problema, sino un rostro de Cristo que nos evangeliza y nos interpela.",
-        "keyPoints": [
-         "Cristo se identifica con los pobres",
-         "Opción preferencial, sin excluir a nadie",
-         "Es Evangelio, no ideología",
-         "Impulsa a compartir y a denunciar la injusticia",
-         "El pobre es un rostro de Cristo que nos interpela"
-        ],
-        "references": [
-         "Mateo 25,40",
-         "2 Corintios 8,9",
-         "Exhortación apostólica Evangelii gaudium 198"
-        ]
-       }
-      ]
-     },
-     {
-      "id": "sociedad-politica",
-      "title": "Sociedad y política",
-      "subtitle": "Ser ciudadanos",
-      "description": "Autoridad, participación y la construcción de la paz",
-      "subsections": [
-       {
-        "id": "autoridad",
-        "title": "Autoridad y bien común",
-        "content": "Toda autoridad legítima viene de Dios y se ordena al bien común. La política es un servicio noble: la vocación de quienes \"se dedican al servicio de la sociedad\" es una forma altísima de caridad, como dice la Madre Teresa del Papa Francisco (Evangelii gaudium 205).\n\nLa autoridad que se sirve a sí misma se corrompe; la que se sirve del poder para proteger al pequeño hace el bien que la hace legítima. Por eso el ciudadano debe obedecer lo justo y resistir con medios legítimos lo que atenta contra la persona y la verdad.",
-        "keyPoints": [
-         "La autoridad sirve al bien común",
-         "La política es servicio y forma de caridad",
-         "El poder que se corrompe pierde legitimidad",
-         "Obediencia a lo justo, resistencia legítima a lo injusto",
-         "Todo cristiano es convocado a la responsabilidad pública"
-        ],
-        "references": [
-         "Romanos 13,1-7",
-         "CIC 1888-1897",
-         "Evangelii gaudium 205"
-        ]
-       },
-       {
-        "id": "participacion",
-        "title": "Participación ciudadana",
-        "content": "Toda persona tiene derecho y deber de participar en la vida pública: votar, informarse, opinar con verdad, denunciar la corrupción, sumarse a causas justas. La democracia sana necesita ciudadanos despiertos, no súbditos dormidos.\n\nParticipar no es solo votar cada tantos años: es implicarse en el barrio, en la parroquia, en el colegio, en los gremios y en los movimientos. Un cristiano que se lava las manos de la ciudad abandona el mandato de amar al prójimo \"en concreto\".",
-        "keyPoints": [
-         "Participar es derecho y deber",
-         "Votar, informarse y denunciar la corrupción",
-         "Implicarse en el barrio, la parroquia y la comunidad",
-         "La democracia necesita ciudadanos despiertos",
-         "Lavarse las manos de la ciudad es abandonar al prójimo"
-        ],
-        "references": [
-         "Gaudium et spes 73-75",
-         "CIC 1897-1904, 2238-2243",
-         "Evangelii gaudium 220"
-        ]
-       },
-       {
-        "id": "paz-justicia",
-        "title": "Paz y justicia",
-        "content": "La paz no es la simple ausencia de guerra: es el fruto de la justicia y de la reconciliación. Jesús llama bienaventurados a los que trabajan por la paz y nos llama a ser artesanos de paz en la familia, la escuela y el barrio.\n\nLa construcción de la paz pide perdonar, reconocerse, buscar la verdad de los hechos, sanar las heridas y construir instituciones justas. La verdadera paz nace de corazones reconciliados; la impune y la vengativa no es paz, es tregua.",
-        "keyPoints": [
-         "La paz es fruto de la justicia",
-         "Bienaventurados los que trabajan por la paz",
-         "Ser artesano de paz en el lugar propio",
-         "Perdón y verdad sanan las heridas",
-         "La impune y la vengativa no es paz: es tregua"
-        ],
-        "references": [
-         "Mateo 5,9",
-         "Santiago 3,17-18",
-         "CIC 2302-2317"
-        ]
-       }
-      ]
-     },
-     {
-      "id": "creacion",
-      "title": "La casa común",
-      "subtitle": "Cuidar lo creado",
-      "description": "Administrar la creación, los bienes y la ecología integral",
-      "subsections": [
-       {
-        "id": "administrar",
-        "title": "Administradores y no dueños absolutos",
-        "content": "Dios confió al hombre la tierra para que la labrara y la cuidara: no la entregó para saquearla, sino para administrarla con responsabilidad y gratuidad frente a las generaciones futuras. \"Dominar\" en lenguaje bíblico significa velar, no explotar.\n\nFrente a la cultura del descarte, el cristiano está llamado a una conversión ecológica: consumir con sobriedad, reciclar, no despilfarrar, proteger la naturaleza, y denunciar el uso destructivo de los recursos. Crear hábitos sencillos en casa puede ser la predicación más hermosa.",
-        "keyPoints": [
-         "La tierra se recibe como administración",
-         "Responsabilidad frente a las generaciones futuras",
-         "Dominar es velar, no explotar",
-         "Conversión ecológica: sobriedad y cuidado",
-         "Los hábitos sencillos de casa predican más que los discursos"
-        ],
-        "references": [
-         "Génesis 2,15",
-         "Laudato si' 62-69",
-         "Salmo 24,1-2"
-        ]
-       },
-       {
-        "id": "bienes",
-        "title": "El destino universal de los bienes",
-        "content": "Los bienes de la tierra están destinados, en primer lugar, a todos: Dios creó para todos, y el derecho de propiedad es legítimo pero nunca absoluto, porque detrás está la ley de la caridad y la justicia. El que tiene de sobra, debe compartir.\n\nEste principio ordena la vida económica: los bienes que no se usan, la riqueza que se acumula mientras otros pasan hambre, son una herida. Compartir no empobrece: humaniza. El destino universal de los bienes es la base de la limosna, de la solidaridad y de la justicia social.",
-        "keyPoints": [
-         "Los bienes son para todos",
-         "La propiedad es legítima pero no absoluta",
-         "El que tiene de sobra debe compartir",
-         "La riqueza acumulada con hambre ajena es herida",
-         "Compartir humaniza y ordena la economía"
-        ],
-        "references": [
-         "Hechos 2,44-45",
-         "CIC 2401-2406",
-         "Gaudium et spes 69"
-        ]
-       },
-       {
-        "id": "ecologia-integral",
-        "title": "Ecología integral",
-        "content": "La ecología cristiana une el cuidado del planeta con el cuidado de las personas: el deterioro ambiental golpea primero a los pobres, y la miseria humana degrada también la casa común. Por eso hablamos de ecología integral: todo está conectado.\n\nCuidar el agua y el aire va de la mano con cuidar el barrio, defender al que sufre y proteger la vida. La crisis ecológica es una crisis moral y espiritual: nos llama a un estilo de vida sobrio, agradecido y sencillo, que se enseña en familia y se celebra en comunidad.",
-        "keyPoints": [
-         "Todo está conectado: ambiente y personas",
-         "El daño ambiental golpea primero a los pobres",
-         "Ecología integral une cuidado y justicia",
-         "La crisis ecológica es crisis moral",
-         "Estilo de vida sobrio, agradecido y sencillo"
-        ],
-        "references": [
-         "Laudato si' 13-16, 137-142",
-         "Génesis 1,31",
-         "Santiago 5,1-5"
-        ]
-       }
-      ]
-     }
-    ]
-   },
-   {
-    "id": "vocacion",
-    "title": "Vocación y Propósito",
-    "subtitle": "Llamados",
-    "description": "Descubre para qué te creó Dios y cómo discernir tu camino",
-    "tipo": "curso",
-    "count": 14,
-    "units": [
-     {
-      "id": "llamados",
-      "title": "Llamados por Dios",
-      "subtitle": "Un plan de amor",
-      "description": "Dios tiene un plan personal y hermoso para cada vida",
-      "subsections": [
-       {
-        "id": "plan",
-        "title": "Dios tiene un plan para ti",
-        "content": "No llegaste al mundo por casualidad. El Salmo 139 lo dice con ternura: \"fuiste tejido en el seno de tu madre\" y \"tus días estaban escritos antes de que existieran\". Dios te piensa, te ama y te ha dado una misión que solo tú puedes cumplir.\n\nMuchas voces te dicen que tu valor depende de lo que rindes, de cómo te ves o de lo que posees: son mentiras. Tu valor viene de Dios. Descubrir tu vocación es descubrir el proyecto de amor que Él ha soñado para tu felicidad y para el bien de los demás.",
-        "keyPoints": [
-         "Nadie llega a la vida por casualidad",
-         "Dios te piensa y te conoce por tu nombre",
-         "Tienes una misión irrepetible",
-         "Tu valor no depende de tu rendimiento",
-         "La vocación es un proyecto de amor de Dios"
-        ],
-        "references": [
-         "Salmo 139,1-18",
-         "Jeremías 1,5",
-         "Efesios 2,10"
-        ]
-       },
-       {
-        "id": "vocacion-vida",
-        "title": "La vida como vocación",
-        "content": "Vocación viene del latín vocatio, \"llamado\". Tu vida entera es una respuesta: primero a la llamada a existir, luego a ser hijo de Dios en el bautismo, después a cada etapa y a cada tarea. Vivir es dejarse llamar.\n\nPor eso la vocación no se reduce al futuro (¿de qué trabajaré? ¿a qué me dedicaré?): es el presente. Hoy Dios te llama a ser buen estudiante, buen amigo, buen hijo, buen hermano, discípulo misionero. Quien responde bien a las llamadas pequeñas aprende a oír las grandes.",
-        "keyPoints": [
-         "Vocación significa \"llamado\"",
-         "La vocación incluye el presente, no solo el futuro",
-         "Responder a las llamadas pequeñas prepara las grandes",
-         "Tu vida entera es una respuesta",
-         "Ser discípulo misionero es vocación de hoy"
-        ],
-        "references": [
-         "1 Pedro 2,9",
-         "Romanos 12,1-2",
-         "CIC 1"
-        ]
-       },
-       {
-        "id": "senales",
-        "title": "Señales de la llamada",
-        "content": "Dios habla por varios canales que conviene aprender a leer: los deseos profundos del corazón, los talentos y limitaciones, las circunstancias, los acontecimientos, la palabra de personas de fe, y sobre todo su Palabra y el consejo de la Iglesia.\n\nUna señal fuerte es la paz interior: cuando algo proviene de Dios, deja una paz profunda que atraviesa las dificultades. Otra señal es el fruto: si lo que sientes te hace más generoso, más veraz, más libre y más amigo de los demás, ahí hay huella de Dios. Las señales se confirman en la oración y con acompañamiento.",
-        "keyPoints": [
-         "Dios habla por el corazón, los talentos y las circunstancias",
-         "La paz profunda acompaña a la voluntad de Dios",
-         "Los frutos delatan la huella de Dios",
-         "La Palabra y la Iglesia ordenan las señales",
-         "Las señales se confirman con acompañamiento"
-        ],
-        "references": [
-         "Isaías 30,21",
-         "1 Reyes 19,11-13",
-         "Salmo 37,5-6"
-        ]
-       }
-      ]
-     },
-     {
-      "id": "estados",
-      "title": "Los estados de vida",
-      "subtitle": "Caminos de santidad",
-      "description": "Las vocaciones por las que Dios llama a vivir y amar",
-      "subsections": [
-       {
-        "id": "matrimonio",
-        "title": "La vocación al matrimonio",
-        "content": "El matrimonio es el camino de santidad de la gran mayoría de los cristianos: una vocación al amor fiel, indisoluble y fecundo, que refleja el amor de Cristo por su Iglesia. Por el sacramento, Dios se hace presente para sostener a los esposos.\n\nPrepararse para el matrimonio es también un camino espiritual: la pureza, la amistad, la madurez y el trabajo acompañan a una vocación que no busca \"encontrar a la persona perfecta\", sino aprender a amar a una persona real, con sus luces y sus cruces.",
-        "keyPoints": [
-         "Matrimonio: vocación al amor fiel y fecundo",
-         "Refleja el amor de Cristo por la Iglesia",
-         "Es un camino de santidad ordinario y grande",
-         "La preparación empieza con pureza y madurez",
-         "Amar a una persona real, no a una idea"
-        ],
-        "references": [
-         "Efesios 5,25-33",
-         "Amoris laetitia 11-13, 121-123",
-         "CIC 1601-1606"
-        ]
-       },
-       {
-        "id": "consagrada",
-        "title": "La virginidad consagrada",
-        "content": "La Iglesia alaba y santifica también el camino de la virginidad consagrada: entregar el corazón entero a Dios en la vida religiosa o en la consagración laical, como signo del Reino que viene y como amor sin reservas.\n\nEsta elección no desprecia el matrimonio: es otra forma de amarse a sí mismo. No se elige por miedo al compromiso, sino por amor audaz y con libertad. En ella la persona \"se hace esposa/esposo\" de Cristo y madre/padre espiritual de muchos.",
-        "keyPoints": [
-         "Entregar el corazón entero a Dios",
-         "Signo del Reino que viene",
-         "No desprecia el matrimonio: es otro amor",
-         "Se elige por amor y libertad, no por miedo",
-         "Es fecundidad espiritual"
-        ],
-        "references": [
-         "1 Corintios 7,32-35",
-         "Mateo 19,12",
-         "CIC 914-924"
-        ]
-       },
-       {
-        "id": "sacerdocio",
-        "title": "El sacerdocio y la vida religiosa",
-        "content": "Dios sigue llamando a jóvenes a ser sacerdotes, religiosas, religiosos y misioneros: hombres y mujeres que gastan su vida en anunciar el Evangelio, servir a los pobres, orar y consagrar. Es una vida feliz, porque es una vida entregada.\n\nSi sientes un deseo profundo de servir a Dios en esta vocación, no lo reprimas: háblalo con un sacerdote o con un acompañante espiritual. La Iglesia necesita jóvenes generosos que digan \"sí\" como María. El \"quizá\" se descubre solo cuando se toma en serio - y se descubre en la oración.",
-        "keyPoints": [
-         "Sigue habiendo vocaciones sacerdotales y religiosas",
-         "Es una vida entregada y feliz",
-         "No reprimir un deseo profundo de servir",
-         "Conversar con un acompañante espiritual",
-         "El sí generoso es fruto de la oración"
-        ],
-        "references": [
-         "Marcos 3,13-15",
-         "Juan 15,16",
-         "Evangelii gaudium 24"
-        ]
-       },
-       {
-        "id": "laical",
-        "title": "La vocación laical",
-        "content": "Los laicos no son cristianos de segunda: son la mayoría del Pueblo de Dios y su vocación es santificar el mundo desde dentro, transformando la familia, el trabajo, la parroquia, la política y la cultura con el Evangelio.\n\nJesús no llamó a todos a dejar el mundo, sino a todos a comprometerse con él: ser luz en el aula, en la oficina, en el equipo, en el barrio. El laico que vive su fe en lo ordinario es el \"santo de la puerta de al lado\" que el Papa Francisco propone (Gaudete et exsultate 7).",
-        "keyPoints": [
-         "Los laicos son la mayoría del Pueblo de Dios",
-         "Santificar el mundo desde dentro",
-         "Transformar familia, trabajo y cultura",
-         "Ser luz en lo ordinario",
-         "El santo de la puerta de al lado"
-        ],
-        "references": [
-         "Leonis XIII (Apostolicam actuositatem) 2",
-         "Gaudete et exsultate 7",
-         "Mateo 5,14-16"
-        ]
-       }
-      ]
-     },
-     {
-      "id": "discernimiento",
-      "title": "Discernimiento paso a paso",
-      "subtitle": "Decidir con Dios",
-      "description": "Cómo descubrir la voluntad de Dios sin atragantarse",
-      "subsections": [
-       {
-        "id": "orar",
-        "title": "Orar para decidir",
-        "content": "El discernimiento comienza y termina en la oración: ponerte delante de Dios, abrirle el corazón, pedirle luz y silencio interior. No se discierne corriendo, sino saboreando la presencia de Dios.\n\nPuedes orar con la Palabra, con el Rosario, con la adoración o simplemente en el silencio de tu habitación. Pídele al Espíritu Santo que te vaya mostrando el camino y que quite el miedo que entorpece la escucha. Una decisión orada ya es una decisión caminada.",
-        "keyPoints": [
-         "Discernir es orar antes que planear",
-         "Abrir el corazón a Dios con libertad",
-         "La Palabra y los sacramentos iluminan",
-         "Pedir al Espíritu que quite el miedo",
-         "Una decisión orada es una decisión caminada"
-        ],
-        "references": [
-         "Salmo 25,4-5",
-         "Santiago 1,5",
-         "Lucas 6,12-13"
-        ]
-       },
-       {
-        "id": "consejo",
-        "title": "Consejo y acompañamiento",
-        "content": "Nadie discerne bien solo. Es sabio abrir tu proyecto a una persona de confianza: un sacerdote, un catequista, un acompañante espiritual experimentado en los caminos de Dios. Hablarlo ya ordena y quita poder a los miedos escondidos.\n\nEl verdadero consejero no decide por ti, sino que te ayuda a mirarte con verdad y a escuchar a Dios. Desconfía del acompaño que solo te dice lo que quieres oír; busca a quien te hace preguntas honestas y te impulsa a la generosidad.",
-        "keyPoints": [
-         "Nadie discierne bien a solas",
-         "Un sacerdote o acompañante experimentado ayuda",
-         "Hablarlo ordena y quita poder a los miedos",
-         "El buen consejero pregunta, no decide",
-         "Buscar honestidad y generosidad en el consejo"
-        ],
-        "references": [
-         "Proverbios 11,14",
-         "Proverbios 15,22",
-         "CIC 2690"
-        ]
-       },
-       {
-        "id": "pruebas",
-        "title": "Pruebas y confirmación",
-        "content": "Las pruebas ayudan a purificar el discernimiento: si una decisión es de Dios, soporta el tiempo, la contrariedad y la cruz sin hundirse. Las pruebas sacan a la luz motivos escondidos: a veces queremos \"lo de Dios\" pero por gloria o comodidad.\n\nLa confirmación llega cuando, una vez decidido, crece la paz, el sentido y los frutos. No se necesitan signos espectaculares: basta la fidelidad perseverante. La voluntad de Dios no se descubre solo en el asombro, sino también en el paso firme del que sigue caminando.",
-        "keyPoints": [
-         "Las pruebas purifican el discernimiento",
-         "Lo de Dios soporta tiempo y cruz",
-         "Las pruebas revelan motivos escondidos",
-         "La confirmación llega con paz y frutos",
-         "No se necesitan signos espectaculares"
-        ],
-        "references": [
-         "Romanos 5,3-5",
-         "1 Pedro 1,6-7",
-         "Filipenses 4,7"
-        ]
-       },
-       {
-        "id": "tiempo",
-        "title": "Tiempo y paciencia",
-        "content": "Dios no tiene prisa y las decisiones grandes maduran. Hay que dar tiempo al tiempo: escuchar, probar, esperar, y no decidir desde la angustia ni la pasión del momento. La impaciencia suele ser la hermana del error.\n\nMientras tanto, vive hoy: Dios nunca pide que adivines el futuro y sí que seas fiel al presente. Las vocaciones se descubren caminando; muchas respuestas llegan cuando tú ya estás ocupado haciendo el bien. Esperar en Dios no es estar quieto: es avanzar confiando.",
-        "keyPoints": [
-         "Las decisiones grandes maduran con el tiempo",
-         "No decidir desde la angustia ni la pasión",
-         "La impaciencia es hermana del error",
-         "Ser fiel al presente es ya responder",
-         "Esperar en Dios es avanzar confiando"
-        ],
-        "references": [
-         "Isaías 40,31",
-         "Salmo 27,14",
-         "Eclesiastés 3,1"
-        ]
-       }
-      ]
-     },
-     {
-      "id": "mision",
-      "title": "Misión y talentos",
-      "subtitle": "Frutos de la llamada",
-      "description": "Para esto te ha dado Dios sus dones",
-      "subsections": [
-       {
-        "id": "talentos",
-        "title": "Talentos para servir",
-        "content": "Los talentos no son un adorno ni un premio: son un préstamo de Dios para el servicio. La parábola de los talentos lo recuerda con fuerza: el siervo fiel no es el que multiplica para sí, sino el que pone a trabajar los dones para el Señor.\n\nDescubre lo que se te da bien y pregúntate para quién lo usas. La música, el estudio, el deporte, la alegría, la creatividad, el trato fácil: todo es herramienta de misión. Un talento escondido por miedo se convierte en peso; un talento compartido se convierte en fiesta.",
-        "keyPoints": [
-         "Los talentos son préstamos de Dios para servir",
-         "La fidelidad es multiplicar al servicio",
-         "Todo don es herramienta de misión",
-         "El talento escondido por miedo pesa",
-         "El talento compartido convierte en fiesta"
-        ],
-        "references": [
-         "Mateo 25,14-30",
-         "1 Pedro 4,10",
-         "Lucas 12,48"
-        ]
-       },
-       {
-        "id": "evangelizar",
-        "title": "Evangelizar donde vives",
-        "content": "Tu misión empieza donde ya estás: en casa, en el colegio, en tu cuadra, en tu grupo. Evangelizar no es bombardear a otros con frases: es amar, escuchar, vivir con coherencia y estar disponible para cuando te pregunten.\n\nEl anuncio más eficaz del joven es su vida diferente: un estudiante honrado, un amigo que consuela, alguien que no se burla, que perdona, que invita a misa sin obligar. Dios ha sembrado tu misión en tu entorno; no hace falta ir lejos para empezar.",
-        "keyPoints": [
-         "La misión empieza donde ya vives",
-         "Evangelizar es amar, escuchar y ser coherente",
-         "Tu vida diferente predica en silencio",
-         "Estar disponible para cuando pregunten",
-         "No hace falta ir lejos para sembrar"
-        ],
-        "references": [
-         "Mateo 28,19-20",
-         "Hechos 1,8",
-         "Colosenses 4,5-6"
-        ]
-       },
-       {
-        "id": "apostolado",
-        "title": "Apostolado en el día a día",
-        "content": "El apostolado laical organiza ese servicio: pertenecer a un grupo de la parroquia, servir en la catequesis, en el coro, en el voluntariado, en los movimientos juveniles. No es una actividad más: es vivir la fe en comunidad misionera.\n\nPero el apostolado diario es también el pequeño gesto constante: visitar al enfermo, ayudar al hermano que va mal en clase, poner la mesa, escuchar sin prisa. A veces la santidad se juega en la fidelidad a lo que nadie aplaude, visto por Dios.",
-        "keyPoints": [
-         "Servir en grupos, catequesis, coro o voluntariado",
-         "Vivir la fe en comunidad misionera",
-         "El gesto pequeño y constante es apostolado",
-         "La santidad se juega en la fidelidad diaria",
-         "Lo que nadie aplaude, lo ve Dios"
-        ],
-        "references": [
-         "Colosenses 3,23",
-         "Mateo 6,1-4",
-         "Hebreos 13,16"
-        ]
-       }
-      ]
-     }
-    ]
-   },
-   {
-    "id": "virgen",
-    "title": "La Virgen María",
-    "subtitle": "Madre nuestra",
-    "description": "María en la Escritura, los dogmas marianos, el Rosario y el camino de amor hacia Jesús",
-    "tipo": "curso",
-    "count": 19,
-    "units": [
-     {
-      "id": "maria-escritura",
-      "title": "María en la Sagrada Escritura",
-      "subtitle": "La llena de gracia",
-      "description": "Los grandes momentos de María narrados en los Evangelios",
-      "subsections": [
-       {
-        "id": "anunciacion",
-        "title": "La Anunciación y la Encarnación",
-        "content": "En Nazaret, el Ángel Gabriel anuncia a María que será la Madre del Hijo de Dios. María pregunta, escucha y responde con el sí más fecundo de la historia: \"hágase en mí según tu palabra\". Por su sí, el Verbo se hizo carne y Dios entró en la historia.\n\nEn la Anunciación se cruzan la humildad de una joven pobre de Galilea y la grandeza del plan de Dios. María no lo comprende todo, pero confía: por eso es el modelo perfecto de la fe que escucha, pregunta y obedecce.",
-        "keyPoints": [
-         "El Ángel anuncia a María la maternidad divina",
-         "María responde con un sí de fe y obediencia",
-         "Por su sí, el Verbo se hizo carne",
-         "La humildad y la confianza se abrazan en Ella",
-         "María es modelo de fe que escucha y obedece"
-        ],
-        "references": [
-         "Lucas 1,26-38",
-         "Juan 1,14",
-         "Filipenses 2,6-8"
-        ]
-       },
-       {
-        "id": "cana",
-        "title": "Caná: el primer signo",
-        "content": "En las bodas de Caná, María nota que falta el vino y acude a Jesús: \"no tienen vino\". Intercede antes de que se lo pidan y da a los sirvientes la clave de toda la vida cristiana: \"hagan lo que Él les diga\". Jesús realiza su primer signo por la intercesión de su Madre.\n\nCaná enseña dos cosas: que María intercede siempre por nosotros, y que la obediencia a Jesús transforma el agua en vino de fiesta. La presencia de María en la boda anuncia que la alegría y el amor de Dios son posibles en lo humano.",
-        "keyPoints": [
-         "María intercede antes de que se lo pidan",
-         "\"Hagan lo que Él les diga\": clave del discípulo",
-         "Jesús hace su primer signo por su Madre",
-         "María presencia en la fiesta humana",
-         "La obediencia a Jesús convierte el agua en vino"
-        ],
-        "references": [
-         "Juan 2,1-11",
-         "Lucas 1,38",
-         "CIC 2618"
-        ]
-       },
-       {
-        "id": "cruz",
-        "title": "Al pie de la cruz",
-        "content": "María sigue a Jesús hasta el Calvario y se queda al pie de la cruz cuando casi todos huyen. Desde la cruz, Jesús la entrega a Juan y a Juan a ella: \"mujer, ahí tienes a tu hijo\". En ese momento nos recibe a todos como hijos.\n\nSu firmeza al pie de la cruz no es frialdad: es fe que se sostiene en la oscuridad. María creyó cuando todo parecía perdido, y por eso es la Madre de los que sufren y la esperanza de los que atraviesan su propio calvario. Nadie entiende mejor tu cruz que quien estuvo junto a la de su Hijo.",
-        "keyPoints": [
-         "María permanece fiel al pie de la cruz",
-         "Jesús nos entrega a María y a María nos entrega",
-         "Su fe se sostuvo en la oscuridad",
-         "Es la Madre de los que sufren",
-         "Nadie entiende tu cruz como quien estuvo junto a la cruz"
-        ],
-        "references": [
-         "Juan 19,25-27",
-         "Lucas 2,35",
-         "Apocalipsis 12,1-17"
-        ]
-       },
-       {
-        "id": "madre-iglesia",
-        "title": "María, Madre de la Iglesia",
-        "content": "María estuvo con los apóstoles en el Cenáculo, en oración, esperando el Espíritu Santo. La Iglesia nace en Pentecostés con María presente, que no se retira después de la cruz: acompaña el comienzo y la vida entera de la comunidad.\n\nPor eso es Madre de la Iglesia: engendró la Cabeza (Cristo) y sostiene con su oración al Cuerpo. Su maternidad es espiritual y universal: acoge a todos los que creen en su Hijo como hijos. Recurrir a ella es de hijos; enseñar a otros a recurrir a ella es de discípulos.",
-        "keyPoints": [
-         "María ora con la Iglesia en el Cenáculo",
-         "La Iglesia nace con Ella presente",
-         "Engendró a Cristo y sostiene su Cuerpo",
-         "Su maternidad es espiritual y universal",
-         "Recurrir a Ella es de hijos"
-        ],
-        "references": [
-         "Hechos 1,14",
-         "Hechos 2,1-4",
-         "Lumen gentium 63-65"
-        ]
-       }
-      ]
-     },
-     {
-      "id": "dogmas",
-      "title": "Los dogmas marianos",
-      "subtitle": "Verdades de fe",
-      "description": "Las cuatro verdades que la Iglesia ha definido sobre María",
-      "subsections": [
-       {
-        "id": "madre-dios",
-        "title": "María, Madre de Dios",
-        "content": "El primer dogma mariano fue definido en el Concilio de Éfeso (431): María es Theotokos, Madre de Dios, porque engendró a la persona divina de Jesucristo. No se define para honrar a María aisladamente, sino para defender quién es Jesús: Dios verdadero y hombre verdadero.\n\nSi María es la Madre de Dios, rompió la distancia entre el cielo y la tierra de un modo único: el Creador tuvo madre. Aceptar este dogma es aceptar la más alta dignidad que puede recibir una criatura y el amor con que Dios quiso entrarnos a la historia.",
-        "keyPoints": [
-         "Definido en Éfeso (431): Theotokos",
-         "Defiende la divinidad de Jesús",
-         "El Creador tuvo madre",
-         "La más alta dignidad de una criatura",
-         "Dios entra en la historia por el seno de María"
-        ],
-        "references": [
-         "Lucas 1,43",
-         "Gálatas 4,4",
-         "CIC 495"
-        ]
-       },
-       {
-        "id": "siempre-virgen",
-        "title": "María, siempre Virgen",
-        "content": "La Iglesia confiesa que María fue Virgen antes, durante y después del nacimiento de Cristo: su virginidad no es desprecio del cuerpo, sino signo del actuar de Dios y de la entrega total de su corazón. El nacimiento de Jesús fue obrado por el Espíritu Santo, sin intervención humana.\n\nLos \"hermanos de Jesús\" que aparecen en el Evangelio eran parientes (primos o allegados), como era costumbre llamar en el mundo bíblico. La virginidad perpetua de María significa, sobre todo, que su corazón y su cuerpo estuvieron consagrados totalmente al Señor y a su plan.",
-        "keyPoints": [
-         "Virgen antes, durante y después del nacimiento",
-         "El nacimiento de Jesús es obra del Espíritu",
-         "Sus \"hermanos\" eran parientes, según la costumbre",
-         "Virginidad es entrega total a Dios",
-         "Defiende el poder y el ser de Dios"
-        ],
-        "references": [
-         "Lucas 1,34-35",
-         "Mateo 1,24-25",
-         "CIC 496-507"
-        ]
-       },
-       {
-        "id": "inmaculada",
-        "title": "La Inmaculada Concepción",
-        "content": "La Inmaculada Concepción (definida en 1854) enseña que María fue preservada de todo pecado desde el primer instante de su concepción, por los méritos de Cristo. No fue salva después de caer: fue salvada de un modo más admirable, sin llegar a caer nunca.\n\nDios, que preparó para su Hijo una carne santa, preparó también para su Madre un corazón sin mancha. La Inmaculada no es una ventaja que aleje de nosotros: es la prueba de que la gracia de Cristo es capaz de todo, y un consuelo: lo que Dios hizo en Ella lo ofrece también a los que quieren acogerse a su gracia.",
-        "keyPoints": [
-         "Definida en 1854",
-         "Preservada del pecado desde su concepción",
-         "Salvada por los méritos de Cristo, de modo más admirable",
-         "Gracias del poder de Dios",
-         "Consuelo y esperanza para todos"
-        ],
-        "references": [
-         "Génesis 3,15",
-         "Lucas 1,28",
-         "CIC 490-493"
-        ]
-       },
-       {
-        "id": "asuncion",
-        "title": "La Asunción de María",
-        "content": "La Asunción (definida en 1950) enseña que María, al terminar su vida terrena, fue llevada en cuerpo y alma a la gloria del cielo. No \"murió de manera ordinaria\" como sepultura en tierra: fue elevada para participar plenamente de la resurrección de su Hijo.\n\nLa Asunción es prenda de nuestra esperanza: en María, la Iglesia contempla anticipado el destino que Dios prepara a la humanidad entera. Nuestro cuerpo, a menudo despreciado y herido, también está llamado a la gloria. Por eso la Asunción se celebra como fiesta de esperanza para todos los que vivimos aún en el camino.",
-        "keyPoints": [
-         "Definida en 1950",
-         "Llevada en cuerpo y alma al cielo",
-         "Participación plena en la resurrección de Cristo",
-         "Prenda de nuestra esperanza",
-         "El cuerpo también está llamado a la gloria"
-        ],
-        "references": [
-         "1 Corintios 15,42-44",
-         "Lucas 1,46-49",
-         "Lumen gentium 59"
-        ]
-       }
-      ]
-     },
-     {
-      "id": "rosario",
-      "title": "El Santo Rosario",
-      "subtitle": "Escuela de oración",
-      "description": "El arma espiritual que medita la vida de Cristo con María",
-      "subsections": [
-       {
-        "id": "historia",
-        "title": "Historia y estructura del Rosario",
-        "content": "El Rosario nace del deseo de los fieles, muchos sin lecturar, de \"rezar los 150 Salmos\": se fueron sustituyendo por Avemarías, agrupadas en decenas meditadas. Santo Domingo y la tradición dominica lo popularizaron; múltiples Papas lo propusieron como oración familiar.\n\nSu estructura es sencilla: el Credo, un Padrenuestro, tres Avemarías, y cinco decenas (Padrenuestro + diez Avemarías + Gloria), cada decena meditando un misterio. Se reza en comunidad o a solas, con el rosario en la mano y el corazón en Cristo. \"El Rosario es la oración de los sencillos\", decía San Pío X.",
-        "keyPoints": [
-         "Sustituyó el rezo de los 150 Salmos",
-         "Popularizado especialmente por los dominicos",
-         "Estructura: Credo, Padrenuestro, Avemarías y decenas",
-         "Cada decena medita un misterio",
-         "Oración de los sencillos y de los sabios"
-        ],
-        "references": [
-         "Rosarium Virginis Mariae 1-10",
-         "CIC 2678",
-         "Lucas 1,28-42"
-        ]
-       },
-       {
-        "id": "misterios",
-        "title": "Los misterios del Rosario",
-        "content": "Los misterios son los \"pasajes\" de la vida de Cristo meditados con María. Gozosos (lunes y sábado): anunciación, visitación, nacimiento, presentación, hallazgo en el Templo. Dolorosos (martes y viernes): agonía, azotes, corona, cruz, crucifixión. Gloriosos (miércoles y domingo): resurrección, ascensión, Pentecostés, asunción, coronación. Luminosos (jueves): bautismo, Caná, anuncio del Reino, Transfiguración, Eucaristía, añadidos por San Juan Pablo II.\n\nMeditar los misterios convierte el Rosario en un \"compendio del Evangelio\" (evangelización): no se reza solo con los labios, sino \"con los ojos del alma\", acompañando a María los acontecimientos de la salvación.",
-        "keyPoints": [
-         "Misterios: gozosos, dolorosos, gloriosos y luminosos",
-         "Distribución por días de la semana",
-         "Luminosos añadidos por San Juan Pablo II",
-         "El Rosario es compendio del Evangelio",
-         "Se reza con el corazón, meditando la vida de Cristo"
-        ],
-        "references": [
-         "Rosarium Virginis Mariae 19-25",
-         "Lucas 1,30-38",
-         "Mateo 26,36-46"
-        ]
-       },
-       {
-        "id": "rezarlo",
-        "title": "Cómo rezarlo bien",
-        "content": "Rezar el Rosario bien no es cuestión de velocidad ni de repetir sin pensar: es saborear despacio cada misterio mientras se recitan las Avemarías. Se puede empezar rezando solo una decena al día, mejor bien recitada que veinte mal.\n\nAntes de empezar, ofrécelo: por tu familia, por un amigo, por una intención. Al terminar, reza la Salve y deja que el silencio cierre la oración. Con el tiempo, el Rosario se convierte en una compañía que da paz, un \"collage\" de la vida de Cristo que seremos capaces de llevar donde vamos.",
-        "keyPoints": [
-         "Saborear cada misterio, no repetir deprisa",
-         "Una decena bien rezada vale más que veinte distraídas",
-         "Se ofrece por intenciones concretas",
-         "La Salve y el silencio final lo cierran",
-         "Con la práctica, acompaña toda la vida"
-        ],
-        "references": [
-         "Lucas 11,9-13",
-         "Rosarium Virginis Mariae 26-37",
-         "Santiago 5,16"
-        ]
-       },
-       {
-        "id": "meditar",
-        "title": "Meditar la vida de Cristo",
-        "content": "El fin último del Rosario no es honrar a María, sino contemplar a Cristo con Ella: \"María es el camino más seguro para llegar a Jesús\", decía San Bernardo. Meditando la vida, pasión, muerte y resurrección del Señor, se aprende a vivir como discípulo.\n\nCada misterio dice algo a tu vida: la paciencia de la espera en la Anunciación, la obediencia de José y María, la fortaleza de la cruz, la alegría de la resurrección. Por eso el Rosario forma la vida: lo que se contempla, se imita.",
-        "keyPoints": [
-         "Contemplar a Cristo con María",
-         "María es el camino más seguro a Jesús",
-         "Cada misterio ilumina tu vida",
-         "Lo que se contempla, se imita",
-         "El Rosario es escuela de discípulos"
-        ],
-        "references": [
-         "Juan 19,26-27",
-         "Filipenses 2,5-11",
-         "Rosarium Virginis Mariae 1"
-        ]
-       }
-      ]
-     },
-     {
-      "id": "apariciones",
-      "title": "Consagración y apariciones",
-      "subtitle": "Caminos de amor",
-      "description": "Entregarse a María y escuchar su llamada en las apariciones aprobadas",
-      "subsections": [
-       {
-        "id": "consagracion",
-        "title": "Consagración a María",
-        "content": "Consagrarse a María (como enseña San Luis María Grignion de Montfort) es entregarse a Jesús por las manos de su Madre: hacerse \"esclavo de amor\" para pertenecer totalmente a Cristo. No es una devoción entre muchas: es un camino completo de santidad.\n\nLa consagración se prepara con oración, se hace el día elegido y se renueva cada día con una jaculatoria: \"Soy todo tuyo, Madre mía\". Sus frutos son bien conocidos: una profunda paz, un amor creciente a la Eucaristía, al Rosario y a la voluntad de Dios. Montfort la llamaba \"el secreto para llegar a Jesús\".",
-        "keyPoints": [
-         "Entregarse a Jesús por las manos de María",
-         "San Luis María Grignion de Montfort es su maestro",
-         "Se prepara, se hace y se renueva cada día",
-         "Frutos: paz, amor a la Eucaristía y a la voluntad",
-         "\"El secreto para llegar a Jesús\""
-        ],
-        "references": [
-         "Juan 19,27",
-         "Tratado de la verdadera devoción 1-9",
-         "CIC 2675-2676"
-        ]
-       },
-       {
-        "id": "guadalupe",
-        "title": "Guadalupe y Lourdes",
-        "content": "En 1531, la Virgen se apareció a San Juan Diego, un indígena humilde, en el Tepeyac, y dejó su imagen estampada en su tilma. En ella se une el mundo indígena y el cristiano: María es Madre de todos, especialmente de los pequeños. En Lourdes (1858) se apareció a Santa Bernardita, una niña pobre, y llamó: \"Yo soy la Inmaculada Concepción\". Su mensaje: conversión, oración, penitencia y presencia, cuidado de los enfermos.\n\nAmbas apariciones tocan a los pequeños y llaman a la confianza: Dios elige a los que el mundo desprecia para mostrar su poder. San Juan Diego y Santa Bernardita enseñan que la santidad no exige títulos, sino humildad y fe.",
-        "keyPoints": [
-         "Guadalupe (1531) se apareció a San Juan Diego",
-         "La imagen une el mundo indígena y cristiano",
-         "Lourdes (1858) a Santa Bernardita",
-         "\"Yo soy la Inmaculada Concepción\"",
-         "Dios elige a los pequeños"
-        ],
-        "references": [
-         "Lucas 1,48",
-         "Apocalipsis 12,1",
-         "Santiago 2,5"
-        ]
-       },
-       {
-        "id": "fatima",
-        "title": "Fátima y el llamado a la oración",
-        "content": "En Fátima (1917), la Virgen se apareció a tres pastorcitos y pidió oración por la paz, el rezo diario del Rosario y la consagración de Rusia. Sus mensajes invitan a reparar, a convertir el corazón y a apartar el error y la guerra.\n\nLos pastorcitos Francisco, Jacinta y Lucía, especialmente los dos primeros muy pequeños, son prueba de que la santidad no espera la adultez. Fátima enseña a los jóvenes de hoy: el Rosario, el sacrificio ofrecido y la fidelidad a María construyen la paz allí donde parecía imposible.",
-        "keyPoints": [
-         "Fátima (1917), a tres pastorcitos",
-         "Llamado al Rosario y a la oración por la paz",
-         "Mensaje de conversión y reparación",
-         "Los niños también son santos",
-         "El Rosario construye la paz"
-        ],
-        "references": [
-         "Lucas 2,52",
-         "Mateo 18,3-4",
-         "1 Timoteo 2,1-2"
-        ]
-       },
-       {
-        "id": "pastora",
-        "title": "La Divina Pastora",
-        "content": "La Divina Pastora de Barquisimeto es una de las devociones marianas más queridas de Venezuela: el pueblo la invoca como \"Pastora de almas\" que guía, protege y conduce hacia su Hijo. Su procesión del 14 de enero reúne a cientos de miles de peregrinos en una de las manifestaciones de fe más grandes de América.\n\nSu advocación recuerda que Dios es el Buen Pastor y que María, su Madre, tiene esta tarea: reunir, cuidar y guiar. Quien camina tras la Virgen no anda perdido, sino bajo una mirada que conoce de cerca al Pastor. La fe venezolana brota en ella en la alegría de las fiestas y en la fuerza de la adversidad.",
-        "keyPoints": [
-         "Devoción mariana muy querida en Venezuela",
-         "La procesión del 14 de enero es multitudinaria",
-         "Recuerda a Dios, el Buen Pastor",
-         "María guía hacia su Hijo",
-         "La fe del pueblo se abraza a Ella en la alegría y la prueba"
-        ],
-        "references": [
-         "Salmo 23",
-         "Juan 10,14-16",
-         "Lucas 1,46-55"
-        ]
-       }
-      ]
-     },
-     {
-      "id": "hoy",
-      "title": "María en nuestra vida",
-      "subtitle": "La Madre cercana",
-      "description": "Cómo caminar cada día con María al lado",
-      "subsections": [
-       {
-        "id": "modelo",
-        "title": "María, modelo de fe",
-        "content": "María es el modelo de fe de todos los discípulos: creyó, guardó, meditó y permaneció. Guardaba todas las cosas en su corazón (Lc 2,19) y supo esperar en la oscuridad sin perder la confianza. Es \"la primera cristiana\": antes que los apóstoles, acogió al Mesías.\n\nPonerse \"a la escuela de María\" es aprender su silencio escuchante, su prontitud para servir (fue a ayudar a Isabel), su valentía serena y su fidelidad sostenida. Su fe no fue fácil ni sin pruebas; por eso acompaña nuestra fe frágil y la hace crecer.",
-        "keyPoints": [
-         "María guardaba y meditaba en su corazón",
-         "Es la primera cristiana",
-         "Su fe no fue sin pruebas ni sombras",
-         "Aprender a escuchar, servir y permanecer",
-         "Acompaña nuestra fe frágil"
-        ],
-        "references": [
-         "Lucas 2,19.51",
-         "Lucas 1,39-45",
-         "Hebreos 11,1"
-        ]
-       },
-       {
-        "id": "por-maria",
-        "title": "Por María a Jesús",
-        "content": "\"A Jesús por María\" resume siglos de espiritualidad católica: recurrir a la Madre no separa de Cristo, al contrario, es el camino más corto y seguro hacia Él. María no se queda con el amor que se le da: lo hace crecer y lo entrega a su Hijo.\n\nPor eso confiar la vida, los estudios, las amistades y las decisiones a María es subir peldaños hacia Jesús. Pedirle el don de la oración, de la pureza, de la vocación, es pedir lo que a ella más le importa: que vivamos como su Hijo. Su sí se renueva en el nuestro.",
-        "keyPoints": [
-         "A Jesús por María",
-         "María no retiene el amor: lo entrega a Jesús",
-         "Confiar la vida entera a la Madre",
-         "Pedirle oración, pureza y vocación",
-         "Su sí se renueva en nuestro sí"
-        ],
-        "references": [
-         "Juan 2,5",
-         "Lucas 1,38",
-         "CIC 2666-2670"
-        ]
-       },
-       {
-        "id": "piedad-popular",
-        "title": "La piedad popular mariana",
-        "content": "La piedad popular es la fe viva que se expresa en gestos sencillos y profundos: el rosario de la abuela, el escapulario, las procesiones, los cánticos, el \"Dios te salve María\" repetido en la noche, la medallita protectora. Es un tesoro de la fe del pueblo, que el Papa Francisco llama \"obra de Dios, no solo del pueblo\" (Evangelii gaudium 122-123).\n\nEstos gestos no sustituyen la Eucaristía y los sacramentos, pero los preparan y prolongan en la vida diaria. Cuidarlos, explicarlos y vivirlos con fe es educar el corazón: lo que se expresa con el cuerpo y con la alegría también entra en el alma y se vuelve testimonio para otros.",
-        "keyPoints": [
-         "La piedad popular expresa la fe del pueblo",
-         "Rosario, escapulario, procesiones y cánticos",
-         "Es \"obra de Dios\", dice el Papa Francisco",
-         "Prepara y prolonga la vida sacramental",
-         "Los gestos llenos de fe evangelizan el alma"
-        ],
-        "references": [
-         "Evangelii gaudium 122-123, 125",
-         "Lucas 1,28-45",
-         "CIC 1674-1676"
-        ]
-       }
-      ]
-     }
-    ]
-   },
-   {
-    "id": "mundo-actual",
-    "title": "Fe y Mundo Actual",
-    "subtitle": "Creer hoy",
-    "description": "Vivir, razonar y dar testimonio de la fe en las redes, la ciencia y la cultura",
-    "tipo": "curso",
-    "count": 16,
-    "units": [
-     {
-      "id": "creer-hoy",
-      "title": "Creer en el mundo de hoy",
-      "subtitle": "Sin miedo al tiempo",
-      "description": "La fe no se refugia en el pasado: se vive y se razona hoy",
-      "subsections": [
-       {
-        "id": "distraido",
-        "title": "Un mundo distraído",
-        "content": "Nunca hubo tantos estímulos compitiendo por tu atención: notificaciones, series, memes, noticias. El mundo no persigue la fe: simplemente la aplasta con el ruido. Y el ruido no deja oír, ni a Dios ni a los demás.\n\nVivir la fe hoy es aprender a hacer silencio y a custodiar la atención: apagar, desconectar, caminar sin pantallas, rezar. No hace falta huir del mundo, sino habitar el mundo despierto. Quien no se deja hipnotizar por la pantalla recupera el gusto por los encuentros reales y por la voz de Dios.",
-        "keyPoints": [
-         "El ruido multiplicado silencia la fe",
-         "La fe se pierde por exceso de estímulos, no por falta de argumentos",
-         "Hacer silencio es un acto de libertad",
-         "Custodiar la atención como un tesoro",
-         "Despiertos en el mundo, no hipnotizados"
-        ],
-        "references": [
-         "1 Reyes 19,11-13",
-         "Mateo 6,22-23",
-         "Salmo 46,11"
-        ]
-       },
-       {
-        "id": "secularismo",
-        "title": "Secularismo y relativismo",
-        "content": "El secularismo sano reconoce la autonomía de la sociedad civil; el secularismo ideológico excluye a Dios de la vida pública, como si la fe fuera un asunto privado e irracional. El relativismo, por su parte, niega que exista la verdad y deja cada cual con \"su\" opinión.\n\nEl cristiano no teme a la razón ni al diálogo: ama la verdad y la busca con libertad. Frente al \"todo es igual\", la Iglesia proclama que algunas cosas son verdad y otras no, que el amor tiene exigencias y que la persona vale más que cualquier opinión. Defender esto hoy no es intransigencia: es fidelidad y caridad.",
-        "keyPoints": [
-         "Distinguir secularismo sano e ideológico",
-         "El relativismo niega la verdad",
-         "La fe no es irracional ni solo privada",
-         "El cristiano ama y busca la verdad",
-         "Defender la verdad es caridad"
-        ],
-        "references": [
-         "Juan 18,38",
-         "Gaudium et spes 36",
-         "Evangelii gaudium 33"
-        ]
-       },
-       {
-        "id": "supersticion",
-        "title": "La fe no es superstición",
-        "content": "La fe cristiana no es magia ni superstición: no \"usa\" a Dios con amuletos, horóscopos, \"echos\" ni pactos. La fe es relación personal con un Dios vivo que se entrega por amor y respeta nuestra libertad. La superstición, en cambio, confía en fuerzas impersonales y manipula.\n\nRezar no es asegurar que te salga bien el examen ni obligar a Dios a hacer tu voluntad: es entrar en diálogo con Quien te ama y te quiere libre. Quien cree de verdad no vive atado a la suerte ni al miedo, sino confiado en la providencia y agradecido por los dones.",
-        "keyPoints": [
-         "La fe es relación, la superstición es manipulación",
-         "Rechazar amuletos, horóscopos y pactos",
-         "La oración no \"obliga\" a Dios",
-         "La fe respeta la libertad",
-         "Confianza en vez de miedo"
-        ],
-        "references": [
-         "Isaías 44,6-8",
-         "Mateo 6,25-34",
-         "CIC 2110-2117"
-        ]
-       }
-      ]
-     },
-     {
-      "id": "redes",
-      "title": "Redes sociales e identidad",
-      "subtitle": "El hombre conectado",
-      "description": "Navegar las redes sin perderse el reflejo",
-      "subsections": [
-       {
-        "id": "redes-don",
-        "title": "Redes: un don y una trampa",
-        "content": "Las redes son un don real: acercan distancias, propagan el Evangelio, apoyan causas, comparten arte y fe. Pero como toda herramienta, tienen una trampa: el tiempo se nos va, la comparación nos hiere, y la imagen se come a la persona.\n\nLa sabiduría cristiana no demoniza las redes, pero las usa con medida y con horario: es una señal de libertad saber cuándo entras y cuándo sales, a quién sigues y qué dejas en tu feed. Un teléfono no es un amo: es una herramienta al servicio de tu vida real.",
-        "keyPoints": [
-         "Las redes acercan y evangelizan",
-         "La comparación continua hiere",
-         "La imagen puede comerse a la persona",
-         "Limitar el tiempo y elegir a quién seguir",
-         "El teléfono sirve a la vida real, no al revés"
-        ],
-        "references": [
-         "Efesios 5,15-16",
-         "1 Corintios 10,31",
-         "Christus vivit 86-90"
-        ]
-       },
-       {
-        "id": "identidad-digital",
-        "title": "Identidad en la era digital",
-        "content": "Todos tenemos dos vidas: la real y la digital. El peligro es que la segunda se convierta en un escaparate que oculta la primera: mostrar una vida perfecta mientras la de verdad se apaga. La identidad no se construye con \"likes\" sino con la verdad de lo que eres ante Dios.\n\nEl cristiano está llamado a la coherencia: ser el mismo en persona, en el chat y en el comentario. La fama digital es efímera; el buen nombre, el carácter y la amistad verdadera no se miden en seguidores. Que tu perfil no desmienta tu alma.",
-        "keyPoints": [
-         "La identidad no se construye con likes",
-         "El escaparate perfecto oculta la vida real",
-         "La coherencia vale más que la audiencia",
-         "La fama digital es efímera",
-         "Que tu perfil no desmienta tu alma"
-        ],
-        "references": [
-         "Gálatas 1,10",
-         "Mateo 5,37",
-         "Gaudete et exsultate 72-73"
-        ]
-       },
-       {
-        "id": "mirada",
-        "title": "Pureza y cuidado de la mirada",
-        "content": "Los ojos son la puerta del corazón: lo que miras con gusto termina habitando en ti. El Señor no prohibió mirar para esclavizar, sino para liberarte: \"si tu ojo te escandaliza, arráncalo\" (Mt 5,29) es un modo de decir: corta el mal de raíz.\n\nCuidar la mirada hoy incluye el contenido que consumes: series, páginas, \"malc\" y videos. Lo que se cultiva en la pantalla se siembra en el corazón. La pureza no es represión hipócrita: es elegir lo bello y lo sano, y pedir ayuda para no quedar enredado en lo que te avergüenza.",
-        "keyPoints": [
-         "Los ojos son la puerta del corazón",
-         "Lo que miras con gusto habita en ti",
-         "Cortar de raíz lo que daña",
-         "Cuidar el contenido que consumes",
-         "La pureza es elegir lo sano, no reprimir"
-        ],
-        "references": [
-         "Mateo 5,27-29",
-         "Filipenses 4,8",
-         "CIC 2520-2526"
-        ]
-       },
-       {
-        "id": "testimonio-digital",
-        "title": "Testimonio digital",
-        "content": "Las redes son una misión: un comentario sereno, una palabra de fe, un video que evangeliza o simplemente una sonrisa real en un mundo de falsedades. El Papa Francisco llama a los jóvenes a ser \"ciudadanos digitales\" que no permanecen mudos.\n\nPero el mejor testimonio digital es el que no grita: la coherencia. Un joven que no insulta, que no difunde rumores, que defiende al que es atacado y que comparte belleza y verdad hace más por la fe que cien publicaciones ruidosas. Sé la semilla honesta en el campo digital.",
-        "keyPoints": [
-         "Las redes son terreno de misión",
-         "Compartir fe, belleza y verdad",
-         "Ser \"ciudadano digital\" sano",
-         "El mejor testimonio es la coherencia",
-         "La semilla honesta en el campo digital"
-        ],
-        "references": [
-         "Mateo 5,13-16",
-         "Colosenses 4,6",
-         "Christus vivit 86-89"
-        ]
-       }
-      ]
-     },
-     {
-      "id": "ciencia-fe",
-      "title": "Ciencia y fe",
-      "subtitle": "Dos luces de una misma verdad",
-      "description": "La fe no teme al conocimiento: lo agradece y lo ilumina",
-      "subsections": [
-       {
-        "id": "ciencia-o-fe",
-        "title": "¿Ciencia o fe?",
-        "content": "La ciencia y la fe no son enemigas: preguntas distintas. La ciencia descubre cómo funciona el mundo natural; la fe responde al porqué último y al sentido. Son \"dos alas\" de una misma ave, decía San Juan Pablo II en su carta Fides et ratio.\n\nMuchos grandes científicos fueron cristianos profundos: Newton, Pasteur, Mendel, Lemaître (padre de la teoría del Big Bang y sacerdote). La historia muestra el diálogo, no el choque. Elegir entre Dios y la razón es un falso dilema: usar la razón es también un don de Dios.",
-        "keyPoints": [
-         "Ciencia: cómo funciona el mundo; fe: su sentido último",
-         "Dos alas de un mismo vuelo (Fides et ratio)",
-         "Grandes científicos fueron creyentes",
-         "El diálogo, no el choque, es lo normal",
-         "Elegir entre Dios y la razón es un falso dilema"
-        ],
-        "references": [
-         "Fides et ratio 1",
-         "Romanos 1,20",
-         "Génesis 1,1"
-        ]
-       },
-       {
-        "id": "origen",
-        "title": "El origen y el sentido de todo",
-        "content": "La ciencia investiga cómo surgieron las estrellas, la vida y el hombre; la fe añade la pregunta que la ciencia no puede responder: ¿por qué existe algo en lugar de nada? ¿Qué sentido tiene mi vida? El origen responde al \"qué\" y al \"cómo\"; el sentido, al \"por qué\" y al \"para quién\".\n\nAceptar la evolución como mecanismo no contradice la fe: la fe afirma que Dios creó, sostiene y da sentido a cuanto existe. Decía Francisco Coll: \"La Biblia no es un libro de ciencias, sino de salvación\". Creador y creación, oración y estudio, se abrazan en el cristiano íntegro.",
-        "keyPoints": [
-         "Ciencia: cómo y cuándo; fe: por qué y para qué",
-         "La evolución como mecanismo no niega la creación",
-         "Dios crea, sostiene y da sentido",
-         "La Biblia enseña a salvarse, no a hacer física",
-         "Creación y ciencia se abrazan en el creyente"
-        ],
-        "references": [
-         "Génesis 1,1-31",
-         "CIC 282-289",
-         "Humani generis 5-6"
-        ]
-       },
-       {
-        "id": "verdad",
-        "title": "La verdad y el diálogo",
-        "content": "La verdad no es propiedad de una disciplina: es única, porque Dios es la Verdad. Por eso el cristiano busca la verdad donde se encuentre, con rigor y con alegría, sabiendo que toda verdad, descubierta por quien la descubra, viene de Dios y nos acerca a Él.\n\nEl diálogo cristiano es valiente y humilde: propone la verdad con argumentos abiertos al examen, escucha con respeto y rechaza el fanatismo que identifica la fe con imposición. Ciencia y fe purifican mutuamente: la ciencia cuida a la fe de supersticiones; la fe cuida a la ciencia de absolutizarse.",
-        "keyPoints": [
-         "La verdad es una, porque Dios es la Verdad",
-         "Toda verdad viene de Dios",
-         "Buscar con rigor y dialogar con amor",
-         "La fe propone, no impone",
-         "Ciencia y fe se purifican mutuamente"
-        ],
-        "references": [
-         "Juan 14,6",
-         "Fides et ratio 32",
-         "1 Pedro 3,15-16"
-        ]
-       }
-      ]
-     },
-     {
-      "id": "amistad-comunidad",
-      "title": "Amistad y comunidad",
-      "subtitle": "No se puede creer solo",
-      "description": "La fe crece en buena compañía y se cura de la soledad",
-      "subsections": [
-       {
-        "id": "amistad",
-        "title": "Amistades que elevan",
-        "content": "Los amigos son un regalo de Dios, pero no todas las amistades llevan al mismo lugar. \"El que anda con sabios, será sabio\", dice Proverbios; y el que se junta con necios, se vuelve confuso. Las amistades verdaderas te hacen mejor: te apoyan, te corrigen con cariño y no te dejan solo.\n\nNo se trata de juzgar ni de aislarse, sino de elegir: busca amigos con quienes puedas crecer, reír y también hablar de Dios. Una amistad que te arrastra a lo que degrada no es amistad. La amistad cristiana, como la de Jesús con sus discípulos, es santa, leal y capaz de dar la vida.",
-        "keyPoints": [
-         "Las amistades moldean el carácter",
-         "El amigo verdadero corrige y apoya",
-         "Elegir amigos con quienes crecer",
-         "La amistad que degrada no es amistad",
-         "Jesús llama amigos a sus discípulos"
-        ],
-        "references": [
-         "Proverbios 13,20",
-         "Juan 15,12-15",
-         "Eclesiástico 6,14-17"
-        ]
-       },
-       {
-        "id": "pertenecer",
-        "title": "Pertenecer a una comunidad",
-        "content": "Ser cristiano no es un asunto de uno solo: es pertenecer a un Cuerpo, la Iglesia, la familia de Dios. En la comunidad se recibe la fe, se comparte la alegría y la cruz, se aprende a servir. \"Un cristiano solo es un cristiano en peligro\".\n\nTu grupo juvenil, tu parroquia, tu movimiento, son ese regalo: un lugar donde ser conocido, querido y desafiado a crecer. Pertenecer no es ir de vez en cuando: es comprometerse, aportar, servirse y dejar que la comunidad te sostenga cuando todo se pone difícil.",
-        "keyPoints": [
-         "La fe se vive en el Cuerpo de Cristo",
-         "La Iglesia es familia y comunidad",
-         "Un cristiano solo está en peligro",
-         "Aportar y dejarse sostener",
-         "El grupo juvenil es escuela de pertenencia"
-        ],
-        "references": [
-         "1 Corintios 12,12-27",
-         "Hechos 2,42-47",
-         "CIC 752-753"
-        ]
-       },
-       {
-        "id": "soledad",
-        "title": "Soledad y compañía de Cristo",
-        "content": "Muchos jóvenes se sienten solos en medio de miles de seguidores: la soledad del alma no se cura con más pantallas, sino con presencia. Cristo prometió estar con nosotros \"todos los días hasta el fin del mundo\", y lo cumple especialmente en la oración, la Eucaristía y los hermanos.\n\nLa soledad bien vivida también es un maestro: el desierto fue lugar de encuentro para los profetas y para Jesús. Aprender a estar a solas con Dios cura la necesidad de ser siempre acompañado. Y cuando la soledad aprieta, el cristiano la convierte en oración y en apertura a los que están más solos que nosotros.",
-        "keyPoints": [
-         "La soledad no se cura con pantallas",
-         "Cristo promete estar con nosotros",
-         "El desierto enseña a encontrarse con Dios",
-         "La soledad bien vivida hace oración",
-         "Acercarse a los que están más solos"
-        ],
-        "references": [
-         "Mateo 28,20",
-         "Mateo 4,1-11",
-         "Salmo 25,16"
-        ]
-       }
-      ]
-     },
-     {
-      "id": "testigos",
-      "title": "Testigos jóvenes",
-      "subtitle": "Los tuyos",
-      "description": "Santos y jóvenes que cambiaron su entorno: tú puedes",
-      "subsections": [
-       {
-        "id": "santos-jovenes",
-        "title": "Santos cercanos a tu edad",
-        "content": "Santo Domingo Savio murió a los 14; Santa María Goretti a los 11; Santa Cecilia, mártir y joven romana; los santos pastorcitos de Fátima; Santa Tarsicia en la Iglesia antigua. La santidad no espera a ser adulto: Dios llama también con quince años.\n\nEstos jóvenes no fueron \"perfectos\": fueron valientes. Rezaron, guardaron el corazón, perdonaron y dieron la vida por Cristo. Su ejemplo dice a cada joven que la santidad no es rebajar la edad, sino elevar la vida: se santo hoy, donde estás, con lo que tienes.",
-        "keyPoints": [
-         "La santidad no espera la adultez",
-         "Santo Domingo Savio, Santa María Goretti, los pastorcitos",
-         "Fueron valientes, no perfectos",
-         "La santidad eleva la edad",
-         "Ser santo hoy, donde estás"
-        ],
-        "references": [
-         "1 Timoteo 4,12",
-         "Mateo 18,3",
-         "Christus vivit 49-50"
-        ]
-       },
-       {
-        "id": "cambian",
-        "title": "Jóvenes que cambiaron su entorno",
-        "content": "La historia está llena de jóvenes que transformaron su tiempo: San Francisco de Asís renovó la Iglesia con 24 años; Santa Teresa de Jesús se convirtió de joven y reformó el Carmelo; Chiara Luce Badano, italiana, dio testimonio de alegría en la enfermedad a los 18 años y fue beatificada.\n\nNo hace falta esperar un cargo: tu entorno es tu misión. Un joven que estudia con honradez, que anima a su equipo, que visita a su abuelo, que convive en paz en su barrio, ya está cambiando el mundo. La santidad social empieza por el vecino de al lado.",
-        "keyPoints": [
-         "San Francisco renovó la Iglesia joven",
-         "Chiara Luce Badano: alegría en la prueba",
-         "Tu entorno es tu misión",
-         "La honradez y la amistad cambian el mundo",
-         "La santidad social empieza al lado"
-        ],
-        "references": [
-         "Hechos 2,17",
-         "1 Tesalonicenses 4,11-12",
-         "Gaudete et exsultate 31"
-        ]
-       },
-       {
-        "id": "tu-testimonio",
-        "title": "Tu testimonio vale",
-        "content": "Quizá no harás milagros visibles, pero tu sí cuenta: ahí donde estás, con tus estudios, tu barrio, tu grupo, Cristo sigue pasando por ti. Vives en tu curso, en tu sala, en tu equipo; y el Evangelio se propaga por contagio silencioso.\n\nLo que Dios te pide no es ser mejor que los demás, sino ser más fiel: amándole en lo concreto, perdonando sin publicidad, sirviendo sin aplauso, pidiendo perdón sin excusas. Tu testimonio, pequeño y constante, es la semilla que otros verán crecer. El mundo no necesita superhéroes: necesita jóvenes santos que amen de verdad.",
-        "keyPoints": [
-         "Tu sí cuenta donde estás",
-         "El Evangelio se propaga por contagio",
-         "Ser más fiel, no mejor que otros",
-         "Servir sin necesidad de aplauso",
-         "El mundo necesita jóvenes que amen de verdad"
-        ],
-        "references": [
-         "Mateo 5,14-16",
-         "Gálatas 6,9",
-         "1 Corintios 13,4-7"
-        ]
-       }
-      ]
-     }
-    ]
-   }
   ]
 };
