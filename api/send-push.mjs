@@ -12,6 +12,7 @@ import {
   runCron,
   sendAll,
   sendSelf,
+  sendEventReminder,
   markSwReceived,
 } from "./_lib/push.js";
 
@@ -36,7 +37,7 @@ function readBody(req) {
 
 // Limpieza de eventos en ventana deslizante (por instancia).
 const WINDOW_MS = 60 * 60 * 1000;
-const LIMITS = { self: 20, all: 5 };
+const LIMITS = { self: 20, all: 5, evento: 10 };
 const buckets = new Map();
 
 function clientIp(req) {
@@ -109,6 +110,12 @@ export default async function handler(req, res) {
       const allOk = throttleOk(`all:${user.id}`, LIMITS.all);
       if (!allOk) return done(res, { error: "Has alcanzado el límite de avisos por hora." }, 429);
       return done(res, await sendAll(payload, body.avisoId));
+    }
+    if (mode === "evento") {
+      if (profile.role !== "admin") return done(res, { error: "Solo coordinadores" }, 403);
+      const evOk = throttleOk(`evento:${user.id}`, LIMITS.evento);
+      if (!evOk) return done(res, { error: "Has alcanzado el límite de recordatorios por hora." }, 429);
+      return done(res, await sendEventReminder(user.id, body.eventoId, payload.body));
     }
 
     return done(res, { error: "Modo desconocido" }, 400);

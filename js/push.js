@@ -165,7 +165,7 @@ const LumenPush = {
                 headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
                 body: JSON.stringify({
                     mode: opts.mode || 'self', title: opts.title || '', body: opts.body || '',
-                    url: opts.url || '/actividades', avisoId: opts.avisoId || null
+                    url: opts.url || '/actividades', avisoId: opts.avisoId || null, eventoId: opts.eventoId || null
                 })
             });
             if (res.ok) {

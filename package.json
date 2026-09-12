@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "node scripts/static.mjs",
-    "test:unit": "node --test api/_lib/evangelio-parser.test.mjs",
+    "test:unit": "node --test api/_lib/evangelio-parser.test.mjs api/_lib/push.test.mjs",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:report": "playwright show-report"

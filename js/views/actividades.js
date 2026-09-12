@@ -111,6 +111,14 @@ const ActividadesView = {
     },
     showAddForm: function(id = null) {
         const evento = id ? LumenData.eventos.find(e => e.id === id) : {};
+        // Stored como ISO-8601 (UTC); devuélvelo a valor local del <input datetime-local>.
+        const aLocal = function(iso) {
+            if (!iso) return '';
+            const d = new Date(iso);
+            if (isNaN(d.getTime())) return iso;
+            const p = (n) => String(n).padStart(2, '0');
+            return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`;
+        };
         const formHTML = `
             <form onsubmit="ActividadesView.saveActivity(event, '${id || ''}')">
                 <div class="edit-avatar-section" style="margin-bottom: 20px;">
@@ -130,8 +138,8 @@ const ActividadesView = {
                     </select>
                 </div>
                 <div id="unico-fields" style="display:${evento.tipo === 'recurrente' ? 'none' : 'block'};">
-                    <div class="form-group"><label>Fecha y Hora de Inicio:</label><input type="datetime-local" id="act-start-date" value="${LumenUI.escapeHTML(evento.fecha_inicio || '')}"></div>
-                    <div class="form-group"><label>Fecha y Hora de Fin:</label><input type="datetime-local" id="act-end-date" value="${LumenUI.escapeHTML(evento.fecha_fin || '')}"></div>
+                    <div class="form-group"><label>Fecha y Hora de Inicio:</label><input type="datetime-local" id="act-start-date" value="${LumenUI.escapeHTML(aLocal(evento.fecha_inicio) || '')}"></div>
+                    <div class="form-group"><label>Fecha y Hora de Fin:</label><input type="datetime-local" id="act-end-date" value="${LumenUI.escapeHTML(aLocal(evento.fecha_fin) || '')}"></div>
                 </div>
                 <div id="recurrente-fields" style="display:${evento.tipo === 'recurrente' ? 'block' : 'none'};">
                     <div class="form-grid-2">
@@ -257,8 +265,17 @@ const ActividadesView = {
         }
 
         if (type === 'unico') {
-            data.fecha_inicio = document.getElementById('act-start-date').value;
-            data.fecha_fin = document.getElementById('act-end-date').value;
+            const inicio = document.getElementById('act-start-date').value;
+            const fin = document.getElementById('act-end-date').value;
+            data.fecha_inicio = inicio ? new Date(inicio).toISOString() : '';
+            data.fecha_fin = fin ? new Date(fin).toISOString() : '';
+            // Fix zona horaria: new Date(datetime-local) interpreta la hora como
+            // hora local del navegador y guarda ISO con offset UTC correcto.
+            // Al reprogramar, se reinician los avisos ya enviados de esta actividad.
+            if (id) {
+                const previo = LumenData.eventos.find(e => e.id === id);
+                if (previo && (previo.fecha_inicio || '') !== data.fecha_inicio) data.notifs_sent = [];
+            }
         } else {
             data.dia = document.getElementById('act-day').value;
             data.hora = document.getElementById('act-time').value;

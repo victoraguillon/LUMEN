@@ -563,8 +563,10 @@ const GestionView = {
         });
     },
 
-    // --- COMUNICACIÓN (AVISOS MANUALES) ---
+    // --- COMUNICACIÓN (AVISOS MANUALES + RECORDATORIOS A INSCRITOS) ---
     renderComunicacion: function() {
+        let eventOptions = '<option value="">Selecciona una actividad...</option>';
+        LumenData.eventos.forEach(ev => { eventOptions += `<option value="${ev.id}">${LumenUI.escapeHTML(ev.titulo)}</option>`; });
         return `
             <div class="card">
                 <div class="card-body">
@@ -573,6 +575,17 @@ const GestionView = {
                     <form id="manual-aviso-form">
                         <div class="form-group"><textarea id="manual-aviso-text" rows="4" required placeholder="Ej: Mañana no hay reunión por el clima. ¡Dios los bendiga!"></textarea></div>
                         <button type="submit" class="btn btn-primary btn-block">Enviar Aviso a la Comunidad</button>
+                    </form>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h3>Recordatorio a Inscritos</h3>
+                    <p style="font-size: 14px; color: var(--texto-gris); margin-bottom: 15px;">Llega solo a los inscritos de la actividad elegida, como notificación y en su Centro de Notificaciones.</p>
+                    <form id="recordatorio-event-form">
+                        <div class="form-group"><select id="recordatorio-event-select">${eventOptions}</select></div>
+                        <div class="form-group"><textarea id="recordatorio-event-text" rows="2" placeholder="Opcional: escribe tu propio mensaje..."></textarea></div>
+                        <button type="submit" class="btn btn-primary btn-block">Enviar Recordatorio</button>
                     </form>
                 </div>
             </div>
@@ -659,6 +672,39 @@ GestionView.renderContent = function() {
                     document.getElementById('manual-aviso-text').value = '';
                     LumenData.loadNotifications();
                 }).catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
+            });
+        }
+        const rForm = document.getElementById('recordatorio-event-form');
+        if (rForm) {
+            rForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const eventoId = document.getElementById('recordatorio-event-select').value;
+                if (!eventoId) { LumenUI.showToast('Selecciona una actividad.', 'error'); return; }
+                const body = document.getElementById('recordatorio-event-text').value.trim();
+                const btn = rForm.querySelector('button[type=submit]');
+                btn.disabled = true;
+                if (typeof LumenPush !== 'undefined' && LumenPush.enviarPush) {
+                    LumenPush.enviarPush({ mode: 'evento', eventoId, body }).then(res => {
+                        btn.disabled = false;
+                        if (res && res.ok && res.result) {
+                            const r = res.result;
+                            document.getElementById('recordatorio-event-text').value = '';
+                            if (r.inscritos === 0) {
+                                LumenUI.showToast('La actividad no tiene inscritos todavía.', 'error');
+                            } else if (r.sent > 0) {
+                                LumenUI.showToast(`Recordatorio entregado en ${r.sent} dispositivo${r.sent === 1 ? '' : 's'} para ${r.inscritos} inscrito${r.inscritos === 1 ? '' : 's'}.`, 'success');
+                            } else {
+                                const sin = r.sin_suscripcion ? ` (${r.sin_suscripcion} sin notificaciones activas)` : '';
+                                LumenUI.showToast(`Recordatorio guardado para ${r.inscritos} inscrito${r.inscritos === 1 ? '' : 's'} en el Centro de Notificaciones${sin}.`, 'success');
+                            }
+                        } else {
+                            LumenUI.showToast('No se pudo enviar el recordatorio ahora.', 'error');
+                        }
+                    });
+                } else {
+                    btn.disabled = false;
+                    LumenUI.showToast('El envío push no está disponible en este dispositivo.', 'error');
+                }
             });
         }
     } else if (currentGestionTab === 'cumpleanos') {
