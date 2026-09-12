@@ -302,7 +302,7 @@ Si quieres colaborar:
 
 ## 📌 Estado del proyecto
 
-LUMEN es una plataforma viva, con una base sólida para crecer en contenidos, comunidad, gestión y experiencia digital. Tiene una estructura lista para evolucionar con nuevas funciones, módulos y mejoras de producto.
+LUMEN es una plataforma viva, con una base sólida para crecer en contenidos, comunidad, gestión y experiencia digital. Tiene una estructura lista para evolucionar con nuevas funciones, módulos y mejoras.
 
 ---
 
