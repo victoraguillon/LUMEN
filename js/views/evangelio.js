@@ -147,7 +147,7 @@ const EvangelioView = {
 
         const sourceHtml = data.source ? `
             <p class="evangelio-source">
-                Fuente: <a href="${this._escape(data.source)}" target="_blank" rel="noopener noreferrer">Vatican News · Evangelio de hoy</a>
+                Fuente: <a href="${LumenUI.sanitizeUrl(data.source) || '#'}" target="_blank" rel="noopener noreferrer">Vatican News · Evangelio de hoy</a>
             </p>
         ` : '';
 

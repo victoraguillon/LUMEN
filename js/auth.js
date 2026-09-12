@@ -1,5 +1,5 @@
 const LumenAuth = {
-    isAdmin: false, currentUser: null, userProfile: null, _unsub: null,
+    isAdmin: false, currentUser: null, userProfile: null, ready: false, _unsub: null,
     get isMember() {
         return this.userProfile && ['miembro', 'admin'].includes(this.userProfile.role);
     },
@@ -16,6 +16,7 @@ const LumenAuth = {
                 if (typeof LumenData !== 'undefined' && LumenData.loadUsers) LumenData.loadUsers();
             } else {
                 this.currentUser = null; this.userProfile = null; this.isAdmin = false;
+                this.ready = true;
                 this.updateUI();
                 let v = LumenRouter.currentView;
                 if (['perfil', 'gestion', 'encuestas', 'intenciones', 'notificaciones', 'recursos'].includes(v)) v = 'landing';
@@ -33,6 +34,7 @@ const LumenAuth = {
                 if (error) { console.error('[LUMEN] getProfile', error); throw error; }
                 const profile = data;
                 this.userProfile = profile || null;
+                this.ready = true;
                 if (profile && profile.status === 'pending') {
                     LumenUI.showToast('Tu cuenta está en espera de aprobación.', 'error');
                     supabase.auth.signOut(); return;
@@ -59,8 +61,9 @@ const LumenAuth = {
             const avatarLetter = this.userProfile?.nombre ? this.userProfile.nombre.charAt(0).toUpperCase() : 'L';
             let picUrl;
             if (this.userProfile?.photo_url) {
-                picUrl = encodeURI(this.userProfile.photo_url);
-            } else {
+                picUrl = LumenUI.sanitizeImageUrl(this.userProfile.photo_url);
+            }
+            if (!picUrl) {
                 const svg = encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="#005F8A"/><text x="50" y="50" fill="#fff" font-family="Arial, sans-serif" font-size="48" text-anchor="middle" dominant-baseline="central">${avatarLetter}</text></svg>`);
                 picUrl = `data:image/svg+xml;charset=utf-8,${svg}`;
             }

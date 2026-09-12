@@ -23,6 +23,34 @@ const {
 
 export const config = { CRON_SECRET, SITE_URL };
 
+// ---------- rate limiting DB-backed + auditoría de seguridad ----------
+
+export async function rateLimit(key, limit, windowS = 3600) {
+  try {
+    const { data, error } = await sb.rpc("rate_limit_check", {
+      p_clave: String(key).slice(0, 200),
+      p_limite: limit,
+      p_ventana_s: windowS,
+    });
+    if (error) {
+      console.error("[push] rate_limit", error.message);
+      return true; // fail-open: un fallo de BD no debe tumbar el servicio
+    }
+    return data !== false;
+  } catch (e) {
+    console.error("[push] rate_limit", e.message);
+    return true;
+  }
+}
+
+export async function logSec(tipo, detalle = {}, ip = "", ua = "") {
+  try {
+    await sb.from("security_logs").insert({ tipo, detalle, ip, ua: String(ua || "").slice(0, 200) });
+  } catch (e) {
+    console.error("[sec]", tipo, e.message);
+  }
+}
+
 const VE_TZ = "America/Caracas";
 
 export const sb = SUPABASE_URL ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY) : null;

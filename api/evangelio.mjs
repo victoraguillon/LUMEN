@@ -5,18 +5,20 @@
 import { VATICAN_RSS_URL, parseEvangelioRss } from "./_lib/evangelio-parser.mjs";
 
 const FETCH_TIMEOUT_MS = 10000;
+const SITE_URL = "https://lumenve.vercel.app";
 
 function done(res, body, status = 200) {
   res.statusCode = status;
   res.setHeader("Content-Type", "application/json; charset=utf-8");
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", SITE_URL);
+  res.setHeader("Vary", "Origin");
   res.setHeader("Cache-Control", "public, s-maxage=900, stale-while-revalidate=86400");
   res.end(JSON.stringify(body));
 }
 
 export default async function handler(req, res) {
   if (req.method === "OPTIONS") {
-    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Origin", SITE_URL);
     res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "content-type");
     res.statusCode = 204;

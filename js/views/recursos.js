@@ -15,7 +15,7 @@ const RecursosView = {
             if (!categorias.includes(currentResourceTab)) currentResourceTab = categorias[0];
             tabsHTML = `<div class="seg-tabs reveal">`;
             categorias.forEach(cat => {
-                tabsHTML += `<button class="seg-tab ${cat === currentResourceTab ? 'active' : ''}" onclick="RecursosView.changeTab('${cat}')">${cat}</button>`;
+                tabsHTML += `<button class="seg-tab ${cat === currentResourceTab ? 'active' : ''}" data-cat="${LumenUI.dataAttr(cat)}" onclick="RecursosView.changeTab(LumenUI.attrOf(this, 'data-cat'))">${LumenUI.escapeHTML(cat)}</button>`;
             });
             tabsHTML += `</div>`;
         }
@@ -95,7 +95,7 @@ const RecursosView = {
             <div style="text-align:center; padding:10px;">
                 <h3 style="color:var(--celeste-oscuro); margin-bottom:10px;">${LumenUI.escapeHTML(res.titulo)}</h3>
                 <p style="color:var(--texto-gris); margin-bottom:20px;">Formato: ${LumenUI.escapeHTML(res.tipo)}</p>
-                <a href="${LumenUI.escapeHTML(res.url)}" target="_blank" rel="noopener" class="btn btn-primary btn-block">${Icons.download} Ver / Descargar</a>
+                <a href="${LumenUI.sanitizeUrl(res.url) || '#'}" target="_blank" rel="noopener" class="btn btn-primary btn-block">${Icons.download} Ver / Descargar</a>
                 ${adminActions}
             </div>
         `;

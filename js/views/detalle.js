@@ -50,7 +50,7 @@ const DetalleView = {
 
         let imageHTML = '';
         if (evento.image_url) {
-            imageHTML = `<img src="${LumenUI.escapeHTML(evento.image_url)}" alt="${LumenUI.escapeHTML(evento.titulo)}" class="detail-hero-img">`;
+            imageHTML = `<img src="${LumenUI.sanitizeImageUrl(evento.image_url)}" alt="${LumenUI.escapeHTML(evento.titulo)}" class="detail-hero-img">`;
         }
 
         return `

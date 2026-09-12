@@ -123,8 +123,8 @@ const GestionView = {
             LumenUI.showToast('Artículo aprobado y publicado', 'success');
             LumenData.loadBlog();
             supabase.from('articulos').select('*').eq('id', id).single().then(({ data: a }) => {
-                if (a && a.author_email) {
-                    fetch('https://formsubmit.co/ajax/' + a.author_email, {
+                if (a) {
+                    fetch('https://formsubmit.co/ajax/juvemar08@gmail.com', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                         body: JSON.stringify({ _subject: 'Tu artículo fue publicado en LUMEN', titulo: a.titulo, mensaje: `¡Hola ${a.author_name || ''}! Tu artículo "${a.titulo}" fue aprobado y ya está publicado en el blog de LUMEN. ¡Gracias por compartir!` })

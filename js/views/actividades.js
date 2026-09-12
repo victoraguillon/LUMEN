@@ -62,7 +62,7 @@ const ActividadesView = {
                             <div style="margin:10px 0;">
                                 <span class="v-chip ${evento.tipo === 'recurrente' ? '' : 'is-dorado'}">${badgeText}</span>
                             </div>
-                            ${evento.image_url ? `<img src="${LumenUI.escapeHTML(evento.image_url)}" alt="${LumenUI.escapeHTML(evento.titulo)}" loading="lazy" style="width:100%; height:160px; object-fit:cover; border-radius:12px; margin-bottom:12px;">` : ''}
+                            ${evento.image_url ? `<img src="${LumenUI.sanitizeImageUrl(evento.image_url)}" alt="${LumenUI.escapeHTML(evento.titulo)}" loading="lazy" style="width:100%; height:160px; object-fit:cover; border-radius:12px; margin-bottom:12px;">` : ''}
                             <p>${LumenUI.escapeHTML((evento.descripcion || '').substring(0, 60))}...</p>
                             <button class="btn btn-primary btn-block" onclick="LumenData.selectedEventId='${evento.id}'; LumenRouter.navigateTo('detalle')">Ver Detalle</button>
                             ${adminButtons}
@@ -122,7 +122,7 @@ const ActividadesView = {
         const formHTML = `
             <form onsubmit="ActividadesView.saveActivity(event, '${id || ''}')">
                 <div class="edit-avatar-section" style="margin-bottom: 20px;">
-                    <img src="${evento.image_url || 'https://via.placeholder.com/400x200/005F8A/ffffff?text=Foto+Actividad'}" id="act-pic-preview" alt="Foto" style="width: 100%; height: 150px; border-radius: 12px; object-fit: cover;">
+                    <img src="${LumenUI.sanitizeImageUrl(evento.image_url) || 'https://via.placeholder.com/400x200/005F8A/ffffff?text=Foto+Actividad'}" id="act-pic-preview" alt="Foto" style="width: 100%; height: 150px; border-radius: 12px; object-fit: cover;">
                     <label for="act-upload-pic" class="btn btn-edit" style="margin-top: 10px;">${Icons.edit} Subir/Recortar Foto</label>
                     <input type="file" id="act-upload-pic" accept="image/*" style="display:none" onchange="ActividadesView.handlePicUpload(event)">
                     <div id="cropper-area"></div>

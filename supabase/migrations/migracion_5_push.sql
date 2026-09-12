@@ -19,7 +19,7 @@ CREATE EXTENSION IF NOT EXISTS pg_cron;
 DO $cron$
 DECLARE
   v_url text := 'https://etioxnigysbxitiaveyp.functions.supabase.co/send-push';
-  v_cron_secret text := 'V4W0jKaxW9Zpw5Yxx6WF31XlgNBOuD63c7WQmTNc3Bc'; -- MISMO valor del secreto CRON_SECRET
+  v_cron_secret text := 'REEMPLAZAR_POR_EL_SECRETO_DE_CRON'; -- OBSOLETO: la migración 15 re-programa el job leyendo el secreto desde public.cron_secrets (sin literales en git)
 BEGIN
   IF EXISTS (SELECT 1 FROM cron.job WHERE jobname = 'lumen-push-cron') THEN
     PERFORM cron.unschedule('lumen-push-cron');

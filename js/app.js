@@ -2,6 +2,12 @@ const LumenRouter = {
     currentView: 'landing',
     _activeView: null,
     _pendingHash: null,
+    _roles: {
+        gestion: 'admin',
+        notificaciones: 'member',
+        recursos: 'member',
+        perfil: 'user'
+    },
 
     _switchView: function(viewName) {
         switch(viewName) {
@@ -94,6 +100,20 @@ const LumenRouter = {
     },
 
     navigateTo: function(viewName, skipTransition) {
+        const req = this._roles[viewName];
+        if (req && LumenAuth.ready) {
+            const ok = req === 'admin' ? LumenAuth.isAdmin
+                : req === 'member' ? LumenAuth.isMember
+                : !!LumenAuth.currentUser;
+            if (!ok) {
+                const msg = req === 'admin' ? 'Acceso restringido a coordinadores.'
+                    : req === 'member' ? 'Debes ser miembro de Juvemar.'
+                    : 'Debes iniciar sesión.';
+                if (typeof LumenUI !== 'undefined' && LumenUI.showToast) LumenUI.showToast(msg, 'error');
+                viewName = 'landing';
+                skipTransition = false;
+            }
+        }
         this.currentView = viewName;
         const container = document.getElementById('app-container');
         const meta = this._switchView(viewName) || null;
@@ -237,7 +257,8 @@ LumenInstall.initEvents();
 // 2) Registra el SW único /sw.js con scope '/' y updateViaCache:'none' (idempotente).
 // 3) iOS requiere página CONTROLADA por el SW para push: si aún no lo está, recarga
 //    una sola vez (guardia). El SW usa skipWaiting + clients.claim.
-// 4) Cualquier fallo de register() se reporta en la tostada con su motivo real.
+// 4) Cualquier fallo de register() se reporta en la tostada con mensaje genérico
+//    (el motivo real solo queda en la consola).
 const initServiceWorker = async () => {
     if (!('serviceWorker' in navigator)) return;
     try {
@@ -257,9 +278,8 @@ const initServiceWorker = async () => {
         }
     } catch (error) {
         console.error('[initServiceWorker]', error);
-        const msg = (error && error.name ? error.name + ': ' + (error.message || '') : String(error));
         if (typeof LumenUI !== 'undefined' && LumenUI.showToast) {
-            LumenUI.showToast('Fallo al registrar el Service Worker: ' + msg, 'error');
+            LumenUI.showToast('No se pudo activar la sincronización. Recarga e inténtalo.', 'error');
         }
     }
 };

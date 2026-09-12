@@ -1,6 +1,18 @@
 const LumenUI = {
     audioCtx: null,
     escapeHTML: function(str) { return String(str ?? '').replace(/[&<>"']/g, function(c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); },
+    sanitizeUrl: function(value) {
+        try {
+            const u = new URL(String(value ?? ''), window.location.origin);
+            if (!/^https?:$/.test(u.protocol)) return '';
+            return u.href;
+        } catch (e) { return ''; }
+    },
+    dataAttr: function(o) { return JSON.stringify(o === undefined ? null : o).replace(/"/g, '&quot;').replace(/'/g, '&#39;'); },
+    attrOf: function(el, name) {
+        try { return JSON.parse((el.getAttribute(name) || '').replace(/&quot;/g, '"')); }
+        catch (e) { return el.getAttribute(name) || ''; }
+    },
     _regEsc: function(s) { return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); },
     prose: function(text) {
         let out = this.escapeHTML(text || '');

@@ -106,7 +106,7 @@ const BlogView = {
             const featured = idx === 0;
             const excerpt = (a.contenido || '').substring(0, featured ? 220 : 110);
             const media = a.image_url
-                ? `<img src="${LumenUI.escapeHTML(a.image_url)}" alt="${LumenUI.escapeHTML(a.titulo)}" loading="lazy">`
+                ? `<img src="${LumenUI.sanitizeImageUrl(a.image_url)}" alt="${LumenUI.escapeHTML(a.titulo)}" loading="lazy">`
                 : `<div class="blog-noimg">${Icons.book}<span>${LumenUI.escapeHTML(a.titulo.split(' ').slice(0, 3).join(' '))}</span></div>`;
             html += `
                 <article class="${featured ? 'blog-featured-card' : 'blog-card'} reveal" style="cursor:pointer;" onclick="BlogView.viewArticle('${a.id}')">
@@ -130,7 +130,7 @@ const BlogView = {
             const date = new Date(a.timestamp).toLocaleDateString('es-VE', { day: 'numeric', month: 'long', year: 'numeric' });
             const contentHTML = `
                 <article class="article-modal">
-                    ${a.image_url ? `<img class="article-modal-hero" src="${LumenUI.escapeHTML(a.image_url)}" alt="${LumenUI.escapeHTML(a.titulo)}">` : ''}
+                    ${a.image_url ? `<img class="article-modal-hero" src="${LumenUI.sanitizeImageUrl(a.image_url)}" alt="${LumenUI.escapeHTML(a.titulo)}">` : ''}
                     <span class="blog-meta">${Icons.user} ${LumenUI.escapeHTML(a.author_name)} · ${date}</span>
                     <h2>${LumenUI.escapeHTML(a.titulo)}</h2>
                     <div class="article-modal-text">${LumenUI.escapeHTML(a.contenido)}</div>

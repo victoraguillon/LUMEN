@@ -21,7 +21,7 @@ const PerfilView = {
 
         const user = LumenAuth.userProfile || {};
         const isJuvemar = this.isJuvemar(user);
-        const picUrl = user.photo_url || `https://via.placeholder.com/150/005F8A/ffffff?text=${user.nombre ? encodeURIComponent(user.nombre.charAt(0)) : 'L'}`;
+        const picUrl = LumenUI.sanitizeImageUrl(user.photo_url) || `https://via.placeholder.com/150/005F8A/ffffff?text=${user.nombre ? encodeURIComponent(user.nombre.charAt(0)) : 'L'}`;
 
         // Progreso: solo cuenta los campos que aplican al rol
         let progress = 0;
