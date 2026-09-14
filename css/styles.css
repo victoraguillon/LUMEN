@@ -2600,7 +2600,8 @@ color: var(--texto-oscuro);
 .catechism-quote .sq-label { color: var(--dorado-texto); }
 .scripture-quote p, .catechism-quote p { margin: 0; }
 .qa-explanation { margin-top: 18px; }
-.qa-explanation p { margin: 0; color: var(--texto-gris); }
+.qa-explanation p { margin: 0 0 1em; color: var(--texto-gris); }
+.qa-explanation p:last-child { margin-bottom: 0; }
 
 /* ---- Accordion compartido ---- */
 .si-details { margin-top: 10px; }
@@ -2613,6 +2614,8 @@ color: var(--texto-oscuro);
 }
 .si-details summary::-webkit-details-marker { color: var(--celeste-primario); }
 .glos-def { padding: 10px 14px; border-radius: 12px; background: var(--gris-fondo); }
+.glos-def p { margin: 0 0 1em; }
+.glos-def p:last-child { margin-bottom: 0; }
 
 /* ---- Santos ---- */
 .sainttabs { margin-bottom: 16px; }
@@ -2628,6 +2631,8 @@ color: var(--texto-oscuro);
 .si-feast { margin: 0 0 4px; font-size: 12px; color: var(--texto-gris); }
 .si-summary { margin: 6px 0 0; font-size: 13.5px; color: var(--texto-gris); }
 .si-life { max-width: 720px; }
+.si-life p { margin: 0 0 1em; }
+.si-life p:last-child { margin-bottom: 0; }
 .saint-patron { margin: 8px 0 0; font-size: 12px; color: var(--celeste-oscuro); font-weight: 600; }
 
 /* ---- Glosario ---- */

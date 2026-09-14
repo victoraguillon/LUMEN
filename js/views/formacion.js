@@ -16,6 +16,22 @@ const FORMACION_ICONS = {
     'mundo-actual': LumenIcons.globe
 };
 
+function formacionParas(text) {
+    const blocks = String(text || '').replace(/\r\n/g, '\n').split(/\n\s*\n+/);
+    const out = [];
+    blocks.forEach(function(block) {
+        const chunk = block.trim();
+        if (!chunk) return;
+        const items = chunk.split(/\n(?=\s*(?:\d+[.)]\s|[-•]\s|•\s))/);
+        items.forEach(function(it) {
+            const p = it.trim();
+            if (!p) return;
+            out.push('<p>' + LumenUI.prose(p) + '</p>');
+        });
+    });
+    return out.join('');
+}
+
 const FormacionView = {
     _moduleId: null,
     _unitId: null,
@@ -307,9 +323,7 @@ const FormacionView = {
 
         let contentHTML = '';
         if (mod.tipo === 'curso') {
-            const paras = String(item.content || '').split('\n\n').map(function(p) {
-                return `<p>${LumenUI.prose(p)}</p>`;
-            }).join('');
+            const paras = formacionParas(item.content);
             contentHTML = `
                 <div class="reading-surface formacion-body">
                     <h2 class="reading-h">${item.title}</h2>
@@ -321,10 +335,10 @@ const FormacionView = {
             contentHTML = `
                 <div class="reading-surface formacion-body qa-body">
                     <h2 class="reading-h">${item.question}</h2>
-                    <div class="reading-prose">${LumenUI.prose(String(item.answer || '')).replace(/\n\n/g, '<br><br>')}</div>
-                    ${item.scripture ? `<blockquote class="scripture-quote"><span class="sq-label">${LumenIcons.cross} Escritura</span><p>${item.scripture}</p></blockquote>` : ''}
-                    ${item.catechism ? `<blockquote class="catechism-quote"><span class="sq-label">${LumenIcons.compass} Catecismo</span><p>${item.catechism}</p></blockquote>` : ''}
-                    ${item.explanation ? `<div class="qa-explanation"><h4>Explicación</h4><p>${LumenUI.prose(item.explanation)}</p></div>` : ''}
+                    <div class="reading-prose">${formacionParas(item.answer)}</div>
+                    ${item.scripture ? `<blockquote class="scripture-quote"><span class="sq-label">${LumenIcons.cross} Escritura</span>${formacionParas(item.scripture)}</blockquote>` : ''}
+                    ${item.catechism ? `<blockquote class="catechism-quote"><span class="sq-label">${LumenIcons.compass} Catecismo</span>${formacionParas(item.catechism)}</blockquote>` : ''}
+                    ${item.explanation ? `<div class="qa-explanation"><h4>Explicación</h4>${formacionParas(item.explanation)}</div>` : ''}
                 </div>`;
         }
 
@@ -389,7 +403,7 @@ const FormacionView = {
                     </div>
                     ${this.favHeart('santos', s.id, s.name, unit.title)}
                 </div>
-                <details class="si-details"><summary>Conocer su vida</summary><div class="reading-surface si-life">${(s.life || '').replace(/\n\n/g, '<br><br>')}</div></details>
+                <details class="si-details"><summary>Conocer su vida</summary><div class="reading-surface si-life">${formacionParas(s.life)}</div></details>
                 ${patron}
             </div>`;
         }, this).join('');
@@ -422,7 +436,7 @@ const FormacionView = {
             return `<div class="glos-item reveal">
                 <details class="si-details"><summary><strong>${t.term}</strong> ${t._unit ? '<span class="glos-tag">' + t._unit + '</span>' : ''}</summary>
                     <div class="glos-def reading-surface">
-                        <p>${t.definition}</p>
+                        ${formacionParas(t.definition)}
                         ${t.etymology ? `<p class="glos-ety"><strong>Etimología:</strong> ${t.etymology}</p>` : ''}
                         ${t.references ? `<p class="glos-ref"><strong>Referencia:</strong> ${t.references}</p>` : ''}
                         ${(t.relatedTerms || []).length ? `<p class="glos-rel"><strong>Relacionados:</strong> ${t.relatedTerms.join(', ')}</p>` : ''}
@@ -461,7 +475,7 @@ const FormacionView = {
             return `<div class="faq-unit reveal">
                 <h3 class="faq-unit-title">${u.title}</h3>
                 ${(u.questions || []).map(function(q) {
-                    return `<details class="si-details faq-item"><summary>${q.question}</summary><div class="reading-surface glos-def">${q.answer.replace(/\n\n/g, '<br><br>')}</div></details>`;
+                    return `<details class="si-details faq-item"><summary>${q.question}</summary><div class="reading-surface glos-def">${formacionParas(q.answer)}</div></details>`;
                 }).join('')}
             </div>`;
         }).join('');
