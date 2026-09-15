@@ -3063,7 +3063,7 @@ padding: 7px 16px; border-radius: 10px;
 
 /* Ofertas: tarjetas con barra lateral */
 .offers-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
     gap: 18px; max-width: 980px; margin: 26px auto 0;
 }
 .offer-card {
@@ -3134,9 +3134,42 @@ padding: 7px 16px; border-radius: 10px;
 .pastoral-alert svg { width: 26px; height: 26px; color: #f59e0b; flex-shrink: 0; margin-top: 2px; }
 .pastoral-alert p { margin: 0; font-size: 14px; color: var(--texto-gris); line-height: 1.65; }
 .pastoral-alert strong { color: var(--texto-oscuro); }
+.pastoral-alert a { color: var(--celeste-primario); font-weight: 600; text-decoration: underline; }
+
+/* Galería de diapositivas (Jovenmisión) */
+.slides-note {
+    text-align: center; font-size: 13.5px; color: var(--texto-gris);
+    max-width: 620px; margin: 0 auto;
+}
+.slides-note a { color: var(--celeste-primario); font-weight: 600; text-decoration: underline; }
+.slides-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px; max-width: 980px; margin: 26px auto 0;
+}
+.slide-card {
+    margin: 0; border-radius: 16px; overflow: hidden;
+    background: var(--card-bg); border: 1px solid var(--border-color);
+    box-shadow: var(--sombra-suave);
+    transition: transform 260ms var(--ease-out), box-shadow 300ms ease;
+}
+.slide-card:hover { transform: translateY(-4px); box-shadow: var(--sombra-media); }
+.slide-card img { width: 100%; display: block; aspect-ratio: 16 / 9; object-fit: cover; }
+.slide-card figcaption { padding: 12px 14px; font-size: 12.5px; color: var(--texto-gris); line-height: 1.55; }
+
+/* Cita de la oración del Joven Misionero */
+.about-quote {
+    max-width: 760px; margin: 26px auto 0; padding: 26px 28px;
+    background: var(--celeste-claro); border-left: 4px solid var(--celeste-primario);
+    border-radius: 16px; font-style: italic; color: var(--texto-gris);
+    line-height: 1.85; font-size: 14.5px;
+}
+.about-quote footer {
+    margin-top: 14px; font-style: normal; font-weight: 700;
+    color: var(--celeste-oscuro); font-size: 13px;
+}
 
 @media (prefers-reduced-motion: reduce) {
-    .about-tab, .lema-item, .offer-card, .team-avatar { transition: none; transform: none !important; }
+    .about-tab, .lema-item, .offer-card, .team-avatar, .slide-card { transition: none; transform: none !important; }
 }
 
 /* ============================================

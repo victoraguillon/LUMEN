@@ -9,7 +9,7 @@ const NosotrosView = {
         return { parts: currentAboutTab ? [currentAboutTab] : [], query: null };
     },
     applyRoute: function(params) {
-        if (params[0] && (params[0] === 'juvemar' || params[0] === 'samuel')) currentAboutTab = params[0];
+        if (params[0] && (params[0] === 'juvemar' || params[0] === 'samuel' || params[0] === 'jovenmision')) currentAboutTab = params[0];
     },
 
     render: function() {
@@ -20,6 +20,7 @@ const NosotrosView = {
                     <div class="about-tabs" role="tablist" aria-label="Grupos de LUMEN">
                         <button class="about-tab ${currentAboutTab === 'juvemar' ? 'active' : ''}" role="tab" aria-selected="${currentAboutTab === 'juvemar'}" onclick="NosotrosView.changeTab('juvemar')">${Icons.users} Juvemar</button>
                         <button class="about-tab ${currentAboutTab === 'samuel' ? 'active' : ''}" role="tab" aria-selected="${currentAboutTab === 'samuel'}" onclick="NosotrosView.changeTab('samuel')">${Icons.bell} El Llamado de Samuel</button>
+                        <button class="about-tab ${currentAboutTab === 'jovenmision' ? 'active' : ''}" role="tab" aria-selected="${currentAboutTab === 'jovenmision'}" onclick="NosotrosView.changeTab('jovenmision')">${Icons.globe} Jovenmisión</button>
                     </div>
                 </section>
                 <div id="about-content"></div>
@@ -30,7 +31,12 @@ const NosotrosView = {
     changeTab: function(tab) { currentAboutTab = tab; LumenRouter.navigateTo('nosotros'); },
     renderContent: function() {
         const container = document.getElementById('about-content');
-        container.innerHTML = currentAboutTab === 'juvemar' ? this.renderJuvemar() : this.renderSamuel();
+        const content = {
+            juvemar: () => this.renderJuvemar(),
+            samuel: () => this.renderSamuel(),
+            jovenmision: () => this.renderJovenmision()
+        };
+        container.innerHTML = content[currentAboutTab]();
         LumenRouter.initScrollReveal();
     },
     renderIntro: function(intro) {
@@ -256,5 +262,143 @@ const NosotrosView = {
             </section>
             `
             + this.renderTeamSection(team);
+    },
+
+    renderSlides: function(slides) {
+        return `
+            <section class="about-section reveal">
+                <h2 class="about-section-title is-center">Así es <em>Jovenmisión</em></h2>
+                <p class="slides-note">La presentación oficial del servicio. Descarga los <a href="assets/Estatutos-de-Jovenmision-2026.pdf" target="_blank" rel="noopener">Estatutos de Jovenmisión 2026</a>.</p>
+                <div class="slides-grid">
+                    ${slides.map((s, i) => `
+                        <figure class="slide-card reveal reveal-delay-${(i % 4) + 1}">
+                            <img src="${s.image}" alt="${s.alt}" loading="lazy">
+                            <figcaption>${s.caption}</figcaption>
+                        </figure>
+                    `).join('')}
+                </div>
+            </section>
+        `;
+    },
+
+    renderJovenmision: function() {
+        const intro = {
+            title: "Servicio de <em>Jovenmisión</em>",
+            text: `Jovenmisión es el <strong>Servicio de Animación y Cooperación Misionera Juvenil</strong> de Venezuela: un servicio conformado por jóvenes para la evangelización de los jóvenes, que nació en <strong>1983</strong> en el seno de las Obras Misionales Pontificias y hoy acompaña a estaciones y grupos animados en toda la Iglesia. Juvemar forma parte de este servicio.`,
+            stats: [
+                { num: "Est. 1983", label: "Nace en Venezuela" },
+                { num: "16–29", label: "Edad de los miembros" },
+                { num: "4", label: "Líneas de acción" }
+            ],
+            image: "assets/jovenmision_cover.jpg",
+            imageAlt: "Portada de la presentación de Jovenmisión",
+            imageFallback: "https://images.unsplash.com/photo-1507692049790-de5829034338?auto=format&fit=crop&w=1400&q=80",
+            caption: "Servicio de Animación y Cooperación Misionera Juvenil."
+        };
+
+        const queEs = {
+            heading: "¿Qué es Jovenmisión?",
+            rows: [
+                { icon: Icons.heart, title: "Un servicio de jóvenes", text: "Conformado por jóvenes para la evangelización de los jóvenes. Ofrece un proceso de espiritualidad, formación, comunión y misión que impulsa la vocación misionera en sus ambientes y en la misión ad gentes, ad intra y ad extra." },
+                { icon: Icons.globe, title: "En el corazón de las OMP", text: "Está adscrito a la Pontificia Obra de la Propagación de la Fe (POPF), una de las Obras Misionales Pontificias, de quien recibe acompañamiento y seguimiento más inmediato." },
+                { icon: Icons.star, title: "Su lema", text: "«La misión por y para los jóvenes»: jóvenes discípulos misioneros que anuncian la Buena Nueva a otros jóvenes." }
+            ]
+        };
+
+        const objetivo = {
+            heading: "Nuestro Objetivo",
+            items: [
+                { title: "Objetivo general", text: "Ofrecer un servicio de animación, formación y cooperación misionera que capacite a los jóvenes para la evangelización del mundo juvenil y los estimule al compromiso misionero en sus Iglesias particulares y a la misión ad gentes, ad intra y ad extra." },
+                { title: "Encuentro con Cristo", text: "Propiciar espacios y experiencias para el encuentro personal con Jesucristo y animar a responder al mandato misionero de Cristo, viviendo en plenitud la vocación bautismal." },
+                { title: "Formación integral", text: "Ofrecer procesos de formación que ayuden a la madurez vocacional y al compromiso misionero y social, informando sobre la vida misionera de la Iglesia." },
+                { title: "Impulsar encuentros", text: "Congresos, campamentos locales, nacionales e internacionales, caminatas, jornadas y reuniones de formación y espiritualidad, conforme a la naturaleza de Jovenmisión." },
+                { title: "Vocación ad gentes", text: "Promover la vocación particular misionera ad gentes, ad intra y ad extra de los jóvenes, creciendo en la conciencia de su corresponsabilidad en la misión." },
+                { title: "Iglesia en salida", text: "Hacer propias las necesidades de la humanidad y de las realidades misioneras, y preparar a los jóvenes para ser levadura misionera en la pastoral juvenil." }
+            ]
+        };
+
+        const lineas = {
+            heading: "Nuestras Líneas de Acción",
+            items: [
+                { icon: Icons.flame, title: "Espiritualidad misionera", text: "Vivir la unción y el envío del Espíritu Santo (Lc 4,18) es el origen de nuestra inspiración y acción: oración, vida sacramental, Palabra de Dios, retiros y devoción mariana." },
+                { icon: Icons.book, title: "Formación", text: "A los pies del Señor Jesús formamos mente y corazón de discípulos misioneros: formación humana y comunitaria, espiritual y doctrinal, pastoral y misionera." },
+                { icon: Icons.users, title: "Comunión", text: "Como las primeras comunidades cristianas (Hch 2,42-47), cultivamos relaciones fraternas marcadas por la acogida, el diálogo, el perdón y la alegría compartida." },
+                { icon: Icons.globe, title: "Misión", text: "La misión es la naturaleza más íntima de la Iglesia (AG 2). Como Pablo, «¡ay de mí si no evangelizo!» (1 Co 9,16): anunciar la salvación con el testimonio de la vida, de joven a joven." }
+            ]
+        };
+
+        const historia = {
+            heading: "Nuestra Historia",
+            items: [
+                { icon: Icons.calendar, title: "Un impulso de las OMP", text: "En los años 80, los animadores de las Obras Misionales Pontificias de Venezuela sintieron la necesidad de despertar la vocación misionera entre los jóvenes y pusieron manos a la obra." },
+                { icon: Icons.star, title: "Nace: 4 de junio de 1983", text: "Primera reunión de lo que sería Jovenmisión, con el Pbro. Nelson Lachance, el diác. Oscar Martínez y las hermanas Elba Valera, María Virginia Giménez y Orfa Ardila. Ese mismo año se presentó oficialmente en la Reunión Nacional de las OMP." },
+                { icon: Icons.sparkles, title: "Los primeros hitos", text: "1984: la I Interestación, donde nace el léxico. 1986: el I Encuentro Nacional. 1988: el I CAJUMI y el estreno del himno. 1989: el primer secretario nacional y los inicios de la escuela de líderes. 1999: Jovenmisión pasa a depender de la Pontificia Obra de la Propagación de la Fe." },
+                { icon: Icons.globe, title: "Hoy", text: "Estaciones y grupos animados en las diócesis, la Asamblea Radar, las escuelas de líderes misioneros y la revista Vía Satélite siguen haciendo «la misión por y para los jóvenes» en toda Venezuela." }
+            ]
+        };
+
+        const actividades = {
+            heading: "Actividades que nos identifican",
+            items: [
+                { icon: Icons.flame, title: "Espiritualidad", text: "Pascua Juvenil Misionera, retiros, adoración y los Encuentros de Formación Virtual (ENFORVI): ocasiones para el encuentro con Jesús." },
+                { icon: Icons.book, title: "Formación", text: "Escuela de Formación para Repetidores (EFOR), Escuela de Líderes Misioneros (ELMI I y II) y el Fin de Semana Misionero (FINDEMI) para crecer como discípulos misioneros." },
+                { icon: Icons.users, title: "Comunión", text: "Asamblea Radar, Interestaciones, Encuentros Fraternos, la Jornada Nacional (JONAJUMI) y el Congreso Nacional (CONAJUMI) cada 5 años, que celebran el camino recorrido." },
+                { icon: Icons.globe, title: "Misión", text: "Campamento Juvenil Misionero (CAJUMI), Salidas Misioneras, En Ondas con Jesús y el envío de jóvenes «en el aire» hacia la misión ad gentes." }
+            ]
+        };
+
+        const estructura = {
+            heading: "Estructura organizativa",
+            rows: [
+                { icon: Icons.crown, title: "Equipo Satélite", text: "El equipo nacional: el director nacional de las OMP, el secretario nacional de la Pontificia Obra de la Propagación de la Fe y el repetidor nacional. Guía y acompaña todo el servicio." },
+                { icon: Icons.compass, title: "Equipo de Enlace", text: "Los animadores provinciales acompañan los procesos de las diócesis de su provincia eclesiástica, incentivando la comunión e integración entre estaciones." },
+                { icon: Icons.landmark, title: "Equipo Repetidor Diocesano", text: "Liderado por el repetidor diocesano y su adjunto, anima la vida de las estaciones y grupos animados de la diócesis, en comunión con el director diocesano de las OMP." },
+                { icon: Icons.users, title: "Estaciones y grupos animados", text: "En las parroquias y pequeñas comunidades, bajo la guía del párroco, las estaciones son los grupos afiliados que hacen vida la semilla misionera donde están." }
+            ]
+        };
+
+        const afiliacion = {
+            heading: "¿Cómo afiliarte?",
+            items: [
+                { title: "Grupo animado", text: "Todo grupo juvenil puede iniciar un tiempo de animación misionera. Para afiliarse debe completar al menos seis meses de animación y formación." },
+                { title: "Requisitos", text: "Un mínimo de 8 integrantes entre 16 y 29 años. En una estación ya afiliada, para incorporar nuevos miembros se requiere al menos 5 integrantes nuevos." },
+                { title: "Informe", text: "El grupo envía la solicitud al repetidor diocesano, quien la presenta al equipo satélite para su evaluación." },
+                { title: "La afiliación", text: "Es un acto público en contexto litúrgico. Desde entonces el grupo pasa a llamarse estación y cada miembro recibe el pin con el logo de Jovenmisión." },
+                { title: "Actualización", text: "Un año después de afiliada, la estación renueva su afiliación: actualiza sus datos e incorpora a los nuevos miembros." }
+            ]
+        };
+
+        const slides = [
+            { image: "assets/jovenmision_s_nacimiento.jpg", alt: "Cómo nace Jovenmisión", caption: "Cómo nace Jovenmisión: los hitos de sus primeros años." },
+            { image: "assets/jovenmision_s_que_es.jpg", alt: "Qué es Jovenmisión", caption: "¿Qué es Jovenmisión? La naturaleza del servicio." },
+            { image: "assets/jovenmision_s_lineas.jpg", alt: "Líneas de acción de Jovenmisión", caption: "Las cuatro líneas de acción del servicio." },
+            { image: "assets/jovenmision_s_logo.jpg", alt: "Logo de Jovenmisión", caption: "El logo, con su anuncio kerigmático: Cristo nos envía." },
+            { image: "assets/jovenmision_s_estructura.jpg", alt: "Estructura organizativa de Jovenmisión", caption: "La estructura organizativa de Jovenmisión." },
+            { image: "assets/jovenmision_s_parroquia.jpg", alt: "Jovenmisión en la parroquia", caption: "De la parroquia y la estación a la misión universal." }
+        ];
+
+        return this.renderIntro(intro)
+            + this.renderTermRows(queEs)
+            + this.renderLema(objetivo)
+            + this.renderOffers(lineas)
+            + this.renderOffers(historia)
+            + this.renderComisiones(actividades)
+            + this.renderTermRows(estructura)
+            + this.renderLema(afiliacion)
+            + `
+            <section class="about-section reveal">
+                <h2 class="about-section-title is-center">Oración del <em>Joven Misionero</em></h2>
+                <blockquote class="about-quote">
+                    Señor Dios, Padre de todos los hombres, te damos gracias por habernos llamado a la fe y a ser parte de la Santa Iglesia. Aviva en nuestra comunidad cristiana el Espíritu Misionero y ayúdanos a comprender que nuestro primer deber es creer, vivir y anunciar el Evangelio.
+                    Haz resonar en nuestros corazones la voz apremiante de Jesús: «Sígueme». Danos el valor de ir predicando la salvación a quienes no te conocen, para que tu mies tenga obreros, tus ovejas pastores buenos, tus hijos hermanos. Por intercesión de la Santísima Virgen María, Estrella de la Evangelización. Amén.
+                </blockquote>
+            </section>
+            `
+            + `
+            <section class="about-section reveal">
+                <div class="pastoral-alert">${Icons.gift}<p><strong>Juvemar es una estación de Jovenmisión.</strong> Nuestro grupo vive este servicio en la parroquia Nuestra Señora de Lourdes y en él se encuentran El Llamado de Samuel y nuestras comisiones. <a href="#/nosotros/juvemar">Conócenos en la pestaña Juvemar.</a></p></div>
+            </section>
+            `
+            + this.renderSlides(slides);
     }
 };
