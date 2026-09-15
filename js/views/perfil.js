@@ -41,11 +41,11 @@ const PerfilView = {
         // Badge de Rol
         let roleBadge = '<span class="table-badge pending">Pendiente</span>';
         if (user.role === 'global') roleBadge = '<span class="table-badge minor is-global">Usuario Global</span>';
-        if (user.role === 'miembro') roleBadge = '<span class="table-badge approved">Miembro Juvemar</span>';
+        if (user.role === 'miembro') roleBadge = user.status === 'pending' ? '<span class="table-badge pending">Juvemar · En aprobación</span>' : '<span class="table-badge approved">Miembro Juvemar</span>';
         if (user.role === 'admin') roleBadge = '<span class="table-badge approved is-admin">Coordinador</span>';
 
         let joinJuvemarBtn = user.role === 'global' ? `<button class="btn btn-primary" onclick="LumenAuth.requestJuvemarMembership()">Solicitar Ingreso a Juvemar</button>` : '';
-        let requestAdminBtn = (user.role === 'miembro' && !LumenAuth.isAdmin) ? `<button class="btn btn-outline" onclick="LumenAuth.requestAdmin()">Solicitar ser Coordinador</button>` : '';
+        let requestAdminBtn = (user.role === 'miembro' && user.status === 'approved' && !LumenAuth.isAdmin) ? `<button class="btn btn-outline" onclick="LumenAuth.requestAdmin()">Solicitar ser Coordinador</button>` : '';
 
         // --- Datos personales (comunes a todos los roles) ---
         let personalInfo = `
@@ -88,6 +88,11 @@ const PerfilView = {
                     <img src="${picUrl}" alt="Perfil" class="profile-avatar-large">
                     <h2 class="profile-name-large">${LumenUI.escapeHTML(user.nombre || 'Usuario')} ${roleBadge}</h2>
                     <p class="profile-email-large">${LumenUI.escapeHTML(user.email)}</p>
+                    ${user.role === 'miembro' && user.status === 'pending' ? `
+                    <div style="background: rgba(255,183,77,.15); border:1px solid var(--warning); border-radius:12px; padding:12px 16px; display:flex; gap:10px; align-items:flex-start; margin-top:16px; text-align:left; width:100%; max-width:340px;">
+                        <span style="color:var(--warning); flex-shrink:0;">${Icons.alert}</span>
+                        <p style="font-size:13px; color:var(--texto-gris); margin:0;">Tu solicitud de ingreso a Juvemar está en espera de aprobación. Cuando el coordinador la apruebe, las funciones de miembro se desbloquearán automáticamente.</p>
+                    </div>` : ''}
 
                     <div style="width: 100%; max-width: 300px; margin: 20px auto 0;">
                         <div style="display:flex; justify-content:space-between; margin-bottom:5px;">

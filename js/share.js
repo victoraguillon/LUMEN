@@ -4,6 +4,8 @@
 // Colores en hex fijo a propósito: la tarjeta no debe heredar el tema oscuro de la app.
 const LumenShare = {
     _stage: null,
+    _fitFloor: null,
+    _maxH: 2640,
 
     // ---- utilidades ----
     _todayLong: function() {
@@ -56,7 +58,7 @@ const LumenShare = {
             ? '<div class="sc-body">' + o.paragraphs.map(function(p) { return '<p>' + esc(p) + '</p>'; }).join('') + '</div>'
             : '';
         const foot = o.footnote ? '<span class="sc-footnote">' + esc(o.footnote) + '</span>' : '';
-        return '<div class="share-card">'
+        return '<div class="share-card' + (o.theme ? ' sc-th-' + o.theme : '') + '">'
             + '<div class="sc-topbar"></div>'
             + '<div class="sc-inner">'
             + '<header class="sc-head"><div class="sc-brand"><span class="sc-mark">' + (typeof LumenIcons !== 'undefined' && LumenIcons.cross ? LumenIcons.cross : '') + '</span>LUMEN</div>' + date + '</header>'
@@ -104,19 +106,98 @@ const LumenShare = {
             });
         }));
     },
-    // Ajusta el texto al lienzo fijo de historia 1080x1920 escalando --sc.
+    // ---- ajuste de tamaño ----
+    // Reúne el texto compartible más largo del programa (formación, santos, devocional,
+    // frases y el límite de blog) para usarlo como referencia de tamaño de la tarjeta.
+    _probeParaLargo: function() {
+        let best = { n: 0, paras: [] };
+        const pra = this._paras;
+        const consider = function(blob) {
+            const n = String(blob || '').length;
+            if (n > best.n) best = { n: n, paras: pra(blob) };
+        };
+        if (typeof FORMACION_DATA !== 'undefined' && FORMACION_DATA.modules) {
+            FORMACION_DATA.modules.forEach(function(mod) {
+                (mod.units || []).forEach(function(u) {
+                    (u.subsections || u.topics || []).forEach(function(it) {
+                        if (mod.tipo === 'preguntas') consider(String(it.answer || '') + '\n\n' + String(it.explanation || ''));
+                        else consider(it.content);
+                    });
+                    (u.saints || []).forEach(function(s) { consider(s.life); });
+                    (u.terms || []).forEach(function(t) { consider(t.definition); });
+                    (u.questions || []).forEach(function(q) { consider(q.answer); });
+                });
+            });
+        }
+        if (typeof SANTORAL !== 'undefined') {
+            Object.keys(SANTORAL).forEach(function(k) { consider(SANTORAL[k].b); });
+        }
+        if (typeof DEVOCIONAL_DATA !== 'undefined' && DEVOCIONAL_DATA.pasajes_dia) {
+            DEVOCIONAL_DATA.pasajes_dia.forEach(function(p) { consider(p.reflection); });
+        }
+        if (typeof FRASES_SANTOS !== 'undefined') {
+            FRASES_SANTOS.forEach(function(f) { consider(f.frase); });
+        }
+        // blog: el share limita a 4 párrafos (posición máxima posible)
+        consider('x'.repeat(480) + '\n\n' + 'x'.repeat(480) + '\n\n' + 'x'.repeat(480) + '\n\n' + 'x'.repeat(480));
+        return best.paras;
+    },
+    // Calcula una sola vez (por sesión) el "suelo" de escala y el tope de altura de la
+    // tarjeta a partir del texto más largo medido en pantalla (con las tipografías cargadas).
+    _computeFitFloor: function() {
+        if (this._fitFloor) return;
+        const self = this;
+        const paras = this._probeParaLargo();
+        if (!paras.length) { this._fitFloor = 0.55; return; }
+        const st = document.createElement('div');
+        st.className = 'share-stage';
+        document.body.appendChild(st);
+        try {
+            st.innerHTML = self.buildCard({
+                theme: 'formacion',
+                kind: 'Formación · Referencia · Título de sección muy largo',
+                title: '¿Cuál es la pregunta más extensa que puede publicarse aquí?',
+                subhead: 'Fiesta: 15 de septiembre',
+                date: self._todayLong(),
+                paragraphs: paras
+            });
+            const natural = st.querySelector('.sc-inner').scrollHeight;
+            if (natural > 1920) {
+                // Escala "suelo": ajusta el texto más largo dentro de un lienzo de historia alto.
+                this._fitFloor = Math.min(0.95, Math.max(0.52, (2640 * 0.9) / natural));
+                this._maxH = Math.max(1920, Math.round(natural * this._fitFloor) + 8);
+            } else {
+                this._fitFloor = 1;
+                this._maxH = 1920;
+            }
+        } finally {
+            if (st.parentNode) st.parentNode.removeChild(st);
+        }
+    },
+    // Ajusta la tarjeta al lienzo de historia, tomando el tamaño como referencia del texto más
+    // largo: escala --sc hasta un "suelo" de legibilidad y, si el contenido aún no cabe, crece
+    // la altura (--sc-h) en vez de recortar. El formato sigue siendo retrato tipo historia.
     _fit: function(stage) {
         const card = stage.querySelector('.share-card');
         const inner = stage.querySelector('.sc-inner');
         if (!card || !inner) return;
+        this._computeFitFloor();
         const target = 1920;
-        for (let i = 0; i < 4; i++) {
-            const h = inner.scrollHeight;
-            if (h <= target + 2) break;
-            const cur = parseFloat(card.style.getPropertyValue('--sc')) || 1;
-            const factor = Math.max(0.4, target / h);
-            card.style.setProperty('--sc', String((cur * factor).toFixed(4)));
+        const floor = this._fitFloor || 0.55;
+        const natural = inner.scrollHeight;
+        card.style.setProperty('--sc', '1');
+        if (natural <= target + 2) {
+            card.style.setProperty('--sc-h', target + 'px');
+            return;
         }
+        let s = target / natural;
+        let h = natural * s;
+        if (h > this._maxH) { s = Math.max(s, (this._maxH * 0.92) / natural); h = natural * s; }
+        s = Math.max(s, floor);
+        h = natural * s;
+        if (h > this._maxH) { s = this._maxH / natural; h = this._maxH; }
+        card.style.setProperty('--sc', s.toFixed(4));
+        card.style.setProperty('--sc-h', String(Math.max(target, Math.round(h))) + 'px');
     },
     _render: function(opts) {
         const self = this;
@@ -197,6 +278,7 @@ const LumenShare = {
         const f = list.length ? list[(dayOfMonth - 1) % list.length] : { frase: 'Dios nos ama y nos acompaña siempre.', autor: 'Lumen' };
         this.share({
             kind: 'Friendly Reminder',
+            theme: 'reminder',
             quote: f.frase,
             cite: f.autor,
             date: this._todayLong(),
@@ -210,6 +292,7 @@ const LumenShare = {
         const p = list[(new Date().getDate() - 1) % list.length];
         this.share({
             kind: 'Alimento de Hoy',
+            theme: 'devocional',
             quote: p.text,
             cite: p.cite,
             subhead: 'Reflexión',
@@ -227,6 +310,7 @@ const LumenShare = {
         if (!s) { LumenUI.showToast('No hay santo registrado para hoy', 'error'); return; }
         this.share({
             kind: 'Santo del día',
+            theme: 'santo',
             title: s.n,
             paragraphs: this._paras(s.b),
             date: this._todayLong(),
@@ -244,6 +328,7 @@ const LumenShare = {
             const body = self._paras(a.contenido).slice(0, 4).map(function(p) { return p.length > 480 ? p.slice(0, 477) + '…' : p; });
             self.share({
                 kind: 'Blog católico',
+                theme: 'blog',
                 title: a.titulo,
                 image: a.image_url ? LumenUI.sanitizeImageUrl(a.image_url) : '',
                 paragraphs: body,
@@ -278,6 +363,7 @@ const LumenShare = {
         }
         this.share({
             kind: mod.title + (unit ? ' · ' + unit.title : ''),
+            theme: 'formacion',
             title: title,
             paragraphs: paras,
             date: this._todayLong(),
@@ -299,6 +385,7 @@ const LumenShare = {
         if (!saint) { LumenUI.showToast('No se encontró el santo', 'error'); return; }
         this.share({
             kind: 'Santos · ' + (unit ? unit.title : mod.title),
+            theme: 'santo',
             title: saint.name,
             subhead: saint.feast ? 'Fiesta: ' + saint.feast : '',
             cite: (saint.patronOf && saint.patronOf.length) ? 'Patrono de: ' + saint.patronOf.join(', ') : '',
@@ -322,6 +409,7 @@ const LumenShare = {
         if (!term) { LumenUI.showToast('No se encontró el término', 'error'); return; }
         this.share({
             kind: 'Glosario · ' + (unit ? unit.title : mod.title),
+            theme: 'formacion',
             title: term.term,
             subhead: term.etymology ? 'Etimología: ' + term.etymology : '',
             paragraphs: this._paras(term.definition),
@@ -341,6 +429,7 @@ const LumenShare = {
         if (!q) { LumenUI.showToast('No se encontró la pregunta', 'error'); return; }
         this.share({
             kind: 'FAQ · ' + (unit ? unit.title : mod.title),
+            theme: 'formacion',
             title: q.question,
             paragraphs: this._paras(q.answer),
             date: this._todayLong(),

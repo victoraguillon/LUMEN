@@ -1,4 +1,7 @@
 // LUMEN - Service Worker único (v32) en la RAÍZ (/sw.js)
+// v44: coordinaciones con fotos + sesión persistente tras aprobación de cuenta + enlaces legales
+// v43: páginas standalone legales fuera del shell SPA + registro persistente
+// v42: share adaptativo (lienzo que crece según el texto más largo) + temas por sección + imagenes data: URLs en Actividades
 // v41: asset de galería Jovenmisión renombrado
 // v40: fix overflow offers-grid en móvil (<340px) — about Jovenmisión
 // v39: pestaña Jovenmisión en Nosotros (galería de diapositivas + contenido desde estatutos/PDF)
@@ -15,7 +18,7 @@
 // v27: unificación de vistas estilo v-header + utilidades dark-safe + rosario avemarías numeradas
 // v26: banner instalación PWA (dark mode + botones por plataforma) + rediseño vistas Nosotros y Blog
 // v25: bitácora de exportaciones (migración 11)
-const CACHE = "lumen-cache-v41";
+const CACHE = "lumen-cache-v44";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";
@@ -96,7 +99,10 @@ self.addEventListener("fetch", (event) => {
   // Navegaciones: stale-while-revalidate. Se sirve el shell de cach� al
   // instante y se refresca la copia en segundo plano (el HTML nuevo entra
   // en la pr�xima visita). Sin cach� -> red directa.
+  // Las p�ginas est�ticas standalone (legal/*.html) NO usan el shell:
+  // se dejan pasar sin interceptar para que el navegador las cargue de red.
   if (req.mode === "navigate") {
+    if (/\.html?$/.test(new URL(req.url).pathname)) return;
     event.respondWith(
       caches.match("/").then((cached) => {
         const net = fetch(req)

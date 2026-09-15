@@ -1,7 +1,8 @@
 const LumenAuth = {
     isAdmin: false, currentUser: null, userProfile: null, ready: false, _unsub: null,
+    _pendingTimer: null, _pendingUser: null, _visHandler: null,
     get isMember() {
-        return this.userProfile && ['miembro', 'admin'].includes(this.userProfile.role);
+        return this.userProfile && this.userProfile.status === 'approved' && ['miembro', 'admin'].includes(this.userProfile.role);
     },
     get isCoordinator() {
         return this.isAdmin;
@@ -21,10 +22,12 @@ const LumenAuth = {
                 let v = LumenRouter.currentView;
                 if (['perfil', 'gestion', 'encuestas', 'intenciones', 'notificaciones', 'recursos'].includes(v)) v = 'landing';
                 LumenRouter.navigateTo(v);
+                if (typeof LumenUI !== 'undefined' && LumenUI.restoreRegisterDraft) LumenUI.restoreRegisterDraft();
             }
         });
     },
-    loadProfile: function(user) {
+    loadProfile: function(user, opts) {
+        const silent = opts && opts.silent;
         return supabase
             .from('profiles')
             .select('*')
@@ -35,14 +38,46 @@ const LumenAuth = {
                 const profile = data;
                 this.userProfile = profile || null;
                 this.ready = true;
-                if (profile && profile.status === 'pending') {
-                    LumenUI.showToast('Tu cuenta está en espera de aprobación.', 'error');
-                    supabase.auth.signOut(); return;
-                }
                 this.isAdmin = !!(profile && profile.role === 'admin' && profile.status === 'approved');
                 this.updateUI();
+                if (profile && profile.status === 'pending') {
+                    if (!silent && typeof LumenUI !== 'undefined' && LumenUI.showToast) {
+                        LumenUI.showToast('Tu cuenta está en espera de aprobación. Se desbloqueará automáticamente al aprobarse.', 'info');
+                    }
+                    this._watchPending(user);
+                } else {
+                    this._watchPending(null);
+                }
                 LumenRouter.navigateTo(LumenRouter.currentView);
             });
+    },
+    // Vigila el estado de una cuenta pendiente: cuando el coordinador la
+    // aprueba se recarga el perfil y los modos de miembro se desbloquean
+    // en la MISMA sesión, sin que el usuario deba volver a iniciar sesión.
+    _watchPending: function(user) {
+        if (this._pendingTimer) { clearInterval(this._pendingTimer); this._pendingTimer = null; }
+        this._pendingUser = user || null;
+        if (this._visHandler) {
+            document.removeEventListener('visibilitychange', this._visHandler);
+            window.removeEventListener('focus', this._visHandler);
+            this._visHandler = null;
+        }
+        if (!user) return;
+        this._visHandler = () => { if (document.visibilityState === 'visible') this._refreshPending(); };
+        document.addEventListener('visibilitychange', this._visHandler);
+        window.addEventListener('focus', this._visHandler);
+        this._pendingTimer = setInterval(() => this._refreshPending(), 30000);
+    },
+    _refreshPending: function() {
+        if (!this._pendingUser || !this.currentUser) { this._watchPending(null); return; }
+        supabase.from('profiles').select('id, role, status').eq('id', this._pendingUser.id).maybeSingle()
+            .then(({ data }) => {
+                if (!data || data.status !== 'approved') return;
+                this._watchPending(null);
+                if (typeof LumenUI !== 'undefined' && LumenUI.showToast) LumenUI.showToast('¡Tu cuenta fue aprobada! Ya eres miembro de Juvemar.', 'success');
+                this.loadProfile(this.currentUser, { silent: true });
+            })
+            .catch(() => {});
     },
     updateUI: function() {
         const userDataZone = document.getElementById('user-data-zone');
@@ -185,17 +220,17 @@ const LumenAuth = {
                             }
                             console.log('[LUMEN] Perfil Juvemar actualizado:', result);
                             LumenData.saveNotification(`Nuevo registro Juvemar: ${nombre} requiere aprobación.`, false);
-                            LumenUI.showToast("Registro exitoso. Espera aprobación del coordinador.", 'success');
+                            LumenUI.showToast("Registro exitoso. Tu sesión queda activa; la aprobación desbloqueará tus funciones de miembro.", 'success');
                         })
                         .then(() => {
                             fetch('https://formsubmit.co/ajax/juvemar08@gmail.com', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ _subject: `Nuevo Registro Juvemar: ${nombre}`, email, message: `${nombre} requiere aprobación.` }) }).catch(err => console.error(err));
                             LumenUI.closeModal('register-modal');
-                            this.loadProfile(authData.user);
+                            this.loadProfile(authData.user, { silent: true });
                         });
                 } else {
                     LumenUI.showToast("¡Bienvenido a LUMEN! Ya puedes explorar la plataforma.", 'success');
                     LumenUI.closeModal('register-modal');
-                    this.loadProfile(authData.user);
+                    this.loadProfile(authData.user, { silent: true });
                 }
             })
             .catch(err => {
@@ -236,10 +271,10 @@ const LumenAuth = {
         return supabase.from('profiles').update(updateData).eq('id', uid)
             .then(({ error }) => {
                 if (error) throw error;
-                return this.loadProfile(this.currentUser);
+                return this.loadProfile(this.currentUser, { silent: true });
             })
             .then(() => {
-                LumenUI.showToast("Solicitud enviada. Espera aprobación del coordinador.", 'success');
+                LumenUI.showToast("Solicitud enviada. Tus funciones de miembro se activarán al ser aprobado.", 'success');
                 LumenUI.closeModal('register-modal');
             })
             .catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
@@ -309,6 +344,7 @@ const LumenAuth = {
     },
     requestAdmin: function() {
         if (!this.currentUser) return;
+        if (this.userProfile.status === 'pending') return LumenUI.showToast('Espera a que tu cuenta sea aprobada antes de solicitar ser coordinador.', 'error');
         if (this.userProfile.role !== 'miembro') {
             return LumenUI.showToast('Debes ser miembro activo de Juvemar para solicitar ser coordinador.', 'error');
         }
@@ -323,8 +359,8 @@ const LumenAuth = {
                 supabase.from('profiles').update({ role: 'miembro', status: 'pending' }).eq('id', this.currentUser.id)
                     .then(() => {
                         LumenData.saveNotification(`${this.userProfile.nombre} solicitó ingresar a Juvemar.`, false);
-                        LumenUI.showToast('Solicitud enviada. Tu cuenta quedará en espera hasta ser aprobada.', 'success');
-                        supabase.auth.signOut();
+                        LumenUI.showToast('Solicitud enviada. Tus funciones de miembro se activarán al ser aprobado.', 'success');
+                        return this.loadProfile(this.currentUser, { silent: true });
                     })
                     .catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
             }

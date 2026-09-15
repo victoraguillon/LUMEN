@@ -12,19 +12,11 @@ const ContactoView = {
                         <h3 style="font-size: 22px; margin-bottom: 15px; font-family:'Sora',sans-serif; font-weight:800;">¡Estamos para servirte!</h3>
                         <p style="opacity: 0.9; margin-bottom: 30px;">Puedes contactarnos directamente a través de WhatsApp o redes sociales.</p>
                         
-                        <a href="https://wa.me/584126413737" target="_blank" rel="noopener noreferrer" class="contact-info-item" style="text-decoration: none; color: white;">
-                            ${Icons.whatsapp}
+                        <a href="https://instagram.com/parroquialourdesmcbo" target="_blank" rel="noopener noreferrer" class="contact-info-item" style="text-decoration: none; color: white;">
+                            ${Icons.instagram}
                             <div>
-                                <strong>Victor M. Aguillon</strong><br>
-                                <span style="font-size: 14px; opacity: 0.8;">+58 412-6413737</span>
-                            </div>
-                        </a>
-                        
-                        <a href="https://wa.me/584127212080" target="_blank" rel="noopener noreferrer" class="contact-info-item" style="text-decoration: none; color: white;">
-                            ${Icons.whatsapp}
-                            <div>
-                                <strong>Evanyelina Valbuena</strong><br>
-                                <span style="font-size: 14px; opacity: 0.8;">+58 412-7212080</span>
+                                <strong>Parroquia Nuestra Señora de Lourdes</strong><br>
+                                <span style="font-size: 14px; opacity: 0.8;">@parroquialourdesmcbo</span>
                             </div>
                         </a>
 

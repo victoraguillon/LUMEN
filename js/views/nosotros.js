@@ -129,7 +129,9 @@ const NosotrosView = {
     renderTeam: function(team) {
         return team.map(member => `
             <div class="team-card reveal">
-                <div class="team-avatar" aria-hidden="true">${avatarInitials(member.name)}</div>
+                ${member.photo
+                    ? `<div class="team-photo-wrapper"><img src="${member.photo}" alt="${member.name}" loading="lazy"></div>`
+                    : `<div class="team-avatar" aria-hidden="true">${avatarInitials(member.name)}</div>`}
                 <div class="team-role">${member.role}</div>
                 <div class="team-name">${member.name}</div>
             </div>
@@ -145,11 +147,11 @@ const NosotrosView = {
     },
     renderJuvemar: function() {
         const team = [
-            { role: "Repetidora", name: "Evanyelina Valbuena" },
-            { role: "Repetidor Adjunto", name: "Victor M. Aguillón" },
-            { role: "Secretaria", name: "Sofia Serrano" },
-            { role: "Asesora", name: "Maria José Rosales" },
-            { role: "Guía Espiritual", name: "Padre Juan Navarro" }
+            { role: "Repetidora", name: "Evanyelina Valbuena", photo: "assets/coordinacion_juvemar/evanyelina.jpg" },
+            { role: "Repetidor Adjunto", name: "Victor M. Aguillón", photo: "assets/coordinacion_juvemar/victor.jpg" },
+            { role: "Secretaria", name: "Sofia Serrano", photo: "assets/coordinacion_juvemar/sofia.jpg" },
+            { role: "Asesora", name: "Maria José Rosales", photo: "assets/coordinacion_juvemar/mariajose.jpg" },
+            { role: "Guía Espiritual", name: "Padre Juan Navarro", photo: "assets/coordinacion_juvemar/padrejuan.jpg" }
         ];
 
         const intro = {
@@ -206,13 +208,13 @@ const NosotrosView = {
     },
     renderSamuel: function() {
         const team = [
-            { role: "Coordinadora", name: "Maria Celeste Cuartt" },
-            { role: "Coordinador", name: "Henry Koussa" },
-            { role: "Secretaria", name: "Sofia Pernia" },
-            { role: "Asesora", name: "Dayana Larreal" },
-            { role: "Asesor", name: "Kendrick Pineda" },
+            { role: "Coordinadora", name: "Maria Celeste Cuartt", photo: "assets/coordinación_samuel/mariaceleste.png" },
+            { role: "Coordinador", name: "Henry Koussa", photo: "assets/coordinación_samuel/koussa.png" },
+            { role: "Secretaria", name: "Sofia Pernia", photo: "assets/coordinación_samuel/sofiap.png" },
+            { role: "Asesora", name: "Dayana Larreal", photo: "assets/coordinación_samuel/dayana.png" },
+            { role: "Asesor", name: "Kendrick Pineda", photo: "assets/coordinación_samuel/kendrick.png" },
             { role: "Tesorera", name: "Evelyn Fuenmayor" },
-            { role: "Guía Espiritual", name: "Padre Juan Navarro" }
+            { role: "Guía Espiritual", name: "Padre Juan Navarro", photo: "assets/coordinación_samuel/padrejuan.png" }
         ];
 
         const intro = {
@@ -268,7 +270,6 @@ const NosotrosView = {
         return `
             <section class="about-section reveal">
                 <h2 class="about-section-title is-center">Así es <em>Jovenmisión</em></h2>
-                <p class="slides-note">La presentación oficial del servicio. Descarga los <a href="assets/Estatutos-de-Jovenmision-2026.pdf" target="_blank" rel="noopener">Estatutos de Jovenmisión 2026</a>.</p>
                 <div class="slides-grid">
                     ${slides.map((s, i) => `
                         <figure class="slide-card reveal reveal-delay-${(i % 4) + 1}">
@@ -290,7 +291,7 @@ const NosotrosView = {
                 { num: "16–29", label: "Edad de los miembros" },
                 { num: "4", label: "Líneas de acción" }
             ],
-            image: "assets/jovenmision_cover.jpg",
+            image: "assets/jovenmision_cover.png",
             imageAlt: "Portada de la presentación de Jovenmisión",
             imageFallback: "https://images.unsplash.com/photo-1507692049790-de5829034338?auto=format&fit=crop&w=1400&q=80",
             caption: "Servicio de Animación y Cooperación Misionera Juvenil."
@@ -332,7 +333,7 @@ const NosotrosView = {
             items: [
                 { icon: Icons.calendar, title: "Un impulso de las OMP", text: "En los años 80, los animadores de las Obras Misionales Pontificias de Venezuela sintieron la necesidad de despertar la vocación misionera entre los jóvenes y pusieron manos a la obra." },
                 { icon: Icons.star, title: "Nace: 4 de junio de 1983", text: "Primera reunión de lo que sería Jovenmisión, con el Pbro. Nelson Lachance, el diác. Oscar Martínez y las hermanas Elba Valera, María Virginia Giménez y Orfa Ardila. Ese mismo año se presentó oficialmente en la Reunión Nacional de las OMP." },
-                { icon: Icons.sparkles, title: "Los primeros hitos", text: "1984: la I Interestación, donde nace el léxico. 1986: el I Encuentro Nacional. 1988: el I CAJUMI y el estreno del himno. 1989: el primer secretario nacional y los inicios de la escuela de líderes. 1999: Jovenmisión pasa a depender de la Pontificia Obra de la Propagación de la Fe." },
+                { icon: LumenIcons.sparkles, title: "Los primeros hitos", text: "1984: la I Interestación, donde nace el léxico. 1986: el I Encuentro Nacional. 1988: el I CAJUMI y el estreno del himno. 1989: el primer secretario nacional y los inicios de la escuela de líderes. 1999: Jovenmisión pasa a depender de la Pontificia Obra de la Propagación de la Fe." },
                 { icon: Icons.globe, title: "Hoy", text: "Estaciones y grupos animados en las diócesis, la Asamblea Radar, las escuelas de líderes misioneros y la revista Vía Satélite siguen haciendo «la misión por y para los jóvenes» en toda Venezuela." }
             ]
         };
@@ -350,21 +351,10 @@ const NosotrosView = {
         const estructura = {
             heading: "Estructura organizativa",
             rows: [
-                { icon: Icons.crown, title: "Equipo Satélite", text: "El equipo nacional: el director nacional de las OMP, el secretario nacional de la Pontificia Obra de la Propagación de la Fe y el repetidor nacional. Guía y acompaña todo el servicio." },
-                { icon: Icons.compass, title: "Equipo de Enlace", text: "Los animadores provinciales acompañan los procesos de las diócesis de su provincia eclesiástica, incentivando la comunión e integración entre estaciones." },
-                { icon: Icons.landmark, title: "Equipo Repetidor Diocesano", text: "Liderado por el repetidor diocesano y su adjunto, anima la vida de las estaciones y grupos animados de la diócesis, en comunión con el director diocesano de las OMP." },
+                { icon: LumenIcons.crown, title: "Equipo Satélite", text: "El equipo nacional: el director nacional de las OMP, el secretario nacional de la Pontificia Obra de la Propagación de la Fe y el repetidor nacional. Guía y acompaña todo el servicio." },
+                { icon: LumenIcons.compass, title: "Equipo de Enlace", text: "Los animadores provinciales acompañan los procesos de las diócesis de su provincia eclesiástica, incentivando la comunión e integración entre estaciones." },
+                { icon: LumenIcons.landmark, title: "Equipo Repetidor Diocesano", text: "Liderado por el repetidor diocesano y su adjunto, anima la vida de las estaciones y grupos animados de la diócesis, en comunión con el director diocesano de las OMP." },
                 { icon: Icons.users, title: "Estaciones y grupos animados", text: "En las parroquias y pequeñas comunidades, bajo la guía del párroco, las estaciones son los grupos afiliados que hacen vida la semilla misionera donde están." }
-            ]
-        };
-
-        const afiliacion = {
-            heading: "¿Cómo afiliarte?",
-            items: [
-                { title: "Grupo animado", text: "Todo grupo juvenil puede iniciar un tiempo de animación misionera. Para afiliarse debe completar al menos seis meses de animación y formación." },
-                { title: "Requisitos", text: "Un mínimo de 8 integrantes entre 16 y 29 años. En una estación ya afiliada, para incorporar nuevos miembros se requiere al menos 5 integrantes nuevos." },
-                { title: "Informe", text: "El grupo envía la solicitud al repetidor diocesano, quien la presenta al equipo satélite para su evaluación." },
-                { title: "La afiliación", text: "Es un acto público en contexto litúrgico. Desde entonces el grupo pasa a llamarse estación y cada miembro recibe el pin con el logo de Jovenmisión." },
-                { title: "Actualización", text: "Un año después de afiliada, la estación renueva su afiliación: actualiza sus datos e incorpora a los nuevos miembros." }
             ]
         };
 
@@ -384,16 +374,6 @@ const NosotrosView = {
             + this.renderOffers(historia)
             + this.renderComisiones(actividades)
             + this.renderTermRows(estructura)
-            + this.renderLema(afiliacion)
-            + `
-            <section class="about-section reveal">
-                <h2 class="about-section-title is-center">Oración del <em>Joven Misionero</em></h2>
-                <blockquote class="about-quote">
-                    Señor Dios, Padre de todos los hombres, te damos gracias por habernos llamado a la fe y a ser parte de la Santa Iglesia. Aviva en nuestra comunidad cristiana el Espíritu Misionero y ayúdanos a comprender que nuestro primer deber es creer, vivir y anunciar el Evangelio.
-                    Haz resonar en nuestros corazones la voz apremiante de Jesús: «Sígueme». Danos el valor de ir predicando la salvación a quienes no te conocen, para que tu mies tenga obreros, tus ovejas pastores buenos, tus hijos hermanos. Por intercesión de la Santísima Virgen María, Estrella de la Evangelización. Amén.
-                </blockquote>
-            </section>
-            `
             + `
             <section class="about-section reveal">
                 <div class="pastoral-alert">${Icons.gift}<p><strong>Juvemar es una estación de Jovenmisión.</strong> Nuestro grupo vive este servicio en la parroquia Nuestra Señora de Lourdes y en él se encuentran El Llamado de Samuel y nuestras comisiones. <a href="#/nosotros/juvemar">Conócenos en la pestaña Juvemar.</a></p></div>

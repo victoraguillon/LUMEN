@@ -273,6 +273,28 @@ const ORACIONES_DATA = {
      ]
     }
    ]
+  },
+  {
+   "id": "misionary-prayers",
+   "title": "Oraciones Misioneras",
+   "subtitle": "Para los que anuncian el Evangelio",
+   "description": "Oraciones para el servicio misionero juvenil y la evangelización",
+   "oraciones": [
+    {
+     "id": "joven-misionero",
+     "title": "Oración del Joven Misionero",
+     "content": "La oración del Servicio de Animación y Cooperación Misionera Juvenil (Jovenmisión), que pide avivar en la comunidad el Espíritu Misionero y responder a la llamada de Jesús: «Sígueme».\n\nLa rezan las estaciones y los grupos animados de Jovenmisión, como Juvemar, al comenzar sus encuentros de formación y misión.",
+     "prayer": "Señor Dios, Padre de todos los hombres, te damos gracias por habernos llamado a la fe y a ser parte de la Santa Iglesia. Aviva en nuestra comunidad cristiana el Espíritu Misionero y ayúdanos a comprender que nuestro primer deber es creer, vivir y anunciar el Evangelio.\n\nHaz resonar en nuestros corazones la voz apremiante de Jesús: «Sígueme». Danos el valor de ir predicando la salvación a quienes no te conocen, para que tu mies tenga obreros, tus ovejas pastores buenos, tus hijos hermanos. Por intercesión de la Santísima Virgen María, Estrella de la Evangelización. Amén.",
+     "latin": "",
+     "significance": "Oración del Servicio de Jovenmisión: pide el Espíritu Misionero y la valentía de anunciar el Evangelio",
+     "when_to_pray": "En los encuentros de las estaciones y grupos animados de Jovenmisión, y en la oración misionera personal",
+     "references": [
+      "Mateo 4,19",
+      "Mateo 9,37-38",
+      "Hechos 1,8"
+     ]
+    }
+   ]
   }
  ]
 };

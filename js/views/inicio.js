@@ -206,7 +206,16 @@ const InicioView = {
 
         let juvemarInviteBox = '';
         const isGlobal = LumenAuth.currentUser && !LumenAuth.isMember && !LumenAuth.isAdmin;
-        if (isGlobal) {
+        const esPendiente = LumenAuth.currentUser && LumenAuth.userProfile && LumenAuth.userProfile.status === 'pending';
+        if (esPendiente) {
+            juvemarInviteBox = `
+            <div class="bento-box bento-wide warning-box reveal">
+                <div class="bento-title is-warning" style="justify-content: center;">
+                    ${Icons.alert} Tu solicitud está en espera de aprobación
+                </div>
+                <p style="color: var(--texto-gris); text-align: center; margin: 10px 0;">Tu ingreso a Juvemar está pendiente: cuando el coordinador lo apruebe, las funciones de miembro se desbloquearán automáticamente en esta cuenta.</p>
+            </div>`;
+        } else if (isGlobal) {
             juvemarInviteBox = `
             <div class="bento-box bento-wide warning-box reveal">
                 <div class="bento-title is-warning" style="justify-content: center;">
