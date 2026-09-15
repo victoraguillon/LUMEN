@@ -46,6 +46,15 @@ const EvangelioView = {
         }
     },
 
+    // En producción (/api/evangelio) es la función serverless de Vercel del mismo
+    // origen (el SW hace network-first y cachea offline). En entornos locales
+    // (Live Server, static.mjs) no existe /api/evangelio: se apunta a la API real.
+    _apiUrl: function() {
+        const host = location.hostname;
+        if (host === 'lumenve.vercel.app' || host.endsWith('.vercel.app')) return '/api/evangelio';
+        return 'https://lumenve.vercel.app/api/evangelio';
+    },
+
     load: async function() {
         if (this._loading) return;
         this._loading = true;
@@ -54,7 +63,7 @@ const EvangelioView = {
         try {
             const controller = new AbortController();
             const timer = setTimeout(() => controller.abort(), 12000);
-            const res = await fetch('/api/evangelio', { signal: controller.signal });
+            const res = await fetch(this._apiUrl(), { signal: controller.signal });
             clearTimeout(timer);
             if (!res.ok) throw new Error('API no disponible (' + res.status + ')');
             const data = await res.json();
