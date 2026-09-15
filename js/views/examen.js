@@ -140,7 +140,7 @@ const ExamenView = {
             lines.push('');
         }, this);
         if (lines.length === 3) lines.push('No se marcaron faltas. ¡Da gracias a Dios!');
-        const text = lines.join('\n') + '\n(LUMEN.com)';
+        const text = lines.join('\n') + '\n(lumenve.vercel.app)';
         if (navigator.clipboard) {
             navigator.clipboard.writeText(text).then(function() { LumenUI.showToast('Lista copiada', 'success'); });
         } else {

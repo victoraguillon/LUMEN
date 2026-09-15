@@ -62,7 +62,7 @@ const LumenShare = {
             + '<header class="sc-head"><div class="sc-brand"><span class="sc-mark">' + (typeof LumenIcons !== 'undefined' && LumenIcons.cross ? LumenIcons.cross : '') + '</span>LUMEN</div>' + date + '</header>'
             + img + kind + title + quote + cite + subhead + paras
             + '<footer class="sc-foot"><span class="sc-rule"></span>'
-            + '<div class="sc-foot-row"><strong>LUMEN</strong>' + foot + '<span>LUMEN.com</span></div>'
+            + '<div class="sc-foot-row"><strong>LUMEN</strong>' + foot + '<span>lumenve.vercel.app</span></div>'
             + '</footer>'
             + '</div></div>';
     },
@@ -104,6 +104,20 @@ const LumenShare = {
             });
         }));
     },
+    // Ajusta el texto al lienzo fijo de historia 1080x1920 escalando --sc.
+    _fit: function(stage) {
+        const card = stage.querySelector('.share-card');
+        const inner = stage.querySelector('.sc-inner');
+        if (!card || !inner) return;
+        const target = 1920;
+        for (let i = 0; i < 4; i++) {
+            const h = inner.scrollHeight;
+            if (h <= target + 2) break;
+            const cur = parseFloat(card.style.getPropertyValue('--sc')) || 1;
+            const factor = Math.max(0.4, target / h);
+            card.style.setProperty('--sc', String((cur * factor).toFixed(4)));
+        }
+    },
     _render: function(opts) {
         const self = this;
         this._cleanup();
@@ -119,6 +133,7 @@ const LumenShare = {
             }).then(function() {
                 const card = stage.querySelector('.share-card');
                 if (!card || typeof html2canvas === 'undefined') throw new Error('html2canvas no disponible');
+                self._fit(stage);
                 return html2canvas(card, { scale: 2, backgroundColor: '#ffffff', useCORS: true, logging: false });
             });
         });
@@ -186,7 +201,7 @@ const LumenShare = {
             cite: f.autor,
             date: this._todayLong(),
             shareTitle: 'Friendly Reminder (LUMEN)'
-        }, 'friendly-reminder-' + this._dateSlug() + '.png', '\u201C' + f.frase + '\u201D\n(' + f.autor + ')\n\n(LUMEN.com)');
+        }, 'friendly-reminder-' + this._dateSlug() + '.png', '\u201C' + f.frase + '\u201D\n(' + f.autor + ')\n\n(lumenve.vercel.app)');
     },
 
     alimentoDia: function() {
@@ -202,7 +217,7 @@ const LumenShare = {
             date: this._todayLong(),
             shareTitle: 'Alimento de Hoy (LUMEN)'
         }, 'alimento-de-hoy-' + this._dateSlug() + '.png',
-        '\u201C' + p.text + '\u201D\n(' + p.cite + ')\n\n' + p.reflection + '\n\n(LUMEN.com)');
+        '\u201C' + p.text + '\u201D\n(' + p.cite + ')\n\n' + p.reflection + '\n\n(lumenve.vercel.app)');
     },
 
     santoDia: function() {
@@ -216,7 +231,7 @@ const LumenShare = {
             paragraphs: this._paras(s.b),
             date: this._todayLong(),
             shareTitle: 'Santo del día (LUMEN)'
-        }, 'santo-del-dia-' + this._dateSlug() + '.png', s.n + '\n\n' + s.b + '\n\n(LUMEN.com)');
+        }, 'santo-del-dia-' + this._dateSlug() + '.png', s.n + '\n\n' + s.b + '\n\n(lumenve.vercel.app)');
     },
 
     blogArticle: function(id) {
@@ -236,7 +251,7 @@ const LumenShare = {
                 date: date,
                 shareTitle: a.titulo + ' (LUMEN)'
             }, 'articulo-' + self._slug(a.titulo) + '.png',
-            a.titulo + '\n\n' + String(a.contenido || '').slice(0, 300) + '…\n\n(LUMEN.com)');
+            a.titulo + '\n\n' + String(a.contenido || '').slice(0, 300) + '…\n\n(lumenve.vercel.app)');
         }).catch(function(err) {
             console.error('[share] blog', err);
             LumenUI.showToast('No se pudo cargar el artículo', 'error');
@@ -268,7 +283,7 @@ const LumenShare = {
             date: this._todayLong(),
             shareTitle: title + ' (LUMEN)'
         }, 'formacion-' + this._slug(mod.id) + '-' + this._slug(title) + '.png',
-        title + '\n\n' + paras.join('\n\n').slice(0, 400) + '…\n\n(LUMEN.com)');
+        title + '\n\n' + paras.join('\n\n').slice(0, 400) + '…\n\n(lumenve.vercel.app)');
     },
 
     formacionSaint: function(id) {
@@ -291,7 +306,7 @@ const LumenShare = {
             date: this._todayLong(),
             shareTitle: saint.name + ' (LUMEN)'
         }, 'santo-' + this._slug(saint.name) + '.png',
-        saint.name + '\n\n' + String(saint.life || '').slice(0, 400) + '…\n\n(LUMEN.com)');
+        saint.name + '\n\n' + String(saint.life || '').slice(0, 400) + '…\n\n(lumenve.vercel.app)');
     },
 
     formacionTerm: function(id) {
@@ -314,7 +329,7 @@ const LumenShare = {
             date: this._todayLong(),
             shareTitle: term.term + ' (LUMEN)'
         }, 'glosario-' + this._slug(term.term) + '.png',
-        term.term + '\n\n' + String(term.definition || '').slice(0, 400) + '…\n\n(LUMEN.com)');
+        term.term + '\n\n' + String(term.definition || '').slice(0, 400) + '…\n\n(lumenve.vercel.app)');
     },
 
     formacionFaq: function(unitId, idx) {
@@ -331,6 +346,6 @@ const LumenShare = {
             date: this._todayLong(),
             shareTitle: q.question + ' (LUMEN)'
         }, 'faq-' + this._slug(q.question) + '.png',
-        q.question + '\n\n' + String(q.answer || '').slice(0, 400) + '…\n\n(LUMEN.com)');
+        q.question + '\n\n' + String(q.answer || '').slice(0, 400) + '…\n\n(lumenve.vercel.app)');
     }
 };

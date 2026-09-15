@@ -243,7 +243,7 @@ const DevocionalView = {
 
     _shareText: function() {
         const pasaje = DEVOCIONAL_DATA.pasajes_dia[(new Date().getDate() - 1) % DEVOCIONAL_DATA.pasajes_dia.length];
-        return `\u201C${pasaje.text}\u201D\n(${pasaje.cite})\n\n${pasaje.reflection}\n\n(LUMEN.com)`;
+        return `\u201C${pasaje.text}\u201D\n(${pasaje.cite})\n\n${pasaje.reflection}\n\n(lumenve.vercel.app)`;
     },
 
     copyVerse: function() {

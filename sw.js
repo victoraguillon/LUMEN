@@ -1,4 +1,5 @@
 // LUMEN - Service Worker único (v32) en la RAÍZ (/sw.js)
+// v38: share en formato historia 1080x1920 (auto-fit) + dominio lumenve.vercel.app + fix responsive glosario
 // v37: compartir como imagen (js/share.js) en todas las vistas
 // v36: securitymaxxing — sanitización XSS, CORS restringido y guards por rol
 // v35: push v3 — recordatorios a inscritos, evangelio 07:00 y devocional 20:00
@@ -11,7 +12,7 @@
 // v27: unificación de vistas estilo v-header + utilidades dark-safe + rosario avemarías numeradas
 // v26: banner instalación PWA (dark mode + botones por plataforma) + rediseño vistas Nosotros y Blog
 // v25: bitácora de exportaciones (migración 11)
-const CACHE = "lumen-cache-v37";
+const CACHE = "lumen-cache-v38";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";
