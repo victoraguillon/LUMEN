@@ -7,10 +7,19 @@ import { VATICAN_RSS_URL, parseEvangelioRss } from "./_lib/evangelio-parser.mjs"
 const FETCH_TIMEOUT_MS = 10000;
 const SITE_URL = "https://lumenve.vercel.app";
 
-function done(res, body, status = 200) {
+function corsHeaders(req) {
+  const origin = req.headers.origin;
+  // Reflecta el origen de quien llama: el endpoint es GET público sin
+  // credenciales, así nunca vuelve a romperse por host/puerto distinto
+  // (p. ej. el dev server local o Live Server).
+  return { "Access-Control-Allow-Origin": origin || SITE_URL, Vary: "Origin" };
+}
+
+function done(req, res, body, status = 200) {
+  const h = corsHeaders(req);
   res.statusCode = status;
   res.setHeader("Content-Type", "application/json; charset=utf-8");
-  res.setHeader("Access-Control-Allow-Origin", SITE_URL);
+  res.setHeader("Access-Control-Allow-Origin", h["Access-Control-Allow-Origin"]);
   res.setHeader("Vary", "Origin");
   res.setHeader("Cache-Control", "public, s-maxage=900, stale-while-revalidate=86400");
   res.end(JSON.stringify(body));
@@ -18,13 +27,14 @@ function done(res, body, status = 200) {
 
 export default async function handler(req, res) {
   if (req.method === "OPTIONS") {
-    res.setHeader("Access-Control-Allow-Origin", SITE_URL);
+    const h = corsHeaders(req);
+    res.setHeader("Access-Control-Allow-Origin", h["Access-Control-Allow-Origin"]);
     res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "content-type");
     res.statusCode = 204;
     return res.end();
   }
-  if (req.method !== "GET") return done(res, { error: "Método no permitido" }, 405);
+  if (req.method !== "GET") return done(req, res, { error: "Método no permitido" }, 405);
 
   try {
     const controller = new AbortController();
@@ -39,19 +49,19 @@ export default async function handler(req, res) {
       clearTimeout(timer);
     }
     if (!rss || !rss.ok) {
-      return done(res, { error: "La fuente no respondió correctamente" }, 502);
+      return done(req, res, { error: "La fuente no respondió correctamente" }, 502);
     }
 
     const xml = await rss.text();
     const data = parseEvangelioRss(xml);
 
     if (!data.readings.some((r) => r.type === "gospel") && !data.reflection.text) {
-      return done(res, { error: "No se pudo interpretar el evangelio de hoy" }, 502);
+      return done(req, res, { error: "No se pudo interpretar el evangelio de hoy" }, 502);
     }
 
-    return done(res, data);
+    return done(req, res, data);
   } catch (e) {
     console.error("[evangelio]", e && e.name === "AbortError" ? "Timeout al conectar con Vatican News" : e);
-    return done(res, { error: "No se pudo obtener el evangelio de hoy. Intenta más tarde." }, 502);
+    return done(req, res, { error: "No se pudo obtener el evangelio de hoy. Intenta más tarde." }, 502);
   }
 }

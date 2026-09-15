@@ -46,6 +46,12 @@ const EvangelioView = {
         }
     },
 
+_apiUrl: function() {
+        var loc = window.location;
+        if (/\.vercel\.app$/i.test(loc.hostname)) return '/api/evangelio';
+        return 'https://lumenve.vercel.app/api/evangelio';
+    },
+
     load: async function() {
         if (this._loading) return;
         this._loading = true;
@@ -54,7 +60,7 @@ const EvangelioView = {
         try {
             const controller = new AbortController();
             const timer = setTimeout(() => controller.abort(), 12000);
-            const res = await fetch('/api/evangelio', { signal: controller.signal });
+            const res = await fetch(this._apiUrl(), { signal: controller.signal });
             clearTimeout(timer);
             if (!res.ok) throw new Error('API no disponible (' + res.status + ')');
             const data = await res.json();
@@ -186,12 +192,14 @@ const EvangelioView = {
     _shareText: function() {
         const d = this._data;
         if (!d || !d.readings || !d.readings.length) return '';
-        const lines = [];
-        for (const r of d.readings) {
-            lines.push(`${r.heading} (${r.ref || ''})\n${r.text}`);
-        }
+        var lectIdx = 0;
+        const lines = d.readings.map((r) => {
+            const label = this._cardLabel(r, r.type === 'lectura' ? ++lectIdx : 0);
+            const ref = r.ref ? ' (' + r.ref + ')' : '';
+            return label + ref + '\n' + r.text;
+        });
         if (d.reflection && d.reflection.text) {
-            lines.push(`Meditación\n${d.reflection.cite ? d.reflection.cite + ' — ' : ''}${d.reflection.text}`);
+            lines.push('Meditación\n' + (d.reflection.cite ? d.reflection.cite + ' — ' : '') + d.reflection.text);
         }
         return lines.join('\n\n') + '\n\n(LUMEN · Evangelio del día)';
     },

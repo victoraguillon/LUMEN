@@ -1,11 +1,12 @@
-// LUMEN · Compartir como imagen (PNG)
-// Genera una tarjeta de marca LUMEN, la renderiza con html2canvas (ya cargado por CDN)
-// y la comparte como archivo vía la hoja nativa del dispositivo o la descarga.
-// Colores en hex fijo a propósito: la tarjeta no debe heredar el tema oscuro de la app.
+// LUMEN · Compartir como imagen (PNG) — tarjetas en formato historia 1080×1920.
+// El contenido se distribuye en N páginas (1, 2, ...) medidas con las fuentes
+// ya cargadas: nada se recorta, TODO el contenido queda visible al 100% y la
+// imagen final es idéntica en cualquier dispositivo (captura con escala 2 fija,
+// sin gap de flex ni margin-top:auto, para que html2canvas renderice fiel al DOM).
 const LumenShare = {
     _stage: null,
-    _fitFloor: null,
-    _maxH: 2640,
+    PAGE_W: 1080,
+    PAGE_H: 1920,
 
     // ---- utilidades ----
     _todayLong: function() {
@@ -34,10 +35,15 @@ const LumenShare = {
         if (!document.fonts) return Promise.resolve();
         const loads = [];
         try {
-            loads.push(document.fonts.load('700 44px Cinzel'));
+            loads.push(document.fonts.load('700 54px "Cinzel"'));
+            loads.push(document.fonts.load('700 44px "Cinzel"'));
+            loads.push(document.fonts.load('italic 400 62px "Crimson Text"'));
             loads.push(document.fonts.load('italic 400 60px "Crimson Text"'));
-            loads.push(document.fonts.load('300 30px Poppins'));
-            loads.push(document.fonts.load('600 24px Poppins'));
+            loads.push(document.fonts.load('300 30px "Poppins"'));
+            loads.push(document.fonts.load('400 22px "Poppins"'));
+            loads.push(document.fonts.load('500 22px "Poppins"'));
+            loads.push(document.fonts.load('600 23px "Poppins"'));
+            loads.push(document.fonts.load('700 22px "Poppins"'));
         } catch (e) {}
         return Promise.all(loads).catch(function() {}).then(function() {
             return document.fonts.ready;
@@ -45,24 +51,30 @@ const LumenShare = {
     },
 
     // ---- HTML de la tarjeta ----
-    buildCard: function(o) {
+    // page: { hero:bool, texts:[string], num:number, total:number }
+    buildCard: function(o, page) {
         const esc = LumenUI.escapeHTML;
+        const total = (page && page.total) || 1;
+        const hero = !page || page.hero !== false;
+        const texts = (page && page.texts) || [];
         const date = o.date ? '<div class="sc-date">' + esc(o.date) + '</div>' : '';
-        const img = o.image ? '<img class="sc-image" alt="" crossorigin="anonymous" src="' + esc(o.image) + '">' : '';
-        const kind = o.kind ? '<div class="sc-eyebrow">' + esc(o.kind) + '</div>' : '';
-        const title = o.title ? '<h1 class="sc-title">' + esc(o.title) + '</h1>' : '';
-        const quote = o.quote ? '<blockquote class="sc-quote">\u201C' + esc(o.quote) + '\u201D</blockquote>' : '';
-        const cite = o.cite ? '<div class="sc-cite">' + esc(o.cite) + '</div>' : '';
-        const subhead = o.subhead ? '<div class="sc-subhead">' + esc(o.subhead) + '</div>' : '';
-        const paras = (o.paragraphs && o.paragraphs.length)
-            ? '<div class="sc-body">' + o.paragraphs.map(function(p) { return '<p>' + esc(p) + '</p>'; }).join('') + '</div>'
+        const img = hero && o.image ? '<img class="sc-image" alt="" crossorigin="anonymous" src="' + esc(o.image) + '">' : '';
+        const kind = hero && o.kind ? '<div class="sc-eyebrow">' + esc(o.kind) + '</div>' : '';
+        const title = hero && o.title ? '<h1 class="sc-title">' + esc(o.title) + '</h1>' : '';
+        const quote = hero && o.quote ? '<blockquote class="sc-quote">\u201C' + esc(o.quote) + '\u201D</blockquote>' : '';
+        const cite = hero && o.cite ? '<div class="sc-cite">' + esc(o.cite) + '</div>' : '';
+        const subhead = hero && o.subhead ? '<div class="sc-subhead">' + esc(o.subhead) + '</div>' : '';
+        const paras = texts.length
+            ? '<div class="sc-body">' + texts.map(function(p) { return '<p>' + esc(p) + '</p>'; }).join('') + '</div>'
             : '';
+        const pageLabel = total > 1 ? '<div class="sc-page">' + (page.num || 1) + ' / ' + total + '</div>' : '';
         const foot = o.footnote ? '<span class="sc-footnote">' + esc(o.footnote) + '</span>' : '';
         return '<div class="share-card' + (o.theme ? ' sc-th-' + o.theme : '') + '">'
             + '<div class="sc-topbar"></div>'
             + '<div class="sc-inner">'
             + '<header class="sc-head"><div class="sc-brand"><span class="sc-mark">' + (typeof LumenIcons !== 'undefined' && LumenIcons.cross ? LumenIcons.cross : '') + '</span>LUMEN</div>' + date + '</header>'
-            + img + kind + title + quote + cite + subhead + paras
+            + pageLabel + img + kind + title + quote + cite + subhead + paras
+            + '<div class="sc-spacer"></div>'
             + '<footer class="sc-foot"><span class="sc-rule"></span>'
             + '<div class="sc-foot-row"><strong>LUMEN</strong>' + foot + '<span>lumenve.vercel.app</span></div>'
             + '</footer>'
@@ -106,127 +118,172 @@ const LumenShare = {
             });
         }));
     },
-    // ---- ajuste de tamaño ----
-    // Reúne el texto compartible más largo del programa (formación, santos, devocional,
-    // frases y el límite de blog) para usarlo como referencia de tamaño de la tarjeta.
-    _probeParaLargo: function() {
-        let best = { n: 0, paras: [] };
-        const pra = this._paras;
-        const consider = function(blob) {
-            const n = String(blob || '').length;
-            if (n > best.n) best = { n: n, paras: pra(blob) };
-        };
-        if (typeof FORMACION_DATA !== 'undefined' && FORMACION_DATA.modules) {
-            FORMACION_DATA.modules.forEach(function(mod) {
-                (mod.units || []).forEach(function(u) {
-                    (u.subsections || u.topics || []).forEach(function(it) {
-                        if (mod.tipo === 'preguntas') consider(String(it.answer || '') + '\n\n' + String(it.explanation || ''));
-                        else consider(it.content);
-                    });
-                    (u.saints || []).forEach(function(s) { consider(s.life); });
-                    (u.terms || []).forEach(function(t) { consider(t.definition); });
-                    (u.questions || []).forEach(function(q) { consider(q.answer); });
-                });
-            });
-        }
-        if (typeof SANTORAL !== 'undefined') {
-            Object.keys(SANTORAL).forEach(function(k) { consider(SANTORAL[k].b); });
-        }
-        if (typeof DEVOCIONAL_DATA !== 'undefined' && DEVOCIONAL_DATA.pasajes_dia) {
-            DEVOCIONAL_DATA.pasajes_dia.forEach(function(p) { consider(p.reflection); });
-        }
-        if (typeof FRASES_SANTOS !== 'undefined') {
-            FRASES_SANTOS.forEach(function(f) { consider(f.frase); });
-        }
-        // blog: el share limita a 4 párrafos (posición máxima posible)
-        consider('x'.repeat(480) + '\n\n' + 'x'.repeat(480) + '\n\n' + 'x'.repeat(480) + '\n\n' + 'x'.repeat(480));
-        return best.paras;
-    },
-    // Calcula una sola vez (por sesión) el "suelo" de escala y el tope de altura de la
-    // tarjeta a partir del texto más largo medido en pantalla (con las tipografías cargadas).
-    _computeFitFloor: function() {
-        if (this._fitFloor) return;
-        const self = this;
-        const paras = this._probeParaLargo();
-        if (!paras.length) { this._fitFloor = 0.55; return; }
-        const st = document.createElement('div');
-        st.className = 'share-stage';
-        document.body.appendChild(st);
-        try {
-            st.innerHTML = self.buildCard({
-                theme: 'formacion',
-                kind: 'Formación · Referencia · Título de sección muy largo',
-                title: '¿Cuál es la pregunta más extensa que puede publicarse aquí?',
-                subhead: 'Fiesta: 15 de septiembre',
-                date: self._todayLong(),
-                paragraphs: paras
-            });
-            const natural = st.querySelector('.sc-inner').scrollHeight;
-            if (natural > 1920) {
-                // Escala "suelo": ajusta el texto más largo dentro de un lienzo de historia alto.
-                this._fitFloor = Math.min(0.95, Math.max(0.52, (2640 * 0.9) / natural));
-                this._maxH = Math.max(1920, Math.round(natural * this._fitFloor) + 8);
-            } else {
-                this._fitFloor = 1;
-                this._maxH = 1920;
-            }
-        } finally {
-            if (st.parentNode) st.parentNode.removeChild(st);
-        }
-    },
-    // Ajusta la tarjeta al lienzo de historia, tomando el tamaño como referencia del texto más
-    // largo: escala --sc hasta un "suelo" de legibilidad y, si el contenido aún no cabe, crece
-    // la altura (--sc-h) en vez de recortar. El formato sigue siendo retrato tipo historia.
-    _fit: function(stage) {
+    // Mide el alto real del contenido (incluye paddings y márgenes) sin el
+    // clamp de min-height, para saber si cabe en una página de 1920px.
+    _measureInnerHeight: function(stage, minH) {
         const card = stage.querySelector('.share-card');
         const inner = stage.querySelector('.sc-inner');
-        if (!card || !inner) return;
-        this._computeFitFloor();
-        const target = 1920;
-        const floor = this._fitFloor || 0.55;
-        const natural = inner.scrollHeight;
+        if (!card || !inner) return Infinity;
         card.style.setProperty('--sc', '1');
-        if (natural <= target + 2) {
-            card.style.setProperty('--sc-h', target + 'px');
-            return;
-        }
-        let s = target / natural;
-        let h = natural * s;
-        if (h > this._maxH) { s = Math.max(s, (this._maxH * 0.92) / natural); h = natural * s; }
-        s = Math.max(s, floor);
-        h = natural * s;
-        if (h > this._maxH) { s = this._maxH / natural; h = this._maxH; }
-        card.style.setProperty('--sc', s.toFixed(4));
-        card.style.setProperty('--sc-h', String(Math.max(target, Math.round(h))) + 'px');
+        card.style.setProperty('--sc-h', String(minH || 8) + 'px');
+        const prev = inner.style.height;
+        inner.style.height = 'auto';
+        const h = inner.scrollHeight;
+        inner.style.height = prev;
+        return h;
     },
-    _render: function(opts) {
+
+    // ---- paginación ----
+    // Reparte los párrafos en páginas { hero, texts }. La primera página lleva
+    // el hero (título/cita/imagen/...) y las siguientes solo texto.
+    _splitLong: function(o, stage, para) {
         const self = this;
-        this._cleanup();
-        return this._prepareImage(opts).then(function(o) {
+        // El render añade el indicador "n / N" cuando hay más de una página, así
+        // que la medición reserva ese espacio (total 2) para no desbordar.
+        const fits = function(texts) {
+            stage.innerHTML = self.buildCard(o, { hero: false, texts: texts, num: 1, total: 2 });
+            return self._measureInnerHeight(stage, 8) <= self.PAGE_H;
+        };
+        const units = String(para).split(/(?<=[.!?…])\s+/).filter(Boolean);
+        if (!units.length) units.push(String(para));
+        const worlds = [];
+        let buf = '';
+        units.forEach(function(u) {
+            const cand = buf ? buf + ' ' + u : u;
+            if (fits([cand])) { buf = cand; return; }
+            if (buf) worlds.push({ hero: false, texts: [buf] });
+            if (fits([u])) { buf = u; return; }
+            worlds.push({ hero: false, texts: [u] });
+            buf = '';
+        });
+        if (buf) worlds.push({ hero: false, texts: [buf] });
+        return worlds.length ? worlds : [{ hero: false, texts: [String(para)] }];
+    },
+    _assignPages: function(o, paras) {
+        const self = this;
+        if (!paras || !paras.length) return [{ hero: true, texts: [] }];
+        const pages = [];
+        let current = { hero: true, texts: [] };
+        const stage = document.createElement('div');
+        stage.className = 'share-stage';
+        stage.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(stage);
+        const closeCurrent = function() { pages.push(current); };
+        const fits = function(page, texts) {
+            stage.innerHTML = self.buildCard(
+                o,
+                Object.assign({}, page, { texts: texts, num: 1, total: 2 })
+            );
+            return self._measureInnerHeight(stage, 8) <= self.PAGE_H;
+        };
+        const addToCurrent = function(texts) {
+            current = Object.assign({}, current, { texts: current.texts.concat(texts) });
+        };
+
+        paras.forEach(function(para) {
+            if (fits(current, current.texts.concat([para]))) { addToCurrent([para]); return; }
+            if (current.texts.length) closeCurrent();
+            current = { hero: false, texts: [] };
+            if (fits(current, [para])) { addToCurrent([para]); return; }
+            // Párrafo más alto que una página entera: se parte por frases.
+            const worlds = self._splitLong(o, stage, para);
+            let first = true;
+            worlds.forEach(function(w) {
+                if (fits(current, current.texts.concat(w.texts))) { addToCurrent(w.texts); return; }
+                if (current.texts.length || !first) closeCurrent();
+                current = { hero: false, texts: w.texts.slice() };
+                first = false;
+            });
+        });
+        closeCurrent();
+        if (stage.parentNode) stage.parentNode.removeChild(stage);
+        return pages;
+    },
+
+    // ---- ajuste por página: footer anclado abajo + upscale suave sin desborde ----
+    _applyFit: function(stage) {
+        const card = stage.querySelector('.share-card');
+        const inner = stage.querySelector('.sc-inner');
+        const spacer = stage.querySelector('.sc-spacer');
+        if (!card || !inner || !spacer) return;
+        const PAGE_H = this.PAGE_H;
+        const measure = function(s) {
+            card.style.setProperty('--sc', s.toFixed(3));
+            const last = inner.children[inner.children.length - 1];
+            return last ? last.offsetTop + last.offsetHeight + 76 * s : 152 * s;
+        };
+        let s = 1;
+        let spill = PAGE_H - measure(1);
+        if (spill > 96) {
+            const cands = [1.05, 1.1, 1.15];
+            let best = 1, bestSpill = spill;
+            for (let i = 0; i < cands.length; i++) {
+                const sp = PAGE_H - measure(cands[i]);
+                if (sp > 16 && sp < bestSpill) { bestSpill = sp; best = cands[i]; }
+            }
+            s = best;
+        } else if (spill < 0) {
+            let guard = 0;
+            while (spill < 0 && guard < 7) {
+                s = Math.max(0.5, s * 0.94);
+                spill = PAGE_H - measure(s);
+                guard++;
+            }
+        }
+        card.style.setProperty('--sc', s.toFixed(3));
+        const finalSpill = PAGE_H - measure(s);
+        spacer.style.height = Math.max(0, Math.round(finalSpill)) + 'px';
+    },
+
+    _renderOne: function(o, page, num, total) {
+        const self = this;
+        return new Promise(function(resolve, reject) {
+            self._cleanup();
             const stage = document.createElement('div');
             stage.className = 'share-stage';
             stage.setAttribute('aria-hidden', 'true');
-            stage.innerHTML = self.buildCard(o);
             document.body.appendChild(stage);
+            stage.innerHTML = self.buildCard(o, { hero: page.hero, texts: page.texts, num: num, total: total });
             self._stage = stage;
-            return self._fontsReady().then(function() {
-                return self._waitImages(stage);
-            }).then(function() {
+            if (typeof html2canvas === 'undefined') {
+                self._cleanup();
+                reject(new Error('html2canvas no disponible'));
+                return;
+            }
+            self._waitImages(stage).then(function() {
+                self._applyFit(stage);
                 const card = stage.querySelector('.share-card');
-                if (!card || typeof html2canvas === 'undefined') throw new Error('html2canvas no disponible');
-                self._fit(stage);
                 return html2canvas(card, { scale: 2, backgroundColor: '#ffffff', useCORS: true, logging: false });
+            }).then(function(canvas) {
+                self._cleanup();
+                resolve(canvas);
+            }).catch(function(err) {
+                self._cleanup();
+                reject(err);
             });
         });
     },
-    _toCanvas: function(opts) {
+    _toCanvases: function(opts) {
         const self = this;
-        return this._render(opts).catch(function(err) {
+        const run = function(o) {
+            return self._fontsReady().then(function() {
+                const pages = self._assignPages(o, o.paragraphs);
+                return pages.reduce(function(chain, page, i) {
+                    return chain.then(function(acc) {
+                        return self._renderOne(o, page, i + 1, pages.length).then(function(canvas) {
+                            acc.push(canvas);
+                            return acc;
+                        });
+                    });
+                }, Promise.resolve([]));
+            });
+        };
+        return this._prepareImage(opts).then(run).catch(function(err) {
             if (!opts.image) throw err;
             console.warn('[share] render con imagen falló, reintentando sin imagen', err);
             const o = Object.assign({}, opts);
             delete o.image;
-            return self._render(o);
+            return run(o);
         });
     },
     _download: function(blob, filename) {
@@ -240,30 +297,64 @@ const LumenShare = {
         setTimeout(function() { URL.revokeObjectURL(url); }, 5000);
         LumenUI.showToast('Imagen lista: revisa tus descargas', 'success');
     },
+    _pageFilename: function(name, i, total) {
+        if (total <= 1) return name;
+        const base = String(name).replace(/\.png$/i, '');
+        return base + '-pag-' + i + 'de' + total + '.png';
+    },
+    _isTouch: function() {
+        return !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+    },
+    _publishOne: function(blob, filename, opts, shareText) {
+        const self = this;
+        const file = new File([blob], filename, { type: 'image/png' });
+        const isTouch = this._isTouch();
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            navigator.share({ files: [file], title: opts.shareTitle || 'LUMEN', text: shareText || '' })
+                .catch(function(err) {
+                    if (err && err.name === 'AbortError') {
+                        if (isTouch) return;
+                    }
+                    self._download(blob, filename);
+                });
+        } else {
+            self._download(blob, filename);
+        }
+    },
+    _publishFiles: function(items, opts, shareText) {
+        const self = this;
+        const files = items.map(function(it) { return new File([it.blob], it.name, { type: 'image/png' }); });
+        const isTouch = this._isTouch();
+        if (navigator.canShare && navigator.canShare({ files: files })) {
+            navigator.share({ files: files, title: opts.shareTitle || 'LUMEN', text: shareText || '' })
+                .catch(function(err) {
+                    if (err && err.name === 'AbortError') {
+                        if (isTouch) return;
+                    }
+                    items.forEach(function(it) { self._download(it.blob, it.name); });
+                });
+        } else {
+            items.forEach(function(it) { self._download(it.blob, it.name); });
+        }
+    },
     share: function(opts, filename, shareText) {
         const self = this;
-        return this._toCanvas(opts).then(function(canvas) {
-            return new Promise(function(resolve) { canvas.toBlob(resolve, 'image/png'); });
-        }).then(function(blob) {
-            self._cleanup();
-            if (!blob) { LumenUI.showToast('No se pudo generar la imagen', 'error'); return; }
-            const file = new File([blob], filename, { type: 'image/png' });
-            const isTouch = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
-            if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                navigator.share({ files: [file], title: opts.shareTitle || 'LUMEN', text: shareText || '' })
-                    .catch(function(err) {
-                        if (err && err.name === 'AbortError') {
-                            // En táctil, AbortError = el usuario cerró la hoja nativa: no descargar.
-                            if (isTouch) return;
-                            // En escritorio muchos navegadores exponen share() pero lo abortan sin hoja nativa.
-                            self._download(blob, filename);
-                            return;
-                        }
-                        self._download(blob, filename);
-                    });
-            } else {
-                self._download(blob, filename);
-            }
+        this._toCanvases(opts).then(function(canvases) {
+            return Promise.all(canvases.map(function(canvas) {
+                return new Promise(function(resolve) { canvas.toBlob(resolve, 'image/png'); });
+            })).then(function(blobs) {
+                const valid = (blobs || []).filter(Boolean);
+                if (!valid.length) { LumenUI.showToast('No se pudo generar la imagen', 'error'); return; }
+                self._cleanup();
+                if (valid.length === 1) {
+                    self._publishOne(valid[0], filename, opts, shareText);
+                    return;
+                }
+                const items = valid.map(function(b, i) {
+                    return { blob: b, name: self._pageFilename(filename, i + 1, valid.length) };
+                });
+                self._publishFiles(items, opts, shareText);
+            });
         }).catch(function(err) {
             console.error('[share]', err);
             self._cleanup();
@@ -325,7 +416,7 @@ const LumenShare = {
             const a = res && res.data;
             if (!a) { LumenUI.showToast('No se pudo cargar el artículo', 'error'); return; }
             const date = new Date(a.timestamp).toLocaleDateString('es-VE', { day: 'numeric', month: 'long', year: 'numeric' });
-            const body = self._paras(a.contenido).slice(0, 4).map(function(p) { return p.length > 480 ? p.slice(0, 477) + '…' : p; });
+            const body = self._paras(a.contenido);
             self.share({
                 kind: 'Blog católico',
                 theme: 'blog',

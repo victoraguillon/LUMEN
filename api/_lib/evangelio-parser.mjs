@@ -64,11 +64,29 @@ function lecturaLabel(t) {
 function looksLikeRef(t) {
   if (t.length > 130 || t.length < 3) return false;
   if (/[«“”"\n]/.test(t)) return false;
+  if (/\)\s*$/.test(t)) return false;
   if (!/\d/.test(t)) return false;
   if ((t.endsWith(".") || t.endsWith(":") || t.endsWith(";")) && !/ \d+([.,:;-]\s*\d+)*$/.test(t)) {
     return false;
   }
   return true;
+}
+
+// Clasifica una referencia bíblica ("Hebreos 5, 7-9", "Juan 19, 25-27",
+// "Salmo 27(28), 8-9") en el tipo de lectura según el libro citado.
+function classifyRef(ref) {
+  const t = ref.trim();
+  if (/^salmo\b/i.test(t)) return "salmo";
+  if (/^al+eluya\b/i.test(t)) return "aleluya";
+  if (/^(mateo|marcos|lucas|juan|Mt|Mc|Lc|Jn)\b/i.test(t)) return "gospel";
+  return "lectura";
+}
+
+// En el formato simplificado del feed, una lectura abre con la referencia
+// desnuda sin cabecera ("Hebreos 5, 7-9", "Salmo 27(28), 8-9") solo si empieza
+// por la inicial del libro citado.
+function isRefStart(t) {
+  return looksLikeRef(t) && /^[A-Za-zÁÉÍÓÚÑÜÀÈÌÒÙ]/.test(t);
 }
 
 // Detecta la atribución al final del párrafo de meditación:
@@ -146,27 +164,65 @@ export function parseEvangelioRss(xml) {
     }
   }
 
+  // Recorre los bloques armando "spans" de lectura. Cada lectura abre con un
+  // encabezado litúrgico ("Lectura de...", "Salmo", "Aleluya", "Lectura del
+  // santo evangelio según...") o, en el formato simplificado del feed, con una
+  // referencia desnuda ("Hebreos 5, 7-9", "Juan 19, 25-27").
   const spans = [];
   let start = -1;
+  let startIsRef = false;
+  let refSeen = false; // el span abierto por encabezado ya capturó su referencia
   for (let i = 0; i < blocks.length; i++) {
-    if (blockType(blocks[i])) {
-      if (start >= 0) spans.push([start, i]);
+    const h = blockType(blocks[i]);
+    const refStart = isRefStart(blocks[i]);
+    // Cabeceras ("Lectura del...", "Salmo", "Aleluya") abren una lectura;
+    // "Salmo 27(28), 8-9" es a la vez cabecera y referencia en el formato
+    // simplificado, así que gana la referencia desnuda antes que la cabecera.
+    if (h && !refStart) {
+      if (start >= 0) spans.push([start, i, startIsRef]);
       start = i;
+      startIsRef = false;
+      refSeen = false;
+      continue;
+    }
+    if (refStart) {
+      if (start < 0) {
+        start = i;
+        startIsRef = true;
+        refSeen = false;
+      } else if (startIsRef) {
+        spans.push([start, i, true]);
+        start = i;
+        startIsRef = true;
+        refSeen = false;
+      } else if (!refSeen) {
+        // Formato clásico: la referencia va después del encabezado y se
+        // consume como parte de esa lectura.
+        refSeen = true;
+      } else {
+        // Día mixto: encabezado con su referencia y, después, más lecturas con
+        // referencia desnuda.
+        spans.push([start, i, false]);
+        start = i;
+        startIsRef = true;
+        refSeen = false;
+      }
+      continue;
     }
   }
-  if (start >= 0) spans.push([start, blocks.length]);
+  if (start >= 0) spans.push([start, blocks.length, startIsRef]);
 
   const readings = [];
-  for (const [s, e] of spans) {
-    const heading = blocks[s];
+  for (const [s, e, bare] of spans) {
+    const heading = bare ? "" : blocks[s];
     const reading = {
-      type: blockType(heading),
+      type: bare ? classifyRef(blocks[s]) : blockType(heading),
       heading,
       label:
-        s > 0 && LECTURA_LABEL_RE.test(blocks[s - 1])
+        !bare && s > 0 && LECTURA_LABEL_RE.test(blocks[s - 1])
           ? lecturaLabel(blocks[s - 1])
           : null,
-      ref: "",
+      ref: bare ? blocks[s] : "",
       text: "",
     };
     const body = [];
@@ -174,7 +230,9 @@ export function parseEvangelioRss(xml) {
       if (i === medIndex) continue;
       const t = blocks[i];
       if (LECTURA_LABEL_RE.test(t)) continue;
-      if (!reading.ref && looksLikeRef(t)) {
+      if (bare) {
+        body.push(t);
+      } else if (!reading.ref && looksLikeRef(t)) {
         reading.ref = t;
       } else {
         body.push(t);
