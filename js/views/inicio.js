@@ -71,6 +71,9 @@ const InicioView = {
                                 <p class="verse-text-large on-gradient" style="font-size: 28px; font-style: italic; font-weight: 300; margin-bottom: 24px; line-height: 1.45;">"${frase.frase}"</p>
                                 <cite class="on-gradient" style="font-size: 16px; font-weight: 600; opacity: 0.9; text-transform: uppercase; letter-spacing: 2px;">(${frase.autor})</cite>
                                 <button class="btn btn-outline btn-block on-gradient" style="max-width: 280px; margin: 32px auto 0;" onclick="LumenRouter.navigateTo('devocional')">${LumenIcons.oraciones} Mira el pasaje y santo de hoy</button>
+                                <div style="margin-top:12px;">
+                                    ${LumenShare.buttonHTML('LumenShare.friendlyReminder()', 'Compartir imagen')}
+                                </div>
                             </div>
                         </div>
 
@@ -235,6 +238,9 @@ const InicioView = {
                             <p class="verse-text-large on-gradient" style="font-size: 28px; font-style: italic; font-weight: 300; margin-bottom: 24px; line-height: 1.45;">"${fraseDelDia.frase}"</p>
                             <cite class="on-gradient" style="font-size: 16px; font-weight: 600; opacity: 0.9; text-transform: uppercase; letter-spacing: 2px;">(${fraseDelDia.autor})</cite>
                             <button class="btn btn-outline btn-block on-gradient" style="max-width: 280px; margin: 32px auto 0;" onclick="LumenRouter.navigateTo('devocional')">${LumenIcons.oraciones} Mira el pasaje y santo de hoy</button>
+                            <div style="margin-top:12px;">
+                                ${LumenShare.buttonHTML('LumenShare.friendlyReminder()', 'Compartir imagen')}
+                            </div>
                         </div>
                     </div>
 

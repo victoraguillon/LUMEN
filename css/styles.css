@@ -4158,3 +4158,64 @@ body.dark-theme .rel-icon { background: rgba(36,88,136,0.14); color: var(--celes
 .glos-link { color: var(--celeste-primario); text-decoration: none; border-bottom: 1px dotted rgba(0,130,200,0.5); }
 .glos-link:hover { text-decoration: underline; }
 .glos-item.is-target { outline: 2px solid var(--celeste-primario); outline-offset: 4px; border-radius: 14px; scroll-margin-top: 96px; box-shadow: var(--sombra-media); }
+
+/* ============ Compartir como imagen (share card) ============ */
+.btn-share {
+    background: var(--celeste-claro);
+    color: var(--celeste-oscuro);
+    border: 1px solid rgba(36,88,136,0.12);
+    box-shadow: none;
+    gap: 6px;
+    padding: 8px 16px;
+    font-size: 13px;
+}
+.btn-share:hover { background: var(--gradiente-lumen); color: var(--blanco); border-color: transparent; box-shadow: var(--sombra-glow); }
+.btn-share svg { width: 16px; height: 16px; }
+.btn-share span { white-space: nowrap; }
+body.dark-theme .btn-share { background: rgba(36,88,136,0.16); color: var(--texto-claro); border-color: rgba(255,255,255,0.08); }
+body.dark-theme .btn-share:hover { background: var(--gradiente-lumen); color: var(--blanco); }
+
+.share-stage {
+    position: fixed;
+    top: 0;
+    left: -10000px;
+    width: 1080px;
+    z-index: -1;
+    pointer-events: none;
+    background: #ffffff;
+}
+.share-card {
+    width: 1080px;
+    min-height: 1080px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    background-color: #ffffff;
+    background-image: radial-gradient(circle at 100% 0%, rgba(201,168,76,0.16), transparent 42%), linear-gradient(160deg, #eef7ff 0%, #ffffff 42%, #ffffff 100%);
+    color: #334155;
+    font-family: 'Poppins', sans-serif;
+}
+.sc-topbar { position: absolute; top: 0; left: 0; right: 0; height: 14px; background: linear-gradient(135deg, #245888, #005F8A); }
+.sc-inner { position: relative; z-index: 1; box-sizing: border-box; min-height: 1080px; padding: 76px 78px; display: flex; flex-direction: column; }
+.sc-head { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 52px; }
+.sc-brand { display: flex; align-items: center; gap: 14px; font-family: 'Cinzel', serif; font-weight: 700; font-size: 44px; letter-spacing: 8px; color: #005F8A; }
+.sc-mark { display: inline-flex; color: #c9a84c; }
+.sc-mark svg { width: 34px; height: 34px; }
+.sc-date { font-size: 22px; font-weight: 500; color: #966a1e; background: #fdf6e6; border: 1px solid #ecd9a8; border-radius: 999px; padding: 12px 26px; white-space: nowrap; }
+.sc-image { width: 100%; height: 420px; object-fit: cover; border-radius: 26px; margin-bottom: 44px; display: block; }
+.sc-eyebrow { display: flex; align-items: center; gap: 18px; text-transform: uppercase; letter-spacing: 6px; font-size: 23px; font-weight: 600; color: #966a1e; margin-bottom: 30px; }
+.sc-eyebrow::before { content: ''; width: 64px; height: 4px; border-radius: 999px; background: #c9a84c; flex-shrink: 0; }
+.sc-title { font-family: 'Cinzel', serif; font-weight: 700; font-size: 54px; line-height: 1.18; color: #16324a; margin: 0 0 30px; }
+.sc-quote { font-family: 'Crimson Text', serif; font-style: italic; font-weight: 400; font-size: 62px; line-height: 1.34; color: #16324a; margin: 0 0 26px; }
+.sc-cite { font-size: 23px; font-weight: 600; text-transform: uppercase; letter-spacing: 3px; color: #966a1e; margin: 0 0 12px; }
+.sc-subhead { font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: #245888; margin: 18px 0 22px; }
+.sc-body { display: flex; flex-direction: column; gap: 24px; font-size: 30px; line-height: 1.72; font-weight: 300; color: #334155; }
+.sc-body p { margin: 0; overflow-wrap: break-word; }
+.sc-foot { margin-top: auto; padding-top: 44px; }
+.sc-rule { display: block; height: 4px; border-radius: 999px; background: linear-gradient(90deg, #245888, #c9a84c); margin-bottom: 26px; }
+.sc-foot-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; font-size: 22px; letter-spacing: 2px; color: #64748b; }
+.sc-foot-row strong { color: #005F8A; font-family: 'Cinzel', serif; letter-spacing: 4px; }
+.sc-footnote { font-size: 18px; color: #94a3b8; letter-spacing: 0; text-align: center; flex: 1; }
+
+/* Acciones dentro del modal de artículo (blog) */
+.article-modal-actions { display: flex; justify-content: flex-end; margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--border-color); }

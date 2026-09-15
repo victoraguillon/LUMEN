@@ -134,6 +134,7 @@ const BlogView = {
                     <span class="blog-meta">${Icons.user} ${LumenUI.escapeHTML(a.author_name)} · ${date}</span>
                     <h2>${LumenUI.escapeHTML(a.titulo)}</h2>
                     <div class="article-modal-text">${LumenUI.escapeHTML(a.contenido)}</div>
+                    <div class="article-modal-actions">${LumenShare.buttonHTML("LumenShare.blogArticle('" + a.id + "')", 'Compartir imagen')}</div>
                 </article>
             `;
             LumenUI.openAdminModal('Artículo', contentHTML);

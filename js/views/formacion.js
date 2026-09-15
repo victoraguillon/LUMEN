@@ -352,6 +352,7 @@ const FormacionView = {
                 </div>
                 <div class="fm-actions">
                     ${this.favHeart('formacion', mod.id + '|' + uid + '|' + sid, this._curTitle(), mod.title)}
+                    ${LumenShare.buttonHTML('LumenShare.formacionSection()', 'Compartir')}
                     <button class="btn-sm" onclick="FormacionView._toggleDone('${mod.id}','${uid}','${sid}')">${done ? '✓ Hecho' : 'Marcar hecho'}</button>
                 </div>
             </header>
@@ -401,7 +402,10 @@ const FormacionView = {
                         <p class="si-feast">Fiesta: ${s.feast || '(No registrada)'}</p>
                         <p class="si-summary">${s.summary || ''}</p>
                     </div>
-                    ${this.favHeart('santos', s.id, s.name, unit.title)}
+                    <div style="display:flex; align-items:center; gap:6px; flex-shrink:0;">
+                        ${this.favHeart('santos', s.id, s.name, unit.title)}
+                        ${LumenShare.buttonHTML("LumenShare.formacionSaint('" + s.id + "')", 'Compartir')}
+                    </div>
                 </div>
                 <details class="si-details"><summary>Conocer su vida</summary><div class="reading-surface si-life">${formacionParas(s.life)}</div></details>
                 ${patron}
@@ -442,7 +446,10 @@ const FormacionView = {
                         ${(t.relatedTerms || []).length ? `<p class="glos-rel"><strong>Relacionados:</strong> ${t.relatedTerms.join(', ')}</p>` : ''}
                     </div>
                 </details>
-                ${this.favHeart('glosario', t.id, t.term, 'Glosario')}
+                <div style="display:flex; align-items:center; gap:6px; flex-shrink:0;">
+                    ${this.favHeart('glosario', t.id, t.term, 'Glosario')}
+                    ${LumenShare.buttonHTML("LumenShare.formacionTerm('" + t.id + "')", 'Compartir')}
+                </div>
             </div>`;
         }, this).join('') || `<div class="state-container"><h3>Sin resultados</h3><p>Prueba con otro término.</p></div>`;
     },
@@ -474,8 +481,8 @@ const FormacionView = {
         const sections = (mod.units || []).map(function(u) {
             return `<div class="faq-unit reveal">
                 <h3 class="faq-unit-title">${u.title}</h3>
-                ${(u.questions || []).map(function(q) {
-                    return `<details class="si-details faq-item"><summary>${q.question}</summary><div class="reading-surface glos-def">${formacionParas(q.answer)}</div></details>`;
+                ${(u.questions || []).map(function(q, qi) {
+                    return `<details class="si-details faq-item"><summary>${q.question}</summary><div class="reading-surface glos-def">${formacionParas(q.answer)}<div style="margin-top:10px;">${LumenShare.buttonHTML("LumenShare.formacionFaq('" + u.id + "', " + qi + ")", 'Compartir')}</div></div></details>`;
                 }).join('')}
             </div>`;
         }).join('');
