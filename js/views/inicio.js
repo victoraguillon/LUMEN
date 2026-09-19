@@ -13,7 +13,7 @@ const InicioView = {
             const hoy = new Date();
             const todayDay = String(hoy.getDate()).padStart(2, '0');
             const todayMonth = String(hoy.getMonth() + 1).padStart(2, '0');
-            const celebrantes = list.filter(c => String(c.mes) === todayMonth && String(c.dia).padStart(2, '0') === todayDay);
+            const celebrantes = list.filter(c => String(c.mes).padStart(2, '0') === todayMonth && String(c.dia).padStart(2, '0') === todayDay);
             if (celebrantes.length === 0) {
                 container.style.display = 'none';
                 return;

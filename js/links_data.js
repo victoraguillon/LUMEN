@@ -46,7 +46,7 @@ const LUMEN_RELATED = {
     ],
     'formacion:catecismo:christian-mystery:sacraments-initiation': [
         { parts: ['formacion', 'glosario'], query: 't=Bautismo', label: 'Bautismo en el glosario', icon: 'scroll' },
-        { parts: ['liturgia', 'devotions-traditions', 'eucharistic-adoration'], label: 'Adoración eucarística', icon: 'liturgia' }
+        { parts: ['formacion', 'liturgia', 'devotions-traditions', 'eucharistic-adoration'], label: 'Adoración eucarística', icon: 'liturgia' }
     ],
     'formacion:catecismo:life-christ:human-vocation': [
         { parts: ['formacion', 'vocacion', 'llamados', 'plan'], label: 'El plan de Dios', icon: 'catecismo' },

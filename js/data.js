@@ -11,7 +11,7 @@ const LumenData = {
         this.subscribe();
         const self = this;
         window.addEventListener('offline', () => { if (LumenUI.setOfflineBadge) LumenUI.setOfflineBadge(true); });
-        window.addEventListener('online', () => self.flushOutbox());
+        window.addEventListener('online', () => LumenData.flushOutbox());
     },
     // Huella de un dataset: identifica por id + campos de mutabilidad.
     // Un re-render por realtime sólo ocurre si la huella CAMBIÓ (se evita el
@@ -192,7 +192,11 @@ const LumenData = {
     updateViewIfActive: function(viewName) { this._debouncedRender(viewName); },
     // Outbox: encola una escritura para reempezar cuando haya conexión.
     _encolar: function(op, payload) {
-        return LumenStore.outboxAdd({ op, payload }).then(() => {
+        return LumenStore.outboxAdd({ op, payload }).then(ok => {
+            if (ok == null) {
+                console.error('[LUMEN] _encolar no pudo guardar en el outbox', op);
+                return { queued: false, key: null };
+            }
             if (LumenUI.setOfflineBadge) LumenUI.setOfflineBadge(true);
             return { queued: true, key: (payload && payload.id != null) ? payload.id : null };
         });
@@ -237,15 +241,28 @@ const LumenData = {
     // Relee el outbox en orden y reemite; los éxitos se descartan.
     flushOutbox: function() {
         if (navigator.onLine === false) return Promise.resolve();
+        const MAX_ATTEMPTS = 5;
         return LumenStore.outboxList().then(list => {
             if (!list.length) return;
             const replays = list.reduce((chain, item) => chain
-                .then(() => this._replay(item.op, item.payload))
-                .then(() => LumenStore.outboxRemove(item.id))
-                .catch(err => { console.error('[LUMEN] outbox item', item.op, err); return LumenStore.outboxRemove(item.id); }), Promise.resolve());
-            return replays.then(() => {
-                if (LumenUI.setOfflineBadge) LumenUI.setOfflineBadge(false);
-                LumenUI.showToast('Cambios pendientes sincronizados.', 'success');
+                .then(() => this._replay(item.op, item.payload)
+                    .then(() => LumenStore.outboxRemove(item.id))
+                    .catch(err => {
+                        console.error('[LUMEN] outbox item', item.op, err);
+                        const attempts = (item.attempts || 0) + 1;
+                        if (attempts >= MAX_ATTEMPTS) {
+                            console.error('[LUMEN] outbox descartado tras', MAX_ATTEMPTS, 'intentos:', item.op);
+                            return LumenStore.outboxRemove(item.id);
+                        }
+                        return LumenStore.outboxBump(item.id, attempts);
+                    })), Promise.resolve());
+            return replays.catch(() => {}).then(() => LumenStore.outboxList()).then(rest => {
+                if (!rest.length) {
+                    if (LumenUI.setOfflineBadge) LumenUI.setOfflineBadge(false);
+                    if (LumenUI.showToast) LumenUI.showToast('Cambios pendientes sincronizados.', 'success');
+                } else if (LumenUI.showToast) {
+                    LumenUI.showToast('No se pudieron sincronizar todos los cambios pendientes.', 'error');
+                }
             }).catch(() => {});
         }).catch(() => {});
     },

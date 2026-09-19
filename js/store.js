@@ -57,6 +57,23 @@ const LumenStore = (function() {
         },
         outboxRemove: function(id) {
             return tx(OUTBOX, 'readwrite', s => s.delete(id)).catch(() => null);
+        },
+        outboxBump: function(id, attempts) {
+            const bump = (db) => new Promise((resolve, reject) => {
+                const tx2 = db.transaction(OUTBOX, 'readwrite');
+                const s = tx2.objectStore(OUTBOX);
+                const get = s.get(id);
+                get.onsuccess = () => {
+                    const item = get.result;
+                    if (!item) return resolve(null);
+                    item.attempts = attempts;
+                    s.put(item).onsuccess = () => resolve(id);
+                };
+                get.onerror = () => reject(get.error);
+                tx2.onerror = () => reject(tx2.error);
+                tx2.onabort = () => reject(tx2.error);
+            });
+            return open().then(bump).catch(() => null);
         }
     };
 })();

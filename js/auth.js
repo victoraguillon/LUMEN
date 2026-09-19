@@ -49,6 +49,15 @@ const LumenAuth = {
                     this._watchPending(null);
                 }
                 LumenRouter.navigateTo(LumenRouter.currentView);
+            })
+            .catch(err => {
+                console.error('[LUMEN] loadProfile falló; el guard de roles se resuelve como no-miembro', err);
+                this.ready = true;
+                this.userProfile = null;
+                this.isAdmin = false;
+                this.updateUI();
+                this._watchPending(null);
+                LumenRouter.navigateTo(LumenRouter.currentView);
             });
     },
     // Vigila el estado de una cuenta pendiente: cuando el coordinador la

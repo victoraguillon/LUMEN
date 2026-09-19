@@ -103,7 +103,13 @@ self.addEventListener("fetch", (event) => {
   // Las p�ginas est�ticas standalone (legal/*.html) NO usan el shell:
   // se dejan pasar sin interceptar para que el navegador las cargue de red.
   if (req.mode === "navigate") {
-    if (/\.html?$/.test(new URL(req.url).pathname)) return;
+    const path = new URL(req.url).pathname;
+    // Solo el shell SPA (/) se gestiona con caché stale-while-revalidate.
+    // Las páginas estáticas standalone (legal/*.html y los rewrites sin
+    // extensión) se dejan pasar sin interceptar: así el cacheo bajo "/" no
+    // se contamina con contenido ajeno y no se sirve el shell en su lugar.
+    const esShell = path === "/" || path === "/index.html";
+    if (!esShell) return;
     event.respondWith(
       caches.match("/").then((cached) => {
         const net = fetch(req)
