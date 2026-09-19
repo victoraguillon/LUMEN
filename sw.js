@@ -1,4 +1,5 @@
 // LUMEN - Service Worker único (v32) en la RAÍZ (/sw.js)
+// v47: shell SPA solo se cachea en "/" (no se contamina con legales) + sincronización offline robusta
 // v46: evangelio: formato simplificado + CORS reflejado + _apiUrl + share multi-imagen paginada
 // v44: coordinaciones con fotos + sesión persistente tras aprobación de cuenta + enlaces legales
 // v43: páginas standalone legales fuera del shell SPA + registro persistente
@@ -19,7 +20,7 @@
 // v27: unificación de vistas estilo v-header + utilidades dark-safe + rosario avemarías numeradas
 // v26: banner instalación PWA (dark mode + botones por plataforma) + rediseño vistas Nosotros y Blog
 // v25: bitácora de exportaciones (migración 11)
-const CACHE = "lumen-cache-v46";
+const CACHE = "lumen-cache-v47";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";
