@@ -210,8 +210,8 @@ const GestionView = {
         let html = `
             <input type="text" class="search-bar" placeholder="Buscar joven por nombre, dirección o teléfono..." onkeyup="GestionView.filterCensus(this.value)">
             <div style="text-align: right; margin-bottom: 15px;"><button class="btn btn-outline" onclick="GestionView.exportExcel()">${Icons.download} Exportar a Excel</button></div>
-            <div class="v-table-card" style="overflow-x:auto;">
-                <table>
+            <div class="table-container censo-wrap" style="max-height:600px; overflow:auto;">
+                <table class="matrix-table censo-table">
                     <thead>
                         <tr>
                             <th>Nombre</th><th>Edad</th><th>Nacimiento</th><th>Sacramentos</th><th>Juvemar</th><th>Teléfono</th><th>Email</th><th>Dirección</th><th>Representante</th><th>Tel. Rep.</th><th>Estado</th>

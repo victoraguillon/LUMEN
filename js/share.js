@@ -1,12 +1,123 @@
-// LUMEN · Compartir como imagen (PNG) — tarjetas en formato historia 1080×1920.
-// El contenido se distribuye en N páginas (1, 2, ...) medidas con las fuentes
-// ya cargadas: nada se recorta, TODO el contenido queda visible al 100% y la
-// imagen final es idéntica en cualquier dispositivo (captura con escala 2 fija,
-// sin gap de flex ni margin-top:auto, para que html2canvas renderice fiel al DOM).
+// LUMEN · Compartir como imagen (PNG) — tarjetas en formatos seleccionables:
+// historia 9:16 (1080×1920), post vertical 4:5 (1080×1350) y post cuadrado
+// 1:1 (1080×1080). El usuario elige el formato ANTES de generar; la última
+// elección se recuerda en localStorage. El contenido se distribuye en N páginas
+// (1, 2, ...) medidas con las fuentes ya cargadas: nada se recorta, TODO el
+// contenido queda visible al 100% y la imagen final es idéntica en cualquier
+// dispositivo (captura con escala 2 fija, sin gap de flex ni margin-top:auto,
+// para que html2canvas renderice fiel al DOM).
 const LumenShare = {
     _stage: null,
+    FORMATS: {
+        historia: { w: 1080, h: 1920, label: 'Historia', hint: '9:16 · 1080×1920', desc: 'Para Instagram Stories y estados de WhatsApp' },
+        post: { w: 1080, h: 1350, label: 'Post vertical', hint: '4:5 · 1080×1350', desc: 'Recomendado para el feed de Instagram' },
+        cuadrado: { w: 1080, h: 1080, label: 'Post cuadrado', hint: '1:1 · 1080×1080', desc: 'Clásico para el feed' }
+    },
+    _fmtKey: 'historia',
     PAGE_W: 1080,
     PAGE_H: 1920,
+
+    // ---- formato de página ----
+    setFormat: function(key) {
+        const f = this.FORMATS[key] || this.FORMATS.historia;
+        this._fmtKey = f === this.FORMATS.historia ? 'historia' : key;
+        this.PAGE_W = f.w;
+        this.PAGE_H = f.h;
+        return f;
+    },
+    _rememberFmt: function() {
+        if (typeof localStorage === 'undefined') return 'historia';
+        try {
+            const saved = localStorage.getItem('lumen_share_fmt');
+            return this.FORMATS[saved] ? saved : 'historia';
+        } catch (e) { return 'historia'; }
+    },
+    _filenameFor: function(fmt, name) {
+        if (!fmt || fmt === 'historia') return String(name);
+        const base = String(name).replace(/\.png$/i, '');
+        return base + '-' + fmt + '.png';
+    },
+    // Selector de formato previo a la generación. Resuelve la clave elegida o
+    // null si se cancela (clic fuera / Escape / botón cerrar).
+    chooseFormat: function() {
+        const self = this;
+        if (typeof document === 'undefined' || !document.body || typeof document.createElement !== 'function') {
+            return Promise.resolve(this._rememberFmt() || 'historia');
+        }
+        const saved = this._rememberFmt();
+        return new Promise(function(resolve) {
+            let settled = false;
+            const settle = function(key) {
+                if (settled) return;
+                settled = true;
+                document.removeEventListener('keydown', onKey, true);
+                if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
+                if (key && key !== 'historia') {
+                    try { localStorage.setItem('lumen_share_fmt', key); } catch (e) {}
+                }
+                resolve(key);
+            };
+            const onKey = function(e) { if (e.key === 'Escape') settle(null); };
+            document.addEventListener('keydown', onKey, true);
+
+            const overlay = document.createElement('div');
+            overlay.className = 'share-fmt-overlay';
+            overlay.setAttribute('role', 'presentation');
+            const sheet = document.createElement('div');
+            sheet.className = 'share-fmt-sheet';
+            sheet.setAttribute('role', 'dialog');
+            sheet.setAttribute('aria-modal', 'true');
+            sheet.setAttribute('aria-label', 'Elige el formato de la imagen');
+
+            const head = document.createElement('div');
+            head.className = 'share-fmt-head';
+            const title = document.createElement('div');
+            title.className = 'share-fmt-title';
+            title.textContent = 'Elige el formato';
+            const close = document.createElement('button');
+            close.type = 'button';
+            close.className = 'share-fmt-close';
+            close.setAttribute('aria-label', 'Cancelar');
+            close.innerHTML = '&times;';
+            close.addEventListener('click', function() { settle(null); });
+            head.appendChild(title);
+            head.appendChild(close);
+
+            const grid = document.createElement('div');
+            grid.className = 'share-fmt-grid';
+            Object.keys(self.FORMATS).forEach(function(k) {
+                const f = self.FORMATS[k];
+                const opt = document.createElement('button');
+                opt.type = 'button';
+                opt.className = 'share-fmt-opt' + (k === saved ? ' is-selected' : '');
+                opt.setAttribute('data-fmt', k);
+                const ratio = document.createElement('span');
+                ratio.className = 'share-fmt-ratio share-fmt-ratio-' + k;
+                ratio.setAttribute('aria-hidden', 'true');
+                const name = document.createElement('span');
+                name.className = 'share-fmt-name';
+                name.textContent = f.label;
+                const hint = document.createElement('span');
+                hint.className = 'share-fmt-hint';
+                hint.textContent = f.hint;
+                const desc = document.createElement('span');
+                desc.className = 'share-fmt-desc';
+                desc.textContent = f.desc;
+                opt.appendChild(ratio);
+                opt.appendChild(name);
+                opt.appendChild(hint);
+                opt.appendChild(desc);
+                opt.addEventListener('click', function() { settle(k); });
+                grid.appendChild(opt);
+            });
+
+            sheet.appendChild(head);
+            sheet.appendChild(grid);
+            overlay.appendChild(sheet);
+            overlay.addEventListener('click', function(e) { if (e.target === overlay) settle(null); });
+            document.body.appendChild(overlay);
+        });
+    },
 
     // ---- utilidades ----
     _todayLong: function() {
@@ -245,6 +356,8 @@ const LumenShare = {
             document.body.appendChild(stage);
             stage.innerHTML = self.buildCard(o, { hero: page.hero, texts: page.texts, num: num, total: total });
             self._stage = stage;
+            const cardEl = stage.querySelector('.share-card');
+            if (cardEl) cardEl.style.setProperty('--sc-h', self.PAGE_H + 'px');
             if (typeof html2canvas === 'undefined') {
                 self._cleanup();
                 reject(new Error('html2canvas no disponible'));
@@ -338,6 +451,14 @@ const LumenShare = {
         }
     },
     share: function(opts, filename, shareText) {
+        const self = this;
+        return self.chooseFormat().then(function(fmtKey) {
+            if (!fmtKey) return;
+            self.setFormat(fmtKey);
+            return self._run(opts, self._filenameFor(fmtKey, filename), shareText);
+        });
+    },
+    _run: function(opts, filename, shareText) {
         const self = this;
         this._toCanvases(opts).then(function(canvases) {
             return Promise.all(canvases.map(function(canvas) {

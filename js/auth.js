@@ -150,6 +150,8 @@ const LumenAuth = {
             .catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
     },
     resetPassword: function(email) {
+        const check = (typeof LumenUI !== 'undefined' && LumenUI.emailCheck) ? LumenUI.emailCheck(email) : null;
+        if (check) { LumenUI.showToast(check.message, 'error'); return; }
         return supabase.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin })
             .then(() => { LumenUI.showToast('Enlace enviado.', 'success'); LumenUI.toggleForgotPassword(false); })
             .catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
@@ -167,6 +169,8 @@ const LumenAuth = {
         if (!email) { this._regError('El email es obligatorio.'); return; }
         if (!phone) { this._regError('El teléfono es obligatorio.'); return; }
         if (!birthdate) { this._regError('La fecha de nacimiento es obligatoria.'); return; }
+        const emailCheck = (typeof LumenUI !== 'undefined' && LumenUI.emailCheck) ? LumenUI.emailCheck(email) : null;
+        if (emailCheck) { this._regError(emailCheck.message); return; }
         if (password.length < 6) { this._regError('La contraseña debe tener al menos 6 caracteres.'); return; }
 
         const juvemarStatus = wantsJuvemar ? (data.juvemarStatus || 'Nuevo') : 'No';

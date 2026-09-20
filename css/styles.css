@@ -1450,6 +1450,16 @@ tr:hover { background: rgba(36,88,136, 0.03); transition: background 200ms; }
 .matrix-table thead th { background: var(--gris-fondo); position: sticky; top: 0; z-index: 11; }
 .matrix-checkbox { width: 20px; height: 20px; accent-color: var(--exito); cursor: pointer; }
 
+/* Censo: hereda .matrix-table (columna y cabecera sticky) para mantener las
+   11 columnas legibles en móvil con scroll horizontal/vertical como asistencia. */
+.censo-wrap { overflow: auto; }
+.censo-table { min-width: 1080px; }
+.censo-table th, .censo-table td { text-align: left; white-space: nowrap; padding: 10px 14px; }
+.censo-table td { font-size: 13px; }
+.censo-table th:first-child, .censo-table td:first-child { min-width: 220px; }
+.censo-table .btn-edit { padding: 5px 10px; font-size: 12px; white-space: nowrap; }
+.censo-table .btn-edit + .btn-edit { margin-left: 6px; }
+
 .admin-tabs { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
 .admin-tab {
     padding: 10px 20px; background: var(--card-bg);
@@ -4280,6 +4290,64 @@ body.dark-theme .btn-share:hover { background: var(--gradiente-lumen); color: va
 .sc-foot-row strong { color: var(--sc-brand); font-family: 'Cinzel', serif; letter-spacing: calc(4px * var(--sc)); }
 .sc-footnote { font-size: calc(18px * var(--sc)); color: var(--sc-mute2); letter-spacing: 0; text-align: center; flex: 1; }
 
+/* ---------- Selector de formato al compartir (LumenShare.chooseFormat) ---------- */
+.share-fmt-overlay {
+    position: fixed; inset: 0; z-index: 20000;
+    background: rgba(8, 18, 30, 0.55);
+    display: flex; align-items: flex-end; justify-content: center;
+    animation: shareFmtFade .18s ease-out;
+}
+.share-fmt-sheet {
+    width: 100%; max-width: 560px;
+    background: var(--bg, #ffffff);
+    border-radius: 18px 18px 0 0;
+    box-shadow: 0 -8px 40px rgba(10, 30, 55, 0.25);
+    padding: 18px 18px calc(18px + env(safe-area-inset-bottom)) 18px;
+    font-family: 'Poppins', sans-serif;
+    animation: shareFmtUp .22s ease-out;
+}
+@keyframes shareFmtFade { from { opacity: 0; } }
+@keyframes shareFmtUp { from { transform: translateY(24px); opacity: 0; } }
+.share-fmt-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.share-fmt-title { font-family: 'Cinzel', serif; font-weight: 700; font-size: 19px; letter-spacing: 1px; color: var(--ink-strong, #16324a); }
+.share-fmt-close {
+    background: transparent; border: none; cursor: pointer;
+    font-size: 26px; line-height: 1; color: var(--muted, #64748b);
+    width: 36px; height: 36px; border-radius: 50%;
+}
+.share-fmt-close:hover { background: var(--border-color, rgba(0,0,0,.06)); color: var(--ink-strong, #16324a); }
+.share-fmt-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.share-fmt-opt {
+    display: grid; grid-template-columns: 64px 1fr;
+    grid-template-areas: "ratio name" "ratio hint" "ratio desc";
+    grid-template-rows: auto auto auto;
+    align-items: center; gap: 0 14px;
+    text-align: left; padding: 12px 14px;
+    border: 1px solid var(--border-color, rgba(0,0,0,.10));
+    border-radius: 14px;
+    background: var(--bg-soft, #f8fafc);
+    cursor: pointer; color: inherit;
+}
+.share-fmt-opt:hover { border-color: var(--brand, #005F8A); background: var(--bg-hover, #f0f6fb); }
+.share-fmt-opt.is-selected { border-color: var(--sc-accent, #966a1e); box-shadow: 0 0 0 1px var(--sc-accent, #966a1e); }
+.share-fmt-ratio {
+    grid-area: ratio; display: block; margin: 0 auto;
+    background: linear-gradient(135deg, #245888, #005F8A);
+    border-radius: 6px;
+}
+.share-fmt-ratio-historia { width: 40px; height: 71px; }
+.share-fmt-ratio-post { width: 50px; height: 62px; }
+.share-fmt-ratio-cuadrado { width: 50px; height: 50px; }
+.share-fmt-name { grid-area: name; font-weight: 600; font-size: 15px; color: var(--ink-strong, #16324a); }
+.share-fmt-hint { grid-area: hint; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--sc-accent, #966a1e); }
+.share-fmt-desc { grid-area: desc; font-size: 12.5px; color: var(--muted, #64748b); }
+@media (min-width: 641px) {
+    .share-fmt-overlay { align-items: center; padding: 24px; }
+    .share-fmt-sheet { border-radius: 18px; }
+    .share-fmt-grid { grid-template-columns: repeat(3, 1fr); }
+    .share-fmt-opt { grid-template-columns: 1fr; grid-template-areas: "ratio" "name" "hint" "desc"; text-align: center; justify-items: center; }
+}
+
 /* Responsive: filas de acciones de compartir (glosario/santos) no desbordan */
 @media (max-width: 640px) {
     .glos-item { flex-wrap: wrap; }
@@ -4287,8 +4355,19 @@ body.dark-theme .btn-share:hover { background: var(--gradiente-lumen); color: va
     .si-head { flex-wrap: wrap; }
     .si-head > div:first-child { flex: 1 1 100%; min-width: 0; }
     .glos-item > div:last-child, .si-head > div:last-child { margin-left: auto; }
-    .fm-actions { flex-shrink: 1; flex-wrap: wrap; justify-content: flex-end; }
-    .fm-actions .btn-share { padding-left: 12px; padding-right: 12px; }
+    /* Cabecera de módulo en móvil: grid de 2 filas — volver+título arriba,
+       acciones (like/compartir/hecho) en su propia banda inferior. */
+    .formacion-mhead { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 10px 12px; align-items: start; }
+    .formacion-mhead .btn-icon { align-self: start; }
+    .formacion-mhead .fm-title { min-width: 0; }
+    .formacion-mhead .fm-mod {
+        display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+        overflow: hidden; word-break: break-word;
+    }
+    .fm-actions { grid-column: 1 / -1; justify-content: flex-end; flex-wrap: wrap; gap: 4px; padding-top: 10px; border-top: 1px dashed var(--border-color); }
+    .fm-actions .fav-btn { width: 32px; height: 32px; }
+    .fm-actions .btn-share { padding-left: 9px; padding-right: 9px; font-size: 11px; min-height: 32px; }
+    .fm-actions .btn-sm { padding: 5px 8px; font-size: 11px; min-height: 32px; }
 }
 
 /* Acciones dentro del modal de artículo (blog) */

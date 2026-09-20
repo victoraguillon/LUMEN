@@ -542,8 +542,8 @@ const LumenUI = {
         if (!email) { this.showToast('El email es obligatorio.', 'error'); return; }
         if (!phone) { this.showToast('El teléfono es obligatorio.', 'error'); return; }
         if (!birthdate) { this.showToast('La fecha de nacimiento es obligatoria.', 'error'); return; }
-        // Validar formato email básico
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { this.showToast('Email inválido.', 'error'); return; }
+        const emailCheck = this.emailCheck(email);
+        if (emailCheck) { this.showToast(emailCheck.message, 'error'); return; }
 
         const legalOk = document.getElementById('reg-legal');
         if (!legalOk || !legalOk.checked) {
@@ -739,6 +739,34 @@ const LumenUI = {
         document.getElementById('drawer-overlay').classList.toggle('active');
     },
 
+    // --- Validación de email (anti-rebote) ---
+    // Espejo de la blocklist de la BD (public.email_es_valida y trigger en
+    // auth.users, migración 17). Bloquea dominios desechables y typos de
+    // proveedores grandes ANTES de disparar un correo de confirmación/reset.
+    EMAIL_DISPOSABLES: ['mailinator.com','yopmail.com','guerrillamail.com','guerrillamail.de','guerrillamail.net','sharklasers.com','temp-mail.org','tempmail.com','tempmail.net','10minutemail.com','dispostable.com','throwawaymail.com','maildrop.cc','getnada.com','trashmail.com','mailnesia.com','spam4.me','emailondeck.com','mailnox.com','mailsac.com','dropmail.me','fakemail.net','inboxbear.com','tempinbox.com','tokemails.com','emlpro.com','moakt.com','0-mail.com','spamgourmet.com','throwaway.email','mytemp.email'],
+    EMAIL_TYPOS: {
+        'gmail.con':'gmail.com','gmail.co':'gmail.com','gmail.cm':'gmail.com','gmail.comm':'gmail.com','gmail.cmo':'gmail.com','gmaill.com':'gmail.com','gmil.com':'gmail.com','gmial.com':'gmail.com','gamil.com':'gmail.com','gmali.com':'gmail.com','gmai.com':'gmail.com','gmaaail.com':'gmail.com',
+        'hotmail.con':'hotmail.com','hotmail.co':'hotmail.com','hotmail.cm':'hotmail.com','hotmial.com':'hotmail.com','hotmali.com':'hotmail.com',
+        'outlook.con':'outlook.com','outlook.co':'outlook.com','outlook.cm':'outlook.com','outllok.com':'outlook.com','otlook.com':'outlook.com','oulook.com':'outlook.com','outlok.com':'outlook.com','outlool.com':'outlook.com',
+        'yahoo.con':'yahoo.com','yahoo.co':'yahoo.com','yahoo.cm':'yahoo.com','yaho.com':'yahoo.com','yahooo.com':'yahoo.com','yahho.com':'yahoo.com','yahoo.comm':'yahoo.com',
+        'icloud.con':'icloud.com','icloud.co':'icloud.com','icloud.cm':'icloud.com','icolud.com':'icloud.com','ilcoud.com':'icloud.com','iclud.com':'icloud.com',
+        'aol.con':'aol.com','aol.co':'aol.com','aol.cm':'aol.com',
+        'protonmail.con':'protonmail.com','protonmail.co':'protonmail.com','protonmail.cm':'protonmail.com','proton.con':'proton.me',
+        'zoho.con':'zoho.com','zoho.co':'zoho.com','gmx.con':'gmx.com','gmx.co':'gmx.com'
+    },
+    // Devuelve null si es válido, o {message, suggestion?} si no lo es.
+    emailCheck: function(email) {
+        const e = String(email || '').trim().toLowerCase();
+        if (!e) return { message: 'El email es obligatorio.' };
+        if (e.length > 254 || !/^[a-z0-9._%+-]+@[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,}$/.test(e)) return { message: 'Email inválido: revisa el formato.' };
+        const idx = e.lastIndexOf('@');
+        const domain = idx >= 0 ? e.slice(idx + 1) : '';
+        if (this.EMAIL_DISPOSABLES.indexOf(domain) !== -1) return { message: 'Ese dominio de correo temporal no está permitido.' };
+        const fixed = this.EMAIL_TYPOS[domain];
+        if (fixed) return { message: '¿Quisiste decir ' + fixed + '? Revisa tu correo para evitar rebotes.', suggestion: fixed };
+        return null;
+    },
+
 };
 
 document.addEventListener('click', (e) => { if (e.target.closest('.btn, .nav-link, .modal-close, .tab-btn, .checkbox-item, .admin-tab, .poll-option, .dropdown-trigger')) LumenUI.playSound(); });
@@ -776,7 +804,13 @@ safeListener('registration-form', 'submit', function(e) {
 });
 
 safeListener('login-form', 'submit', function(e) { e.preventDefault(); LumenAuth.login(document.getElementById('login-email').value, document.getElementById('login-password').value); });
-safeListener('forgot-form', 'submit', function(e) { e.preventDefault(); LumenAuth.resetPassword(document.getElementById('forgot-email').value); });
+safeListener('forgot-form', 'submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('forgot-email').value;
+    const check = LumenUI.emailCheck(email);
+    if (check) { LumenUI.showToast(check.message, 'error'); return; }
+    LumenAuth.resetPassword(email);
+});
 
 safeListener('register-form', 'submit', function(e) {
     e.preventDefault();
