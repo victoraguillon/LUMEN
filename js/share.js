@@ -294,6 +294,12 @@ const LumenShare = {
         paras.forEach(function(para) {
             if (fits(current, current.texts.concat([para]))) { addToCurrent([para]); return; }
             if (current.texts.length) closeCurrent();
+            // El héroe (alimento del día: cita en grande + cita de abajo) no cabe
+            // con la reflexión en una sola página para cuadrado/post: se cierra
+            // como página propia para que el alimento ocupe su propia imagen y la
+            // reflexión vaya en la siguiente. Nunca se aplica a historia, que
+            // siempre cabe en una sola página y por tanto queda intacta.
+            if (current.hero && !current.texts.length && self._fmtKey !== 'historia') closeCurrent();
             current = { hero: false, texts: [] };
             if (fits(current, [para])) { addToCurrent([para]); return; }
             // Párrafo más alto que una página entera: se parte por frases.
