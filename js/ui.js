@@ -165,6 +165,35 @@ const LumenUI = {
             setTimeout(() => toast.remove(), 250);
         });
     },
+    // ------------------------------------------------------------------
+    // Aviso de NUEVA ACTUALIZACIÓN (PWA)
+    // ------------------------------------------------------------------
+    // Detección: cuando hay un nuevo deploy, el Service Worker nuevo toma control
+    // de la página (skipWaiting + clients.claim) y dispara 'controllerchange' en
+    // app.js. Allí se persiste lumen_update_pending y se llama a mostrarBanner().
+    // El aviso se guarda en localStorage para que, si el usuario lo cierra sin
+    // recargar, reaparezca en la próxima sesión hasta que presione "Recargar".
+    _bannerActMostrado: false,
+    mostrarBannerActualizacion: function() {
+        const banner = document.getElementById('pwa-update-banner');
+        if (!banner) return;
+        if (this._bannerActMostrado) return;
+        this._bannerActMostrado = true;
+        // El "Recargar" se cablea aquí (el confirm de recarga limpia el pendiente).
+        const reloadBtn = document.getElementById('pwa-update-reload-btn');
+        if (reloadBtn) reloadBtn.onclick = () => this.recargarActualizacion();
+        banner.style.display = 'block';
+    },
+    cerrarBannerActualizacion: function() {
+        const banner = document.getElementById('pwa-update-banner');
+        if (banner) banner.style.display = 'none';
+        // Se deja lumen_update_pending intacto: así vuelve a aparecer en la
+        // próxima sesión hasta que el usuario presione "Recargar".
+    },
+    recargarActualizacion: function() {
+        try { localStorage.removeItem('lumen_update_pending'); } catch (e) {}
+        location.reload();
+    },
     firebaseMessages: {
         'auth/invalid-email': 'El correo no es válido. Revísalo e inténtalo de nuevo.',
         'auth/user-disabled': 'Tu cuenta fue desactivada. Contacta a un coordinador.',

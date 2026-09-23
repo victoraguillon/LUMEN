@@ -376,7 +376,20 @@
         </div>
     </div>
 
-    <div id="toast-container" aria-live="polite" aria-atomic="false"></div>
+            <!-- Banner Nueva Actualización: reaparece en CADA sesión hasta que el
+                 usuario presione "Recargar ahora" (el SW usa skipWaiting+claim, por
+                 eso 'controllerchange' se dispara cuando hay un nuevo deploy). -->
+            <div id="pwa-update-banner" style="display:none;">
+                <div class="pwa-install-inner">
+                    <span class="pwa-install-msg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M23 4v6h-6"></path><path d="M1 20v-6h6"></path><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"></path><path d="M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg> <span id="pwa-update-msg">Hay una nueva actualización de LUMEN.</span></span>
+                    <div class="pwa-install-actions">
+                        <button id="pwa-update-reload-btn" class="btn" type="button">Recargar ahora</button>
+                        <span class="pwa-dismiss" role="button" tabindex="0" aria-label="Cerrar aviso" onclick="LumenUI.cerrarBannerActualizacion()">✖</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="toast-container" aria-live="polite" aria-atomic="false"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>

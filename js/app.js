@@ -271,6 +271,24 @@ const initServiceWorker = async () => {
             }
         }
         const reg = await navigator.serviceWorker.register('/sw.js', { scope: '/', updateViaCache: 'none' });
+
+        // ---- Aviso de nueva actualización (PWA) ----
+        // El SW navega con skipWaiting() + clients.claim(), de modo que cuando
+        // hay un nuevo deploy el SW nuevo toma control de la página abierta y
+        // dispara 'controllerchange'. Ese es el momento exacto para avisar.
+        // Guardia "wasControlled": en la PRIMERA instalación no hay SW previo,
+        // así que controllerchange también se dispara al tomar control; con ese
+        // flag distinguimos "inicio" (no avisar) de "actualización real" (avisar).
+        // El pendiente se guarda en localStorage (lumen_update_pending) para que,
+        // si el usuario cierra el aviso sin recargar, vuelva a aparecer en la
+        // próxima sesión hasta que recargue.
+        let wasControlled = !!navigator.serviceWorker.controller;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (!wasControlled) { wasControlled = true; return; }
+            try { localStorage.setItem('lumen_update_pending', '1'); } catch (e) {}
+            if (typeof LumenUI !== 'undefined' && LumenUI.mostrarBannerActualizacion) LumenUI.mostrarBannerActualizacion();
+        });
+
         if (!navigator.serviceWorker.controller && sessionStorage.getItem('lumen_sw_reload') !== '1') {
             sessionStorage.setItem('lumen_sw_reload', '1');
             location.reload();
@@ -287,7 +305,28 @@ const initServiceWorker = async () => {
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => { const preloader = document.getElementById('preloader'); if (preloader) preloader.classList.add('hidden'); }, 1500);
 
+    // Nueva actualización pendiente de una sesión anterior: si el usuario cerró el
+    // aviso sin recargar (lumen_update_pending sigue guardado en localStorage), el
+    // banner vuelve a aparecer al abrir LUMEN. Cumple "reaparecer en cada sesión"
+    // hasta que presione "Recargar ahora". El guard _bannerActMostrado evita que
+    // se duplique si además llega un controllerchange en esta misma carga.
+    if (typeof LumenUI !== 'undefined' && LumenUI.mostrarBannerActualizacion) {
+        try {
+            if (localStorage.getItem('lumen_update_pending') === '1') LumenUI.mostrarBannerActualizacion();
+        } catch (e) {}
+    }
+
     if (typeof LumenUI !== 'undefined' && LumenUI.initDarkMode) LumenUI.initDarkMode();
+
+    // Reaparece en cada sesión: si en una sesión anterior el usuario cerró el aviso
+    // de actualización sin recargar, dejó lumen_update_pending en localStorage y aquí
+    // volvemos a mostrarlo. (El controllerchange solo ocurre en el momento del
+    // deploy; en un arranque nuevo ya no se dispara, por eso se chequea explícito).
+    const updatePendiente = (() => { try { return localStorage.getItem('lumen_update_pending') === '1'; } catch (e) { return false; } })();
+    if (updatePendiente && typeof LumenUI !== 'undefined' && LumenUI.mostrarBannerActualizacion) {
+        LumenUI.mostrarBannerActualizacion();
+    }
+
 
     // Push: se habilita SOLO cuando el usuario lo pide desde la tarjeta "Activa Notificaciones"
     // (Ya no se pide permiso automáticamente al abrir la app).
