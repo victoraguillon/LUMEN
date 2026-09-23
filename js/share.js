@@ -507,9 +507,7 @@ const LumenShare = {
 
     // ---- generadores por contenido ----
     friendlyReminder: function() {
-        const dayOfMonth = new Date().getDate();
-        const list = (typeof FRASES_SANTOS !== 'undefined' && FRASES_SANTOS.length) ? FRASES_SANTOS : [];
-        const f = list.length ? list[(dayOfMonth - 1) % list.length] : { frase: 'Dios nos ama y nos acompaña siempre.', autor: 'Lumen' };
+        const f = (typeof obtenerFraseDelDia === 'function') ? obtenerFraseDelDia() : { frase: 'Dios nos ama y nos acompaña siempre.', autor: 'Lumen' };
         this.share({
             kind: 'Friendly Reminder',
             theme: 'reminder',

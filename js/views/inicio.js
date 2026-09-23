@@ -52,8 +52,7 @@ const InicioView = {
                     `;
                 });
             }
-            const dayOfMonth = new Date().getDate();
-            const frase = (typeof FRASES_SANTOS !== 'undefined' && FRASES_SANTOS.length) ? FRASES_SANTOS[(dayOfMonth - 1) % FRASES_SANTOS.length] : { frase: "Dios nos ama y nos acompaña siempre.", autor: "Lumen" };
+            const frase = (typeof obtenerFraseDelDia === 'function') ? obtenerFraseDelDia() : { frase: "Dios nos ama y nos acompaña siempre.", autor: "Lumen" };
             return `
                 <div class="view">
                     <div class="v-header reveal">
@@ -151,8 +150,7 @@ const InicioView = {
             tenureMessage = `¡Bienvenido a la familia Juvemar! Estamos felices de tenerte aquí.`;
         }
 
-        const dayOfMonth = new Date().getDate();
-        const fraseDelDia = (typeof FRASES_SANTOS !== 'undefined' && FRASES_SANTOS.length) ? FRASES_SANTOS[(dayOfMonth - 1) % FRASES_SANTOS.length] : { frase: "Dios nos ama y nos acompaña siempre.", autor: "Lumen" };
+        const fraseDelDia = (typeof obtenerFraseDelDia === 'function') ? obtenerFraseDelDia() : { frase: "Dios nos ama y nos acompaña siempre.", autor: "Lumen" };
 
         let upcomingEventsHTML = '';
         const upcoming = LumenData.upcomingEventos(3);

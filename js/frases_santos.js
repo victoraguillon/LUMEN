@@ -366,3 +366,36 @@ const FRASES_SANTOS = [
     { frase: "Dichoso quien posee la paz de Cristo en el corazón.", autor: "San Francisco de Asís" },
     { frase: "La santidad es el proyecto más hermoso de la vida.", autor: "Beato Carlo Acutis" }
 ];
+
+function _normalizarNombre(s) {
+    return (s || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/\(.*?\)/g, '')
+        .replace(/[^a-z\s]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+function obtenerFraseDelDia() {
+    const hoy = new Date();
+    const clave = String(hoy.getMonth() + 1).padStart(2, '0') + '-' + String(hoy.getDate()).padStart(2, '0');
+    const list = (typeof FRASES_SANTOS !== 'undefined' && FRASES_SANTOS.length) ? FRASES_SANTOS : [];
+
+    if (typeof SANTORAL !== 'undefined' && SANTORAL[clave] && SANTORAL[clave].n) {
+        const santo = _normalizarNombre(SANTORAL[clave].n);
+        if (santo) {
+            const coincidencia = list.find(f => {
+                const autor = _normalizarNombre(f.autor);
+                return autor && (santo.includes(autor) || autor.includes(santo));
+            });
+            if (coincidencia) return coincidencia;
+        }
+    }
+
+    return list.length ? list[(hoy.getDate() - 1) % list.length]
+                       : { frase: "Dios nos ama y nos acompaña siempre.", autor: "Lumen" };
+}
+
+if (typeof window !== 'undefined') window.obtenerFraseDelDia = obtenerFraseDelDia;
