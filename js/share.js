@@ -294,12 +294,24 @@ const LumenShare = {
         paras.forEach(function(para) {
             if (fits(current, current.texts.concat([para]))) { addToCurrent([para]); return; }
             if (current.texts.length) closeCurrent();
-            // El héroe (alimento del día: cita en grande + cita de abajo) no cabe
-            // con la reflexión en una sola página para cuadrado/post: se cierra
-            // como página propia para que el alimento ocupe su propia imagen y la
-            // reflexión vaya en la siguiente. Nunca se aplica a historia, que
-            // siempre cabe en una sola página y por tanto queda intacta.
-            if (current.hero && !current.texts.length && self._fmtKey !== 'historia') closeCurrent();
+            // Alimento de Hoy (devocional): cuando la cita en grande no cabe con
+            // la reflexión en la misma página, se elige el diseño por formato.
+            if (current.hero && !current.texts.length && o.theme === 'devocional') {
+                if (self._fmtKey === 'historia') {
+                    // historia: el devocional entero en UNA sola imagen —
+                    // versículo en grande con la reflexión debajo. Se fuerza a
+                    // que la reflexión vaya aquí y _applyFit la escala hasta
+                    // caber: el versículo nunca se pierde.
+                    addToCurrent([para]);
+                    return;
+                }
+                // cuadrado/post: exactamente 2 imágenes — el alimento del día
+                // (héroe) en su propia imagen y la reflexión forzada a caber
+                // (escala) en la segunda. Máximo 2.
+                closeCurrent();
+                current = { hero: false, texts: [para] };
+                return;
+            }
             current = { hero: false, texts: [] };
             if (fits(current, [para])) { addToCurrent([para]); return; }
             // Párrafo más alto que una página entera: se parte por frases.
