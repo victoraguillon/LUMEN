@@ -174,7 +174,11 @@ const LumenShare = {
         const title = hero && o.title ? '<h1 class="sc-title">' + esc(o.title) + '</h1>' : '';
         const quote = hero && o.quote ? '<blockquote class="sc-quote">\u201C' + esc(o.quote) + '\u201D</blockquote>' : '';
         const cite = hero && o.cite ? '<div class="sc-cite">' + esc(o.cite) + '</div>' : '';
-        const subhead = hero && o.subhead ? '<div class="sc-subhead">' + esc(o.subhead) + '</div>' : '';
+        // Devocional: el título «Reflexión» acompaña a los textos de la reflexión
+        // (imagen con la reflexión, nunca suelto sobre el alimento). El resto de
+        // temas conserva el subhead solo en la página héroe, como siempre.
+        const showSub = (o.theme === 'devocional') ? (texts.length > 0) : hero;
+        const subhead = showSub && o.subhead ? '<div class="sc-subhead">' + esc(o.subhead) + '</div>' : '';
         const paras = texts.length
             ? '<div class="sc-body">' + texts.map(function(p) { return '<p>' + esc(p) + '</p>'; }).join('') + '</div>'
             : '';
