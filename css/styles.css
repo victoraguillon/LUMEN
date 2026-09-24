@@ -1451,14 +1451,67 @@ tr:hover { background: rgba(36,88,136, 0.03); transition: background 200ms; }
 .matrix-checkbox { width: 20px; height: 20px; accent-color: var(--exito); cursor: pointer; }
 
 /* Censo: hereda .matrix-table (columna y cabecera sticky) para mantener las
-   11 columnas legibles en móvil con scroll horizontal/vertical como asistencia. */
+   11 columnas legibles en escritorio con scroll horizontal como asistencia.
+   En móvil la tabla se colapsa a tarjetas usando los data-label de cada celda. */
 .censo-wrap { overflow: auto; }
+.censo-scroll { max-height: 600px; }
 .censo-table { min-width: 1080px; }
-.censo-table th, .censo-table td { text-align: left; white-space: nowrap; padding: 10px 14px; }
+.censo-table th, .censo-table td { text-align: left; white-space: normal; padding: 10px 14px; word-break: break-word; }
 .censo-table td { font-size: 13px; }
 .censo-table th:first-child, .censo-table td:first-child { min-width: 220px; }
+.censo-table th:nth-child(8), .censo-table td:nth-child(8) { max-width: 260px; }
+.censo-table th.sortable { cursor: pointer; user-select: none; white-space: nowrap; }
+.censo-table th.sortable:hover { color: var(--celeste-primario); }
+.censo-table th.sortable::after { content: '↕'; display: inline-block; margin-left: 6px; font-size: 11px; opacity: 0.45; vertical-align: middle; }
+.censo-table th.sortable.asc::after { content: '▲'; opacity: 1; color: var(--celeste-primario); }
+.censo-table th.sortable.desc::after { content: '▼'; opacity: 1; color: var(--celeste-primario); }
 .censo-table .btn-edit { padding: 5px 10px; font-size: 12px; white-space: nowrap; }
-.censo-table .btn-edit + .btn-edit { margin-left: 6px; }
+.censo-table .btn-edit + .btn-edit, .censo-table .btn-edit + .btn-deny, .censo-table .btn-deny + .btn-edit, .censo-table .btn-deny + .btn-deny { margin-left: 6px; }
+.censo-table .btn-deny { padding: 5px 10px; font-size: 12px; white-space: nowrap; background: rgba(239,68,68,0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.25); box-shadow: none; }
+.censo-table .btn-deny:hover { background: #ef4444; color: var(--blanco); }
+.censo-table .cens-estado { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; white-space: normal; }
+.censo-table .cens-estado .table-badge { margin-right: 2px; }
+
+/* Móvil: censo como tarjetas apiladas (cada fila es un bloc con datos etiquetados). */
+@media (max-width: 640px) {
+    .censo-wrap { overflow: visible; }
+    .censo-scroll { max-height: none; }
+    .censo-table { min-width: 0; width: 100%; display: block; }
+    .censo-table thead { display: none; }
+    .censo-table tbody { display: block; width: 100%; }
+    .censo-table tbody tr {
+        display: block; width: 100%;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        margin-bottom: 14px;
+        box-shadow: var(--sombra-suave);
+        overflow: hidden;
+    }
+    .censo-table tbody tr:nth-child(even), .censo-table tbody tr:hover { background: var(--card-bg); }
+    .censo-table tbody tr td {
+        display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center;
+        gap: 4px 12px; text-align: right;
+        padding: 9px 14px; border-bottom: 1px solid var(--border-color);
+        max-width: none;
+    }
+    .censo-table tbody tr td::before {
+        content: attr(data-label);
+        margin-right: auto; padding-right: 12px;
+        font-size: 11px; font-weight: 700; text-transform: uppercase;
+        letter-spacing: 0.05em; color: var(--texto-gris); text-align: left;
+    }
+    .censo-table tbody tr td:first-child {
+        justify-content: flex-start; text-align: left;
+        position: static; left: auto; z-index: auto; background: none;
+        padding: 12px 14px; font-size: 14px;
+    }
+    .censo-table tbody tr td:first-child::before { display: none; }
+    .censo-table tbody tr td:first-child strong { margin-right: auto; }
+    .censo-table tbody tr td:last-child { border-bottom: none; }
+    .censo-table .cens-estado { justify-content: flex-end; }
+    .censo-table .cens-estado .btn-edit + .btn-edit, .censo-table .cens-estado .btn-edit + .btn-deny, .censo-table .cens-estado .btn-deny + .btn-edit, .censo-table .cens-estado .btn-deny + .btn-deny { margin-left: 0; }
+}
 
 .admin-tabs { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
 .admin-tab {

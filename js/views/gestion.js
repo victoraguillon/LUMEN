@@ -201,29 +201,134 @@ const GestionView = {
         });
     },
 
-    // --- CENSO CON BUSCADOR ---
+    // --- CENSO CON BUSCADOR Y ORDEN DE COLUMNAS ---
+    censusSort: { key: 'nombre', dir: 'asc' },
+    censusQuery: '',
     renderUsuarios: function() {
         if (!LumenData.users) {
             return `<div class="state-container"><div class="skeleton-card" style="height:300px; width:100%;"></div></div>`;
         }
-        
+
         let html = `
-            <input type="text" class="search-bar" placeholder="Buscar joven por nombre, dirección o teléfono..." onkeyup="GestionView.filterCensus(this.value)">
+            <div class="matrix-controls" style="margin-bottom:20px; gap:12px;">
+                <label for="census-sort-select" style="font-weight:600; font-size:14px;">Ordenar por:</label>
+                <select id="census-sort-select" aria-label="Ordenar censo por columna" onchange="GestionView.sortCensus(this.value)">
+                    ${this._censusSortOptions()}
+                </select>
+                <button type="button" class="btn btn-outline" id="census-dir-btn" onclick="GestionView.toggleDir()">${this.censusSort.dir === 'asc' ? '↑ Ascendente' : '↓ Descendente'}</button>
+            </div>
+            <input type="text" class="search-bar" placeholder="Buscar joven por nombre, dirección, teléfono o email..." onkeyup="GestionView.filterCensus(this.value)">
             <div style="text-align: right; margin-bottom: 15px;"><button class="btn btn-outline" onclick="GestionView.exportExcel()">${Icons.download} Exportar a Excel</button></div>
-            <div class="table-container censo-wrap" style="max-height:600px; overflow:auto;">
-                <table class="matrix-table censo-table">
+            <div class="table-container censo-wrap censo-scroll">
+                <table class="matrix-table censo-table" id="census-table">
                     <thead>
                         <tr>
-                            <th>Nombre</th><th>Edad</th><th>Nacimiento</th><th>Sacramentos</th><th>Juvemar</th><th>Teléfono</th><th>Email</th><th>Dirección</th><th>Representante</th><th>Tel. Rep.</th><th>Estado</th>
+                            ${this._censusHeaders()}
                         </tr>
                     </thead>
                     <tbody id="census-tbody"></tbody>
                 </table>
             </div>
         `;
-        
-        setTimeout(() => this.renderCensusRows(this.juvemarUids()), 100);
+
+        setTimeout(() => this._renderCensus(), 100);
         return html;
+    },
+
+    _censusSortOptions: function() {
+        const cols = [
+            ['nombre', 'Nombre'], ['edad', 'Edad'], ['nacimiento', 'Nacimiento'],
+            ['sacramentos', 'Sacramentos'], ['juvemar', 'Juvemar'], ['telefono', 'Teléfono'],
+            ['email', 'Email'], ['direccion', 'Dirección'], ['representante', 'Representante'],
+            ['tel_rep', 'Tel. Rep.'], ['estado', 'Estado']
+        ];
+        const k = this.censusSort && this.censusSort.key;
+        return cols.map(([key, label]) => `<option value="${key}"${k === key ? ' selected' : ''}>${label}</option>`).join('');
+    },
+
+    toggleDir: function() {
+        const dir = this.censusSort.dir === 'asc' ? 'desc' : 'asc';
+        this._applySort(this.censusSort.key, dir);
+    },
+
+    _censusHeaders: function() {
+        const cols = [
+            ['nombre', 'Nombre'], ['edad', 'Edad'], ['nacimiento', 'Nacimiento'],
+            ['sacramentos', 'Sacramentos'], ['juvemar', 'Juvemar'], ['telefono', 'Teléfono'],
+            ['email', 'Email'], ['direccion', 'Dirección'], ['representante', 'Representante'],
+            ['tel_rep', 'Tel. Rep.'], ['estado', 'Estado']
+        ];
+        const s = this.censusSort;
+        return cols.map(([key, label]) => {
+            const cls = (s && s.key === key) ? ` class="sortable ${s.dir}"` : ' class="sortable"';
+            return `<th${cls} data-key="${key}" title="Ordenar por ${label}">${label}</th>`;
+        }).join('');
+    },
+
+    sortCensus: function(key) {
+        if (!key) return;
+        const prev = this.censusSort;
+        let dir = 'asc';
+        if (prev && prev.key === key) dir = prev.dir === 'asc' ? 'desc' : 'asc';
+        this._applySort(key, dir);
+    },
+
+    _applySort: function(key, dir) {
+        this.censusSort = { key, dir };
+        const ths = document.querySelectorAll('#census-table thead th');
+        ths.forEach(th => {
+            th.className = (th.dataset.key === key) ? `sortable ${dir}` : 'sortable';
+        });
+        const sel = document.getElementById('census-sort-select');
+        if (sel) sel.value = key;
+        const btn = document.getElementById('census-dir-btn');
+        if (btn) btn.textContent = dir === 'asc' ? '↑ Ascendente' : '↓ Descendente';
+        this._renderCensus();
+    },
+
+    _renderCensus: function() {
+        this.renderCensusRows(this._sortCensusUids(this._filterCensusUids()));
+    },
+
+    _filterCensusUids: function() {
+        const q = (this.censusQuery || '').toLowerCase().trim();
+        if (!q) return this.juvemarUids();
+        return this.juvemarUids().filter(uid => {
+            const u = LumenData.users[uid];
+            return [u.nombre, u.direccion, u.telefono, u.email].some(v => v && String(v).toLowerCase().includes(q));
+        });
+    },
+
+    _sortCensusUids: function(uids) {
+        const s = this.censusSort || {};
+        const list = uids.slice();
+        if (!s.key) return list;
+        list.sort((a, b) => {
+            const ua = LumenData.users[a], ub = LumenData.users[b];
+            let va = this._censusValue(ua, s.key), vb = this._censusValue(ub, s.key);
+            let cmp;
+            if (typeof va === 'number' && typeof vb === 'number') {
+                cmp = va - vb;
+            } else {
+                va = String(va == null ? '' : va).toLowerCase();
+                vb = String(vb == null ? '' : vb).toLowerCase();
+                cmp = va.localeCompare(vb, 'es', { sensitivity: 'base' });
+            }
+            return s.dir === 'desc' ? -cmp : cmp;
+        });
+        return list;
+    },
+
+    _censusValue: function(u, key) {
+        switch (key) {
+            case 'edad': return parseInt(u.edad, 10) || 0;
+            case 'estado': return u.status === 'approved' ? 1 : 0;
+            case 'juvemar': return u.juvemar_status || '';
+            case 'sacramentos': return (u.sacramentos || []).join(', ');
+            case 'representante': return u.representante_nombre || '';
+            case 'tel_rep': return u.representante_telefono || '';
+            default: return u[key] || '';
+        }
     },
 
     esJuvemar: function(u) {
@@ -244,14 +349,8 @@ const GestionView = {
     },
 
     filterCensus: function(query) {
-        query = query.toLowerCase();
-        const filtered = this.juvemarUids().filter(uid => {
-            const u = LumenData.users[uid];
-            return (u.nombre && u.nombre.toLowerCase().includes(query)) || 
-                   (u.direccion && u.direccion.toLowerCase().includes(query)) || 
-                   (u.telefono && u.telefono.includes(query));
-        });
-        this.renderCensusRows(filtered);
+        this.censusQuery = query || '';
+        this._renderCensus();
     },
     
     renderCensusRows: function(uids) {
@@ -280,6 +379,7 @@ const GestionView = {
             let statusBadge = u.status === 'pending' ? '<span class="table-badge pending">Pendiente</span>' : '<span class="table-badge approved">Aprobado</span>';
             let approveBtn = u.status === 'pending' ? `<button class="btn btn-edit" onclick="GestionView.approveUser('${uid}')">Aprobar</button>` : '';
             let coordBtn = (u.status === 'approved' && u.role !== 'admin') ? `<button class="btn btn-edit" onclick="GestionView.makeAdmin('${uid}')">Coordinador</button>` : '';
+            let denyBtn = `<button class="btn btn-deny" onclick="GestionView.denyApproval('${uid}')">Denegar</button>`;
             
             rowsHTML += `
                 <tr>
@@ -293,7 +393,7 @@ const GestionView = {
                     <td data-label="Dirección">${LumenUI.escapeHTML(u.direccion) || 'N/A'}</td>
                     <td data-label="Representante">${LumenUI.escapeHTML(guardian)}</td>
                     <td data-label="Tel. Rep.">${LumenUI.escapeHTML(guardianPhone)}</td>
-                    <td data-label="Estado">${statusBadge} ${approveBtn} ${coordBtn}</td>
+                    <td data-label="Estado" class="cens-estado">${statusBadge} ${approveBtn} ${coordBtn} ${denyBtn}</td>
                 </tr>
             `;
         });
@@ -326,8 +426,21 @@ const GestionView = {
             if (confirmed) {
                 supabase.from('profiles').update({ status: 'approved' }).eq('id', uid).then(() => {
                     LumenUI.showToast('Usuario aprobado con éxito', 'success');
-                    LumenData.loadUsers().then(() => this.renderCensusRows(this.juvemarUids()));
+                    LumenData.loadUsers().then(() => this._renderCensus());
                 });
+            }
+        });
+    },
+
+    denyApproval: function(uid) {
+        LumenUI.showConfirm("¿Denegar la aprobación? El usuario dejará de ser Juvemar y pasará a Usuario Global.").then(confirmed => {
+            if (confirmed) {
+                supabase.from('profiles').update({ role: 'global', status: 'approved' }).eq('id', uid)
+                    .then(() => {
+                        LumenUI.showToast('Aprobación denegada. Ahora es Usuario Global', 'success');
+                        LumenData.loadUsers().then(() => this._renderCensus());
+                    })
+                    .catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
             }
         });
     },
@@ -338,7 +451,7 @@ const GestionView = {
                 supabase.from('profiles').update({ role: 'admin', status: 'approved' }).eq('id', uid)
                     .then(() => {
                         LumenUI.showToast('Ahora es Coordinador', 'success');
-                        LumenData.loadUsers().then(() => this.renderCensusRows(this.juvemarUids()));
+                        LumenData.loadUsers().then(() => this._renderCensus());
                     })
                     .catch(err => LumenUI.showToast(LumenUI.getErrorMessage(err), 'error'));
             }
