@@ -154,7 +154,7 @@ const LumenRouter = {
         } else {
             container.style.opacity = '0';
             container.style.transform = 'translateY(8px)';
-            container.style.transition = 'opacity 150ms ease, transform 150ms ease';
+            container.style.transition = 'opacity 230ms cubic-bezier(0.23, 1, 0.32, 1), transform 230ms cubic-bezier(0.23, 1, 0.32, 1)';
             setTimeout(() => {
                 window.scrollTo(0, 0);
                 renderView();
