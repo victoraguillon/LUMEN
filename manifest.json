@@ -13,22 +13,38 @@
   "theme_color": "#005F8A",
   "icons": [
     {
-      "src": "assets/icons/logo.png",
+      "src": "assets/icons/logo-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "assets/icons/logo.png",
+      "src": "assets/icons/logo-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "assets/icons/logo.png",
+      "src": "assets/icons/logo-maskable.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "assets/icons/screenshots/screen-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "LUMEN en escritorio"
+    },
+    {
+      "src": "assets/icons/screenshots/screen-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "LUMEN en móvil"
     }
   ]
 }

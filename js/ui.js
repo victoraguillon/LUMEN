@@ -1141,6 +1141,19 @@ Object.assign(LumenUI, {
         } else {
             window.print();
         }
+    },
+
+    // ---- Carga perezosa de scripts (xlsx, cropper, etc.) ----
+    loadScript: function(src) {
+        return new Promise(function(resolve, reject) {
+            if (document.querySelector('script[src="' + src + '"]')) return resolve();
+            const s = document.createElement('script');
+            s.src = src;
+            s.async = true;
+            s.onload = function() { resolve(); };
+            s.onerror = function() { reject(new Error('No se pudo cargar: ' + src)); };
+            document.head.appendChild(s);
+        });
     }
 });
 
