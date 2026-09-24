@@ -130,7 +130,7 @@ const RosarioView = {
                 const isToday = s === today;
                 const img = imgMap[s];
                 const iconHtml = img
-                    ? `<img src="${img}" alt="Misterios ${s === 'gozosos' ? 'Gozosos' : s === 'dolorosos' ? 'Dolorosos' : s === 'gloriosos' ? 'Gloriosos' : 'Luminosos'}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">`
+                    ? `<img src="${img}" alt="Misterios ${s === 'gozosos' ? 'Gozosos' : s === 'dolorosos' ? 'Dolorosos' : s === 'gloriosos' ? 'Gloriosos' : 'Luminosos'}" class="v-media">`
                     : (isToday ? LumenIcons.racha : LumenIcons.rosario);
                 return `<button class="formacion-card rosario-card reveal${isToday ? ' today' : ''}" onclick="RosarioView.pick('${s}')">
                     <span class="fc-icon">${iconHtml}</span>
@@ -149,10 +149,10 @@ const RosarioView = {
                     <span class="v-eyebrow">${LumenIcons.rosario} Reza con guía ${LumenUI.liturgicalBadgeHTML()}</span>
                     <h2 class="v-title">Rosario <em>Interactivo</em></h2>
                     <p class="v-sub">Los misterios de hoy son los <strong>${this.SET_LABEL[today]}</strong>. Ve avanzando cuenta por cuenta: cada misterio trae su pasaje bíblico para meditar.</p>
-                    <div class="hero-actions" style="justify-content:center; margin-top:20px;">${LumenUI.streakChipHTML()}</div>
+                    <div class="hero-actions v-jcc v-mt20" >${LumenUI.streakChipHTML()}</div>
                 </div>
                 <div class="v-section" style="padding-top:0;">
-                    <div class="formacion-grid">${sets}</div>
+                    <div class="formacion-grid v-stagger">${sets}</div>
                 </div>
             </div>`;
         }

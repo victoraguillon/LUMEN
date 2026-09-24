@@ -1,7 +1,7 @@
 const EncuestasView = {
     render: function() {
-        if (!LumenAuth.currentUser) return `<div class="state-container"><h3>Acceso para miembros</h3><p>Inicia sesión para responder encuestas.</p><button class="btn btn-primary" style="margin-top: 15px;" onclick="LumenUI.requireMember()">Iniciar Sesión</button></div>`;
-        if (!LumenAuth.isMember) return `<div class="state-container"><h3>Solo miembros</h3><p>Las encuestas están disponibles para miembros de Juvemar.</p><button class="btn btn-primary" style="margin-top: 15px;" onclick="LumenUI.requireMember()">Solicitar Ingreso</button></div>`;
+        if (!LumenAuth.currentUser) return `<div class="state-container"><h3>Acceso para miembros</h3><p>Inicia sesión para responder encuestas.</p><button class="btn btn-primary v-mt15"  onclick="LumenUI.requireMember()">Iniciar Sesión</button></div>`;
+        if (!LumenAuth.isMember) return `<div class="state-container"><h3>Solo miembros</h3><p>Las encuestas están disponibles para miembros de Juvemar.</p><button class="btn btn-primary v-mt15"  onclick="LumenUI.requireMember()">Solicitar Ingreso</button></div>`;
         
         let adminButton = LumenAuth.isAdmin ? `<button class="btn btn-add" onclick="EncuestasView.showAddForm()">${Icons.plus} Crear Encuesta</button>` : '';
         
@@ -82,7 +82,7 @@ const EncuestasView = {
                             <div style="margin:12px 0;">
                                 ${optionsHTML}
                             </div>
-                            <p style="font-size:12px; color:var(--texto-gris); margin:10px 0 0;">Total de votos: ${totalVotes}</p>
+                            <p class="v-muted-xs v-mt10" >Total de votos: ${totalVotes}</p>
                         </div>
                     `;
                 });

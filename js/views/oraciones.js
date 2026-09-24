@@ -52,7 +52,7 @@ const OracionesView = {
             const cats = ORACIONES_DATA.categorias.map(function(c) {
                 const img = imgMap[c.id];
                 const iconHtml = img
-                    ? `<img src="${img}" alt="${c.title}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">`
+                    ? `<img src="${img}" alt="${c.title}" class="v-media">`
                     : LumenIcons.oraciones;
                 return `<button class="formacion-card reveal" onclick="OracionesView.openCat('${c.id}')">
                     <span class="fc-icon">${iconHtml}</span>
@@ -69,10 +69,10 @@ const OracionesView = {
                     <span class="v-eyebrow">${LumenUI.liturgicalBadgeHTML()} Oración</span>
                     <h2 class="v-title">Oraciones para <em>cada momento</em></h2>
                     <p class="v-sub">Fundamentales, marianas, devocionales y litúrgicas.</p>
-                    <div class="hero-actions" style="justify-content:center; margin-top:20px;">${LumenUI.streakChipHTML()}</div>
+                    <div class="hero-actions v-jcc v-mt20" >${LumenUI.streakChipHTML()}</div>
                 </div>
                 <div class="v-section" style="padding-top:0;">
-                    <div class="formacion-grid">${cats}</div>
+                    <div class="formacion-grid v-stagger">${cats}</div>
                 </div>
             </div>`;
         }

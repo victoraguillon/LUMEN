@@ -173,7 +173,7 @@ const CalendarioView = {
                     <h3 class="v-section-title is-center">Próximamente</h3>
                     <div class="v-grid">
                         ${upcoming.slice(0, 3).map(ev => `
-                            <button type="button" class="v-card" style="text-align:left; cursor:pointer;" onclick="LumenData.selectedEventId='${ev.id}'; LumenRouter.navigateTo('detalle')">
+                            <button type="button" class="v-card v-tal v-cpointer"  onclick="LumenData.selectedEventId='${ev.id}'; LumenRouter.navigateTo('detalle')">
                                 <div class="v-card-meta">${Icons.calendar} ${ev.tipo === 'recurrente' ? 'Todos los ' + LumenUI.escapeHTML(ev.dia) + ' · ' + LumenUI.escapeHTML(ev.hora) : LumenUI.escapeHTML(new Date(ev.fecha_inicio).toLocaleDateString('es-VE'))}</div>
                                 <h3>${LumenUI.escapeHTML(ev.titulo)}</h3>
                                 <span class="v-chip ${ev.tipo === 'recurrente' ? '' : 'is-dorado'}">${ev.tipo === 'recurrente' ? 'Semanal' : 'Único'}</span>

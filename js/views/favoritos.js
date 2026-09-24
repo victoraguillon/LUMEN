@@ -37,7 +37,7 @@ const FavoritosView = {
                     <h2 class="v-title">Mis <em>Favoritos</em></h2>
                     <p class="v-sub">Toca ♥ en cualquier sección, oración, novena o santo para guardarlo aquí.</p>
                 </div>
-                <div class="v-empty reveal" style="max-width:1080px; margin:0 auto;">${typeof Icons !== 'undefined' ? Icons.empty_box : '📭'}<h3>Sin favoritos todavía</h3><p>Explora Formación, Oraciones o Novenas y marca lo que más te guste.</p><button class="btn btn-primary" onclick="LumenRouter.navigateTo('formacion')">Explorar Formación</button></div>
+                <div class="v-empty reveal v-wrap1080" >${typeof Icons !== 'undefined' ? Icons.empty_box : '📭'}<h3>Sin favoritos todavía</h3><p>Explora Formación, Oraciones o Novenas y marca lo que más te guste.</p><button class="btn btn-primary" onclick="LumenRouter.navigateTo('formacion')">Explorar Formación</button></div>
             </div>`;
         }
 

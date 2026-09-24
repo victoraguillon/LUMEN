@@ -83,16 +83,16 @@ const GestionView = {
         const pending = LumenData.blogArticles.filter(a => a.status === 'pending');
         const approved = LumenData.blogArticles.filter(a => a.status === 'approved');
 
-        let html = '<h3 style="margin-bottom: 15px;">Artículos Pendientes</h3>';
+        let html = '<h3 class="v-mb15" >Artículos Pendientes</h3>';
         if (pending.length === 0) html += '<p>No hay artículos pendientes.</p>';
         
         pending.forEach(a => {
             html += `
-                <div class="attendance-card" style="flex-direction: column; align-items: flex-start; margin-bottom: 15px;">
+                <div class="attendance-card v-flex-col v-aifs v-mb15" >
                     <h4>${LumenUI.escapeHTML(a.titulo)}</h4>
-                    <p style="font-size: 12px; color: var(--texto-gris); margin-bottom: 10px;">Por ${LumenUI.escapeHTML(a.author_name)}</p>
+                    <p class="v-muted-xs v-mb10" >Por ${LumenUI.escapeHTML(a.author_name)}</p>
                     <p style="font-size: 14px; margin-bottom: 15px;">${LumenUI.escapeHTML((a.contenido || '').substring(0, 150))}...</p>
-                    <div style="display: flex; gap: 10px;">
+                    <div class="v-flex v-gap10" >
                         <button class="btn btn-primary" onclick="GestionView.approveArticle('${a.id}')">Aprobar</button>
                         <button class="btn btn-danger" onclick="GestionView.deleteArticle('${a.id}')">Eliminar</button>
                     </div>
@@ -105,12 +105,12 @@ const GestionView = {
         
         approved.forEach(a => {
             html += `
-                <div class="attendance-card" style="margin-bottom: 10px;">
+                <div class="attendance-card v-mb10" >
                     <div class="mini-event-info">
                         <h4>${LumenUI.escapeHTML(a.titulo)}</h4>
                         <p>Por ${LumenUI.escapeHTML(a.author_name)}</p>
                     </div>
-                    <button class="btn btn-danger" style="margin-left: auto;" onclick="GestionView.deleteArticle('${a.id}')">Eliminar</button>
+                    <button class="btn btn-danger v-mla"  onclick="GestionView.deleteArticle('${a.id}')">Eliminar</button>
                 </div>
             `;
         });
@@ -156,9 +156,9 @@ const GestionView = {
         const totalEventos = LumenData.eventos.length;
 
         return `
-            <div class="info-grid" style="margin-bottom: 30px;">
+            <div class="info-grid v-mb30" >
                 <div class="stat-card"><h3>${totalActivos}</h3><p>Miembros Activos</p></div>
-                <div class="stat-card"><h3 style="color: var(--error);">${totalPendientes}</h3><p>Pendientes</p></div>
+                <div class="stat-card"><h3 class="v-txt-error" >${totalPendientes}</h3><p>Pendientes</p></div>
                 <div class="stat-card"><h3>${totalEventos}</h3><p>Actividades</p></div>
             </div>
             <div class="cards-grid">
@@ -210,7 +210,7 @@ const GestionView = {
         }
 
         let html = `
-            <div class="matrix-controls" style="margin-bottom:20px; gap:12px;">
+            <div class="matrix-controls v-mb20 v-gap12" >
                 <label for="census-sort-select" style="font-weight:600; font-size:14px;">Ordenar por:</label>
                 <select id="census-sort-select" aria-label="Ordenar censo por columna" onchange="GestionView.sortCensus(this.value)">
                     ${this._censusSortOptions()}
@@ -359,7 +359,7 @@ const GestionView = {
         let rowsHTML = '';
         
         if (uids.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="11" style="text-align:center;">No se encontraron jóvenes.</td></tr>`;
+            tbody.innerHTML = `<tr><td class="v-tac" colspan="11" >No se encontraron jóvenes.</td></tr>`;
             return;
         }
         
@@ -401,6 +401,7 @@ const GestionView = {
     },
     
     exportExcel: function() {
+        if (!window.XLSX) return LumenUI.loadScript('https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js').then(() => GestionView.exportExcel());
         if (!LumenData.users) return LumenUI.showToast('No hay datos para exportar', 'error');
         let data = [];
         this.juvemarUids().forEach(uid => {
@@ -463,7 +464,7 @@ const GestionView = {
         if (LumenData.state.eventos !== 'ideal') return `<div class="state-container">${Icons.empty_box}<h3>No hay actividades</h3></div>`;
         let eventOptions = '<option value="">Selecciona una actividad...</option>';
         LumenData.eventos.forEach(ev => { eventOptions += `<option value="${ev.id}">${LumenUI.escapeHTML(ev.titulo)}</option>`; });
-        return `<div class="v-card" style="margin-bottom:20px;"><div class="form-group" style="margin:0;"><label>Selecciona actividad para ver inscritos:</label><select id="inscritos-event-select" onchange="GestionView.loadInscritosList(this.value)">${eventOptions}</select></div></div><div id="inscritos-list-container"></div>`;
+        return `<div class="v-card v-mb20" ><div class="form-group v-m0" ><label>Selecciona actividad para ver inscritos:</label><select id="inscritos-event-select" onchange="GestionView.loadInscritosList(this.value)">${eventOptions}</select></div></div><div id="inscritos-list-container"></div>`;
     },
     profileMap: {},
     loadInscritosList: function(eventId) {
@@ -479,9 +480,9 @@ const GestionView = {
                 inscritos.forEach((ins, i) => {
                     const u = profiles[i] || ins;
                     usersHTML += `
-                        <div class="attendance-card" style="flex-direction: column; align-items: flex-start; gap: 5px;">
+                        <div class="attendance-card v-flex-col v-aifs v-gap5" >
                             <h4>${LumenUI.escapeHTML(u.nombre || ins.nombre || 'Sin nombre')}</h4>
-                            <p style="font-size: 12px; color: var(--texto-gris);">Tel: ${LumenUI.escapeHTML(u.telefono || ins.telefono || 'N/A')}</p>
+                            <p class="v-muted-xs" >Tel: ${LumenUI.escapeHTML(u.telefono || ins.telefono || 'N/A')}</p>
                             ${u.representante_nombre ? `<p style="font-size: 12px; color: var(--error);">Representante: ${LumenUI.escapeHTML(u.representante_nombre)} (${LumenUI.escapeHTML(u.representante_telefono)})</p>` : ''}
                         </div>
                     `;
@@ -552,7 +553,7 @@ const GestionView = {
                     <label>Año:</label>
                     <select onchange="GestionView.changeMatrixDate(this.value, 'year')">${yearOptions}</select>
                 </div>
-                <div style="margin-left: auto; display:flex; gap:10px; flex-wrap:wrap;">
+                <div class="v-mla v-flex v-gap10 v-owrap" >
                     <button class="btn btn-whatsapp" onclick="GestionView.messageAbsentees()">${LumenIcons.message} Msj Ausentes</button>
                     <button class="btn btn-outline" onclick="GestionView.exportMatrixExcel()">${Icons.download} Exportar a Excel</button>
                 </div>
@@ -644,6 +645,7 @@ const GestionView = {
         }
     },
     exportMatrixExcel: function() {
+        if (!window.XLSX) return LumenUI.loadScript('https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js').then(() => GestionView.exportMatrixExcel());
         if (!LumenData.users) return LumenUI.showToast('No hay datos de usuarios', 'error');
         if (!LumenData.eventos || LumenData.eventos.length === 0) return LumenUI.showToast('No hay actividades', 'error');
 
@@ -684,7 +686,7 @@ const GestionView = {
             <div class="card">
                 <div class="card-body">
                     <h3>Enviar Aviso General</h3>
-                    <p style="font-size: 14px; color: var(--texto-gris); margin-bottom: 15px;">Llegará al buzón de notificaciones y como notificación en los dispositivos de quienes tengan activadas.</p>
+                    <p class="v-muted v-mb15" >Llegará al buzón de notificaciones y como notificación en los dispositivos de quienes tengan activadas.</p>
                     <form id="manual-aviso-form">
                         <div class="form-group"><textarea id="manual-aviso-text" rows="4" required placeholder="Ej: Mañana no hay reunión por el clima. ¡Dios los bendiga!"></textarea></div>
                         <button type="submit" class="btn btn-primary btn-block">Enviar Aviso a la Comunidad</button>
@@ -694,7 +696,7 @@ const GestionView = {
             <div class="card">
                 <div class="card-body">
                     <h3>Recordatorio a Inscritos</h3>
-                    <p style="font-size: 14px; color: var(--texto-gris); margin-bottom: 15px;">Llega solo a los inscritos de la actividad elegida, como notificación y en su Centro de Notificaciones.</p>
+                    <p class="v-muted v-mb15" >Llega solo a los inscritos de la actividad elegida, como notificación y en su Centro de Notificaciones.</p>
                     <form id="recordatorio-event-form">
                         <div class="form-group"><select id="recordatorio-event-select">${eventOptions}</select></div>
                         <div class="form-group"><textarea id="recordatorio-event-text" rows="2" placeholder="Opcional: escribe tu propio mensaje..."></textarea></div>
@@ -709,7 +711,7 @@ const GestionView = {
     renderCumpleanos: function() {
         return `
             <h3 style="margin: 20px 0 10px;">Cumpleaños del Año</h3>
-            <p style="font-size: 13px; color: var(--texto-gris); margin-bottom: 15px;">Próximos cumpleaños (hoy y siguientes 7 días) resaltados en rojo.</p>
+            <p class="v-muted-sm v-mb15" >Próximos cumpleaños (hoy y siguientes 7 días) resaltados en rojo.</p>
             <div id="cumpleanos-list" class="attendance-list">
                 <div class="state-container"><div class="skeleton-card" style="height:200px; width:100%;"></div></div>
             </div>

@@ -21,7 +21,7 @@ const PerfilView = {
 
         const user = LumenAuth.userProfile || {};
         const isJuvemar = this.isJuvemar(user);
-        const picUrl = LumenUI.sanitizeImageUrl(user.photo_url) || `https://via.placeholder.com/150/005F8A/ffffff?text=${user.nombre ? encodeURIComponent(user.nombre.charAt(0)) : 'L'}`;
+        const picUrl = LumenUI.sanitizeImageUrl(user.photo_url) || `data:image/svg+xml;utf8,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27150%27%20height=%27150%27%3E%3Cdefs%3E%3ClinearGradient%20id=%27p%27%20x1=%270%27%20y1=%270%27%20x2=%271%27%20y2=%271%27%3E%3Cstop%20offset=%270%27%20stop-color=%27%23245888%27/%3E%3Cstop%20offset=%271%27%20stop-color=%27%23005F8A%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width=%27150%27%20height=%27150%27%20fill=%27url(%23p)%27/%3E%3Ctext%20x=%2775%27%20y=%2775%27%20dy=%27.35em%27%20fill=%27white%27%20font-family=%27Poppins,sans-serif%27%20font-size=%2764%27%20font-weight=%27600%27%20text-anchor=%27middle%27%3E${encodeURIComponent(user.nombre ? user.nombre.charAt(0).toUpperCase() : 'L')}%3C/text%3E%3C/svg%3E`;
 
         // Progreso: solo cuenta los campos que aplican al rol
         let progress = 0;
@@ -91,12 +91,12 @@ const PerfilView = {
                     ${user.role === 'miembro' && user.status === 'pending' ? `
                     <div style="background: rgba(255,183,77,.15); border:1px solid var(--warning); border-radius:12px; padding:12px 16px; display:flex; gap:10px; align-items:flex-start; margin-top:16px; text-align:left; width:100%; max-width:340px;">
                         <span style="color:var(--warning); flex-shrink:0;">${Icons.alert}</span>
-                        <p style="font-size:13px; color:var(--texto-gris); margin:0;">Tu solicitud de ingreso a Juvemar está en espera de aprobación. Cuando el coordinador la apruebe, las funciones de miembro se desbloquearán automáticamente.</p>
+                        <p class="v-muted-sm v-m0" >Tu solicitud de ingreso a Juvemar está en espera de aprobación. Cuando el coordinador la apruebe, las funciones de miembro se desbloquearán automáticamente.</p>
                     </div>` : ''}
 
                     <div style="width: 100%; max-width: 300px; margin: 20px auto 0;">
                         <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                            <span style="font-size:12px; color:var(--texto-gris);">Progreso del perfil</span>
+                            <span class="v-muted-xs" >Progreso del perfil</span>
                             <span style="font-size:12px; color:var(--celeste-primario); font-weight:700;">${progress}%</span>
                         </div>
                         <div class="profile-progress-container">
@@ -127,7 +127,7 @@ const PerfilView = {
     showEditForm: function() {
         const user = LumenAuth.userProfile || {};
         const isJuvemar = this.isJuvemar(user);
-        const picUrl = user.photo_url || `https://via.placeholder.com/100/005F8A/ffffff?text=${user.nombre ? encodeURIComponent(user.nombre.charAt(0)) : 'L'}`;
+        const picUrl = user.photo_url || `data:image/svg+xml;utf8,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27100%27%20height=%27100%27%3E%3Cdefs%3E%3ClinearGradient%20id=%27p%27%20x1=%270%27%20y1=%270%27%20x2=%271%27%20y2=%271%27%3E%3Cstop%20offset=%270%27%20stop-color=%27%23245888%27/%3E%3Cstop%20offset=%271%27%20stop-color=%27%23005F8A%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width=%27100%27%20height=%27100%27%20fill=%27url(%23p)%27/%3E%3Ctext%20x=%2750%27%20y=%2750%27%20dy=%27.35em%27%20fill=%27white%27%20font-family=%27Poppins,sans-serif%27%20font-size=%2748%27%20font-weight=%27600%27%20text-anchor=%27middle%27%3E${encodeURIComponent(user.nombre ? user.nombre.charAt(0).toUpperCase() : 'L')}%3C/text%3E%3C/svg%3E`;
 
         // Campos de dirección/sacramentos SOLO para Juvemar.
         // (El teléfono y la nacimiento son comunes; se renderizan más abajo.)
@@ -157,9 +157,9 @@ const PerfilView = {
                 <div class="edit-avatar-section">
                     <img src="${picUrl}" id="ep-pic-preview" alt="Avatar">
                     <label for="ep-upload-pic" class="btn btn-edit">${Icons.edit} Cambiar Foto</label>
-                    <input type="file" id="ep-upload-pic" accept="image/*" style="display:none" onchange="PerfilView.handlePicUpload(event)">
+                    <input class="v-hide" type="file" id="ep-upload-pic" accept="image/*"  onchange="PerfilView.handlePicUpload(event)">
                     <div id="cropper-area"></div>
-                    <button type="button" id="crop-save-btn" class="btn btn-primary" style="display:none; margin-top:15px;" onclick="PerfilView.cropAndSave()">Guardar Foto Recortada</button>
+                    <button type="button" id="crop-save-btn" class="btn btn-primary v-hide v-mt15"  onclick="PerfilView.cropAndSave()">Guardar Foto Recortada</button>
                 </div>
                 <div class="form-grid-2">
                     <div class="form-group"><label for="ep-name">Nombre y Apellido: *</label><input type="text" id="ep-name" value="${LumenUI.escapeHTML(user.nombre || '')}" required></div>
@@ -187,7 +187,7 @@ const PerfilView = {
             document.getElementById('ep-pic-preview').style.display = 'none';
             cropArea.style.display = 'block';
             cropBtn.style.display = 'block';
-            cropArea.innerHTML = `<img src="${ev.target.result}" id="crop-image" style="max-width:100%;">`;
+            cropArea.innerHTML = `<img class="v-mw100" src="${ev.target.result}" id="crop-image" >`;
             if (this.cropper) this.cropper.destroy();
             const image = document.getElementById('crop-image');
             this.cropper = new Cropper(image, {

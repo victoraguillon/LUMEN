@@ -334,7 +334,7 @@ const LandingView = {
 
                 <div class="pwa-tutorial reveal">
                     <h2 style="text-align: center; color: var(--texto-oscuro); margin-bottom: 15px; font-family: 'Sora', sans-serif;">Instala LUMEN en tu Celular</h2>
-                    <p style="text-align: center; color: var(--texto-gris);">Accede más rápido y recibe notificaciones instalando la app en tu pantalla de inicio.</p>
+                    <p class="v-tac v-txt-muted" >Accede más rápido y recibe notificaciones instalando la app en tu pantalla de inicio.</p>
                     <div class="pwa-steps">
                         <div class="pwa-step">
                             <h4>Para Android (Chrome)</h4>

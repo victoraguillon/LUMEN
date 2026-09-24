@@ -254,7 +254,7 @@ const FormacionView = {
             const pct = this._modProgress(mod.id);
             const img = imgMap[mod.id];
             const iconHtml = img
-                ? `<img src="${img}" alt="${mod.title}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">`
+                ? `<img src="${img}" alt="${mod.title}" class="v-media">`
                 : (FORMACION_ICONS[mod.id] || LumenIcons.catecismo);
             return `<button class="formacion-card reveal" onclick="FormacionView.go('${mod.id}')" aria-label="Abrir módulo ${mod.title}">
                 <span class="fc-icon">${iconHtml}</span>
@@ -273,13 +273,13 @@ const FormacionView = {
                 <span class="v-eyebrow">${LumenUI.liturgicalBadgeHTML()} Camino de fe</span>
                 <h2 class="v-title">Formación paso a <em>paso</em></h2>
                 <p class="v-sub">Módulos en unidades con puntos clave y referencias para crecer a tu ritmo. Sin necesidad de cuenta, abierta a todos.</p>
-                <div class="hero-actions" style="justify-content:center; margin-top:20px;">
+                <div class="hero-actions v-jcc v-mt20" >
                     <button class="btn" onclick="LumenRouter.navigateTo('favoritos')" aria-label="Ver favoritos">♥ Mis favoritos (${Object.keys(LumenUI.getFavorites()).length})</button>
                     ${LumenUI.streakChipHTML()}
                 </div>
             </div>
             <div class="v-section" style="padding-top:0;">
-                <div class="formacion-grid">
+                <div class="formacion-grid v-stagger">
                     ${cards}
                 </div>
                 <section class="formacion-tip reveal">
@@ -482,7 +482,7 @@ const FormacionView = {
             return `<div class="faq-unit reveal">
                 <h3 class="faq-unit-title">${u.title}</h3>
                 ${(u.questions || []).map(function(q, qi) {
-                    return `<details class="si-details faq-item"><summary>${q.question}</summary><div class="reading-surface glos-def">${formacionParas(q.answer)}<div style="margin-top:10px;">${LumenShare.buttonHTML("LumenShare.formacionFaq('" + u.id + "', " + qi + ")", 'Compartir')}</div></div></details>`;
+                    return `<details class="si-details faq-item"><summary>${q.question}</summary><div class="reading-surface glos-def">${formacionParas(q.answer)}<div class="v-mt10" >${LumenShare.buttonHTML("LumenShare.formacionFaq('" + u.id + "', " + qi + ")", 'Compartir')}</div></div></details>`;
                 }).join('')}
             </div>`;
         }).join('');

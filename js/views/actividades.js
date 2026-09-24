@@ -26,7 +26,7 @@ const ActividadesView = {
 
             // Chips de Filtro
             let chipsHTML = `
-                <div class="seg-tabs reveal" style="margin-bottom: var(--v-gap);">
+                <div class="seg-tabs reveal v-vgap" >
                     <div class="seg-tab ${activeFilter === 'Todos' ? 'active' : ''}" onclick="ActividadesView.setFilter('Todos')">Próximas</div>
                     <div class="seg-tab ${activeFilter === 'historial' ? 'active' : ''}" onclick="ActividadesView.setFilter('historial')">Historial</div>
                     <div class="seg-tab ${activeFilter === 'unico' ? 'active' : ''}" onclick="ActividadesView.setFilter('unico')">Únicos</div>
@@ -40,7 +40,7 @@ const ActividadesView = {
             const filteredEvents = baseList.filter(ev => activeFilter === 'Todos' || activeFilter === 'historial' || ev.tipo === activeFilter);
             
             if (filteredEvents.length === 0) {
-                cardsHTML = `<div class="v-empty" style="grid-column:1/-1;">${Icons.empty_box}<h3>${activeFilter === 'historial' ? 'Aún no hay actividades finalizadas' : 'No hay actividades de este tipo'}</h3></div>`;
+                cardsHTML = `<div class="v-empty v-colall" >${Icons.empty_box}<h3>${activeFilter === 'historial' ? 'Aún no hay actividades finalizadas' : 'No hay actividades de este tipo'}</h3></div>`;
             } else {
                 filteredEvents.forEach(evento => {
                     let adminButtons = LumenAuth.isAdmin ? `
@@ -59,10 +59,10 @@ const ActividadesView = {
                         <div class="v-card" data-titulo="${LumenUI.escapeHTML((evento.titulo || '').toLowerCase())}">
                             <div class="v-card-meta">${Icons.calendar} ${LumenUI.escapeHTML(fechaText)}</div>
                             <h3>${LumenUI.escapeHTML(evento.titulo)}</h3>
-                            <div style="margin:10px 0;">
+                            <div class="v-mv10" >
                                 <span class="v-chip ${evento.tipo === 'recurrente' ? '' : 'is-dorado'}">${badgeText}</span>
                             </div>
-                            ${evento.image_url ? `<img src="${LumenUI.sanitizeImageUrl(evento.image_url)}" alt="${LumenUI.escapeHTML(evento.titulo)}" loading="lazy" style="width:100%; height:160px; object-fit:cover; border-radius:12px; margin-bottom:12px;">` : ''}
+                            ${evento.image_url ? `<img src="${LumenUI.sanitizeImageUrl(evento.image_url)}" alt="${LumenUI.escapeHTML(evento.titulo)}" loading="lazy" class="v-media-h">` : ''}
                             <p>${LumenUI.escapeHTML((evento.descripcion || '').substring(0, 60))}...</p>
                             <button class="btn btn-primary btn-block" onclick="LumenData.selectedEventId='${evento.id}'; LumenRouter.navigateTo('detalle')">Ver Detalle</button>
                             ${adminButtons}
@@ -73,8 +73,8 @@ const ActividadesView = {
             content = `${pushMiniHTML}
                 <input type="text" class="search-bar" placeholder="Buscar actividad por título…" aria-label="Buscar actividad por título" value="${LumenUI.escapeHTML(actividadSearchQuery)}" oninput="ActividadesView.search(this.value)">
                 ${chipsHTML}
-                <div id="act-list" class="v-grid">${cardsHTML}</div>
-                <div id="act-search-empty" class="v-empty" style="display:none; grid-column:1/-1;">
+                <div id="act-list" class="v-grid v-stagger">${cardsHTML}</div>
+                <div id="act-search-empty" class="v-empty v-hide v-colall" >
                     ${Icons.empty_box}<h3>Sin resultados</h3><p>No se encontró ninguna actividad con ese título.</p>
                 </div>`;
         }
@@ -121,12 +121,12 @@ const ActividadesView = {
         };
         const formHTML = `
             <form onsubmit="ActividadesView.saveActivity(event, '${id || ''}')">
-                <div class="edit-avatar-section" style="margin-bottom: 20px;">
-                    <img src="${LumenUI.sanitizeImageUrl(evento.image_url) || 'https://via.placeholder.com/400x200/005F8A/ffffff?text=Foto+Actividad'}" id="act-pic-preview" alt="Foto" style="width: 100%; height: 150px; border-radius: 12px; object-fit: cover;">
-                    <label for="act-upload-pic" class="btn btn-edit" style="margin-top: 10px;">${Icons.edit} Subir/Recortar Foto</label>
-                    <input type="file" id="act-upload-pic" accept="image/*" style="display:none" onchange="ActividadesView.handlePicUpload(event)">
+                <div class="edit-avatar-section v-mb20" >
+                    <img src="${LumenUI.sanitizeImageUrl(evento.image_url) || 'data:image/svg+xml;utf8,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27400%27%20height=%27200%27%20viewBox=%270%200%20400%20200%27%3E%3Cdefs%3E%3ClinearGradient%20id=%27a%27%20x1=%270%27%20y1=%270%27%20x2=%271%27%20y2=%271%27%3E%3Cstop%20offset=%270%27%20stop-color=%27%2330608a%27/%3E%3Cstop%20offset=%271%27%20stop-color=%27%23005F8A%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width=%27400%27%20height=%27200%27%20fill=%27url(%23a)%27/%3E%3Ctext%20x=%27200%27%20y=%27104%27%20fill=%27rgba(255,255,255,0.9)%27%20font-family=%27Poppins,sans-serif%27%20font-size=%2722%27%20font-weight=%27600%27%20text-anchor=%27middle%27%3EFoto%20de%20la%20actividad%3C/text%3E%3C/svg%3E'}" id="act-pic-preview" alt="Foto" style="width: 100%; height: 150px; border-radius: 12px; object-fit: cover;">
+                    <label for="act-upload-pic" class="btn btn-edit v-mt10" >${Icons.edit} Subir/Recortar Foto</label>
+                    <input class="v-hide" type="file" id="act-upload-pic" accept="image/*"  onchange="ActividadesView.handlePicUpload(event)">
                     <div id="cropper-area"></div>
-                    <button type="button" id="act-crop-btn" class="btn btn-primary" style="display:none; margin-top:10px;" onclick="ActividadesView.cropAndSave('act')">Guardar Foto</button>
+                    <button type="button" id="act-crop-btn" class="btn btn-primary v-hide v-mt10"  onclick="ActividadesView.cropAndSave('act')">Guardar Foto</button>
                     <input type="hidden" id="act-image-url" value="${LumenUI.escapeHTML(evento.image_url || '')}">
                 </div>
                 <div class="form-group"><label>Título:</label><input type="text" id="act-title" value="${LumenUI.escapeHTML(evento.titulo || '')}" required></div>
@@ -198,7 +198,7 @@ const ActividadesView = {
             document.getElementById('act-pic-preview').style.display = 'none';
             cropArea.style.display = 'block';
             cropBtn.style.display = 'block';
-            cropArea.innerHTML = `<img src="${ev.target.result}" id="crop-image" style="max-width:100%;">`;
+            cropArea.innerHTML = `<img class="v-mw100" src="${ev.target.result}" id="crop-image" >`;
             if (this.cropper) this.cropper.destroy();
             const image = document.getElementById('crop-image');
             this.cropper = new Cropper(image, {

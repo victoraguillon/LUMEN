@@ -70,7 +70,7 @@ const NovenasView = {
                 const pct = this._novPct(n.id);
                 const img = imgMap[n.id];
                 const iconHtml = img
-                    ? `<img src="${img}" alt="${n.title}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">`
+                    ? `<img src="${img}" alt="${n.title}" class="v-media">`
                     : LumenIcons.novenas;
                 return `<button class="formacion-card reveal" onclick="NovenasView.open('${n.id}')">
                     <span class="fc-icon">${iconHtml}</span>
@@ -88,10 +88,10 @@ const NovenasView = {
                     <span class="v-eyebrow">Nueve días de oración ${LumenUI.liturgicalBadgeHTML()}</span>
                     <h2 class="v-title">Novenas de <em>fe y espera</em></h2>
                     <p class="v-sub">Reza durante nueve días pidiendo la intercesión de la Virgen, los santos y las devociones. Marca cada día al completarlo.</p>
-                    <div class="hero-actions" style="justify-content:center; margin-top:20px;">${LumenUI.streakChipHTML()}</div>
+                    <div class="hero-actions v-jcc v-mt20" >${LumenUI.streakChipHTML()}</div>
                 </div>
                 <div class="v-section" style="padding-top:0;">
-                    <div class="formacion-grid">${cards}</div>
+                    <div class="formacion-grid v-stagger">${cards}</div>
                 </div>
             </div>`;
         }

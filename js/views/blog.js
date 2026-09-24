@@ -70,7 +70,7 @@ const BlogView = {
     renderList: function(list) {
         const pending = this._pending || [];
         const pendingBox = pending.length > 0
-            ? `<div class="admin-request-box" style="grid-column: 1 / -1; margin-bottom: 20px;">
+            ? `<div class="admin-request-box v-colall v-mb20" >
                 ${Icons.alert}
                 <div>
                     <h4 style="margin-bottom: 5px; color: #f59e0b;">Tienes ${pending.length} artículo(s) pendiente(s) de aprobación.</h4>
@@ -109,7 +109,7 @@ const BlogView = {
                 ? `<img src="${LumenUI.sanitizeImageUrl(a.image_url)}" alt="${LumenUI.escapeHTML(a.titulo)}" loading="lazy">`
                 : `<div class="blog-noimg">${Icons.book}<span>${LumenUI.escapeHTML(a.titulo.split(' ').slice(0, 3).join(' '))}</span></div>`;
             html += `
-                <article class="${featured ? 'blog-featured-card' : 'blog-card'} reveal" style="cursor:pointer;" onclick="BlogView.viewArticle('${a.id}')">
+                <article class="${featured ? 'blog-featured-card' : 'blog-card'} reveal v-cpointer"  onclick="BlogView.viewArticle('${a.id}')">
                     <div class="blog-media">${media}</div>
                     <div class="blog-card-body">
                         <span class="blog-meta">${Icons.user} ${LumenUI.escapeHTML(a.author_name)} · ${date}</span>

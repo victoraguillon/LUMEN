@@ -4,10 +4,10 @@ let resourceSearchQuery = "";
 const RecursosView = {
     render: function() {
         if (!LumenAuth.currentUser) {
-            return `<div class="state-container"><h3>Acceso para miembros</h3><p>Inicia sesión para acceder a los recursos.</p><button class="btn btn-primary" style="margin-top: 15px;" onclick="LumenUI.requireMember()">Iniciar Sesión</button></div>`;
+            return `<div class="state-container"><h3>Acceso para miembros</h3><p>Inicia sesión para acceder a los recursos.</p><button class="btn btn-primary v-mt15"  onclick="LumenUI.requireMember()">Iniciar Sesión</button></div>`;
         }
         if (!LumenAuth.isMember) {
-            return `<div class="state-container"><h3>Solo miembros</h3><p>Los recursos están disponibles para miembros de Juvemar.</p><button class="btn btn-primary" style="margin-top: 15px;" onclick="LumenUI.requireMember()">Solicitar Ingreso</button></div>`;
+            return `<div class="state-container"><h3>Solo miembros</h3><p>Los recursos están disponibles para miembros de Juvemar.</p><button class="btn btn-primary v-mt15"  onclick="LumenUI.requireMember()">Solicitar Ingreso</button></div>`;
         }
         const categorias = Object.keys(LumenData.recursos);
         let tabsHTML = '';
@@ -86,15 +86,15 @@ const RecursosView = {
         const res = LumenData.recursos[currentResourceTab][resId];
         if (!res) return;
         const adminActions = LumenAuth.isAdmin ? `
-            <div style="display:flex; gap:10px; margin-top:15px;">
-                <button class="btn btn-edit" style="flex:1;" onclick="LumenUI.closeModal('admin-modal'); RecursosView.showAddForm('${resId}')">${Icons.edit} Editar</button>
-                <button class="btn btn-danger" style="flex:1;" onclick="RecursosView.deleteResource('${resId}')">${Icons.trash} Eliminar</button>
+            <div class="v-flex v-gap10 v-mt15" >
+                <button class="btn btn-edit v-flex1"  onclick="LumenUI.closeModal('admin-modal'); RecursosView.showAddForm('${resId}')">${Icons.edit} Editar</button>
+                <button class="btn btn-danger v-flex1"  onclick="RecursosView.deleteResource('${resId}')">${Icons.trash} Eliminar</button>
             </div>
         ` : '';
         const contentHTML = `
-            <div style="text-align:center; padding:10px;">
-                <h3 style="color:var(--celeste-oscuro); margin-bottom:10px;">${LumenUI.escapeHTML(res.titulo)}</h3>
-                <p style="color:var(--texto-gris); margin-bottom:20px;">Formato: ${LumenUI.escapeHTML(res.tipo)}</p>
+            <div class="v-tac" >
+                <h3 class="v-blu-txt v-mb10" >${LumenUI.escapeHTML(res.titulo)}</h3>
+                <p class="v-txt-muted v-mb20" >Formato: ${LumenUI.escapeHTML(res.tipo)}</p>
                 <a href="${LumenUI.sanitizeUrl(res.url) || '#'}" target="_blank" rel="noopener" class="btn btn-primary btn-block">${Icons.download} Ver / Descargar</a>
                 ${adminActions}
             </div>

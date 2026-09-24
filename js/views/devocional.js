@@ -25,7 +25,7 @@ const DevocionalView = {
             <div class="view">
                 <!-- PASAJE DEL DÍA — HERO -->
                 <article class="devocional-hero reveal reveal-delay-1" aria-label="Alimento de Hoy">
-                    <div class="hero-label">
+                    <div class="v-eyebrow on-gradient">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"></path><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"></path></svg>
                         Alimento de Hoy
                     </div>
@@ -52,7 +52,7 @@ const DevocionalView = {
                 </article>
 
                 <!-- 2-COL: SANTO + DEVOCION DEL MES -->
-                <div class="devocional-grid">
+                <div class="devocional-grid v-stagger">
                     <!-- SANTO DEL DÍA -->
                     <section class="santo-card reveal reveal-delay-2" aria-label="Santo del día">
                         <div class="santo-banner">
@@ -85,7 +85,7 @@ const DevocionalView = {
                     <section class="santo-card reveal reveal-delay-3" aria-label="Devoción del mes">
                         <div style="padding: 24px 24px 0;">
                             <h3 style="color: var(--celeste-oscuro); margin-bottom: 4px; font-size: 18px;">${mesData.devocion}</h3>
-                            <p style="font-size: 12px; color: var(--texto-gris); margin-bottom: 16px;">${monthNames[month - 1]} ${year}</p>
+                            <p class="v-muted-xs v-mb16" >${monthNames[month - 1]} ${year}</p>
                         </div>
                         <div class="devocional-tabs" role="tablist">
                             <button class="tab-btn active" role="tab" aria-selected="true" data-tab="historia" onclick="DevocionalView.switchTab('historia')">Historia</button>
@@ -96,10 +96,10 @@ const DevocionalView = {
                             <div data-tab="historia" class="devocional-tab-pane">
                                 <p>${mesData.historia}</p>
                             </div>
-                            <div data-tab="oracion" class="devocional-tab-pane" style="display:none;">
+                            <div data-tab="oracion" class="devocional-tab-pane v-hide" >
                                 <p class="prayer-text">${mesData.oracion}</p>
                             </div>
-                            <div data-tab="reto" class="devocional-tab-pane" style="display:none;">
+                            <div data-tab="reto" class="devocional-tab-pane v-hide" >
                                 <div class="reto-box">
                                     <h4>
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
@@ -120,7 +120,7 @@ const DevocionalView = {
                     </div>
                     <div class="ora-grid">
                         <a href="#/oraciones" class="ora-card" style="--tone:#3d8bfd;" onclick="LumenRouter.navigateTo('oraciones')" aria-label="Ir a Oraciones">
-                            <span class="ora-icon"><img src="assets/oracion.jpg" alt="Oraciones" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"></span>
+                            <span class="ora-icon"><img src="assets/oracion.jpg" alt="Oraciones" class="v-media"></span>
                             <span class="ora-info">
                                 <strong>Oraciones</strong>
                                 <small>con texto, audio y recordatorios</small>
@@ -128,7 +128,7 @@ const DevocionalView = {
                             <span class="ora-arrow">${Icons.chevron_right || LumenIcons.chevron_right}</span>
                         </a>
                         <a href="#/rosario" class="ora-card" style="--tone:#0e7490;" onclick="LumenRouter.navigateTo('rosario')" aria-label="Ir a Rosario">
-                            <span class="ora-icon"><img src="assets/gloriosos.jpg" alt="Rosario" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"></span>
+                            <span class="ora-icon"><img src="assets/gloriosos.jpg" alt="Rosario" class="v-media"></span>
                             <span class="ora-info">
                                 <strong>Rosario</strong>
                                 <small>misterios y guía paso a paso</small>
@@ -136,7 +136,7 @@ const DevocionalView = {
                             <span class="ora-arrow">${Icons.chevron_right || LumenIcons.chevron_right}</span>
                         </a>
                         <a href="#/novenas" class="ora-card" style="--tone:#d97706;" onclick="LumenRouter.navigateTo('novenas')" aria-label="Ir a Novenas">
-                            <span class="ora-icon"><img src="assets/divinamisericordia.jpeg" alt="Novenas" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"></span>
+                            <span class="ora-icon"><img src="assets/divinamisericordia.jpeg" alt="Novenas" class="v-media"></span>
                             <span class="ora-info">
                                 <strong>Novenas</strong>
                                 <small>nueve días de espera en oración</small>
@@ -144,7 +144,7 @@ const DevocionalView = {
                             <span class="ora-arrow">${Icons.chevron_right || LumenIcons.chevron_right}</span>
                         </a>
                         <a href="#/examen" class="ora-card" style="--tone:#7c3aed;" onclick="LumenRouter.navigateTo('examen')" aria-label="Ir a Examen de Conciencia">
-                            <span class="ora-icon"><img src="assets/devocion.jpg" alt="Examen de Conciencia" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"></span>
+                            <span class="ora-icon"><img src="assets/devocion.jpg" alt="Examen de Conciencia" class="v-media"></span>
                             <span class="ora-info">
                                 <strong>Examen de Conciencia</strong>
                                 <small>una pausa para mirar tu día</small>
@@ -170,7 +170,7 @@ const DevocionalView = {
                 <section class="saint-calendar reveal reveal-delay-6" aria-label="Calendario del santoral">
                     <div class="saint-calendar-header">
                         <h4 id="cal-month-label">${monthNames[this._calendarMonth]} ${this._calendarYear}</h4>
-                        <div style="display:flex; gap:6px;">
+                        <div class="v-flex v-gap6" >
                             <button class="btn" style="padding:6px 10px; font-size:12px;" onclick="DevocionalView.prevMonth()" aria-label="Mes anterior">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
                             </button>

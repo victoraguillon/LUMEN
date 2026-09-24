@@ -20,7 +20,7 @@ const InicioView = {
             }
             container.style.display = '';
             container.innerHTML = `
-                <div class="bento-title" style="color: #ef4444;">${LumenIcons.sparkles} ¡Hoy es un día especial!</div>
+                <div class="bento-title v-txt-error" >${LumenIcons.sparkles} ¡Hoy es un día especial!</div>
                 <p style="font-size: 16px; color: var(--texto-oscuro); margin:0;">Hoy cumple años: <strong>${LumenUI.escapeHTML(celebrantes.map(c => c.nombre).join(', '))}</strong>. ¡Dedícale un momento de oración y envíale un saludo!</p>
             `;
         });
@@ -32,13 +32,13 @@ const InicioView = {
             const upcomingPublic = LumenData.upcomingEventos(3);
             let upcomingHTML = '';
             if (upcomingPublic.length === 0) {
-                upcomingHTML = '<p style="color:var(--texto-gris); font-size:14px; margin:0;">No hay actividades programadas.</p>';
+                upcomingHTML = '<p class="v-muted v-m0" >No hay actividades programadas.</p>';
             } else {
                 upcomingPublic.forEach(ev => {
                     let dateStr = ev.tipo === 'recurrente' ? (ev.dia || '').substring(0,3) : (ev.fecha_inicio ? LumenUI.formatDate(ev.fecha_inicio).split(' ')[0] : 'Pronto');
                     upcomingHTML += `
-                        <div class="mini-event-card" onclick="LumenData.selectedEventId='${ev.id}'; LumenRouter.navigateTo('detalle')" style="cursor:pointer; flex-direction:column; align-items:flex-start; gap:5px;">
-                            <div style="display:flex; gap:15px; width:100%; align-items:center;">
+                        <div class="mini-event-card v-cpointer v-flex-col v-aifs v-gap5" onclick="LumenData.selectedEventId='${ev.id}'; LumenRouter.navigateTo('detalle')" >
+                            <div class="v-flex v-gap15 v-fullw v-aic" >
                                 <div class="mini-event-date">
                                     <span>${dateStr}</span>
                                     <small>${ev.tipo === 'recurrente' ? 'Semanal' : 'Único'}</small>
@@ -60,17 +60,17 @@ const InicioView = {
                         <p class="v-sub">Descubre nuestra comunidad, actividades y crecimiento espiritual.</p>
                     </div>
 
-                    <div class="bento-grid">
+                    <div class="bento-grid v-stagger">
                         <div class="bento-box bento-large reveal" style="background: var(--gradiente-lumen); justify-content: center; text-align: center; padding: 40px;">
-                            <div class="bento-title on-gradient" style="justify-content: center;">
+                            <div class="bento-title on-gradient v-jcc" >
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                                 <span style="font-size: 22px;">Friendly Reminder</span>
                             </div>
-                            <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+                            <div class="v-flex1 v-flex v-flex-col v-jcc" >
                                 <p class="verse-text-large on-gradient" style="font-size: 28px; font-style: italic; font-weight: 300; margin-bottom: 24px; line-height: 1.45;">"${frase.frase}"</p>
                                 <cite class="on-gradient" style="font-size: 16px; font-weight: 600; opacity: 0.9; text-transform: uppercase; letter-spacing: 2px;">(${frase.autor})</cite>
                                 <button class="btn btn-outline btn-block on-gradient" style="max-width: 280px; margin: 32px auto 0;" onclick="LumenRouter.navigateTo('devocional')">${LumenIcons.oraciones} Mira el pasaje y santo de hoy</button>
-                                <div style="margin-top:12px;">
+                                <div class="v-mt12" >
                                     ${LumenShare.buttonHTML('LumenShare.friendlyReminder()', 'Compartir imagen')}
                                 </div>
                             </div>
@@ -81,10 +81,10 @@ const InicioView = {
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                                 Próximas Actividades
                             </div>
-                            <div style="display:flex; flex-direction:column; gap:15px;">
+                            <div class="v-flex v-flex-col v-gap15" >
                                 ${upcomingHTML}
                             </div>
-                            <button class="btn btn-outline btn-block" style="margin-top:auto;" onclick="LumenRouter.navigateTo('actividades')">Ver todas</button>
+                            <button class="btn btn-outline btn-block v-mtauto"  onclick="LumenRouter.navigateTo('actividades')">Ver todas</button>
                         </div>
 
                         <div class="bento-box reveal reveal-delay-2">
@@ -93,7 +93,7 @@ const InicioView = {
                                 Muro de Intenciones
                             </div>
                             <p>Oremos unos por otros. Comparte tu intención.</p>
-                            <button class="btn btn-primary btn-block" style="margin-top:auto;" onclick="LumenRouter.navigateTo('intenciones')">Ir al Muro</button>
+                            <button class="btn btn-primary btn-block v-mtauto"  onclick="LumenRouter.navigateTo('intenciones')">Ir al Muro</button>
                         </div>
 
                         <div class="bento-box reveal reveal-delay-3">
@@ -102,7 +102,7 @@ const InicioView = {
                                 Contacto
                             </div>
                             <p>¿Dudas o quieres saber más sobre Juvemar? Escríbenos.</p>
-                            <button class="btn btn-primary btn-block" style="margin-top:auto;" onclick="LumenRouter.navigateTo('contacto')">Contáctanos</button>
+                            <button class="btn btn-primary btn-block v-mtauto"  onclick="LumenRouter.navigateTo('contacto')">Contáctanos</button>
                         </div>
 
                         <div class="bento-box reveal">
@@ -155,7 +155,7 @@ const InicioView = {
         let upcomingEventsHTML = '';
         const upcoming = LumenData.upcomingEventos(3);
         if (upcoming.length === 0) {
-            upcomingEventsHTML = '<p style="color:var(--texto-gris); font-size:14px; margin:0;">No hay actividades programadas.</p>';
+            upcomingEventsHTML = '<p class="v-muted v-m0" >No hay actividades programadas.</p>';
         } else {
             upcoming.forEach(ev => {
                 let dateStr = ev.tipo === 'recurrente' ? (ev.dia || '').substring(0,3) : (ev.fecha_inicio ? LumenUI.formatDate(ev.fecha_inicio).split(' ')[0] : 'Pronto');
@@ -171,8 +171,8 @@ const InicioView = {
                 }
 
                 upcomingEventsHTML += `
-                    <div class="mini-event-card" onclick="LumenData.selectedEventId='${ev.id}'; LumenRouter.navigateTo('detalle')" style="cursor:pointer; flex-direction:column; align-items:flex-start; gap:5px;">
-                        <div style="display:flex; gap:15px; width:100%; align-items:center;">
+                    <div class="mini-event-card v-cpointer v-flex-col v-aifs v-gap5" onclick="LumenData.selectedEventId='${ev.id}'; LumenRouter.navigateTo('detalle')" >
+                        <div class="v-flex v-gap15 v-fullw v-aic" >
                             <div class="mini-event-date">
                                 <span>${dateStr}</span>
                                 <small>${ev.tipo === 'recurrente' ? 'Semanal' : 'Único'}</small>
@@ -191,11 +191,11 @@ const InicioView = {
         let adminBox = '';
         if (isMember && !LumenAuth.isAdmin) {
             adminBox = `
-                <div class="admin-request-box" style="margin-top: 20px;">
+                <div class="admin-request-box v-mt20" >
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 32px; height: 32px; color: var(--warning); flex-shrink: 0;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                    <div style="flex:1">
-                        <h4 class="is-warning-title" style="margin-bottom: 5px;">¿Quieres ayudar a coordinar?</h4>
-                        <p style="font-size:13px; margin-bottom:10px; color: var(--texto-gris);">Solicita ser administrador para añadir actividades y recursos.</p>
+                    <div class="v-flex1" >
+                        <h4 class="is-warning-title v-mb5" >¿Quieres ayudar a coordinar?</h4>
+                        <p class="v-muted-sm v-mb10" >Solicita ser administrador para añadir actividades y recursos.</p>
                         <button class="btn btn-primary" style="padding: 8px 20px; font-size: 13px;" onclick="LumenAuth.requestAdmin()">Solicitar Acceso</button>
                     </div>
                 </div>
@@ -208,44 +208,44 @@ const InicioView = {
         if (esPendiente) {
             juvemarInviteBox = `
             <div class="bento-box bento-wide warning-box reveal">
-                <div class="bento-title is-warning" style="justify-content: center;">
+                <div class="bento-title is-warning v-jcc" >
                     ${Icons.alert} Tu solicitud está en espera de aprobación
                 </div>
-                <p style="color: var(--texto-gris); text-align: center; margin: 10px 0;">Tu ingreso a Juvemar está pendiente: cuando el coordinador lo apruebe, las funciones de miembro se desbloquearán automáticamente en esta cuenta.</p>
+                <p class="v-txt-muted v-tac v-mv10" >Tu ingreso a Juvemar está pendiente: cuando el coordinador lo apruebe, las funciones de miembro se desbloquearán automáticamente en esta cuenta.</p>
             </div>`;
         } else if (isGlobal) {
             juvemarInviteBox = `
             <div class="bento-box bento-wide warning-box reveal">
-                <div class="bento-title is-warning" style="justify-content: center;">
+                <div class="bento-title is-warning v-jcc" >
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                     ¿Deseas ser parte de LUMEN?
                 </div>
-                <p style="color: var(--texto-gris); text-align: center; margin: 10px 0;">Únete a nuestra comunidad juvenil: formación, actividades, apostolado y vida fraterna.</p>
+                <p class="v-txt-muted v-tac v-mv10" >Únete a nuestra comunidad juvenil: formación, actividades, apostolado y vida fraterna.</p>
                 <button class="btn btn-primary btn-block" style="max-width: 300px; margin: 0 auto;" onclick="LumenUI.openJuvemarJoin()">Quiero unirme</button>
             </div>`;
         }
 
         return `
             <div class="view">
-                <div class="v-header reveal align-left" style="text-align:left; align-items:flex-start;">
+                <div class="v-header reveal align-left v-tal v-aifs" >
                     <h2 class="v-title">${greeting}, <em>${firstName}</em>!</h2>
                     <p class="v-sub">${tenureMessage}</p>
-                    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:4px;">
+                    <div class="v-flex v-gap10 v-owrap v-mt4" >
                         <span class="v-chip">${Icons.calendar} ${LumenData.eventos.length} Actividades</span>
                     </div>
                 </div>
 
-                <div class="bento-grid">
+                <div class="bento-grid v-stagger">
                     <div class="bento-box bento-large reveal" style="background: var(--gradiente-lumen); justify-content: center; text-align: center; padding: 40px;">
-                        <div class="bento-title on-gradient" style="justify-content: center;">
+                        <div class="bento-title on-gradient v-jcc" >
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                             <span style="font-size: 22px;">Friendly Reminder</span>
                         </div>
-                        <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+                        <div class="v-flex1 v-flex v-flex-col v-jcc" >
                             <p class="verse-text-large on-gradient" style="font-size: 28px; font-style: italic; font-weight: 300; margin-bottom: 24px; line-height: 1.45;">"${fraseDelDia.frase}"</p>
                             <cite class="on-gradient" style="font-size: 16px; font-weight: 600; opacity: 0.9; text-transform: uppercase; letter-spacing: 2px;">(${fraseDelDia.autor})</cite>
                             <button class="btn btn-outline btn-block on-gradient" style="max-width: 280px; margin: 32px auto 0;" onclick="LumenRouter.navigateTo('devocional')">${LumenIcons.oraciones} Mira el pasaje y santo de hoy</button>
-                            <div style="margin-top:12px;">
+                            <div class="v-mt12" >
                                 ${LumenShare.buttonHTML('LumenShare.friendlyReminder()', 'Compartir imagen')}
                             </div>
                         </div>
@@ -256,13 +256,13 @@ const InicioView = {
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                             Próximas Actividades
                         </div>
-                        <div style="display:flex; flex-direction:column; gap:15px;">
+                        <div class="v-flex v-flex-col v-gap15" >
                             ${upcomingEventsHTML}
                         </div>
-                        <button class="btn btn-outline btn-block" style="margin-top:auto;" onclick="LumenRouter.navigateTo('actividades')">Ver todas</button>
+                        <button class="btn btn-outline btn-block v-mtauto"  onclick="LumenRouter.navigateTo('actividades')">Ver todas</button>
                     </div>
 
-                    <div class="bento-box bento-wide danger-box reveal" id="cumple-hoy-box" style="display:none;"></div>
+                    <div class="bento-box bento-wide danger-box reveal v-hide" id="cumple-hoy-box" ></div>
 
                     <div class="bento-box reveal" data-push-card>
                         <div class="bento-title">
@@ -270,7 +270,7 @@ const InicioView = {
                             Activa Notificaciones
                         </div>
                         <p>Recibe los recordatorios de las actividades y los avisos importantes directamente en este dispositivo.</p>
-                        <button class="btn btn-primary btn-block" style="margin-top:auto;" data-push-action onclick="LumenPush.activarNotificaciones()">${Icons.bell} Activar Avisos</button>
+                        <button class="btn btn-primary btn-block v-mtauto"  data-push-action onclick="LumenPush.activarNotificaciones()">${Icons.bell} Activar Avisos</button>
                     </div>
 
                     <div class="bento-box reveal reveal-delay-2">
@@ -279,7 +279,7 @@ const InicioView = {
                             Muro de Intenciones
                         </div>
                         <p>Oremos unos por otros. Comparte tu intención.</p>
-                        <button class="btn btn-primary btn-block" style="margin-top:auto;" onclick="LumenRouter.navigateTo('intenciones')">Ir al Muro</button>
+                        <button class="btn btn-primary btn-block v-mtauto"  onclick="LumenRouter.navigateTo('intenciones')">Ir al Muro</button>
                     </div>
 
                     ${isMember ? `<div class="bento-box reveal reveal-delay-3">
@@ -288,7 +288,7 @@ const InicioView = {
                             Recursos
                         </div>
                         <p>Material de formación, oraciones y guías de retiro.</p>
-                        <button class="btn btn-primary btn-block" style="margin-top:auto;" onclick="LumenRouter.navigateTo('recursos')">Ir a Recursos</button>
+                        <button class="btn btn-primary btn-block v-mtauto"  onclick="LumenRouter.navigateTo('recursos')">Ir a Recursos</button>
                     </div>` : ''}
                     
                     ${juvemarInviteBox}

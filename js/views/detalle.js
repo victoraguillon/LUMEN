@@ -27,11 +27,11 @@ const DetalleView = {
         }
 
         let reqHTML = '<p>Ninguno (Todos pueden participar).</p>';
-        if (evento.requisitos_edad === 'mayor15') reqHTML = '<p style="color: var(--error); font-weight:600;">Solo para mayores de 15 años.</p>';
-        if (evento.requisitos_edad === 'mayor18') reqHTML = '<p style="color: var(--error); font-weight:600;">Solo para mayores de 18 años.</p>';
-        if (evento.requisitos_edad === 'nacido_antes') reqHTML = `<p style="color: var(--error); font-weight:600;">Solo para nacidos antes del ${LumenUI.escapeHTML(evento.requisito_fecha) || 'fecha no especificada'}.</p>`;
-        if (evento.requisitos_edad === 'nacido_desde') reqHTML = `<p style="color: var(--error); font-weight:600;">Solo para nacidos desde el ${LumenUI.escapeHTML(evento.requisito_fecha) || 'fecha no especificada'}.</p>`;
-        if (evento.requisitos_edad === 'rango_edad') reqHTML = `<p style="color: var(--error); font-weight:600;">Solo para jóvenes entre ${LumenUI.escapeHTML(evento.requisito_min_edad)} y ${LumenUI.escapeHTML(evento.requisito_max_edad)} años.</p>`;
+        if (evento.requisitos_edad === 'mayor15') reqHTML = '<p class="v-err-txt" >Solo para mayores de 15 años.</p>';
+        if (evento.requisitos_edad === 'mayor18') reqHTML = '<p class="v-err-txt" >Solo para mayores de 18 años.</p>';
+        if (evento.requisitos_edad === 'nacido_antes') reqHTML = `<p class="v-err-txt" >Solo para nacidos antes del ${LumenUI.escapeHTML(evento.requisito_fecha) || 'fecha no especificada'}.</p>`;
+        if (evento.requisitos_edad === 'nacido_desde') reqHTML = `<p class="v-err-txt" >Solo para nacidos desde el ${LumenUI.escapeHTML(evento.requisito_fecha) || 'fecha no especificada'}.</p>`;
+        if (evento.requisitos_edad === 'rango_edad') reqHTML = `<p class="v-err-txt" >Solo para jóvenes entre ${LumenUI.escapeHTML(evento.requisito_min_edad)} y ${LumenUI.escapeHTML(evento.requisito_max_edad)} años.</p>`;
 
         let costoHTML = '';
         if (evento.costo) {
@@ -67,7 +67,7 @@ const DetalleView = {
                         <span class="v-chip ${evento.tipo === 'recurrente' ? '' : 'is-dorado'}" style="margin:14px 0 0;">${evento.tipo === 'recurrente' ? 'Semanal' : 'Único'}</span>
                         <h2 class="v-title detail-title">${LumenUI.escapeHTML(evento.titulo)}</h2>
                         
-                        <div style="margin-bottom: 30px;">
+                        <div class="v-mb30" >
                             <div class="v-section-title">${Icons.book} Descripción</div>
                             <p style="color: var(--texto-gris); white-space: pre-wrap; line-height: 1.8; margin-top:8px;">${LumenUI.escapeHTML(evento.descripcion)}</p>
                         </div>

@@ -113,7 +113,7 @@ const ExamenView = {
             <p class="examen-summary">${summary}</p>
             <h3>${LumenIcons.oraciones} Recordar para la confesión</h3>
             ${listHTML}
-            <div class="prayer-actions" style="justify-content:center; flex-wrap:wrap;">
+            <div class="prayer-actions v-jcc v-owrap" >
                 <button class="btn btn-primary" onclick="ExamenView.copyReport()">Copiar lista</button>
                 <button class="btn" onclick="LumenUI.exportPng(document.getElementById('examen-report'),'examen-conciencia.png')">${Icons.download} Descargar PNG</button>
                 <button class="btn" onclick="window.print()">${LumenIcons.printer} Imprimir</button>
@@ -167,10 +167,10 @@ const ExamenView = {
                     <span class="v-eyebrow">Reflexión sincera ante Dios ${LumenUI.liturgicalBadgeHTML()}</span>
                     <h2 class="v-title">Examen de <em>Conciencia</em></h2>
                     <p class="v-sub">Guíate por los mandamientos y los preceptos de la Iglesia para preparar tu confesión con honestidad y paz.</p>
-                    <div class="hero-actions" style="justify-content:center; margin-top:20px;">${LumenUI.streakChipHTML()}</div>
+                    <div class="hero-actions v-jcc v-mt20" >${LumenUI.streakChipHTML()}</div>
                 </div>
                 <div class="v-section" style="padding-top:0;">
-                    <div class="formacion-grid">${cards}</div>
+                    <div class="formacion-grid v-stagger">${cards}</div>
                 </div>
             </div>`;
         }

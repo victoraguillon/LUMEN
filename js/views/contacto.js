@@ -12,7 +12,7 @@ const ContactoView = {
                         <h3 style="font-size: 22px; margin-bottom: 15px; font-family:'Sora',sans-serif; font-weight:800;">¡Estamos para servirte!</h3>
                         <p style="opacity: 0.9; margin-bottom: 30px;">Puedes contactarnos directamente a través de WhatsApp o redes sociales.</p>
                         
-                        <a href="https://instagram.com/parroquialourdesmcbo" target="_blank" rel="noopener noreferrer" class="contact-info-item" style="text-decoration: none; color: white;">
+                        <a href="https://instagram.com/parroquialourdesmcbo" target="_blank" rel="noopener noreferrer" class="contact-info-item v-link-white" >
                             ${Icons.instagram}
                             <div>
                                 <strong>Parroquia Nuestra Señora de Lourdes</strong><br>
@@ -20,7 +20,7 @@ const ContactoView = {
                             </div>
                         </a>
 
-                        <a href="https://instagram.com/juvemar_" target="_blank" rel="noopener noreferrer" class="contact-info-item" style="text-decoration: none; color: white;">
+                        <a href="https://instagram.com/juvemar_" target="_blank" rel="noopener noreferrer" class="contact-info-item v-link-white" >
                             ${Icons.instagram}
                             <div>
                                 <strong>Juvemar</strong><br>
@@ -28,7 +28,7 @@ const ContactoView = {
                             </div>
                         </a>
 
-                        <a href="https://instagram.com/samuellourdes_" target="_blank" rel="noopener noreferrer" class="contact-info-item" style="text-decoration: none; color: white;">
+                        <a href="https://instagram.com/samuellourdes_" target="_blank" rel="noopener noreferrer" class="contact-info-item v-link-white" >
                             ${Icons.instagram}
                             <div>
                                 <strong>El Llamado de Samuel</strong><br>
