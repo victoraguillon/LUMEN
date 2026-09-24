@@ -1,4 +1,5 @@
 // LUMEN - Service Worker único (v32) en la RAÍZ (/sw.js)
+// v49: limpieza F4 – utilidades de layout, iconos PWA reales y screenshots (bump de caché)
 // v48: compartir: selector de formato (historia / post 4:5 / post cuadrado) + emailCheck anti-rebote (migración 17)
 // v47: shell SPA solo se cachea en "/" (no se contamina con legales) + sincronización offline robusta
 // v46: evangelio: formato simplificado + CORS reflejado + _apiUrl + share multi-imagen paginada
@@ -21,7 +22,7 @@
 // v27: unificación de vistas estilo v-header + utilidades dark-safe + rosario avemarías numeradas
 // v26: banner instalación PWA (dark mode + botones por plataforma) + rediseño vistas Nosotros y Blog
 // v25: bitácora de exportaciones (migración 11)
-const CACHE = "lumen-cache-v48";
+const CACHE = "lumen-cache-v49";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";
@@ -71,7 +72,9 @@ const SHELL = [
   "/js/views/favoritos.js",
   "/js/views/gestion.js",
   "/js/views/contacto.js",
-  "/assets/icons/logo.png",
+  "/assets/icons/logo-192.png",
+  "/assets/icons/logo-512.png",
+  "/assets/icons/logo-maskable.png",
 ];
 
 self.addEventListener("install", (event) => {
@@ -203,8 +206,8 @@ self.addEventListener("push", (event) => {
     self.registration
       .showNotification(data.title, {
         body: data.body,
-        icon: "/assets/icons/logo.png",
-        badge: "/assets/icons/logo.png",
+        icon: "/assets/icons/logo-192.png",
+        badge: "/assets/icons/logo-192.png",
         data: { url: data.url },
         tag: "lumen-notif",
         renotify: true
