@@ -22,7 +22,8 @@
 // v27: unificación de vistas estilo v-header + utilidades dark-safe + rosario avemarías numeradas
 // v26: banner instalación PWA (dark mode + botones por plataforma) + rediseño vistas Nosotros y Blog
 // v25: bitácora de exportaciones (migración 11)
-const CACHE = "lumen-cache-v49";
+// v50: fix v-hide !important (pestañas del devocional, cumpleaños de inicio, botones de recorte) + 10 oraciones y 1 novena
+const CACHE = "lumen-cache-v52";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";

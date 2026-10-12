@@ -635,7 +635,7 @@ const NOVENAS_DATA = [
   "days": [
    {
     "day": 1,
-    "title": "Primer día , en honor de los Serafines",
+    "title": "Primer día, en honor de los Serafines",
     "meditation": "San Miguel Arcángel, lleno de la sabiduría de Dios, fuerte en la batalla, ven en mi ayuda, sostenme en las dificultades, en las pruebas, cuando sufra, cuando dude, cuando llore. Obtén para mí el valor, la fuerza, la voluntad, para que no sea derrotado. San Miguel Arcángel, sé mi defensor y protector contra las fuerzas del mal.",
     "prayers": [
      "San Miguel Arcángel, lleno de la sabiduría de Dios, fuerte en la batalla, ven en mi ayuda, sostenme en las dificultades, en las pruebas, cuando sufra, cuando dude, cuando llore. Obtén para mí el valor, la fuerza, la voluntad, para que no sea derrotado. San Miguel Arcángel, sé mi defensor y protector contra las fuerzas del mal.",
@@ -646,7 +646,7 @@ const NOVENAS_DATA = [
    },
    {
     "day": 2,
-    "title": "Segundo día , en honor de los Querubines",
+    "title": "Segundo día, en honor de los Querubines",
     "meditation": "San Miguel, Príncipe de la Milicia de los Ángeles, te invoco, escúchame.",
     "prayers": [
      "San Miguel, Príncipe de la Milicia de los Ángeles, te invoco, escúchame.",
@@ -658,7 +658,7 @@ const NOVENAS_DATA = [
    },
    {
     "day": 3,
-    "title": "Tercer día , en honor a los Tronos",
+    "title": "Tercer día, en honor a los Tronos",
     "meditation": "Gran defensor del pueblo cristiano, San Miguel Arcángel, para cumplir dignamente la misión que se te ha confiado de defender a la Iglesia, dígnate abatir la herejía, exterminar los cismas y confundir la incredulidad.",
     "prayers": [
      "Gran defensor del pueblo cristiano, San Miguel Arcángel, para cumplir dignamente la misión que se te ha confiado de defender a la Iglesia, dígnate abatir la herejía, exterminar los cismas y confundir la incredulidad.",
@@ -671,7 +671,7 @@ const NOVENAS_DATA = [
    },
    {
     "day": 4,
-    "title": "Cuarto día , en honor a las Dominaciones",
+    "title": "Cuarto día, en honor a las Dominaciones",
     "meditation": "Oh, tú que eres el Príncipe y Portaestandarte de los ángeles buenos, ayúdame siempre con tu bondad y sálvame.",
     "prayers": [
      "Oh, tú que eres el Príncipe y Portaestandarte de los ángeles buenos, ayúdame siempre con tu bondad y sálvame.",
@@ -685,7 +685,7 @@ const NOVENAS_DATA = [
    },
    {
     "day": 5,
-    "title": "Quinto día , en honor a los Potestades",
+    "title": "Quinto día, en honor a los Potestades",
     "meditation": "San Miguel Arcángel, eres tú a quien la santa Iglesia venera como su guardián y protector. Es también a ti a quien el Señor ha confiado la misión de introducir a las almas redimidas en la dicha celestial.",
     "prayers": [
      "San Miguel Arcángel, eres tú a quien la santa Iglesia venera como su guardián y protector. Es también a ti a quien el Señor ha confiado la misión de introducir a las almas redimidas en la dicha celestial.",
@@ -699,7 +699,7 @@ const NOVENAS_DATA = [
    },
    {
     "day": 6,
-    "title": "Sexto día , en honor a las Virtudes",
+    "title": "Sexto día, en honor a las Virtudes",
     "meditation": "San Miguel Arcángel, defiéndenos en la batalla, para que no perezcamos en el día del temido juicio.",
     "prayers": [
      "San Miguel Arcángel, defiéndenos en la batalla, para que no perezcamos en el día del temido juicio.",
@@ -712,7 +712,7 @@ const NOVENAS_DATA = [
    },
    {
     "day": 7,
-    "title": "Séptimo día , en honor de los Principados",
+    "title": "Séptimo día, en honor de los Principados",
     "meditation": "Oh San Miguel, tres veces santo Príncipe de la Sagrada Milicia, Dios te ha encargado la organización y dirección de las huestes angélicas, dignísimo de toda adoración, alabanza y encomio.",
     "prayers": [
      "Oh San Miguel, tres veces santo Príncipe de la Sagrada Milicia, Dios te ha encargado la organización y dirección de las huestes angélicas, dignísimo de toda adoración, alabanza y encomio.",
@@ -724,7 +724,7 @@ const NOVENAS_DATA = [
    },
    {
     "day": 8,
-    "title": "Octavo día , en honor a los Arcángeles",
+    "title": "Octavo día, en honor a los Arcángeles",
     "meditation": "Arcángel San Miguel, cuya misión es recoger nuestras oraciones, dirigir nuestras batallas y pesar nuestras almas, rindo homenaje a tu belleza.",
     "prayers": [
      "Arcángel San Miguel, cuya misión es recoger nuestras oraciones, dirigir nuestras batallas y pesar nuestras almas, rindo homenaje a tu belleza.",
@@ -738,7 +738,7 @@ const NOVENAS_DATA = [
    },
    {
     "day": 9,
-    "title": "Noveno día , en honor de los Ángeles",
+    "title": "Noveno día, en honor de los Ángeles",
     "meditation": "Glorioso Arcángel Miguel, eres el gran celador de la gloria de Dios y protector de la Iglesia universal.",
     "prayers": [
      "Glorioso Arcángel Miguel, eres el gran celador de la gloria de Dios y protector de la Iglesia universal.",
@@ -878,5 +878,342 @@ const NOVENAS_DATA = [
    }
   ],
   "sources": []
+ },
+ {
+  "id": "confianza",
+  "title": "Novena de la Confianza",
+  "category": "virgen",
+  "description": "Tres invocaciones a la Virgen con un Ave María después de cada una, repetidas durante nueve días.",
+  "introduction": "La Novena de la Confianza es una devoción mariana de la que no consta autor conocido. Su estructura es sencilla y no cambia a lo largo de los nueve días: tres invocaciones a María, cada una seguida de un Ave María.\n\nLa diferencia entre un día y otro no está en las palabras, sino en la petición: cada uno pide a la Virgen la gracia que necesita.\n\nLa fuerza de la última invocación está en una afirmación antigua y consoladora: que jamás se ha oído decir que ninguno de los que han acudido a la protección de María haya sido abandonado.",
+  "commonPrayers": [
+   {
+    "title": "Primera invocación",
+    "text": "Madre amable de mi vida, auxilio de los cristianos,\nla pena que me atormenta pongo en tus divinas manos.\nDios te salve María."
+   },
+   {
+    "title": "Segunda invocación",
+    "text": "Tú que sabes mis congojas,\npues todas te las confío,\nda la paz a los turbados\ny alivia el corazón mío.\nDios te salve María."
+   },
+   {
+    "title": "Tercera invocación",
+    "text": "Y aunque tu amor no merezco,\nno recurriré a Ti en vano,\npues eres Madre de Dios\ny auxilio de los cristianos.\nDios te salve María."
+   }
+  ],
+  "days": [
+   {
+    "day": 1,
+    "title": "Día 1",
+    "meditation": "Se rezan las tres invocaciones de la novena, cada una seguida de un Ave María. Antes de la primera, se pide a la Virgen la gracia que se desea.",
+    "prayers": [
+     "Madre amable de mi vida, auxilio de los cristianos,\nla pena que me atormenta pongo en tus divinas manos.\nDios te salve María.",
+     "Tú que sabes mis congojas,\npues todas te las confío,\nda la paz a los turbados\ny alivia el corazón mío.\nDios te salve María.",
+     "Y aunque tu amor no merezco,\nno recurriré a Ti en vano,\npues eres Madre de Dios\ny auxilio de los cristianos.\nDios te salve María."
+    ]
+   },
+   {
+    "day": 2,
+    "title": "Día 2",
+    "meditation": "Se rezan las tres invocaciones de la novena, cada una seguida de un Ave María. Antes de la primera, se pide a la Virgen la gracia que se desea.",
+    "prayers": [
+     "Madre amable de mi vida, auxilio de los cristianos,\nla pena que me atormenta pongo en tus divinas manos.\nDios te salve María.",
+     "Tú que sabes mis congojas,\npues todas te las confío,\nda la paz a los turbados\ny alivia el corazón mío.\nDios te salve María.",
+     "Y aunque tu amor no merezco,\nno recurriré a Ti en vano,\npues eres Madre de Dios\ny auxilio de los cristianos.\nDios te salve María."
+    ]
+   },
+   {
+    "day": 3,
+    "title": "Día 3",
+    "meditation": "Se rezan las tres invocaciones de la novena, cada una seguida de un Ave María. Antes de la primera, se pide a la Virgen la gracia que se desea.",
+    "prayers": [
+     "Madre amable de mi vida, auxilio de los cristianos,\nla pena que me atormenta pongo en tus divinas manos.\nDios te salve María.",
+     "Tú que sabes mis congojas,\npues todas te las confío,\nda la paz a los turbados\ny alivia el corazón mío.\nDios te salve María.",
+     "Y aunque tu amor no merezco,\nno recurriré a Ti en vano,\npues eres Madre de Dios\ny auxilio de los cristianos.\nDios te salve María."
+    ]
+   },
+   {
+    "day": 4,
+    "title": "Día 4",
+    "meditation": "Se rezan las tres invocaciones de la novena, cada una seguida de un Ave María. Antes de la primera, se pide a la Virgen la gracia que se desea.",
+    "prayers": [
+     "Madre amable de mi vida, auxilio de los cristianos,\nla pena que me atormenta pongo en tus divinas manos.\nDios te salve María.",
+     "Tú que sabes mis congojas,\npues todas te las confío,\nda la paz a los turbados\ny alivia el corazón mío.\nDios te salve María.",
+     "Y aunque tu amor no merezco,\nno recurriré a Ti en vano,\npues eres Madre de Dios\ny auxilio de los cristianos.\nDios te salve María."
+    ]
+   },
+   {
+    "day": 5,
+    "title": "Día 5",
+    "meditation": "Se rezan las tres invocaciones de la novena, cada una seguida de un Ave María. Antes de la primera, se pide a la Virgen la gracia que se desea.",
+    "prayers": [
+     "Madre amable de mi vida, auxilio de los cristianos,\nla pena que me atormenta pongo en tus divinas manos.\nDios te salve María.",
+     "Tú que sabes mis congojas,\npues todas te las confío,\nda la paz a los turbados\ny alivia el corazón mío.\nDios te salve María.",
+     "Y aunque tu amor no merezco,\nno recurriré a Ti en vano,\npues eres Madre de Dios\ny auxilio de los cristianos.\nDios te salve María."
+    ]
+   },
+   {
+    "day": 6,
+    "title": "Día 6",
+    "meditation": "Se rezan las tres invocaciones de la novena, cada una seguida de un Ave María. Antes de la primera, se pide a la Virgen la gracia que se desea.",
+    "prayers": [
+     "Madre amable de mi vida, auxilio de los cristianos,\nla pena que me atormenta pongo en tus divinas manos.\nDios te salve María.",
+     "Tú que sabes mis congojas,\npues todas te las confío,\nda la paz a los turbados\ny alivia el corazón mío.\nDios te salve María.",
+     "Y aunque tu amor no merezco,\nno recurriré a Ti en vano,\npues eres Madre de Dios\ny auxilio de los cristianos.\nDios te salve María."
+    ]
+   },
+   {
+    "day": 7,
+    "title": "Día 7",
+    "meditation": "Se rezan las tres invocaciones de la novena, cada una seguida de un Ave María. Antes de la primera, se pide a la Virgen la gracia que se desea.",
+    "prayers": [
+     "Madre amable de mi vida, auxilio de los cristianos,\nla pena que me atormenta pongo en tus divinas manos.\nDios te salve María.",
+     "Tú que sabes mis congojas,\npues todas te las confío,\nda la paz a los turbados\ny alivia el corazón mío.\nDios te salve María.",
+     "Y aunque tu amor no merezco,\nno recurriré a Ti en vano,\npues eres Madre de Dios\ny auxilio de los cristianos.\nDios te salve María."
+    ]
+   },
+   {
+    "day": 8,
+    "title": "Día 8",
+    "meditation": "Se rezan las tres invocaciones de la novena, cada una seguida de un Ave María. Antes de la primera, se pide a la Virgen la gracia que se desea.",
+    "prayers": [
+     "Madre amable de mi vida, auxilio de los cristianos,\nla pena que me atormenta pongo en tus divinas manos.\nDios te salve María.",
+     "Tú que sabes mis congojas,\npues todas te las confío,\nda la paz a los turbados\ny alivia el corazón mío.\nDios te salve María.",
+     "Y aunque tu amor no merezco,\nno recurriré a Ti en vano,\npues eres Madre de Dios\ny auxilio de los cristianos.\nDios te salve María."
+    ]
+   },
+   {
+    "day": 9,
+    "title": "Día 9",
+    "meditation": "Se rezan las tres invocaciones de la novena, cada una seguida de un Ave María. Antes de la primera, se pide a la Virgen la gracia que se desea.",
+    "prayers": [
+     "Madre amable de mi vida, auxilio de los cristianos,\nla pena que me atormenta pongo en tus divinas manos.\nDios te salve María.",
+     "Tú que sabes mis congojas,\npues todas te las confío,\nda la paz a los turbados\ny alivia el corazón mío.\nDios te salve María.",
+     "Y aunque tu amor no merezco,\nno recurriré a Ti en vano,\npues eres Madre de Dios\ny auxilio de los cristianos.\nDios te salve María."
+    ]
+   }
+  ],
+  "finalPrayers": [
+   {
+    "title": "Oración final",
+    "text": "Acuérdate, ¡oh piadosísima Virgen María!,\nque jamás se ha oído decir\nque ninguno de los que han acudido a tu protección\nhaya sido abandonado.\nAnimado con esta confianza, me presento a ti.\n¡Oh Madre de Dios!, no desoigas mis súplicas;\nescúchalas y acógelas benignamente,\n¡oh clemente, oh dulce Virgen María!\n\nPedir la gracia que se desea y rezar un Ave María."
+   }
+  ],
+  "sources": [
+   "Novena de la Confianza, devoción mariana tradicional"
+  ]
+ },
+ {
+  "id": "san-juan-bosco",
+  "title": "Novena a San Juan Bosco",
+  "category": "santos",
+  "description": "Para pedir a San Juan Bosco, patrono de los jóvenes, que interceda por nosotros.",
+  "introduction": "San Juan Bosco (1815-1888) fundó el Oratorio de Valdocco para los jóvenes de las calles de Turín y es patrono de los jóvenes. El 31 de enero de 1988, en el centenario de su muerte, el papa Juan Pablo II lo llamó «Padre y Maestro de la Juventud».\n\nEsta novena reza cada día la plegaria que los Salesianos, la congregación que él fundó, usan en sus novenas.",
+  "commonPrayers": [
+   {
+    "title": "Señal de la Cruz",
+    "text": "Por la señal de la Santa Cruz, de nuestros enemigos líbranos Señor, Dios nuestro. En el nombre del Padre, y del Hijo, y del Espíritu Santo. Amén."
+   },
+   {
+    "title": "Acto de Contrición",
+    "text": "Pésame, Dios mío, y me arrepiento de todo corazón de haberos ofendido. Pésame por el infierno que merecí y por el cielo que perdí; pero mucho más me pesa porque pecando ofendí a un Dios tan bueno y tan grande como Vos. Antes querría haber muerto que haberos ofendido, y propongo firmemente,ayudado por vuestra divina gracia, no pecar más y evitar las ocasiones próximas de pecado. Amén."
+   }
+  ],
+  "days": [
+   {
+    "day": 1,
+    "title": "Día 1",
+    "meditation": "Rezamos la plegaria del día, pidiendo al santo que interceda por nosotros ante Dios.",
+    "prayers": [
+     "Don Bosco sueño, te damos gracias, Señor, por Juan Bosco.\nLe diste un corazón lleno de amor y tan dilatado como las orillas de los mares.\nEn él, millares de hombres y mujeres han podido descubrir que eres tú,\nDios del amor, el que estás presente como origen, fuente y meta de todo.\n\nTe damos gracias, Señor, porque has visitado a tu Iglesia\ncon hombres santos como Juan Bosco.\nÉl ha encendido una llama y otros la conservan prendida,\npara que en el mundo los jóvenes y los niños vean y sientan tu presencia de Dios cercano,\nde Dios amigo.\n\nTe damos gracias, Señor, por Juan Bosco,\npadre y maestro de la juventud,\nprofeta de la educación en los tiempos nuevos,\namigo entrañable de los jóvenes,\nque decía: «Me basta que seáis jóvenes para que os quiera».\n\nBastan testigos así para que muchos creamos que Tú eres el Dios del amor. Amén."
+    ]
+   },
+   {
+    "day": 2,
+    "title": "Día 2",
+    "meditation": "Rezamos la plegaria del día, pidiendo al santo que interceda por nosotros ante Dios.",
+    "prayers": [
+     "Don Bosco sueño, te damos gracias, Señor, por Juan Bosco.\nLe diste un corazón lleno de amor y tan dilatado como las orillas de los mares.\nEn él, millares de hombres y mujeres han podido descubrir que eres tú,\nDios del amor, el que estás presente como origen, fuente y meta de todo.\n\nTe damos gracias, Señor, porque has visitado a tu Iglesia\ncon hombres santos como Juan Bosco.\nÉl ha encendido una llama y otros la conservan prendida,\npara que en el mundo los jóvenes y los niños vean y sientan tu presencia de Dios cercano,\nde Dios amigo.\n\nTe damos gracias, Señor, por Juan Bosco,\npadre y maestro de la juventud,\nprofeta de la educación en los tiempos nuevos,\namigo entrañable de los jóvenes,\nque decía: «Me basta que seáis jóvenes para que os quiera».\n\nBastan testigos así para que muchos creamos que Tú eres el Dios del amor. Amén."
+    ]
+   },
+   {
+    "day": 3,
+    "title": "Día 3",
+    "meditation": "Rezamos la plegaria del día, pidiendo al santo que interceda por nosotros ante Dios.",
+    "prayers": [
+     "Don Bosco sueño, te damos gracias, Señor, por Juan Bosco.\nLe diste un corazón lleno de amor y tan dilatado como las orillas de los mares.\nEn él, millares de hombres y mujeres han podido descubrir que eres tú,\nDios del amor, el que estás presente como origen, fuente y meta de todo.\n\nTe damos gracias, Señor, porque has visitado a tu Iglesia\ncon hombres santos como Juan Bosco.\nÉl ha encendido una llama y otros la conservan prendida,\npara que en el mundo los jóvenes y los niños vean y sientan tu presencia de Dios cercano,\nde Dios amigo.\n\nTe damos gracias, Señor, por Juan Bosco,\npadre y maestro de la juventud,\nprofeta de la educación en los tiempos nuevos,\namigo entrañable de los jóvenes,\nque decía: «Me basta que seáis jóvenes para que os quiera».\n\nBastan testigos así para que muchos creamos que Tú eres el Dios del amor. Amén."
+    ]
+   },
+   {
+    "day": 4,
+    "title": "Día 4",
+    "meditation": "Rezamos la plegaria del día, pidiendo al santo que interceda por nosotros ante Dios.",
+    "prayers": [
+     "Don Bosco sueño, te damos gracias, Señor, por Juan Bosco.\nLe diste un corazón lleno de amor y tan dilatado como las orillas de los mares.\nEn él, millares de hombres y mujeres han podido descubrir que eres tú,\nDios del amor, el que estás presente como origen, fuente y meta de todo.\n\nTe damos gracias, Señor, porque has visitado a tu Iglesia\ncon hombres santos como Juan Bosco.\nÉl ha encendido una llama y otros la conservan prendida,\npara que en el mundo los jóvenes y los niños vean y sientan tu presencia de Dios cercano,\nde Dios amigo.\n\nTe damos gracias, Señor, por Juan Bosco,\npadre y maestro de la juventud,\nprofeta de la educación en los tiempos nuevos,\namigo entrañable de los jóvenes,\nque decía: «Me basta que seáis jóvenes para que os quiera».\n\nBastan testigos así para que muchos creamos que Tú eres el Dios del amor. Amén."
+    ]
+   },
+   {
+    "day": 5,
+    "title": "Día 5",
+    "meditation": "Rezamos la plegaria del día, pidiendo al santo que interceda por nosotros ante Dios.",
+    "prayers": [
+     "Don Bosco sueño, te damos gracias, Señor, por Juan Bosco.\nLe diste un corazón lleno de amor y tan dilatado como las orillas de los mares.\nEn él, millares de hombres y mujeres han podido descubrir que eres tú,\nDios del amor, el que estás presente como origen, fuente y meta de todo.\n\nTe damos gracias, Señor, porque has visitado a tu Iglesia\ncon hombres santos como Juan Bosco.\nÉl ha encendido una llama y otros la conservan prendida,\npara que en el mundo los jóvenes y los niños vean y sientan tu presencia de Dios cercano,\nde Dios amigo.\n\nTe damos gracias, Señor, por Juan Bosco,\npadre y maestro de la juventud,\nprofeta de la educación en los tiempos nuevos,\namigo entrañable de los jóvenes,\nque decía: «Me basta que seáis jóvenes para que os quiera».\n\nBastan testigos así para que muchos creamos que Tú eres el Dios del amor. Amén."
+    ]
+   },
+   {
+    "day": 6,
+    "title": "Día 6",
+    "meditation": "Rezamos la plegaria del día, pidiendo al santo que interceda por nosotros ante Dios.",
+    "prayers": [
+     "Don Bosco sueño, te damos gracias, Señor, por Juan Bosco.\nLe diste un corazón lleno de amor y tan dilatado como las orillas de los mares.\nEn él, millares de hombres y mujeres han podido descubrir que eres tú,\nDios del amor, el que estás presente como origen, fuente y meta de todo.\n\nTe damos gracias, Señor, porque has visitado a tu Iglesia\ncon hombres santos como Juan Bosco.\nÉl ha encendido una llama y otros la conservan prendida,\npara que en el mundo los jóvenes y los niños vean y sientan tu presencia de Dios cercano,\nde Dios amigo.\n\nTe damos gracias, Señor, por Juan Bosco,\npadre y maestro de la juventud,\nprofeta de la educación en los tiempos nuevos,\namigo entrañable de los jóvenes,\nque decía: «Me basta que seáis jóvenes para que os quiera».\n\nBastan testigos así para que muchos creamos que Tú eres el Dios del amor. Amén."
+    ]
+   },
+   {
+    "day": 7,
+    "title": "Día 7",
+    "meditation": "Rezamos la plegaria del día, pidiendo al santo que interceda por nosotros ante Dios.",
+    "prayers": [
+     "Don Bosco sueño, te damos gracias, Señor, por Juan Bosco.\nLe diste un corazón lleno de amor y tan dilatado como las orillas de los mares.\nEn él, millares de hombres y mujeres han podido descubrir que eres tú,\nDios del amor, el que estás presente como origen, fuente y meta de todo.\n\nTe damos gracias, Señor, porque has visitado a tu Iglesia\ncon hombres santos como Juan Bosco.\nÉl ha encendido una llama y otros la conservan prendida,\npara que en el mundo los jóvenes y los niños vean y sientan tu presencia de Dios cercano,\nde Dios amigo.\n\nTe damos gracias, Señor, por Juan Bosco,\npadre y maestro de la juventud,\nprofeta de la educación en los tiempos nuevos,\namigo entrañable de los jóvenes,\nque decía: «Me basta que seáis jóvenes para que os quiera».\n\nBastan testigos así para que muchos creamos que Tú eres el Dios del amor. Amén."
+    ]
+   },
+   {
+    "day": 8,
+    "title": "Día 8",
+    "meditation": "Rezamos la plegaria del día, pidiendo al santo que interceda por nosotros ante Dios.",
+    "prayers": [
+     "Don Bosco sueño, te damos gracias, Señor, por Juan Bosco.\nLe diste un corazón lleno de amor y tan dilatado como las orillas de los mares.\nEn él, millares de hombres y mujeres han podido descubrir que eres tú,\nDios del amor, el que estás presente como origen, fuente y meta de todo.\n\nTe damos gracias, Señor, porque has visitado a tu Iglesia\ncon hombres santos como Juan Bosco.\nÉl ha encendido una llama y otros la conservan prendida,\npara que en el mundo los jóvenes y los niños vean y sientan tu presencia de Dios cercano,\nde Dios amigo.\n\nTe damos gracias, Señor, por Juan Bosco,\npadre y maestro de la juventud,\nprofeta de la educación en los tiempos nuevos,\namigo entrañable de los jóvenes,\nque decía: «Me basta que seáis jóvenes para que os quiera».\n\nBastan testigos así para que muchos creamos que Tú eres el Dios del amor. Amén."
+    ]
+   },
+   {
+    "day": 9,
+    "title": "Día 9",
+    "meditation": "Rezamos la plegaria del día, pidiendo al santo que interceda por nosotros ante Dios.",
+    "prayers": [
+     "Don Bosco sueño, te damos gracias, Señor, por Juan Bosco.\nLe diste un corazón lleno de amor y tan dilatado como las orillas de los mares.\nEn él, millares de hombres y mujeres han podido descubrir que eres tú,\nDios del amor, el que estás presente como origen, fuente y meta de todo.\n\nTe damos gracias, Señor, porque has visitado a tu Iglesia\ncon hombres santos como Juan Bosco.\nÉl ha encendido una llama y otros la conservan prendida,\npara que en el mundo los jóvenes y los niños vean y sientan tu presencia de Dios cercano,\nde Dios amigo.\n\nTe damos gracias, Señor, por Juan Bosco,\npadre y maestro de la juventud,\nprofeta de la educación en los tiempos nuevos,\namigo entrañable de los jóvenes,\nque decía: «Me basta que seáis jóvenes para que os quiera».\n\nBastan testigos así para que muchos creamos que Tú eres el Dios del amor. Amén."
+    ]
+   }
+  ],
+  "finalPrayers": [
+   {
+    "title": "Oración final",
+    "text": "Padre y Maestro de la Juventud, San Juan Bosco, que, dócil a los dones del Espíritu y abierto a las realidades de tu tiempo, fuiste para los jóvenes, sobre todo para los pequeños y los pobres, signo del amor y de la predilección de Dios.\n\nSé nuestro guía en el camino de amistad con el Señor Jesús, de modo que descubramos en Él y en su Evangelio el sentido de nuestra vida y la fuente de la verdadera felicidad.\n\nObtennos la gracia de la perseverancia al vivir una cota alta de vida cristiana, y haz que, guiados por María Auxiliadora, podamos encontrarnos un día contigo en la gran familia del cielo. Amén."
+   }
+  ],
+  "sources": [
+   "Sociedad de San Francisco de Sales (sdb.org)",
+   "Juan Pablo II, 31 de enero de 1988"
+  ]
+ },
+ {
+  "id": "lourdes",
+  "title": "Novena a la Virgen de Lourdes",
+  "category": "virgen",
+  "description": "Novena a la Virgen de Lourdes en nueve días. Cada día trae su oración propia, tres Avemarías y el Gloria, y al concluir se reza la oración final.",
+  "introduction": "Antes de empezar, el texto pide rezar la señal de la Santa Cruz y el acto de contricción, y luego la oración preparatoria. Cada día pide expresamente que se formule la gracia que se quiere obtener con la novena. La oración final comienza con Sub tuum praesidium, la plegaria con la que arranca.",
+  "commonPrayers": [
+   {
+    "title": "Señal de la Santa Cruz",
+    "text": "Por la Señal de la Santa Cruz, de nuestros enemigos líbranos, Nuestro Señor Dios. En el Nombre del Padre, Hijo y Espíritu Santo. Amén."
+   },
+   {
+    "title": "Acto de contricción",
+    "text": "Señor mío Jesucristo, Dios y hombre verdadero, creador y redentor mío, por ser tú quien eres, y porque te amo sobre todas las cosas, a mí me pesa de todo corazón haberte ofendido, y propongo firmemente nunca más pecar, confesarme, cumplir la penitencia que me fuere impuesta y apartarme de todas las ocasiones de ofenderte. Te ofrezco mi vida, obras y trabajos en satisfacción de todos mis pecados; y confío en tu bondad y misericordia infinita me los perdonarás por los méritos de tu preciosísima sangre, pasión y muerte, y me darás la gracia para enmendarme y para perseverar en tu santo servicio hasta el fin de mi vida. Amén."
+   },
+   {
+    "title": "Oración preparatoria para todos los días",
+    "text": "¡Oh María Inmaculada, Santísima Virgen de Lourdes! deseando hacer esta novena con la mayor devoción de mi alma, y responder al llamamiento que en persona de la humilde Bernardita, hiciste a todos tus hijos, me postro a tus pies para escuchar con atención Tu voz, exponerte mis necesidades y solicitar Tus amorosos cuidados. No me deseches, Madre mía, a pesar de mi indignidad; atiende únicamente al arrepentimiento que tengo por haber afligido Tu maternal corazón y renovado la pasión de Tu amantísimo hijo, acude en mi ayuda durante esta santa novena, en la cual me propongo purificar mi alma y conseguir por Tu intercesión el favor especial que solicito de la Divina Majestad y dar gracias a la misma, por todos los beneficios recibidos. Amén."
+   }
+  ],
+  "days": [
+   {
+    "day": 1,
+    "title": "Día primero",
+    "meditation": "Reina Inmaculada que, apareciendo personalmente cual majestuosa Señora en la gruta de Lourdes, honraste con tu benigna mirada y con la comunicación de tus secretos a la pobre y enfermiza Bernardita, tanto menos estimada de los hombres por la falta de toda cultura, cuanto más acepta a Ti por el candor de su inocencia y el fervor de su devoción; obten para nosotros la gracia de que, poniendo siempre nuestra gloria en hacernos gratos al Señor con una vida enteramente conforme a nuestros deberes, nos hagamos al mismo tiempo merecedores siempre de Tus especiales bendiciones. Amén.",
+    "prayers": [
+     "Dios te salve, María, llena eres de gracia, el Señor es contigo. Bendita tú eres entre todas las mujeres, y bendito es el fruto de tu vientre, Jesús.\nSanta María, Madre de Dios, ruega por nosotros, pecadores, ahora y en la hora de nuestra muerte. Amén",
+     "Gloria al Padre, y al Hijo, y al Espíritu Santo. Como era en el principio, ahora y siempre, por los siglos de los siglos. Amén."
+    ]
+   },
+   {
+    "day": 2,
+    "title": "Día segundo",
+    "meditation": "¡Oh Virgen de Lourdes, escogida por Dios para ser Madre de Jesús, Tesorera de las divinas gracias, refugio y abogada de los pecadores! Postrado humildemente a tus pies te suplico seas mi guía y salud en este valle de lágrimas, porque nada puedo ni debo hacer sin Ti. Alcánzame de tu divino Hijo el perdón de mis pecados, la perseverancia en el bien y la salvación de mi alma, para ser eternamente feliz y dichoso en vuestra dulce compañía en las mansiones de la gloria. Amén.",
+    "prayers": [
+     "Dios te salve, María, llena eres de gracia, el Señor es contigo. Bendita tú eres entre todas las mujeres, y bendito es el fruto de tu vientre, Jesús.\nSanta María, Madre de Dios, ruega por nosotros, pecadores, ahora y en la hora de nuestra muerte. Amén",
+     "Gloria al Padre, y al Hijo, y al Espíritu Santo. Como era en el principio, ahora y siempre, por los siglos de los siglos. Amén."
+    ]
+   },
+   {
+    "day": 3,
+    "title": "Día tercero",
+    "meditation": "¡Oh Virgen de Lourdes y Madre mía, vida y esperanza de los huérfanos, áncora de los náufragos, salud de los enfermos y consuelo de los que agonizan y mueren! ¡Oh Madre mía! Después de Dios, Tú eres y será mi única esperanza en las tentaciones y peligros, en la vida y en la hora de mi muerte. No me dejes, ¡oh María! Amén.",
+    "prayers": [
+     "Dios te salve, María, llena eres de gracia, el Señor es contigo. Bendita tú eres entre todas las mujeres, y bendito es el fruto de tu vientre, Jesús.\nSanta María, Madre de Dios, ruega por nosotros, pecadores, ahora y en la hora de nuestra muerte. Amén",
+     "Gloria al Padre, y al Hijo, y al Espíritu Santo. Como era en el principio, ahora y siempre, por los siglos de los siglos. Amén."
+    ]
+   },
+   {
+    "day": 4,
+    "title": "Día cuarto",
+    "meditation": "¡Oh Virgen purísima de Lourdes, vida de mi alma, alivio de mis penas, suavidad y dulzura de mis aflicciones! A las puertas de Tu corazón, ¡oh Madre mía!, llama este pecador enfermo, cuyo dolor, en este momento, es tan grande como sus pecados; compadecete de él, no lo deseches, míralo con ojos de compasión. Sánalo, como Jesús a los leprosos. Cúralo para que alabe a Dios eternamente. Amén.",
+    "prayers": [
+     "Dios te salve, María, llena eres de gracia, el Señor es contigo. Bendita tú eres entre todas las mujeres, y bendito es el fruto de tu vientre, Jesús.\nSanta María, Madre de Dios, ruega por nosotros, pecadores, ahora y en la hora de nuestra muerte. Amén",
+     "Gloria al Padre, y al Hijo, y al Espíritu Santo. Como era en el principio, ahora y siempre, por los siglos de los siglos. Amén."
+    ]
+   },
+   {
+    "day": 5,
+    "title": "Día quinto",
+    "meditation": "¡Oh Virgen de Lourdes y Reina de los ángeles, en cuyos ojos centellea la fe que abraza Tu espíritu! Enséñame a creer; pero a creer obrando, porque la fe sin obras es muerta; y llenos de creyentes, que no obraron conforme a sus creencias, están los calabozos del infierno. Ayúdame a creer la palabra divina y a obrar como Dios y la Iglesia me mandan creer y obrar; pues la fe es luz y antorcha que ilumina mi alma y la conduce por la senda de la eterna bienaventuranza. Amén.",
+    "prayers": [
+     "Dios te salve, María, llena eres de gracia, el Señor es contigo. Bendita tú eres entre todas las mujeres, y bendito es el fruto de tu vientre, Jesús.\nSanta María, Madre de Dios, ruega por nosotros, pecadores, ahora y en la hora de nuestra muerte. Amén",
+     "Gloria al Padre, y al Hijo, y al Espíritu Santo. Como era en el principio, ahora y siempre, por los siglos de los siglos. Amén."
+    ]
+   },
+   {
+    "day": 6,
+    "title": "Día sexto",
+    "meditation": "¡Oh Virgen de Lourdes y Virgen de las vírgenes, azucena candidísima, tórtola inmaculada, paloma sin hiel! Tú, que fuiste concebida sin pecado; Tú, que tanto amás la castidad y tanto quieres a Tus hijos, ten compasión de mí y líbrame de esta ponzoñosa concupiscencia que me sumerge en un mar de pecados. Alcánzame de Tu Hijo la gracia de la castidad para vivir en la tierra como los ángeles del cielo. Amén.",
+    "prayers": [
+     "Dios te salve, María, llena eres de gracia, el Señor es contigo. Bendita tú eres entre todas las mujeres, y bendito es el fruto de tu vientre, Jesús.\nSanta María, Madre de Dios, ruega por nosotros, pecadores, ahora y en la hora de nuestra muerte. Amén",
+     "Gloria al Padre, y al Hijo, y al Espíritu Santo. Como era en el principio, ahora y siempre, por los siglos de los siglos. Amén."
+    ]
+   },
+   {
+    "day": 7,
+    "title": "Día séptimo",
+    "meditation": "¡Oh Virgen de Lourdes y soberana Emperatriz de los cielos, que, por amor a la pobreza, nos sujetaste a todas las privaciones y escaseces de los pobres de espíritu!, enséñame a despreciar las demasías y regalos, e inspírame amor y compasión a los pobres para conseguir con la limosna el reino de los cielos. Amén.",
+    "prayers": [
+     "Dios te salve, María, llena eres de gracia, el Señor es contigo. Bendita tú eres entre todas las mujeres, y bendito es el fruto de tu vientre, Jesús.\nSanta María, Madre de Dios, ruega por nosotros, pecadores, ahora y en la hora de nuestra muerte. Amén",
+     "Gloria al Padre, y al Hijo, y al Espíritu Santo. Como era en el principio, ahora y siempre, por los siglos de los siglos. Amén."
+    ]
+   },
+   {
+    "day": 8,
+    "title": "Día octavo",
+    "meditation": "¡Oh Virgen de Lourdes, ejemplar sublime de obediencia, que haciéndome esclava del Señor y humillándome hasta vivir sin propia voluntad, mereciste que te llamarán bendita todas las generaciones! Enséñame y ayúdame, como a la niña Bernardita, a ser obediente hasta la muerte, porque la obediencia es mejor que los sacrificios, y el que sigue obedeciendo a Dios conseguirá llegar hasta el cielo. Amén.",
+    "prayers": [
+     "Dios te salve, María, llena eres de gracia, el Señor es contigo. Bendita tú eres entre todas las mujeres, y bendito es el fruto de tu vientre, Jesús.\nSanta María, Madre de Dios, ruega por nosotros, pecadores, ahora y en la hora de nuestra muerte. Amén",
+     "Gloria al Padre, y al Hijo, y al Espíritu Santo. Como era en el principio, ahora y siempre, por los siglos de los siglos. Amén."
+    ]
+   },
+   {
+    "day": 9,
+    "title": "Día noveno",
+    "meditation": "¡Oh Inmaculada María; toda hermosa, pura y sin mancha desde el primer instante de Tu Concepción! Alcánzame la pureza de alma y cuerpo, y la limpieza de toda culpa, para que pueda acercarme dignamente al Santísimo Sacramento del altar. Si el ciervo sediento corre presuroso a las aguas cristalinas para apagar su sed, sedienta se halla mi alma, por acercarse a ese Sacramento de bondad y de amor. Obtenenme, Virgen Santa, tal gracia al recibir mañana a Tu Santísimo Hijo en la comunión, que jamás llegue a echarlo de mi alma por el pecado, porque sin Jesús, que es mi vida, mi dicha y todo mi consuelo, no puedo vivir, ni tener paz en mi corazón. Para conseguir esto saludo con las siguientes Avemarías y deprecaciones.",
+    "prayers": [
+     "Dios te salve, María, llena eres de gracia, el Señor es contigo. Bendita tú eres entre todas las mujeres, y bendito es el fruto de tu vientre, Jesús.\nSanta María, Madre de Dios, ruega por nosotros, pecadores, ahora y en la hora de nuestra muerte. Amén",
+     "Gloria al Padre, y al Hijo, y al Espíritu Santo. Como era en el principio, ahora y siempre, por los siglos de los siglos. Amén."
+    ]
+   }
+  ],
+  "finalPrayers": [
+   {
+    "title": "Oración final",
+    "text": "Bajo tu amparo nos acogemos, santa Madre de Dios; no desprecies nuestras súceplas en las necesidades, sino líbranos de todos los peligros, ¡oh siempre Virgen gloriosa y bendita!\n\nV. Ruega por nosotros, ¡oh Virgen de Lourdes!\nR. Para que seamos dignos de las promesas de Jesucristo.\n\n¡Oh Dios eterno y compasivo! Concédenos la gracia de vivir santa y cristianamente, venerando a la Virgen Santísima de Lourdes, para que seamos dignos de su intercesión en la vida y en la hora de la muerte. Por Cristo nuestro Señor. Amén."
+   }
+  ],
+  "sources": [
+   "El Sembrador Nueva Evangelización (ESNE), Novena a la Virgen de Lourdes",
+   "ESNE es asociación privada de fieles reconocida por decreto de la Arquidiócesis de Los Ángeles, 29 de septiembre de 2008"
+  ]
  }
 ];

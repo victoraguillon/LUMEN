@@ -157,6 +157,86 @@ const ORACIONES_DATA = {
      "references": [
       "Papiro 470 (c. 250 d.C.)"
      ]
+    },
+    {
+     "id": "oh-senora-mia",
+     "title": "Oh señora mía",
+     "content": "La consagración a María, conocida como Oh señora mía, es una devoción antigua de la tradición católica de habla hispana. El diminutivo con que se dirige a la Virgen expresa ternura de hijo, no distancia.\n\nLa oración confiesa a María como Madre de Dios y como madre nuestra, y hace de Ella el refugio donde entregar la vida entera. No reemplaza la confianza en el Hijo: la orienta, porque a María se recurre precisamente para llegar a Jesús.\n\nEs una oración de entrega total, muy propia del mes de octubre y de la preparación a la Inmaculada.",
+     "prayer": "¡Oh Señora mía, oh Madre mía! Yo me ofrezco enteramente a ti; y en prueba de mi filial afecto te consagro en este día mis ojos, mis oídos, mi lengua, mi corazón; en una palabra, todo mi ser. Ya que soy todo tuyo, oh Madre de bondad, guárdame y defiéndeme como cosa y posesión tuya. Amén",
+     "latin": "",
+     "significance": "Acto de consagración total a la Virgen María, Madre de Dios",
+     "when_to_pray": "Durante el mes de octubre, al terminar una novena o en momentos de entrega",
+     "references": [
+      "Lucas 1,46-55",
+      "Gálatas 4,6",
+      "Tradición de la devoción mariana"
+     ]
+    },
+    {
+     "id": "magnificat",
+     "title": "El Magnificat",
+     "content": "El Magnificat, o Cántico de María, es el cánto que María entonó al llegar a casa de su prima Isabel (Lc 1,46-55). La Iglesia lo canta en el Oficio de las Horas porque es, literalmente, el cánto de María.\n\nEs la primera gran afirmación de lo que Dios hace con los pequeños: invierte el orden de las cosas. La que se creía olvidada descubre que es mirada y levantada, y su silencio se vuelve canción.\n\nMaría no se canta a sí misma: canta al Dios que la hizo. Por eso el Magnificat es también una escuela de humildad, de gratitud y de esperanza para quien se siente pequeño.",
+     "prayer": "Proclama mi alma la grandeza del Señor,\ny exultó mi espíritu en Dios, mi Salvador,\nporque miró la humildad de su esclava.\nDesde ahora me llamarán bienaventurada\ntodas las generaciones,\nporque el Todopoderoso me ha hecho grandes cosas.\nSu Nombre es santo,\ny su misericordia alcanza de generación\na quienes le tienen fe.\nDerribó de su trono a los soberanos\ny exaltó a los pequeños.\nA los hambrientos llenó de bienes\ny a los ricos despidió con las manos vacías.\nAcogió a Israel, su siervo,\nrecordando la promesa\nhecha a nuestros padres,\nsegún la cual nos libraría de nuestros enemigos.\nComo hizo a nuestros padres\nen los días de su justicia,\nsin límite y sin falta,\ncomo juró a nuestros padres.\nGloria al Padre, y al Hijo, y al Espíritu Santo,\ncomo era en el principio, ahora y siempre,\npor los siglos de los siglos. Amén.",
+     "latin": "Magnificat anima mea Dominum,et exsultavit spiritus meus in Deo salutari meo:\nquia respexit humilitatem ancillae suae.\n\nFecit mihi magna qui potens est,et sanctum nomen eius.\nEt misericordia a generatione in generationem\ntimentibus eum.\n\nFecit potentiam in brachio suo,et dispersit arrogantes corde.\nDeposuit de sede potentes,et exaltavit humiles.\nEsurientes saturavit de bonis,et divites dimisit inanes.\n\nSuscepit Israel servum suum,\nre memorandum quia locutus est ad patres nostros:\npro omnibus quae iuravit nobis\nin generationem in generationem.\n\nGloria Patri, et Filio, et Spiritui Sancto,\nsicut erat in principio, et nunc, et semper,\net in saecula saeculorum. Amen.",
+     "significance": "El cánto de María que la Iglesia canta en el Oficio de las Horas",
+     "when_to_pray": "En las Laudes, en el Rosario y en acciones de gracias por lo que Dios ha hecho en la vida",
+     "references": [
+      "Lucas 1,46-55",
+      "Catecismo de la Iglesia Católica, 1319"
+     ]
+    },
+    {
+     "id": "guadalupe-jp2",
+     "title": "Nuestra Señora de Guadalupe (Juan Pablo II, 1979)",
+     "content": "Es la oración que el papa Juan Pablo II ofreció a la Virgen de Guadalupe en enero de 1979, durante su primera visita a la Basílica de Guadalupe. Le pide que proteja a los pueblos, a los obispos y a las familias.\n\nJuan Pablo II visitó la Basílica cuatro veces durante su pontificado. La fiesta de esta advocación, patrona de México y de América Latina, se celebra el 12 de diciembre.",
+     "prayer": "¡Oh Virgen Inmaculada, Madre del verdadero Dios y Madre de la Iglesia!\nTú, que desde este lugar manifiestas tu clemencia y tu compasión a todos los que solicitan tu amparo: escucha la oración que con filial confianza te dirigimos, y represéntala ante tu Hijo Jesús, único Redentor nuestro.\n\nDa la paz, la justicia y la prosperencia a nuestros pueblos;\nque todo lo que tenemos y somos lo ponemos bajo tu cuidado,\nSeñora y Madre nuestra.\n\nVirgen de Guadalupe, Madre de las Américas,\nte pedimos por todos los Obispos,\npara que conduzcan a los fieles por senderos\nde intensa vida cristiana, de amor y de humilde servicio a Dios y a las almas.\n\nConcede a nuestros hogares la gracia de amar y de respetar la vida que comienza,\ncon el mismo amor con que concebiste en tu seno la vida del Hijo de Dios.\n\nVirgen Santa María, Madre del Amor Hermoso,\nprotege a nuestras familias para que estén siempre unidas,\ny bendice la educación de nuestros hijos.\n\nQueremos ser totalmente tuyos\ny recorrer contigo el camino de una plena fidelidad a Jesucristo en su Iglesia.\nNo nos sueltes de tu mano amorosa. Amén.",
+     "latin": "",
+     "significance": "Oración del papa Juan Pablo II a la Virgen de Guadalupe",
+     "when_to_pray": "El 12 de diciembre y durante el mes de diciembre",
+     "references": [
+      "Juan Pablo II, oración en la Basílica de Guadalupe, enero de 1979",
+      "EWTN, Oración a la Virgen de Guadalupe",
+      "Desde la Fe, Oraciones a la Santísima Virgen de Guadalupe"
+     ]
+    },
+    {
+     "id": "ave-maris-stella",
+     "title": "Ave Maris Stella",
+     "content": "Es un himno a María de origen medieval, cantado en las Vísperas, que se conserva en el Antifonal Romano. Es de los himnos marianos más antiguos que siguen en uso litúrgico.\n\nToma su nombre de la invocación con que empieza: Ave, estrella del mar. La segunda estrofa juega con el hecho de que el saludo del ángel es el mismo que recibió Eva, pero invertido: el nuevo Ave deshace el nombre de la antigua.\n\nLa última estrofa pide a Dios una vida pura y un camino seguro, para poder ver a Jesús y gozarse de él.",
+     "prayer": "Salve, estrella del mar,\nMadre santa de Dios y siempre Virgen,\nfeliz puerta del cielo.\n\nAceptando aquel «Ave» de la boca de Gabriel,\nafiánzanos en la paz al trocar el nombre de Eva.\n\nDesata las ataduras de los reos,\nda luz a quienes no ven,\nahuyenta nuestros males,\npide para nosotros todos los bienes.\n\nMuestra que eres nuestra Madre,\nque por ti acoja nuestras súplicas\nquien nació por nosotros, tomando el ser de ti.\n\nVirgen singular, dulce como ninguna,\nlíbranos de la culpa, haznos dóciles y castos.\n\nFacilítanos una vida pura,\nprepáranos un camino seguro,\npara que viendo a Jesús, nos podamos alegrar para siempre contigo.\n\nAlabemos a Dios Padre,\nglorifiquemos a Cristo soberano y al Espíritu Santo,\ny demos a las Tres Personas un mismo honor. Amén.",
+     "latin": "Ave, maris stella,\nDei mater alma, atque semper Virgo,\nfelix cæli porta.\n\nSumens illud Ave Gabrielis ore,\nfunda nos in pace, mutans Evæ nomen.\n\nSolve vincla reis, profer lumen cæcis,\nmala nostra pelle, bona cuncta posce.\n\nMonstra te esse matrem,\nsumat per te precem qui pro nobis natus\ntulit esse tuus.\n\nVirgo singularis, inter omnes mitis,\nnos culpis solutos mites fac et castos.\n\nVitam præsta puram, iter para tutum,\nut videntes Jesum semper collætemur.\n\nSit laus Deo Patri, summo Christo decus,\nSpiritui Sancto tribus honor unus. Amen.",
+     "significance": "Himno mariano medieval cantado en las Vísperas",
+     "when_to_pray": "En las Vísperas, en el Rosario y como oración a María",
+     "references": [
+      "Antifonal Romano, 1912",
+      "Obispado de Alcalá, Ave Maris Stella",
+      "Wikipedia, Ave maris stella"
+     ]
+    },
+    {
+     "id": "lourdes-bernardita",
+     "title": "Oración de Santa Bernardita a Jesús",
+     "content": "Es la oración que santa Bernardita Soubirous recitaba en la gruta de Massabielle. El Santuario de Lourdes la propone como cierre de su novena.\n\nLa pastora de catorce años, analfabeta y enfermiza de asma, pide a Jesús los siete panes que necesita: humildad, obediencia, caridad, fuerza, mortificación, desprendimiento y paciencia. Su última frase condensa toda su vida: Jesús, María y la Cruz, y ningún otro amigo.",
+     "prayer": "¡Oh Jesús, dame, te lo suplico, el pan de la humildad.\nEl pan de obediencia.\nEl pan de caridad.\nEl pan de fuerza para romper mi voluntad y fundirla con la tuya.\nEl pan de mortificación interior.\nEl pan de desprendimiento de las cosas creadas.\nEl pan de paciencia para soportar las penas que mi corazón sufre.\n\nOh Jesús, me quieres crucificada. Hágase.\nEl pan de fuerza para bien sufrir.\nEl pan de ver sólo a ti en todo y siempre.\nJesús, María, la Cruz; no quiero otros amigos que éstos. Amén.",
+     "latin": "",
+     "significance": "Oración de la vidente de Lourdes al Jesús que se le apareció en la gruta",
+     "when_to_pray": "En la gruta, durante la novena, y en los momentos de fortaleza",
+     "references": [
+      "Santuario Notre-Dame de Lourdes, oración de una pobre mendiga a Jesús",
+      "Santa Bernardita Soubirous (1844-1879), Pío XI, 1933"
+     ]
+    },
+    {
+     "id": "lourdes-consagracion",
+     "title": "Oración de consagración a Nuestra Señora de Lourdes",
+     "content": "Oración de consagración a la Virgen de Lourdes. Recuerda las dieciocho apariciones a Bernardita en la gruta y el llamado que la Virgen hizo a los cristianos: la oración, la penitencia, la Eucaristía y la vida en la Iglesia.\n\nQuien la reza se entrega a María por medio de su hijo, y pide ser dócil al Espíritu y trabajar con ella en confortar a los que sufren, en servir a los enfermos y en cuidar la unidad de la Iglesia y la paz del mundo. Cierra invocando a la Virgen y a la vidente.",
+     "prayer": "Santa María, Madre de Dios, Virgen Inmaculada,\nVos habéis aparecido dieciocho veces a Bernardita en la gruta de Lourdes,\npara recordar a los cristianos las maravillas y las exigencias del Evangelio,\ninvitándoles a la oración, a la penitencia, a la Eucaristía y a la vida en la Iglesia.\n\nPara mejor responder a vuestra llamada, yo me consagro por vuestras manos a vuestro hijo Jesús…\n\nHacedme dócil al espíritu; y por el fervor de mi fe,\npor la manifestación de mi vida, por mi dedicación al servicio de los enfermos,\nhaz que yo trabaje con Vos en confortar a los que sufren,\nen reconocimiento a los hombres, en trabajar por la unidad de la Iglesia y por la paz del mundo.\n\nCon toda confianza, oh Señora mía, yo os dirijo esta plegaria y os pido que la acojáis y la atendáis. Amén.\n\nNuestra Señora de Lourdes, rogad por nosotros.\n\nSanta Bernardita, rogad por nosotros.",
+     "latin": "",
+     "significance": "Consagración de la propia vida a Nuestra Señora de Lourdes",
+     "when_to_pray": "Al iniciar una tarea de servicio, al cuidar a los enfermos y al renovar el compromiso con la comunidad",
+     "references": [
+      "Texto aportado para la comunidad Juvemar"
+     ]
     }
    ]
   },
@@ -206,6 +286,101 @@ const ORACIONES_DATA = {
       "Mateo 18,10",
       "Salmo 91,11",
       "Hebreos 1,14"
+     ]
+    },
+    {
+     "id": "nada-te-turbe",
+     "title": "Nada te turbe (Santa Teresa de Ávila)",
+     "content": "Nada te turbe es una de las oraciones más conocidas de Santa Teresa de Jesús, monja carmelita y Doctora de la Iglesia. La santa la llevaba escrita dentro de su breviario como recordatorio personal, y nunca pretendió que se publicara ni que se rezara en comunidad.\n\nEl poema entero se sostiene sobre una idea: lo que pasa, pasa; lo que no se muda es Dios. De ahí salen las dos frases que todo el mundo repite: quien a Dios tiene nada le falta, y solo Dios basta.\n\nEs la letrilla más citada de la santa y una de las oraciones más rezadas de la lengua castellana.",
+     "prayer": "Nada te turbe;\nnada te espante;\ntodo se pasa;\nDios no se muda,\nla paciencia\ntodo lo alcanza.\nQuien a Dios tiene,\nnada le falta.\nSolo Dios basta.\n\nEleva tu pensamiento,\nal cielo sube,\npor nada te acongojes,\nnada te turbe.\n\nA Jesucristo sigue\ncon pecho grande,\ny, venga lo que venga,\nnada te espante.\n\n¿Ves la gloria del mundo?\nEs gloria vana;\nnada tiene de estable,\ntodo se pasa.\n\nAspira a lo celeste,\nque siempre dura;\nfiel y rico en promesas,\nDios no se muda.\n\nÁmala cual merece\nbondad inmensa;\npero no hay amor fino\nsin la paciencia.\n\nConfianza y fe viva\nmantenga el alma,\nque quien cree y espera\ntodo lo alcanza.\n\nDel infierno acosado\naunque se viere,\nburlará sus furores\nquien a Dios tiene.\n\nVénganle desamparos,\ncruces, desgracias;\nsiendo Dios tu tesoro\nnada le falta.\n\nId, pues, bienes del mundo;\nid dichas vanas;\naunque todo lo pierda,\nsolo Dios basta.",
+     "latin": "",
+     "significance": "Letrilla de Santa Teresa de Jesús, Doctora de la Iglesia, sobre la confianza en Dios",
+     "when_to_pray": "En momentos de ansiedad, decaimiento o cuando el ánimo se agita",
+     "references": [
+      "Santa Teresa de Jesús, Nada te turbe (Poemas mayores, MM II)",
+      "Provincia Carmelita de San Juan de la Cruz, carmelitas.es",
+      "Wikisource, Nada te turbe"
+     ]
+    },
+    {
+     "id": "alma-de-cristo",
+     "title": "Alma de Cristo (Anima Christi)",
+     "content": "El Anima Christi es una oración tradicional de la Iglesia, de origen medieval, que se reza después de la comunión. Toma su nombre de la primera de sus invocaciones: el Alma de Cristo.\n\nConsta de cinco invocaciones al Cuerpo, la Sangre, el Agua del Costado y la Pasión de Cristo, y termina pidiendo ser acogido en la hora de la muerte. En el siglo XIX el poeta inglés Edward Caswall la tradujo y publicó como el himno «Soul of my Saviour, sanctify my breast».\n\nLa Iglesia concede una indulgencia parcial a quien la reza después de haber recibido la Comunión, según el Enchiridion Indulgentiarum.",
+     "prayer": "Alma de Cristo, santifícame.\nCuerpo de Cristo, sálvame.\nSangre de Cristo, embriágame.\nAgua del costado de Cristo, lávame.\nPasión de Cristo, confórtame.\n\n¡Oh, buen Jesús!, óyeme.\nDentro de tus llagas, escóndeme.\nNo permitas que me aparte de Ti.\nDel maligno enemigo, defiéndeme.\n\nEn la hora de mi muerte, llámame.\nY mándame ir a Ti,\npara que con tus santos te alabe.\nPor los siglos de los siglos. Amén.",
+     "latin": "Anima Christi, sanctifica me.\nCorpus Christi, salva me.\nSanguis Christi, inebria me.\nAqua lateris Christi, lava me.\nPassio Christi, conforta me.\n\nO bone Jesu, exaudi me.\nIntra tua vulnera absconde me.\nNe permittas me separari a te.\nAb hoste maligno defende me.\n\nIn hora mortis meae, voca me.\nEt jube me venire ad te,\nut cum Sanctis tuis laudem te\nin saecula saeculorum. Amen.",
+     "significance": "Oración tradicional de acción de gracias después de la comunión",
+     "when_to_pray": "Después de comulgar, especialmente al final de la Misa, en la partición de ánimas",
+     "references": [
+      "Vatican News, Alma de Cristo",
+      "Enchiridion Indulgentiarum, 2004",
+      "Anima Christi, texto tradicional"
+     ]
+    },
+    {
+     "id": "padre-pio-oracion",
+     "title": "Quédate conmigo, Señor (Padre Pío)",
+     "content": "Esta es la oración que el santo Padre Pío rezaba después de recibir la Sagrada Comunión, conocida en italiano como Resta con me, Signore. En ella pide a Jesús que no se aparte de su corazón después de haberlo recibido en la Eucaristía.\n\nEl santo la recitaba con frecuencia y repetía sus tres palabras más queridas: rezad, esperad y no os inquietéis. Toda la oración es un acto de confianza y de abandono: reconocer la propia debilidad, la necesidad de la gracia y la certeza de que Jesús permanece.\n\nSu fruto es eucarístico: el corazón que se ha alimentado de Cristo no quiere quedarse solo. Por eso se recomienda rezarla después de la comunión y también al final del día, antes de dormir.",
+     "prayer": "Quédate, Señor, conmigo, porque es necesaria tu presencia para no olvidarte.\nSabes cuán fácilmente te abandono.\n\nQuédate, Señor, conmigo, pues soy débil\ny necesito tu fuerza para no caer muchas veces.\n\nQuédate, Señor, conmigo, porque eres mi luz\ny sin ti estoy en tinieblas.\n\nQuédate, Señor, conmigo, porque eres mi vida\ny sin ti pierdo el fervor.\n\nQuédate, Señor, conmigo, para darme a conocer tu voluntad.\nQuédate, Señor, conmigo, para que oiga tu voz y te siga.\n\nQuédate, Señor, conmigo, pues deseo amarte mucho\ny estar siempre en tu compañía.\n\nQuédate, Señor, conmigo, si quieres que te sea fiel.\n\nQuédate, Señor, conmigo, porque por más pobre que sea mi alma,\nquiere ser para ti un lugar de consuelo y un nido de amor.\n\nQuédate, Jesús, conmigo, pues es tarde y el día se acaba.\nYa es tarde y la muerte se acerca.\nTemo la oscuridad, las tentaciones, la aridez,\nla cruz y los sufrimientos,\ny te necesito mucho, Jesús mío, en esta noche de exilio.\n\nQuédate, Jesús, conmigo, haz que, como tus discípulos,\nte reconozca en la fracción del pan;\nque la comunión eucarística sea la luz que disipe las tinieblas,\nla fuerza que me sustenta y la única alegría de mi corazón.\n\nQuédate, Jesús, conmigo, porque en la hora de mi muerte\nquiero estar unido a ti;\nsi no por la comunión, al menos por la gracia y por el amor.\n\nQuédate, Jesús, conmigo, no pido consuelos divinos\nporque no los merezco, sino el don de tu presencia.\n¡Ah, sí, te lo pido!\n\nQuédate, Señor, conmigo; solo a ti te busco:\ntu amor, tu gracia, tu voluntad,\ntu corazón, tu espíritu,\nporque te amo y no pido otra recompensa sino amarte más.\n\nRezad, esperad, no os inquietéis. Amén.",
+     "latin": "",
+     "significance": "Oración del santo a Jesús después de la comunión: pedirle que no se aparte del corazón",
+     "when_to_pray": "Después de la comunión, al final del día o en los momentos de soledad y desánimo",
+     "references": [
+      "San Pío de Pietrelcina, Resta con me, Signore (oración poscomunión)",
+      "Convento Santuario San Pío de Pietrelcina",
+      "Catecismo de la Iglesia Católica, 1382"
+     ]
+    },
+    {
+     "id": "ven-espiritu-santo",
+     "title": "Ven, Espíritu Santo",
+     "content": "Ven, Espíritu Santo es una de las oraciones más antiguas de la tradición cristiana. Se pide al Espíritu Santo su presencia antes de un trabajo importante, una enseñanza o una decisión.\n\nTiene tres movimientos: la invocación, la petición y la conclusión. Es una de las oraciones más breves de la Liturgia y pertenece a la preparación del altar, antes de las lecturas.\n\nEs especialmente apropiada en el Tiempo Ordinario, que la Iglesia dedica a la acción del Espíritu Santo en la historia y en la vida de cada cristiano.",
+     "prayer": "Ven, Espíritu Santo, que henchiste las almas de tus Apóstoles,\ndales la gracia de mirar las cosas como tú las miras,\ny de anunciarlas como tú las anuncias.\n\nInfúndenos con el fuego de tu amor,\ny danos la gracia de sentir y pensar,\npara que jamás te quedemos sin obras.\n\nOh Dios, que en ti reposa todo lo bueno,\nguarda a los que llaman y responde a sus súplicas. Amén.",
+     "latin": "Veni, Sancte Spiritus, reple tuorum corda fidelium,\net tui amoris in eis ignem accende.\n\nVeni, Domine, et visita nos,\net purifica corda nostra, Deo nostro.\n\nTu, o Pater, qui de nullo peperisti:\nDignare hodie adoptare nos\nex natione quam peccato perdidisti.\n\nEt libera nos, Domine, ab omni malo:\npacem concede nobis,\net sol ab illo serva.\n\nDirig nos, Domine, ad salutaris iter:\net da gratiam tuam in novitate cordis nostri,\nut inter actus nostros nomen tuum non obliviscamur.\n\nSi autem cor novum feceris in manibus tuis,\nin nomine tuo da nobis pacem et laetitiam\nde Salvatore tuo Iesu Christo.\n\nQui tecum vivit et regnat in saecula saeculorum. Amen.",
+     "significance": "Invocación al Espíritu Santo antes de las acciones y decisiones importantes",
+     "when_to_pray": "Al comenzar un estudio, un trabajo, una reunión o una tarea que requiera discernimiento",
+     "references": [
+      "Colección de Misas, plegaria E",
+      "Juan 14,17"
+     ]
+    },
+    {
+     "id": "cantico-del-sole",
+     "title": "Cantico del Sole (San Francisco de Asís)",
+     "content": "El Cantico del Sole (Laudato si, mi Signore) es la obra poética más célebre de San Francisco de Asís. La compuso en los años finales de su vida, con una mirada ya libre de todo interés propio.\n\nEs un himno a la creación: el sol, la luna, las estrellas, los animales, el agua y la tierra. Cada estrofa pide al hermano Sol que alabe y glorifique al Señor. Al final, San Francisco pide perdón y paz.\n\nEs la oración de gratitud y de reconciliación que mejor resume el ideal franciscano de la paz y el bien para todos los hermanos.",
+     "prayer": "Alabado seas, mi Señor,\npor el hermano sol,\nque nos alumbra el día,\ny al que es nuestra guía.\n\nAlabado seas, mi Señor,\npor la luna y las estrellas,\nque dejaste para el firmamento.\n\nAlabado seas, mi Señor,\npor el aire y por el tiempo,\ny por los cambios de los días.\n\nAlabado seas, mi Señor,\npor el agua, vida y espejo\nde tus bondades.\n\nAlabado seas, mi Señor,\npor la vida y por la muerte,\nque me has dado.\n\nAlabado seas, mi Señor,\npor la paz y por el perdón,\nque a todos nos has abierto. Amén.",
+     "latin": "",
+     "significance": "El gran himno franciscano a la creación, oración de gratitud y de paz",
+     "when_to_pray": "Al despertar, al comenzar el día o como acción de gracias por la vida",
+     "references": [
+      "San Francisco de Asís, Cantico delle Creature, 1229",
+      "San Francisco de Asís, Cántico al Sol, 6-10"
+     ]
+    },
+    {
+     "id": "san-juan-bosco",
+     "title": "Oración a San Juan Bosco",
+     "content": "Es la plegaria preparatoria que los Salesianos, congregación fundada por San Juan Bosco, rezan en sus novenas.\n\nSan Juan Bosco (1815-1888) fundó el Oratorio de Valdocco para los jóvenes de las calles de Turín. El 31 de enero de 1988, en el centenario de su muerte, el papa Juan Pablo II lo llamó «Padre y Maestro de la Juventud».\n\nLa plegaria termina con una de sus frases más conocidas: «Me basta que seáis jóvenes para que os quiera».",
+     "prayer": "Don Bosco sueño, te damos gracias, Señor, por Juan Bosco.\nLe diste un corazón lleno de amor y tan dilatado como las orillas de los mares.\nEn él, millares de hombres y mujeres han podido descubrir que eres tú,\nDios del amor, el que estás presente como origen, fuente y meta de todo.\n\nTe damos gracias, Señor, porque has visitado a tu Iglesia\ncon hombres santos como Juan Bosco.\nÉl ha encendido una llama y otros la conservan prendida,\npara que en el mundo los jóvenes y los niños vean y sientan tu presencia de Dios cercano,\nde Dios amigo.\n\nTe damos gracias, Señor, por Juan Bosco,\npadre y maestro de la juventud,\nprofeta de la educación en los tiempos nuevos,\namigo entrañable de los jóvenes,\nque decía: «Me basta que seáis jóvenes para que os quiera».\n\nBastan testigos así para que muchos creamos que Tú eres el Dios del amor. Amén.",
+     "latin": "",
+     "significance": "Plegaria preparatoria de los Salesianos a su santo fundador",
+     "when_to_pray": "El 31 de enero y durante la novena a San Juan Bosco",
+     "references": [
+      "Sociedad de San Francisco de Sales (sdb.org)",
+      "Juan Pablo II, 31 de enero de 1988"
+     ]
+    },
+    {
+     "id": "veni-creator-spiritus",
+     "title": "Ven, Espíritu Creador",
+     "content": "Veni Creator Spiritus es un himno latino de seis estrofas, que se canta en Pentecostés. La tradición lo atribuye a Rabano Mauro (ca. 776-856), aunque su autor no está documentado.\n\nLa primera estrofa pide al Espíritu que visite los corazones; la penúltima le pide que aleje al enemigo y dé la paz; la última pide que por Él conozcamos al Padre y al Hijo.\n\nEl texto está recogido en el Graduale Romanum y es uno de los himnos más cantados de la liturgia cristiana.",
+     "prayer": "Ven, Espíritu Creador,\nvisita las almas de tus fieles,\nllena con tu divina gracia los corazones que creaste.\n\nTú, a quien llamamos Paráclito,\ndon de Dios Altísimo,\nfuente viva, fuego, caridad y ungüento espiritual.\n\nTú derramas sobre nosotros los siete dones;\nTú, dedo de la diestra del Padre;\nTú, fiel promesa del Padre,\nque inspiras nuestras palabras.\n\nIlumina nuestros sentidos;\ninfunde tu amor en nuestros corazones;\ny, con tu perpetuo auxilio,\nfortaleza la debilidad de nuestro cuerpo.\n\nAleja de nosotros al enemigo,\ndanos pronto la paz;\nsé nuestro director y nuestra guía,\npara que evitemos todo mal.\n\nPor ti conozcamos al Padre, y al Hijo revélanos también;\ncreamos en ti, su Espíritu,\npor los siglos de los siglos.\n\nGloria a Dios Padre, y al Hijo que resucitó, y al Espíritu Consolador,\npor los siglos de los siglos. Amén.",
+     "latin": "Veni, Creator Spiritus,\nmentes tuorum visita,\nimple superna gratia\nquae tu creasti pectora.\n\nQui diceris Paraclitus,\naltissimi donum Dei,\nfons vivus, ignis, caritas,\net spiritalis unctio.\n\nTu septiformis munere,\ndictus paternae dexterae,\nTu rite promissum Patris,\nsermone ditans guttura.\n\nAccende lumen sensibus:\ninfunde amorem cordibus:\ninfirma nostri corporis\nvirtute firmans perpeti.\n\nHostem repellas longius,\npacemque dones protinus:\nductore sic te praevio,\nvitemus omne noxium.\n\nPer te sciamus da Patrem,\nnoscamus atque Filium;\nTeque utriusque Spiritum\ncredamus omni tempore.\n\nDeo Patri sit gloria,\net Filio, qui a mortuis surrexit,\nac Paraclito, in saeculorum saecula. Amen.",
+     "significance": "Himno al Espíritu Santo que se canta en Pentecostés",
+     "when_to_pray": "En Pentecostés, en las Horas y como oración al Espíritu Santo",
+     "references": [
+      "Graduale Romanum, 1974",
+      "Catholic Encyclopedia, Veni Creator Spiritus",
+      "Hymnary.org, Veni Creator Spiritus"
      ]
     }
    ]
@@ -271,6 +446,62 @@ const ORACIONES_DATA = {
       "Lucas 15,18-19",
       "1 Juan 1,9"
      ]
+    },
+    {
+     "id": "oracion-mañana",
+     "title": "Oración de la mañana (Liturgia de las Horas)",
+     "content": "Es la invocación con la que la Iglesia comienza cada Hora del Oficio Divino, y por eso también la primera oración del día. Son los dos primeros versículos del Salmo 69.\n\nEs una jaculatoria breve: reconoce que no podemos orar bien sin la ayuda de Dios. El Papa Francisco decía de ella: «Dios mío, ven en mi auxilio» es a menudo el comienzo de nuestra oración: el primer paso de la fe es decirle al Señor que lo necesitamos y que necesitamos su cercanía.",
+     "prayer": "V. Dios mío, ven en mi auxilio.\nR. Señor, date prisa en socorrerme.\n\nGloria al Padre, y al Hijo, y al Espíritu Santo.\nComo era en el principio, ahora y siempre,\npor los siglos de los siglos. Amén.",
+     "latin": "Deus, in adiutorium meum intende.\nDomine, ad adiuvandum me festina.\n\nGloria Patri, et Filio, et Spiritui Sancto,\nsicut erat in principio, et nunc, et semper,\net in saecula saeculorum. Amen.",
+     "significance": "Invocación inicial de cada Hora de la Liturgia de las Horas (Salmo 69,2)",
+     "when_to_pray": "Al comenzar el día, como primera oración",
+     "references": [
+      "Salmo 69,2",
+      "Liturgia de las Horas, invocación inicial",
+      "Catholic Encyclopedia, Deus in Adjutorium Meum Intende"
+     ]
+    },
+    {
+     "id": "oracion-noche",
+     "title": "Oración de la noche (In manus tuas)",
+     "content": "Son las palabras con las que Jesús entregó el espíritu en la cruz (Lc 23,46) y que el Salmo 30,6 repite. La Iglesia las usa como responsorio de las Completas, la oración que cierra el día.\n\nEs la otra cara del Anima Christi: si aquella pide a Cristo que permanezca al despertar, esta le entrega el espíritu al dormir. La Liturgia de las Horas añade: «Salvanos, Señor, mientras velamos, guardanos mientras dormimos».",
+     "prayer": "En tus manos, Señor, encomiendo mi espíritu;\nme has redimido, Señor, Dios de verdad.\n\nSalvanos, Señor, mientras velamos,\nguardanos mientras dormimos.",
+     "latin": "In manus tuas, Domine,\ncommendo spiritum meum;\nredemisti me, Domine, Deus veritatis.\n\nSalva nos, Domine, vigilantes,\ncustodi nos dormientes.",
+     "significance": "Responsorio de las Completas, con las palabras de Jesús en la cruz (Salmo 30,6)",
+     "when_to_pray": "Al acostarse, al cierre del día",
+     "references": [
+      "Salmo 30,6",
+      "Lucas 23,46",
+      "Liturgia de las Horas, Completas"
+     ]
+    },
+    {
+     "id": "nunc-dimittis",
+     "title": "Nunc Dimittis (Cántico de Simeón)",
+     "content": "Es el cántico que Simeón entonó en el Templo cuando María presentó a Jesús (Lucas 2,29-32). La Iglesia lo canta en las Completas, la oración que cierra el día.\n\nSiméon pide poder irse en paz porque sus ojos han visto Aquello que Dios traía a todas las naciones. Es un canto de acción de gracias por lo ya visto.",
+     "prayer": "Ahora, Señor, según tu promesa, puedes dejar a tu siervo irse en paz.\nPorque mis ojos han visto a tu Salvador,\na quien has presentado ante todos los pueblos:\nluz para alumbrar a las naciones y gloria de tu pueblo Israel.",
+     "latin": "Nunc dimittis servum tuum, Domine,\nsecundum verbum tuum,\nquoniam viderunt oculi mei\nsalutare tuum.\n\nQuod exposuisti ad universas gentes:\nlucem, quam videbant omnes,\net gloriam plebis tuae Israel.",
+     "significance": "Cántico de las Completas (Lucas 2,29-32)",
+     "when_to_pray": "En las Completas, al final del día",
+     "references": [
+      "Lucas 2,29-32",
+      "Sagrada Escritura, El libro del Pueblo de Dios (vatican.va)",
+      "Catholic Answers, Nunc Dimittis"
+     ]
+    },
+    {
+     "id": "agnus-dei",
+     "title": "Agnus Dei (Cordero de Dios)",
+     "content": "Es la aclamación que se canta durante la fracción del pan, antes de la comunión. Su texto viene de san Juan Batista, que señaló a Jesús diciendo: he aquí el Cordero de Dios, que quita el pecado del mundo (Juan 1,29).\n\nSe repite mientras se parte el pan, y la última vez se dice danos la paz en lugar de ten piedad de nosotros.",
+     "prayer": "Cordero de Dios,\nque quitas el pecado del mundo,\nten piedad de nosotros.\n\nCordero de Dios,\nque quitas el pecado del mundo,\nten piedad de nosotros.\n\nCordero de Dios,\nque quitas el pecado del mundo,\ndanos la paz.",
+     "latin": "Agnus Dei, qui tollis peccata mundi, miserere nobis.\nAgnus Dei, qui tollis peccata mundi, miserere nobis.\nAgnus Dei, qui tollis peccata mundi, dona nobis pacem.",
+     "significance": "Aclamación de la fracción del pan en la Misa (Juan 1,29)",
+     "when_to_pray": "Durante la fracción del pan, antes de comulgar",
+     "references": [
+      "Juan 1,29",
+      "Misal Romano, tercera edición, USCCB / Conferencia Episcopal Mexicana",
+      "Instrucción General del Misal Romano"
+     ]
     }
    ]
   },
@@ -292,6 +523,31 @@ const ORACIONES_DATA = {
       "Mateo 4,19",
       "Mateo 9,37-38",
       "Hechos 1,8"
+     ]
+    },
+    {
+     "id": "oracion-por-los-jovenes",
+     "title": "Oración por los jóvenes",
+     "content": "Es la oración oficial que la Conferencia Episcopal de Estados Unidos dedica a los jóvenes. Dirige la mirada a Cristo como compañero de la juventud y rey del universo.\n\nSu núcleo es una cita del Papa Francisco: «caminar juntos, jóvenes y ancianos, para alimentar el entusiasmo, hacer germinar sueños, suscitar profecías y hacer florecer esperanzas» (Christus Vivit, 199).",
+     "prayer": "Jesucristo, Rey del Universo,\na ti nos dirigimos en humilde oración.\nMira con favor a todos los jóvenes,\nportadores de esperanza para la Iglesia y el mundo.\n\nJesucristo, compañero de la juventud,\nbendice los caminos del descubrimiento y del discernimiento,\nentre tiempos de alegría y experiencias de dificultad,\ncon el constante amor y apoyo de tu Iglesia.\n\nJesucristo, vivo en los corazones de todo tu pueblo,\nconcede que podamos caminar juntos, jóvenes y ancianos,\npara alimentar el entusiasmo, hacer germinar sueños,\nsuscitar profecías y hacer florecer esperanzas.\n\nJesucristo, Redentor de toda la humanidad,\nabre nuestros corazones para encontrar a todos los jóvenes,\npara acompañar y estar juntos en comunidad,\ny como una Iglesia, embarcamos en nuestra santa misión.\n\nJesucristo, en compañía del Padre y del Espíritu Santo,\nescucha amablemente nuestra oración\ny permanece con nosotros para siempre. Amén.",
+     "latin": "",
+     "significance": "Oración oficial de la USCCB por la juventud, con cita de Christus Vivit 199",
+     "when_to_pray": "En el mes de la Juventud, en las jornadas de jóvenes y como oración comunitaria",
+     "references": [
+      "United States Conference of Catholic Bishops, Una Oración por la Juventud",
+      "Papa Francisco, Christus Vivit, 199"
+     ]
+    },
+    {
+     "id": "oracion-vocaciones",
+     "title": "Oración por las vocaciones",
+     "content": "Es una de las oraciones que la Conferencia Episcopal de Estados Unidos dedica a las vocaciones. Pide al Señor que llame a más jóvenes a servirle y que santifique a los que ya lo han llamado.\n\nEn la Iglesia la vocación no es solo el sacerdocio ni la vida religiosa: también son vocación el matrimonio y la vida laical comprometida.",
+     "prayer": "Señor Jesús, te encomendamos el sacerdocio católico.\nDanos más sacerdotes, pero te pedimos, muy especialmente,\nque sean sacerdotes santos y mensajeros de esa verdad\nque todo lo abarca y que es eterna.\n\nBendice a nuestros sacerdotes con la santidad y la valentía que requieren,\npara poder guiar a tu pueblo hasta Cristo.\n\nAyuda a todos los religiosos a cumplir sus sagradas promesas,\npara que puedan convertirse en signos eficaces de tu reino.\n\nSeñor, invita a tu servicio a un mayor número de hombres y mujeres.\n\nTe lo pedimos por Cristo, nuestro Señor. Amén.",
+     "latin": "",
+     "significance": "Oración de la USCCB por el sacerdocio y la vida consagrada",
+     "when_to_pray": "En la Jornada mundial de oración por las vocaciones y en los grupos de jóvenes",
+     "references": [
+      "United States Conference of Catholic Bishops, Prayers for Vocations"
      ]
     }
    ]
