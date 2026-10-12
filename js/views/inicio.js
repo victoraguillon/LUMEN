@@ -15,10 +15,10 @@ const InicioView = {
             const todayMonth = String(hoy.getMonth() + 1).padStart(2, '0');
             const celebrantes = list.filter(c => String(c.mes).padStart(2, '0') === todayMonth && String(c.dia).padStart(2, '0') === todayDay);
             if (celebrantes.length === 0) {
-                container.style.display = 'none';
+                container.classList.add('v-hide');
                 return;
             }
-            container.style.display = '';
+            container.classList.remove('v-hide');
             container.innerHTML = `
                 <div class="bento-title v-txt-error" >${LumenIcons.sparkles} ¡Hoy es un día especial!</div>
                 <p style="font-size: 16px; color: var(--texto-oscuro); margin:0;">Hoy cumple años: <strong>${LumenUI.escapeHTML(celebrantes.map(c => c.nombre).join(', '))}</strong>. ¡Dedícale un momento de oración y envíale un saludo!</p>

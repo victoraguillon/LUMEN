@@ -186,7 +186,7 @@ const PerfilView = {
             const cropBtn = document.getElementById('crop-save-btn');
             document.getElementById('ep-pic-preview').style.display = 'none';
             cropArea.style.display = 'block';
-            cropBtn.style.display = 'block';
+            cropBtn.classList.remove('v-hide');
             cropArea.innerHTML = `<img class="v-mw100" src="${ev.target.result}" id="crop-image" >`;
             if (this.cropper) this.cropper.destroy();
             const image = document.getElementById('crop-image');
@@ -205,7 +205,7 @@ const PerfilView = {
         document.getElementById('ep-pic-preview').src = canvas.toDataURL('image/jpeg', 0.9);
         document.getElementById('ep-pic-preview').style.display = 'block';
         document.getElementById('cropper-area').style.display = 'none';
-        document.getElementById('crop-save-btn').style.display = 'none';
+        document.getElementById('crop-save-btn').classList.add('v-hide');
         this.cropper.destroy();
         this.cropper = null;
 

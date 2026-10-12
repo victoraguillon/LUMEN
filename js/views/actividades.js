@@ -107,7 +107,7 @@ const ActividadesView = {
             if (show) visible++;
         });
         const empty = document.getElementById('act-search-empty');
-        if (empty) empty.style.display = visible ? 'none' : '';
+        if (empty) empty.classList.toggle('v-hide', visible > 0);
     },
     showAddForm: function(id = null) {
         const evento = id ? LumenData.eventos.find(e => e.id === id) : {};
@@ -197,7 +197,7 @@ const ActividadesView = {
             const cropBtn = document.getElementById('act-crop-btn');
             document.getElementById('act-pic-preview').style.display = 'none';
             cropArea.style.display = 'block';
-            cropBtn.style.display = 'block';
+            cropBtn.classList.remove('v-hide');
             cropArea.innerHTML = `<img class="v-mw100" src="${ev.target.result}" id="crop-image" >`;
             if (this.cropper) this.cropper.destroy();
             const image = document.getElementById('crop-image');
@@ -217,7 +217,7 @@ const ActividadesView = {
         document.getElementById('act-pic-preview').style.display = 'block';
         document.getElementById('act-image-url').value = compressedBase64;
         document.getElementById('cropper-area').style.display = 'none';
-        document.getElementById('act-crop-btn').style.display = 'none';
+        document.getElementById('act-crop-btn').classList.add('v-hide');
         this.cropper.destroy();
         this.cropper = null;
         LumenUI.showToast('Foto de actividad lista en alta calidad. ¡Guarda los cambios!', 'success');

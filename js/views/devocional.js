@@ -5,6 +5,7 @@ const DevocionalView = {
     _calendarYear: null,
 
     render: function() {
+        this._activeTab = 'historia';
         const todayDate = new Date();
         const dayOfMonth = todayDate.getDate();
         const month = todayDate.getMonth() + 1;
@@ -226,7 +227,7 @@ const DevocionalView = {
             btn.setAttribute('aria-selected', isActive);
         });
         document.querySelectorAll('.devocional-tab-pane').forEach(pane => {
-            pane.style.display = pane.dataset.tab === tab ? 'block' : 'none';
+            pane.classList.toggle('v-hide', pane.dataset.tab !== tab);
         });
     },
 
