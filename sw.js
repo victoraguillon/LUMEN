@@ -23,7 +23,8 @@
 // v26: banner instalación PWA (dark mode + botones por plataforma) + rediseño vistas Nosotros y Blog
 // v25: bitácora de exportaciones (migración 11)
 // v50: fix v-hide !important (pestañas del devocional, cumpleaños de inicio, botones de recorte) + 10 oraciones y 1 novena
-const CACHE = "lumen-cache-v52";
+// v53: iconos de app a sangre completa (sin marco), favicon y badge de notificaciones
+const CACHE = "lumen-cache-v53";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";
@@ -76,6 +77,11 @@ const SHELL = [
   "/assets/icons/logo-192.png",
   "/assets/icons/logo-512.png",
   "/assets/icons/logo-maskable.png",
+  "/assets/icons/apple-touch-icon-180.png",
+  "/assets/icons/favicon-32.png",
+  "/assets/icons/favicon-48.png",
+  "/assets/icons/favicon-192.png",
+  "/assets/icons/notification-badge.png",
 ];
 
 self.addEventListener("install", (event) => {
@@ -208,7 +214,7 @@ self.addEventListener("push", (event) => {
       .showNotification(data.title, {
         body: data.body,
         icon: "/assets/icons/logo-192.png",
-        badge: "/assets/icons/logo-192.png",
+        badge: "/assets/icons/notification-badge.png",
         data: { url: data.url },
         tag: "lumen-notif",
         renotify: true
