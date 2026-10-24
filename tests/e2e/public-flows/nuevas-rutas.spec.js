@@ -28,8 +28,12 @@ test.describe('Rosario ampliado, planes y descargas', () => {
     }
   });
 
-  test('Los planes estacionales muestran los cuatro caminos y sus pasos', async ({ page }) => {
+  test('Los planes litúrgicos muestran los cuatro caminos y sus pasos', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.getByText('Planes litúrgicos', { exact: true })).toBeVisible();
     await page.goto('/planes');
+    await expect(page.getByRole('heading', { name: /Planes litúrgicos/i })).toBeVisible();
+    await expect(page).toHaveTitle(/Planes litúrgicos/);
     for (const count of ['28 pasos', '12 pasos', '40 pasos', '50 pasos']) {
       await expect(page.getByText(count, { exact: true }).first()).toBeVisible();
     }
@@ -47,6 +51,49 @@ test.describe('Rosario ampliado, planes y descargas', () => {
       await expect(groups.filter({ hasText: name }).getByRole('heading', { name })).toBeVisible();
     }
     await expect(page.getByText(/nunca se guardan datos de tu cuenta/i)).toBeVisible();
+  });
+
+  test('El audio del plan expande las abreviaturas bíblicas', async ({ page }) => {
+    await page.goto('/planes/adviento');
+    const audio = page.locator('.plan-audio .audio-btn');
+    await expect(audio).toBeVisible();
+    const audioText = await audio.getAttribute('data-audio-text');
+    expect(audioText).toContain('Lucas, capítulo 21, versículos 25 al 28');
+    expect(audioText).not.toContain('Lc 21');
+
+    const normalized = await page.evaluate(() => LumenAudio.normalizeScripture(
+      '1 Cor 12,12-13; 1 Pe 1,8-9; 1 Tim 2,1-4; Sal 139,23-24; Jn 3,16'
+    ));
+    expect(normalized).toContain('Primera carta a los Corintios, capítulo 12, versículos 12 al 13');
+    expect(normalized).toContain('Primera carta de Pedro, capítulo 1, versículos 8 al 9');
+    expect(normalized).toContain('Primera carta a Timoteo, capítulo 2, versículos 1 al 4');
+    expect(normalized).toContain('Salmos, capítulo 139, versículos 23 al 24');
+    expect(normalized).toContain('Juan, capítulo 3, versículo 16');
+  });
+
+  test('El rosario y las coronillas muestran solo el texto de la oración', async ({ page }) => {
+    await page.goto('/rosario/eucaristico');
+    await expect(page.locator('.rosario-step-content h2.sr-only')).toHaveCount(1);
+    await expect(page.locator('.rosario-step-content h2:not(.sr-only)')).toHaveCount(0);
+    await expect(page.locator('.rosario-section-label')).toHaveCount(0);
+    await expect(page.locator('.mystery-box')).toHaveCount(0);
+    await expect(page.locator('.rosario-step-content .rosario-text')).toContainText('Por la señal de la Santa Cruz');
+    const firstAudio = await page.locator('.rosario-step-actions .audio-btn').getAttribute('data-audio-text');
+    expect(firstAudio).toContain('Por la señal de la Santa Cruz');
+    expect(firstAudio).not.toContain('Señal de la Cruz');
+
+    await page.goto('/rosario/espiritu-santo');
+    for (let i = 0; i < 5; i++) {
+      await page.getByRole('button', { name: /Siguiente cuenta/i }).click();
+    }
+    const invocation = page.locator('.rosario-step-content .rosario-text');
+    await expect(invocation).toContainText('Ven, Espíritu de Sabiduría');
+    await expect(invocation).not.toContainText('Don de Sabiduría');
+    await expect(invocation).not.toContainText('Isaías 11,2');
+    const invocationAudio = await page.locator('.rosario-step-actions .audio-btn').getAttribute('data-audio-text');
+    expect(invocationAudio).toContain('Ven, Espíritu de Sabiduría');
+    expect(invocationAudio).not.toContain('Don de Sabiduría');
+    expect(invocationAudio).not.toContain('Isaías 11,2');
   });
 });
 

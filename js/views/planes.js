@@ -1,4 +1,4 @@
-/* Planes estacionales: Adviento, Navidad, Cuaresma y Pascua.
+/* Planes litúrgicos: Adviento, Navidad, Cuaresma y Pascua.
    Son recorridos generales, reutilizables cada año, sin fechas concretas. */
 const PlanesView = {
     _id: null,
@@ -118,7 +118,10 @@ const PlanesView = {
     },
 
     _audioText: function(step) {
-        return [step.title, step.gospelRef, step.reflection, step.prayer, step.action].filter(Boolean).join('. ');
+        return [step.title, step.gospelRef, step.reflection, step.prayer, step.action]
+            .filter(Boolean)
+            .join('. ')
+            .replace(/\.\s*\./g, '.');
     },
 
     _stepHTML: function(plan, step, pct) {
@@ -170,7 +173,7 @@ const PlanesView = {
         return `<div class="view">
             <div class="v-header reveal">
                 <span class="v-eyebrow">${LumenIcons.book} Caminos de fe ${LumenUI.liturgicalBadgeHTML()}</span>
-                <h1 class="v-title">Planes <em>estacionales</em></h1>
+                <h1 class="v-title">Planes <em>litúrgicos</em></h1>
                 <p class="v-sub">Cuatro recorridos generales para vivir Adviento, Navidad, Cuaresma y Pascua. Sin fechas fijas: empieza cuando lo necesites y retoma donde lo dejaste.</p>
                 <div class="hero-actions v-jcc v-mt20">${LumenUI.streakChipHTML()}</div>
             </div>

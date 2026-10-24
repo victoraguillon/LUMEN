@@ -53,7 +53,7 @@ const LumenRouter = {
         formacion: { title: 'Formación', desc: 'Formación católica paso a paso: catecismo, moral, apologética y vida cristiana.' },
         oraciones: { title: 'Oraciones', desc: 'Oraciones católicas para cada momento de la vida y del año litúrgico.' },
         rosario: { title: 'Rosario', desc: 'Reza el Rosario convencional, el eucarístico y las coronillas de la Divina Misericordia, San Miguel, el Espíritu Santo y San José.' },
-        planes: { title: 'Planes estacionales', desc: 'Cuatro caminos generales para vivir Adviento, Navidad, Cuaresma y Pascua con la Palabra, la oración y gestos concretos.' },
+        planes: { title: 'Planes litúrgicos', desc: 'Cuatro caminos generales para vivir Adviento, Navidad, Cuaresma y Pascua con la Palabra, la oración y gestos concretos.' },
         offline: { title: 'Descargas', desc: 'Descarga contenido de LUMEN para rezarlo y consultarlo sin conexión.' },
         novenas: { title: 'Novenas', desc: 'Novenas católicas para preparar celebraciones y confiar tus intenciones a Dios.' },
         examen: { title: 'Examen de conciencia', desc: 'Una guía breve para examinar la conciencia y prepararte para la confesión.' },
@@ -87,7 +87,7 @@ const LumenRouter = {
             case 'formacion': return { obj: typeof FormacionView !== 'undefined' ? FormacionView : null, title: "Formación" };
             case 'oraciones': return { obj: typeof OracionesView !== 'undefined' ? OracionesView : null, title: "Oraciones" };
             case 'rosario': return { obj: typeof RosarioView !== 'undefined' ? RosarioView : null, title: "Rosario" };
-            case 'planes': return { obj: typeof PlanesView !== 'undefined' ? PlanesView : null, title: "Planes estacionales" };
+            case 'planes': return { obj: typeof PlanesView !== 'undefined' ? PlanesView : null, title: "Planes litúrgicos" };
             case 'offline': return { obj: typeof OfflineView !== 'undefined' ? OfflineView : null, title: "Descargas" };
             case 'novenas': return { obj: typeof NovenasView !== 'undefined' ? NovenasView : null, title: "Novenas" };
             case 'examen': return { obj: typeof ExamenView !== 'undefined' ? ExamenView : null, title: "Examen de Conciencia" };

@@ -31,7 +31,7 @@ const InicioView = {
         const set = dayMap[new Date().getDay()] || 'gozosos';
         const setTitle = { gozosos: 'Gozosos', dolorosos: 'Dolorosos', gloriosos: 'Gloriosos', luminosos: 'Luminosos' }[set];
         const planId = ['adviento', 'navidad', 'cuaresma', 'pascua'].indexOf(info.seasonId) > -1 ? info.seasonId : null;
-        const planTitle = planId ? { adviento: 'Adviento', navidad: 'Navidad', cuaresma: 'Cuaresma', pascua: 'Pascua' }[planId] : 'Planes estacionales';
+        const planTitle = planId ? { adviento: 'Adviento', navidad: 'Navidad', cuaresma: 'Cuaresma', pascua: 'Pascua' }[planId] : 'Planes litúrgicos';
         const recent = (typeof LumenUI !== 'undefined' && LumenUI.recentHTML) ? LumenUI.recentHTML(3) : '';
         const streak = (typeof LumenUI !== 'undefined' && LumenUI.streakChipHTML) ? LumenUI.streakChipHTML() : '';
         const next = (typeof LumenData !== 'undefined' && LumenData.upcomingEventos) ? LumenData.upcomingEventos(1)[0] : null;

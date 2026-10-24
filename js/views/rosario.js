@@ -309,10 +309,7 @@ const RosarioView = {
 
     _audioText: function(step) {
         if (!step) return '';
-        if (step.mystery) {
-            return [step.mystery.title, step.mystery.reference, step.mystery.biblicalText].filter(Boolean).join('. ');
-        }
-        return [step.label, step.text].filter(Boolean).join('. ');
+        return step.text || (step.mystery && step.mystery.biblicalText) || '';
     },
 
     _audioButton: function(step) {
@@ -339,18 +336,10 @@ const RosarioView = {
     },
 
     _stepHTML: function(step, pct) {
-        const mysteryHTML = step.mystery ? `<div class="mystery-box">
-            <h3>${LumenUI.escapeHTML(step.mystery.title || '')}</h3>
-            <p class="mystery-ref">${LumenUI.escapeHTML(step.mystery.reference || '')}</p>
-            <div class="reading-surface mystery-text">${String(step.mystery.biblicalText || step.text || '').replace(/\n/g, '<br>')}</div>
-        </div>` : '';
-        const sectionHTML = step.sectionStart && step.sectionTitle ? `<p class="rosario-section-label">${LumenUI.escapeHTML(step.sectionTitle)}</p>` : '';
+        const text = step.text || (step.mystery && step.mystery.biblicalText) || '';
         return `<div class="rosario-step-content">
-            <span class="rosario-icon">${step.icon || LumenIcons.rosario}</span>
-            ${sectionHTML}
-            <h2>${LumenUI.escapeHTML(step.label)}</h2>
-            ${mysteryHTML}
-            ${!step.mystery ? `<div class="reading-surface rosario-text">${String(step.text || '').replace(/\n/g, '<br>')}</div>` : ''}
+            <h2 class="sr-only">${LumenUI.escapeHTML(step.label || '')}</h2>
+            <div class="reading-surface rosario-text">${String(text).replace(/\n/g, '<br>')}</div>
             <div class="rosario-step-actions">${this._audioButton(step)}</div>
             <div class="rosario-progress"><i id="rosario-bar" style="width:${pct}%"></i></div>
         </div>`;
@@ -502,7 +491,7 @@ const RosarioView = {
         return `
         <div class="view">
             <h1 class="sr-only">${LumenUI.escapeHTML(title)}, cuenta ${this._pos + 1}</h1>
-            <header class="formacion-mhead reveal">
+            <header class="formacion-mhead reveal" id="rosario-prayer-header">
                 <button class="btn btn-icon" onclick="RosarioView.back()" aria-label="${backLabel}">←</button>
                 <div class="fm-title"><span class="fm-mod">${LumenIcons.rosario}${LumenUI.escapeHTML(title)}</span><span id="rosario-counter" class="fm-count">${this._pos + 1} / ${steps.length}</span></div>
                 <div class="fm-actions">

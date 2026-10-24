@@ -182,7 +182,7 @@ const LandingView = {
             { icon: M.examen || '', name: 'Examen de Conciencia', desc: 'Una pausa diaria para mirar el corazón.', more: 'Una guía serena para revisar la jornada, reconocer la acción de Dios y prepararte para la confesión, sin juicios ni prisas.', view: 'examen' },
             { icon: M.book || '', name: 'Formación', desc: 'Catecismo, apologética y crecimiento.', more: 'Módulos con puntos clave, referencias y un lector cómodo para estudiar la fe a tu ritmo. Tu progreso queda guardado en este dispositivo.', view: 'formacion' },
             { icon: M.oraciones || '', name: 'Oraciones', desc: 'La oración de cada momento del año.', more: 'Oraciones tradicionales y marianas, con búsqueda, audio, favoritos y enlaces directos para volver a la que necesitas.', view: 'oraciones' },
-            { icon: M.compass || '', name: 'Planes estacionales', desc: 'Adviento, Navidad, Cuaresma y Pascua.', more: 'Cuatro recorridos generales, paso a paso, para vivir cada tiempo litúrgico con la Palabra, la oración y un gesto concreto. Sin fechas fijas: empieza cuando lo necesites.', view: 'planes' },
+            { icon: M.compass || '', name: 'Planes litúrgicos', desc: 'Adviento, Navidad, Cuaresma y Pascua.', more: 'Cuatro recorridos generales, paso a paso, para vivir cada tiempo litúrgico con la Palabra, la oración y un gesto concreto. Sin fechas fijas: empieza cuando lo necesites.', view: 'planes' },
             { icon: M.download || '', name: 'Descargas', desc: 'Lleva LUMEN contigo sin conexión.', more: 'Descarga formación, oración, devocional o planes completos. Las descargas son públicas y puedes quitarlas en cualquier momento.', view: 'offline' },
         ];
     },

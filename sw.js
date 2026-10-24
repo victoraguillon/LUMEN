@@ -1,10 +1,11 @@
 // LUMEN - Service Worker único (v32) en la RAÍZ (/sw.js)
+// v61: planes litúrgicos, referencias bíblicas completas y oración sin títulos
 // v60: carga el santoral antes de resolver la frase del día
 // v59: restaura la proporción original de la foto de bienvenida
 // v58: tipografía superior más legible sin cambiar la agrupación de Actividades
 // v57: navegación superior compacta y Actividades dentro de Comunidad
 // v56: enlace de Descargas en el menú y pulido de búsqueda/rosario
-// v55: planes estacionales, descargas offline, búsqueda global y audio/foco
+// v55: planes litúrgicos, descargas offline, búsqueda global y audio/foco
 // v49: limpieza F4 – utilidades de layout, iconos PWA reales y screenshots (bump de caché)
 // v48: compartir: selector de formato (historia / post 4:5 / post cuadrado) + emailCheck anti-rebote (migración 17)
 // v47: shell SPA solo se cachea en "/" (no se contamina con legales) + sincronización offline robusta
@@ -31,7 +32,7 @@
 // v50: fix v-hide !important (pestañas del devocional, cumpleaños de inicio, botones de recorte) + 10 oraciones y 1 novena
 // v53: iconos de app a sangre completa (sin marco), favicon y badge de notificaciones
 // v54: rutas limpias SPA, carga diferida de datasets y correcciones de auditoría
-const CACHE = "lumen-cache-v60";
+const CACHE = "lumen-cache-v61";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";
