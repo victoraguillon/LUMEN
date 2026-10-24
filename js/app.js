@@ -3,7 +3,7 @@
 const LumenAssets = {
     _promises: {},
     _viewScripts: {
-        inicio: ['js/frases_santos.js'],
+        inicio: ['js/santoral.js', 'js/frases_santos.js'],
         devocional: ['js/santoral.js', 'js/devocional_data.js'],
         formacion: ['js/formacion_data.js'],
         oraciones: ['js/oraciones_data.js'],
@@ -12,9 +12,11 @@ const LumenAssets = {
         examen: ['js/examen_data.js'],
         planes: ['js/planes_data.js']
     },
-    ensure: function(viewName) {
+    ensure: async function(viewName) {
         const scripts = this._viewScripts[viewName] || [];
-        return Promise.all(scripts.map((src) => this._load(src)));
+        for (const src of scripts) {
+            await this._load(src);
+        }
     },
     _load: function(src) {
         if (this._promises[src]) return this._promises[src];

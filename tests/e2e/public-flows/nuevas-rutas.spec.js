@@ -50,6 +50,17 @@ test.describe('Rosario ampliado, planes y descargas', () => {
   });
 });
 
+test.describe('Frase del día', () => {
+  test.use({ timezoneId: 'America/Caracas' });
+
+  test('Sigue al santo del santoral y no al respaldo por fecha', async ({ page }) => {
+    await page.clock.install({ time: new Date('2026-10-24T12:00:00-04:00') });
+    await page.goto('/inicio');
+    await expect(page.locator('.verse-text-large')).toContainText('Predicar la verdad, aunque cueste la vida.');
+    await expect(page.locator('.verse-text-large + cite')).toContainText('San Antonio María Claret');
+  });
+});
+
 test.describe('Búsqueda global y portada expandible', () => {
   test('La búsqueda global encuentra contenido y abre un plan', async ({ page }) => {
     await page.goto('/inicio');
