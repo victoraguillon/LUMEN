@@ -413,7 +413,10 @@ const LumenShare = {
                 }, Promise.resolve([]));
             });
         };
-        return this._prepareImage(opts).then(run).catch(function(err) {
+        const ensureLib = (typeof html2canvas !== 'undefined')
+            ? Promise.resolve()
+            : LumenUI.ensureHtml2Canvas();
+        return ensureLib.then(() => this._prepareImage(opts)).then(run).catch(function(err) {
             if (!opts.image) throw err;
             console.warn('[share] render con imagen falló, reintentando sin imagen', err);
             const o = Object.assign({}, opts);

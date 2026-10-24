@@ -20,7 +20,7 @@ const LumenUI = {
         for (let i = 0; i < LUMEN_GLOS_LINKS.length; i++) {
             const l = LUMEN_GLOS_LINKS[i];
             const re = new RegExp('\\b(' + this._regEsc(l.term) + ')\\b', 'gi');
-            const href = '#/' + l.to.join('/') + (l.query ? '?' + l.query : '');
+            const href = (typeof LumenRouter !== 'undefined') ? LumenRouter.hrefFor(l.to, l.query) : ('#/' + l.to.join('/') + (l.query ? '?' + l.query : ''));
             out = out.replace(re, function(match) {
                 return '<a class="glos-link" href="' + href + '">' + match + '</a>';
             });
@@ -46,7 +46,7 @@ const LumenUI = {
         const push = function(list) {
             (list || []).forEach(function(l) {
                 if (!l) return;
-                const href = '#/' + (l.parts || []).map(encodeURIComponent).join('/');
+                const href = (typeof LumenRouter !== 'undefined') ? LumenRouter.hrefFor(l.parts) : ('#/' + (l.parts || []).map(encodeURIComponent).join('/'));
                 if (seen[href]) return;
                 seen[href] = true;
                 links.push({ href: href, label: l.label, icon: l.icon, query: l.query });
@@ -99,6 +99,8 @@ const LumenUI = {
         if (!modal) return;
         if (modal.classList.contains('active')) return;
         if (modalId === 'register-modal') this._resetRegister();
+        this.closeDrawer(false);
+        this.closeDropdowns();
         this._lastFocused = document.activeElement;
         modal.classList.add('active');
         modal.setAttribute('role', 'dialog');
@@ -273,16 +275,31 @@ const LumenUI = {
     // Modal de Confirmación Elegante
     showConfirm: function(message) {
         return new Promise((resolve) => {
-            document.getElementById('confirm-message').innerText = message;
+            const modal = document.getElementById('confirm-modal');
+            const msg = document.getElementById('confirm-message');
+            if (!modal || !msg) { resolve(false); return; }
+            msg.innerText = message;
             this.openModal('confirm-modal');
-            
-            const acceptBtn = document.getElementById('confirm-accept-btn');
-            const newBtn = acceptBtn.cloneNode(true);
-            acceptBtn.parentNode.replaceChild(newBtn, acceptBtn);
-            newBtn.addEventListener('click', () => {
+            let settled = false;
+            const finish = (value) => {
+                if (settled) return;
+                settled = true;
+                if (observer) observer.disconnect();
                 this.closeModal('confirm-modal');
-                resolve(true);
+                resolve(value);
+            };
+            const acceptBtn = document.getElementById('confirm-accept-btn');
+            const cancelBtn = document.getElementById('confirm-cancel-btn');
+            const newAccept = acceptBtn.cloneNode(true);
+            const newCancel = cancelBtn.cloneNode(true);
+            acceptBtn.parentNode.replaceChild(newAccept, acceptBtn);
+            cancelBtn.parentNode.replaceChild(newCancel, cancelBtn);
+            newAccept.addEventListener('click', () => finish(true));
+            newCancel.addEventListener('click', () => finish(false));
+            const observer = new MutationObserver(() => {
+                if (!modal.classList.contains('active')) finish(false);
             });
+            observer.observe(modal, { attributes: true, attributeFilter: ['class'] });
         });
     },
 
@@ -764,8 +781,54 @@ const LumenUI = {
     toggleForgotPassword: function(show) { document.getElementById('login-view').style.display = show ? 'none' : 'block'; document.getElementById('forgot-password-view').style.display = show ? 'block' : 'none'; },
     // Función para el Menú Lateral Móvil
     toggleDrawer: function() {
-        document.getElementById('side-drawer').classList.toggle('active');
-        document.getElementById('drawer-overlay').classList.toggle('active');
+        const drawer = document.getElementById('side-drawer');
+        if (!drawer) return;
+        if (drawer.classList.contains('active')) this.closeDrawer();
+        else this.openDrawer();
+    },
+    openDrawer: function() {
+        const drawer = document.getElementById('side-drawer');
+        const overlay = document.getElementById('drawer-overlay');
+        if (!drawer) return;
+        this._drawerReturnFocus = document.activeElement;
+        drawer.classList.add('active');
+        if (overlay) overlay.classList.add('active');
+        drawer.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('drawer-open');
+        const menuBtn = document.querySelector('.mobile-menu-btn');
+        if (menuBtn) menuBtn.setAttribute('aria-expanded', 'true');
+        window.setTimeout(() => {
+            const first = drawer.querySelector('a[href], button:not([disabled]), summary');
+            if (first) { try { first.focus({ preventScroll: true }); } catch (e) {} }
+        }, 60);
+    },
+    closeDrawer: function(restoreFocus) {
+        const drawer = document.getElementById('side-drawer');
+        const overlay = document.getElementById('drawer-overlay');
+        if (!drawer || !drawer.classList.contains('active')) return;
+        drawer.classList.remove('active');
+        if (overlay) overlay.classList.remove('active');
+        drawer.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('drawer-open');
+        const menuBtn = document.querySelector('.mobile-menu-btn');
+        if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
+        if (restoreFocus !== false && this._drawerReturnFocus && document.contains(this._drawerReturnFocus)) {
+            try { this._drawerReturnFocus.focus({ preventScroll: true }); } catch (e) {}
+        }
+        this._drawerReturnFocus = null;
+    },
+    toggleDropdown: function(id, trigger) {
+        const menu = document.getElementById(id);
+        if (!menu) return;
+        const willOpen = !menu.classList.contains('active');
+        this.closeDropdowns();
+        if (!willOpen) return;
+        menu.classList.add('active');
+        if (trigger) trigger.setAttribute('aria-expanded', 'true');
+    },
+    closeDropdowns: function() {
+        document.querySelectorAll('.dropdown-content.active').forEach((menu) => menu.classList.remove('active'));
+        document.querySelectorAll('.dropdown-trigger[aria-expanded="true"]').forEach((btn) => btn.setAttribute('aria-expanded', 'false'));
     },
 
     // --- Validación de email (anti-rebote) ---
@@ -818,9 +881,10 @@ safeListener('registration-form', 'submit', function(e) {
           if (typeof LumenPush !== 'undefined' && LumenPush.enviarPush) {
               LumenPush.enviarPush({ mode: 'self', title: '¡Inscripción confirmada!', body: `Te has inscrito a "${eventTitle}". Recibirás un recordatorio antes de que comience.`, url: '/actividades' });
           }
-          return fetch('https://formsubmit.co/ajax/juvemar08@gmail.com', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ _subject: `Nueva Inscripción: ${eventTitle}`, name: name, phone: phone, message: `${name} se ha inscrito a "${eventTitle}". Tel: ${phone}` }) });
+          if (typeof LumenData !== 'undefined' && LumenData.loadMyInscripciones) LumenData.loadMyInscripciones(true);
+          // El correo al equipo es best-effort: si falla, la inscripción ya quedó guardada.
+          return fetch('https://formsubmit.co/ajax/juvemar08@gmail.com', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ _subject: `Nueva Inscripción: ${eventTitle}`, name: name, phone: phone, message: `${name} se ha inscrito a "${eventTitle}". Tel: ${phone}` }) }).catch(() => null);
       })
-      .then(response => response.json())
       .then(() => { 
           LumenUI.closeModal('registration-modal'); 
           LumenUI.resetLoading(submitBtn);
@@ -902,27 +966,34 @@ function initRegisterPasswordHint() {
     p2.addEventListener('input', update);
 }
 
-// Cerrar modales con Escape y click fuera del panel
+// Cerrar modales/drawer/dropdowns con Escape y mantener el foco dentro
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
         const open = document.querySelectorAll('.modal-overlay.active');
-        if (open.length) LumenUI.closeModal(open[open.length - 1].id);
+        if (open.length) { LumenUI.closeModal(open[open.length - 1].id); return; }
+        const drawer = document.getElementById('side-drawer');
+        if (drawer && drawer.classList.contains('active')) { LumenUI.closeDrawer(); return; }
+        if (document.body.classList.contains('prayer-focus')) { LumenUI.togglePrayerFocus(); return; }
+        LumenUI.closeDropdowns();
     }
     if (e.key === 'Tab') {
         const modal = document.querySelector('.modal-overlay.active');
-        if (!modal) return;
-        const focusables = modal.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select, textarea, [tabindex]:not([tabindex="-1"])');
+        const drawer = document.getElementById('side-drawer');
+        const container = modal || (drawer && drawer.classList.contains('active') ? drawer : null);
+        if (!container) return;
+        const focusables = container.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select, textarea, summary, [tabindex]:not([tabindex="-1"])');
         if (!focusables.length) return;
         const first = focusables[0];
         const last = focusables[focusables.length - 1];
-        if (e.shiftKey && document.activeElement === first) {
+        if (e.shiftKey && (document.activeElement === first || !container.contains(document.activeElement))) {
             e.preventDefault(); last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
+        } else if (!e.shiftKey && (document.activeElement === last || !container.contains(document.activeElement))) {
             e.preventDefault(); first.focus();
         }
     }
 });
 document.addEventListener('click', function(e) {
+    if (!e.target.closest('.dropdown')) LumenUI.closeDropdowns();
     if (e.target && e.target.classList && e.target.classList.contains('modal-overlay') && e.target.id !== 'confirm-modal') {
         LumenUI.closeModal(e.target.id);
     }
@@ -943,9 +1014,12 @@ const LumenCookieConsent = {
     },
     all() { const c = this.get(); return !!c && c.level === 'all'; },
     save(level) {
-        localStorage.setItem(this.KEY, JSON.stringify({ level: level, ts: Date.now() }));
+        try { localStorage.setItem(this.KEY, JSON.stringify({ level: level, ts: Date.now() })); } catch (e) {}
         this.hide();
         if (typeof LumenPush !== 'undefined' && LumenPush.aplicarEstadoUI) LumenPush.aplicarEstadoUI();
+        if (typeof LumenInstall !== 'undefined' && LumenInstall.mostrarBanner) {
+            setTimeout(() => { if (!LumenInstall.esStandalone()) LumenInstall.mostrarBanner(); }, 600);
+        }
     },
     show() {
         const b = document.getElementById('cookie-consent-banner');
@@ -1098,11 +1172,12 @@ Object.assign(LumenUI, {
     streakInfo: function() {
         let s = null;
         try { s = JSON.parse(localStorage.getItem(this._streakKey)); } catch (e) {}
-        if (!s) return { days: 0, today: false };
+        if (!s) return { days: 0, today: false, streakAlive: false };
         const today = this._dayKey();
         const y = new Date(); y.setDate(y.getDate() - 1);
         const yesterday = this._dayKey(y);
-        return { days: s.days, today: (s.last === today), streakAlive: (s.last === today || s.last === yesterday) };
+        const alive = (s.last === today || s.last === yesterday);
+        return { days: s.days, today: (s.last === today), streakAlive: alive, displayDays: alive ? s.days : 0 };
     },
     recordStreak: function() {
         const today = this._dayKey();
@@ -1117,8 +1192,78 @@ Object.assign(LumenUI, {
     },
     streakChipHTML: function() {
         const info = this.streakInfo();
-        if (!info.days) return '';
-        return `<span class="streak-chip" title="Días seguidos en LUMEN">${LumenIcons.racha} ${info.days} día${info.days === 1 ? '' : 's'}</span>`;
+        const days = info.displayDays || 0;
+        if (!days) {
+            return `<span class="streak-chip is-new" title="Empieza tu racha hoy">${LumenIcons.racha} Empieza tu racha</span>`;
+        }
+        return `<span class="streak-chip" title="Días seguidos en LUMEN">${LumenIcons.racha} ${days} día${days === 1 ? '' : 's'}</span>`;
+    },
+
+    // ---- Contenido reciente ----
+    _recentKey: 'lumen-recent',
+    setRecent: function(kind, id, title, parts, query) {
+        if (!kind || !id) return;
+        let list = [];
+        try { list = JSON.parse(localStorage.getItem(this._recentKey)) || []; } catch (e) {}
+        const key = kind + '::' + id;
+        list = list.filter(function(it) { return (it.kind + '::' + it.id) !== key; });
+        list.unshift({ kind: kind, id: id, title: title || '', parts: parts || [], query: query || null, at: Date.now() });
+        list = list.slice(0, 8);
+        try { localStorage.setItem(this._recentKey, JSON.stringify(list)); } catch (e) {}
+    },
+    getRecent: function(limit) {
+        let list = [];
+        try { list = JSON.parse(localStorage.getItem(this._recentKey)) || []; } catch (e) {}
+        return typeof limit === 'number' ? list.slice(0, limit) : list;
+    },
+    recentHTML: function(limit) {
+        const list = this.getRecent(limit || 4);
+        if (!list.length) return '';
+        const cards = list.map(function(it) {
+            const href = (typeof LumenRouter !== 'undefined') ? LumenRouter.hrefFor(it.parts, it.query) : '#/' + (it.parts || []).join('/');
+            return `<a class="recent-chip" href="${this.escapeHTML(href)}" data-recent-kind="${this.escapeHTML(it.kind)}">
+                <span class="recent-dot"></span>
+                <span class="recent-title">${this.escapeHTML(it.title || 'Contenido')}</span>
+                <span class="recent-arrow">→</span>
+            </a>`;
+        }, this).join('');
+        return `<div class="recent-strip" aria-label="Contenido reciente"><span class="recent-label">Sigue donde lo dejaste</span><div class="recent-list">${cards}</div></div>`;
+    },
+
+    // ---- Modo oración (foco) ----
+    togglePrayerFocus: function(btn) {
+        const on = document.body.classList.toggle('prayer-focus');
+        const target = btn || document.getElementById('rosario-focus-btn') || document.getElementById('plan-focus-btn');
+        if (target) {
+            target.setAttribute('aria-pressed', on ? 'true' : 'false');
+            target.setAttribute('aria-label', on ? 'Salir del modo oración' : 'Activar modo oración');
+        }
+        if (on) {
+            try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) { window.scrollTo(0, 0); }
+        }
+    },
+
+    // ---- Texto expandible en tarjetas ----
+    _expandSeq: 0,
+    expandableHTML: function(preview, more, opts) {
+        opts = opts || {};
+        const id = 'expand-' + (++this._expandSeq);
+        if (!more) return `<p class="expandable-preview">${this.escapeHTML(preview || '')}</p>`;
+        return `<div class="expandable-copy">
+            <p class="expandable-preview">${this.escapeHTML(preview || '')}</p>
+            <p class="expandable-more" id="${id}" hidden>${this.escapeHTML(more)}</p>
+            <button type="button" class="expand-toggle" aria-expanded="false" aria-controls="${id}" onclick="LumenUI.toggleExpandable('${id}', this)">${this.escapeHTML(opts.moreLabel || 'Leer más')}</button>
+        </div>`;
+    },
+    toggleExpandable: function(id, btn) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const open = el.hidden;
+        el.hidden = !open;
+        if (btn) {
+            btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            btn.textContent = open ? 'Leer menos' : 'Leer más';
+        }
     },
 
     // ---- Celebración de logro ----
@@ -1131,29 +1276,55 @@ Object.assign(LumenUI, {
 
     // ---- Descarga PNG / impresión ----
     exportPng: function(el, name) {
-        if (window.html2canvas) {
-            html2canvas(el, { backgroundColor: '#ffffff', scale: 2 }).then(function(canvas) {
-                const a = document.createElement('a');
-                a.download = name || 'imagen.png';
-                a.href = canvas.toDataURL('image/png');
-                a.click();
-            });
-        } else {
-            window.print();
-        }
+        const render = () => html2canvas(el, { backgroundColor: '#ffffff', scale: 2 }).then(function(canvas) {
+            const a = document.createElement('a');
+            a.download = name || 'imagen.png';
+            a.href = canvas.toDataURL('image/png');
+            a.click();
+        });
+        if (window.html2canvas) render();
+        else this.ensureHtml2Canvas().then(render).catch(function() { window.print(); });
     },
 
-    // ---- Carga perezosa de scripts (xlsx, cropper, etc.) ----
+    // ---- Carga perezosa de scripts y estilos (Cropper, html2canvas, xlsx…) ----
+    _scripts: {},
+    _styles: {},
     loadScript: function(src) {
-        return new Promise(function(resolve, reject) {
+        if (this._scripts[src]) return this._scripts[src];
+        this._scripts[src] = new Promise((resolve, reject) => {
             if (document.querySelector('script[src="' + src + '"]')) return resolve();
             const s = document.createElement('script');
             s.src = src;
             s.async = true;
-            s.onload = function() { resolve(); };
-            s.onerror = function() { reject(new Error('No se pudo cargar: ' + src)); };
+            s.onload = () => resolve();
+            s.onerror = () => { delete this._scripts[src]; reject(new Error('No se pudo cargar: ' + src)); };
             document.head.appendChild(s);
         });
+        return this._scripts[src];
+    },
+    loadStyle: function(href) {
+        if (this._styles[href]) return this._styles[href];
+        this._styles[href] = new Promise((resolve, reject) => {
+            const existing = document.querySelector('link[data-lumen-css="' + href + '"]');
+            if (existing) return resolve();
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = href;
+            link.setAttribute('data-lumen-css', href);
+            link.onload = () => resolve();
+            link.onerror = () => { delete this._styles[href]; reject(new Error('No se pudo cargar: ' + href)); };
+            document.head.appendChild(link);
+        });
+        return this._styles[href];
+    },
+    ensureCropper: function() {
+        return Promise.all([
+            this.loadStyle('https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css'),
+            this.loadScript('https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js')
+        ]);
+    },
+    ensureHtml2Canvas: function() {
+        return this.loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
     }
 });
 

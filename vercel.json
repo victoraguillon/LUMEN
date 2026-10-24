@@ -64,6 +64,122 @@
   ],
   "rewrites": [
     {
+      "source": "/inicio",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/nosotros",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/actividades",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/calendario",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/detalle",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/detalle/:id",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/recursos",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/formacion",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/formacion/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/oraciones",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/oraciones/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/rosario",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/rosario/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/novenas",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/novenas/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/examen",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/favoritos",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/notificaciones",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/intenciones",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/encuestas",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/perfil",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/gestion",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/contacto",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/blog",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/devocional",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/evangelio",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/planes",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/planes/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/offline",
+      "destination": "/index.html"
+    },
+    {
       "source": "/privacidad",
       "destination": "/legal/privacidad.html"
     },

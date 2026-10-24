@@ -6,11 +6,50 @@ const DetalleView = {
     },
     applyRoute: function(params) {
         if (typeof LumenData === 'undefined') return;
-        if (params[0] && (LumenData.eventos || []).some(function(e) { return e.id === params[0]; })) {
-            LumenData.selectedEventId = params[0];
-        } else {
-            LumenData.selectedEventId = null;
+        LumenData.selectedEventId = params[0] || null;
+    },
+
+    _calendarHTML: function(evento) {
+        if (typeof LumenCalendar === 'undefined' || !LumenCalendar.canExport(evento)) return '';
+        return `<div class="calendar-actions">
+            <button class="btn btn-sm btn-outline" type="button" onclick="LumenCalendar.download(LumenData.eventos.find(e=>e.id==='${evento.id}'))">Añadir al calendario (.ics)</button>
+            <button class="btn btn-sm btn-outline" type="button" onclick="LumenCalendar.openGoogle(LumenData.eventos.find(e=>e.id==='${evento.id}'))">Google Calendar</button>
+        </div>`;
+    },
+
+    _registrationHTML: function(evento) {
+        const ins = (typeof LumenData !== 'undefined' && LumenData.inscripcionFor) ? LumenData.inscripcionFor(evento.id) : null;
+        if (!ins) {
+            return `<button class="btn btn-primary btn-block" onclick="LumenUI.openRegistration('${evento.id}')">Inscribirse Ahora</button>`;
         }
+        return `<div class="registered-box">
+            <span class="registered-badge">${LumenIcons.check_circle} Estás inscrito</span>
+            <p class="registered-note">Tu inscripción está confirmada. Puedes cancelarla si no podrás asistir.</p>
+            <div class="registered-actions">
+                <button class="btn btn-sm btn-danger" type="button" onclick="DetalleView.cancelRegistration('${evento.id}')">Cancelar inscripción</button>
+            </div>
+            ${this._calendarHTML(evento)}
+        </div>`;
+    },
+
+    refreshRegistration: function() {
+        const evento = LumenData.eventos.find(e => e.id === LumenData.selectedEventId);
+        const box = document.getElementById('registration-box');
+        if (evento && box) box.innerHTML = this._registrationHTML(evento);
+    },
+
+    cancelRegistration: function(eventId) {
+        const ins = LumenData.inscripcionFor(eventId);
+        if (!ins) return;
+        LumenUI.showConfirm('¿Quieres cancelar tu inscripción a esta actividad?').then(function(ok) {
+            if (!ok) return;
+            LumenData.cancelInscripcion(ins.id).then(function() {
+                LumenUI.showToast(navigator.onLine === false ? 'Cancelación guardada; se enviará al recuperar conexión.' : 'Inscripción cancelada.', 'success');
+                DetalleView.refreshRegistration();
+            }).catch(function(err) {
+                LumenUI.showToast(LumenUI.getErrorMessage ? LumenUI.getErrorMessage(err) : 'No se pudo cancelar la inscripción.', 'error');
+            });
+        });
     },
 
     render: function() {
@@ -50,7 +89,7 @@ const DetalleView = {
 
         let imageHTML = '';
         if (evento.image_url) {
-            imageHTML = `<img src="${LumenUI.sanitizeImageUrl(evento.image_url)}" alt="${LumenUI.escapeHTML(evento.titulo)}" class="detail-hero-img">`;
+            imageHTML = `<img src="${LumenUI.sanitizeImageUrl(evento.image_url)}" alt="${LumenUI.escapeHTML(evento.titulo)}" width="1200" height="675" decoding="async" class="detail-hero-img">`;
         }
 
         return `
@@ -65,7 +104,7 @@ const DetalleView = {
                     <div class="detail-main">
                         ${imageHTML}
                         <span class="v-chip ${evento.tipo === 'recurrente' ? '' : 'is-dorado'}" style="margin:14px 0 0;">${evento.tipo === 'recurrente' ? 'Semanal' : 'Único'}</span>
-                        <h2 class="v-title detail-title">${LumenUI.escapeHTML(evento.titulo)}</h2>
+                        <h1 class="v-title detail-title">${LumenUI.escapeHTML(evento.titulo)}</h1>
                         
                         <div class="v-mb30" >
                             <div class="v-section-title">${Icons.book} Descripción</div>
@@ -87,11 +126,16 @@ const DetalleView = {
                             ${reqAdicionalHTML}
                         </div>
 
-                        <button class="btn btn-primary btn-block" onclick="LumenUI.openRegistration('${evento.id}')">Inscribirse Ahora</button>
+                        <div id="registration-box">${this._registrationHTML(evento)}</div>
                     </div>
                 </div>
             </div>
         `;
     },
-    init: function() { LumenRouter.initScrollReveal(); }
+    init: function() {
+        LumenRouter.initScrollReveal();
+        if (typeof LumenAuth !== 'undefined' && LumenAuth.currentUser && LumenData.loadMyInscripciones) {
+            LumenData.loadMyInscripciones().then(function() { DetalleView.refreshRegistration(); }).catch(function() {});
+        }
+    }
 };

@@ -4,7 +4,7 @@ test.describe('Sistema de deep links por hash', () => {
   test('Rosario: deep link abre el set indicado en la URL', async ({ page }) => {
     await page.goto('/#/rosario/gozosos');
     await expect(page).toHaveTitle(/Rosario/);
-    await expect(page.getByText('Misterios gozosos', { exact: true }).first()).toBeVisible();
+    await expect(page.getByText(/Misterios Gozosos/i).first()).toBeVisible();
   });
 
   test('Formación: sección profunda con breadcrumbs, términos y relacionados', async ({ page }) => {
@@ -54,8 +54,8 @@ test.describe('Sistema de deep links por hash', () => {
 
   test('Módulos de la portada navegan como enlaces reales', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('a.module-card').first()).toBeVisible();
-    await page.locator('a.module-card').filter({ hasText: 'Rosario' }).click();
+    await expect(page.locator('a.module-link').first()).toBeVisible();
+    await page.locator('a.module-link').filter({ hasText: 'Rosario' }).click();
     await expect(page).toHaveTitle(/Rosario/);
   });
 });

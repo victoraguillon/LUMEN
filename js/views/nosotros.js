@@ -376,7 +376,7 @@ const NosotrosView = {
             + this.renderTermRows(estructura)
             + `
             <section class="about-section reveal">
-                <div class="pastoral-alert">${Icons.gift}<p><strong>Juvemar es una estación de Jovenmisión.</strong> Nuestro grupo vive este servicio en la parroquia Nuestra Señora de Lourdes y en él se encuentran El Llamado de Samuel y nuestras comisiones. <a href="#/nosotros/juvemar">Conócenos en la pestaña Juvemar.</a></p></div>
+                <div class="pastoral-alert">${Icons.gift}<p><strong>Juvemar es una estación de Jovenmisión.</strong> Nuestro grupo vive este servicio en la parroquia Nuestra Señora de Lourdes y en él se encuentran El Llamado de Samuel y nuestras comisiones. <a href="${LumenRouter.hrefFor(['nosotros', 'juvemar'])}" onclick="event.preventDefault(); NosotrosView.changeTab('juvemar')">Conócenos en la pestaña Juvemar.</a></p></div>
             </section>
             `
             + this.renderSlides(slides);

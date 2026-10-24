@@ -3,14 +3,14 @@ const ContactoView = {
         return `
             <div class="view">
                 <div class="v-header reveal">
-                    <h2 class="v-title">Contáctanos</h2>
-                    <p class="v-sub">Si tienes alguna duda o quieres unirte a nuestra comunidad, escríbenos.</p>
+                    <h1 class="v-title">Contáctanos</h1>
+                    <p class="v-sub">Si tienes alguna duda o quieres unirte a nuestra comunidad, escríbenos por Instagram o desde el formulario.</p>
                 </div>
                 <div class="v-section" style="padding-top:0;">
                 <div class="split-container">
                     <div class="contact-info-panel">
                         <h3 style="font-size: 22px; margin-bottom: 15px; font-family:'Sora',sans-serif; font-weight:800;">¡Estamos para servirte!</h3>
-                        <p style="opacity: 0.9; margin-bottom: 30px;">Puedes contactarnos directamente a través de WhatsApp o redes sociales.</p>
+                        <p style="opacity: 0.9; margin-bottom: 30px;">Síguenos en Instagram o envíanos un mensaje con el formulario. Te responderemos lo antes posible.</p>
                         
                         <a href="https://instagram.com/parroquialourdesmcbo" target="_blank" rel="noopener noreferrer" class="contact-info-item v-link-white" >
                             ${Icons.instagram}
@@ -41,12 +41,12 @@ const ContactoView = {
                         <h4 style="font-family:'Sora',sans-serif; font-size:18px; font-weight:700; color: var(--texto-oscuro); margin-bottom: 18px;">Envíanos un mensaje</h4>
                         <form id="contact-form">
                             <div style="position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden;" aria-hidden="true">
-                                <label>No rellenar este campo</label>
+                                <label for="contact-honey">No rellenar este campo</label>
                                 <input type="text" id="contact-honey" tabindex="-1" autocomplete="off">
                             </div>
-                            <div class="v-field"><label>Nombre:</label><input type="text" id="contact-name" autocomplete="name" required></div>
-                            <div class="v-field"><label>Correo Electrónico:</label><input type="email" id="contact-email" autocomplete="email" required></div>
-                            <div class="v-field"><label>Mensaje:</label><textarea id="contact-message" rows="5" maxlength="1000" required></textarea></div>
+                            <div class="v-field"><label for="contact-name">Nombre:</label><input type="text" id="contact-name" autocomplete="name" required></div>
+                            <div class="v-field"><label for="contact-email">Correo electrónico:</label><input type="email" id="contact-email" autocomplete="email" required></div>
+                            <div class="v-field"><label for="contact-message">Mensaje:</label><textarea id="contact-message" rows="5" maxlength="1000" required></textarea></div>
                             <button type="submit" class="btn btn-primary btn-block">Enviar Mensaje</button>
                         </form>
                     </div>
@@ -78,7 +78,7 @@ const ContactoView = {
                 return;
             }
 
-            LumenUI.showToast('Enviando mensaje...', 'success');
+            LumenUI.showToast('Enviando mensaje...', 'info');
             
             fetch('https://formsubmit.co/ajax/juvemar08@gmail.com', {
                 method: 'POST',

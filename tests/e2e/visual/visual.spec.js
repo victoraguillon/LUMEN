@@ -19,14 +19,17 @@ test.describe('Visual · baselines por viewport', () => {
   });
 
   test('Devocional (contenido del día enmascarado)', async ({ page }) => {
+    await page.clock.setFixedTime(new Date('2026-10-24T12:00:00'));
     await go(page, 'devocional');
     await expect(page.getByText('Alimento de Hoy')).toBeVisible();
     await shot(page, 'devocional.png', [
       page.locator('.hero-quote'),
+      page.locator('.hero-cite'),
       page.locator('.hero-reflexion'),
       page.locator('.santo-banner'),
       page.locator('#app-container audio'),
-      page.locator('#app-container .santo-banner-title')
+      page.locator('#app-container .santo-banner-title'),
+      page.locator('.santo-date')
     ]);
   });
 

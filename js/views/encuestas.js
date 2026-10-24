@@ -1,7 +1,7 @@
 const EncuestasView = {
     render: function() {
-        if (!LumenAuth.currentUser) return `<div class="state-container"><h3>Acceso para miembros</h3><p>Inicia sesión para responder encuestas.</p><button class="btn btn-primary v-mt15"  onclick="LumenUI.requireMember()">Iniciar Sesión</button></div>`;
-        if (!LumenAuth.isMember) return `<div class="state-container"><h3>Solo miembros</h3><p>Las encuestas están disponibles para miembros de Juvemar.</p><button class="btn btn-primary v-mt15"  onclick="LumenUI.requireMember()">Solicitar Ingreso</button></div>`;
+        if (!LumenAuth.currentUser) return `<div class="state-container"><h1 class="sr-only">Encuestas</h1><h3>Acceso para miembros</h3><p>Inicia sesión para responder encuestas.</p><button class="btn btn-primary v-mt15"  onclick="LumenUI.requireMember()">Iniciar Sesión</button></div>`;
+        if (!LumenAuth.isMember) return `<div class="state-container"><h1 class="sr-only">Encuestas</h1><h3>Solo miembros</h3><p>Las encuestas están disponibles para miembros de Juvemar.</p><button class="btn btn-primary v-mt15"  onclick="LumenUI.requireMember()">Solicitar Ingreso</button></div>`;
         
         let adminButton = LumenAuth.isAdmin ? `<button class="btn btn-add" onclick="EncuestasView.showAddForm()">${Icons.plus} Crear Encuesta</button>` : '';
         
@@ -9,7 +9,7 @@ const EncuestasView = {
             <div class="view">
                 <div class="v-header reveal">
                     <span class="v-eyebrow">${LumenIcons.message} Comunidad</span>
-                    <h2 class="v-title">Encuestas <em>Rápidas</em></h2>
+                    <h1 class="v-title">Encuestas <em>Rápidas</em></h1>
                     <p class="v-sub">Comparte tu opinión y descubre qué prefiere la comunidad de Juvemar.</p>
                 </div>
                 <div class="v-section" style="padding-top:0;">
@@ -23,6 +23,7 @@ const EncuestasView = {
         `;
     },
     init: function() {
+        if (!LumenAuth.currentUser || !LumenAuth.isMember) { LumenRouter.initScrollReveal(); return; }
         this.loadEncuestas();
         this.subscribe();
     },

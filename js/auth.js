@@ -14,14 +14,28 @@ const LumenAuth = {
             if (user) {
                 this.currentUser = user;
                 this.loadProfile(user);
-                if (typeof LumenData !== 'undefined' && LumenData.loadUsers) LumenData.loadUsers();
             } else {
                 this.currentUser = null; this.userProfile = null; this.isAdmin = false;
                 this.ready = true;
+                this._watchPending(null);
+                if (typeof LumenData !== 'undefined') {
+                    LumenData.users = null;
+                    LumenData.notifications = [];
+                    LumenData.recursos = {};
+                    LumenData.myInscripciones = [];
+                    LumenData._fp.notificaciones = null;
+                    LumenData._fp.recursos = null;
+                    LumenData._fp.profiles = null;
+                    LumenData._fp.inscripciones = null;
+                    LumenData._inscripcionesPromise = null;
+                    if (typeof LumenStore !== 'undefined' && LumenStore.cachedDel) LumenStore.cachedDel('inscripciones');
+                }
                 this.updateUI();
-                let v = LumenRouter.currentView;
-                if (['perfil', 'gestion', 'encuestas', 'intenciones', 'notificaciones', 'recursos'].includes(v)) v = 'landing';
-                LumenRouter.navigateTo(v);
+                if (event !== 'INITIAL_SESSION') {
+                    let v = LumenRouter.currentView;
+                    if (['perfil', 'gestion', 'encuestas', 'intenciones', 'notificaciones', 'recursos'].includes(v)) v = 'landing';
+                    LumenRouter.navigateTo(v);
+                }
                 if (typeof LumenUI !== 'undefined' && LumenUI.restoreRegisterDraft) LumenUI.restoreRegisterDraft();
             }
         });
@@ -34,12 +48,16 @@ const LumenAuth = {
             .eq('id', user.id)
             .maybeSingle()
             .then(({ data, error }) => {
+                if (!this.currentUser || this.currentUser.id !== user.id) return;
                 if (error) { console.error('[LUMEN] getProfile', error); throw error; }
                 const profile = data;
                 this.userProfile = profile || null;
                 this.ready = true;
                 this.isAdmin = !!(profile && profile.role === 'admin' && profile.status === 'approved');
                 this.updateUI();
+                if (this.isAdmin && typeof LumenData !== 'undefined' && LumenData.loadUsers) LumenData.loadUsers();
+                if (this.isMember && typeof LumenData !== 'undefined' && LumenData.loadNotifications) LumenData.loadNotifications();
+                if (this.isMember && typeof LumenData !== 'undefined' && LumenData.loadMyInscripciones) LumenData.loadMyInscripciones();
                 if (profile && profile.status === 'pending') {
                     if (!silent && typeof LumenUI !== 'undefined' && LumenUI.showToast) {
                         LumenUI.showToast('Tu cuenta está en espera de aprobación. Se desbloqueará automáticamente al aprobarse.', 'info');
@@ -51,6 +69,7 @@ const LumenAuth = {
                 LumenRouter.navigateTo(LumenRouter.currentView);
             })
             .catch(err => {
+                if (!this.currentUser || this.currentUser.id !== user.id) return;
                 console.error('[LUMEN] loadProfile falló; el guard de roles se resuelve como no-miembro', err);
                 this.ready = true;
                 this.userProfile = null;
@@ -111,7 +130,7 @@ const LumenAuth = {
                 const svg = encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="#005F8A"/><text x="50" y="50" fill="#fff" font-family="Arial, sans-serif" font-size="48" text-anchor="middle" dominant-baseline="central">${avatarLetter}</text></svg>`);
                 picUrl = `data:image/svg+xml;charset=utf-8,${svg}`;
             }
-            userDataZone.innerHTML = `<div class="user-profile-btn" onclick="LumenRouter.navigateTo('perfil')"><img src="${picUrl}" alt="Perfil"><span>${LumenUI.escapeHTML(this.userProfile?.nombre || 'Usuario')}</span></div>`;
+            userDataZone.innerHTML = `<button type="button" class="user-profile-btn" onclick="LumenRouter.navigateTo('perfil')" aria-label="Abrir mi perfil"><img src="${picUrl}" alt="" width="32" height="32"><span>${LumenUI.escapeHTML(this.userProfile?.nombre || 'Usuario')}</span></button>`;
             
             const isMember = this.isMember;
 
@@ -127,7 +146,7 @@ const LumenAuth = {
             intencionesLink.style.display = 'block';
             if(drawerIntencionesLink) drawerIntencionesLink.style.display = 'block';
         } else {
-            userDataZone.innerHTML = `<button class="btn btn-primary" onclick="LumenUI.openModal('login-modal')">Iniciar Sesión</button>`;
+            userDataZone.innerHTML = `<button type="button" class="btn btn-primary login-btn" aria-label="Iniciar sesión" onclick="LumenUI.openModal('login-modal')"><span class="login-label">Iniciar sesión</span><span class="login-icon" aria-hidden="true">${Icons.user}</span></button>`;
             adminLink.style.display = 'none'; 
             if(drawerAdminLink) drawerAdminLink.style.display = 'none';
             notifLink.style.display = 'none';

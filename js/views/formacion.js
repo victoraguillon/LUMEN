@@ -78,6 +78,7 @@ const FormacionView = {
             LumenUI.showToast('Marcado como pendiente');
         } else {
             prog[modId][key] = true;
+            LumenUI.recordStreak();
             LumenUI.showToast('¡Sección completada!', 'success');
         }
         this._saveProg(prog);
@@ -224,10 +225,13 @@ const FormacionView = {
 
     // ---- render ----
     render: function() {
-        LumenUI.recordStreak();
         if (!this._moduleId) return this.renderHub();
         const mod = this._mod(this._moduleId);
         if (!mod) return this.renderHub();
+        const recentParts = ['formacion', mod.id];
+        if (this._unitId) recentParts.push(this._unitId);
+        if (this._subId && !this._autoSub) recentParts.push(this._subId);
+        LumenUI.setRecent('formacion', mod.id + '|' + (this._unitId || '') + '|' + (this._subId || ''), this._curTitle(), recentParts);
         if (mod.tipo === 'curso' || mod.tipo === 'preguntas') return this.renderReader(mod);
         if (mod.tipo === 'santos') return this.renderSantos(mod);
         if (mod.tipo === 'glosario') return this.renderGlosario(mod);
@@ -271,7 +275,7 @@ const FormacionView = {
         <div class="view">
             <div class="v-header reveal">
                 <span class="v-eyebrow">${LumenUI.liturgicalBadgeHTML()} Camino de fe</span>
-                <h2 class="v-title">Formación paso a <em>paso</em></h2>
+                <h1 class="v-title">Formación paso a <em>paso</em></h1>
                 <p class="v-sub">Módulos en unidades con puntos clave y referencias para crecer a tu ritmo. Sin necesidad de cuenta, abierta a todos.</p>
                 <div class="hero-actions v-jcc v-mt20" >
                     <button class="btn" onclick="LumenRouter.navigateTo('favoritos')" aria-label="Ver favoritos">♥ Mis favoritos (${Object.keys(LumenUI.getFavorites()).length})</button>
@@ -326,7 +330,7 @@ const FormacionView = {
             const paras = formacionParas(item.content);
             contentHTML = `
                 <div class="reading-surface formacion-body">
-                    <h2 class="reading-h">${item.title}</h2>
+                    <h1 class="reading-h">${item.title}</h1>
                     <div class="reading-prose drop-cap">${paras}</div>
                     ${(item.keyPoints && item.keyPoints.length) ? `<div class="keypoints"><h4>Puntos clave</h4><ul>${item.keyPoints.map(function(k) { return `<li>${k}</li>`; }).join('')}</ul></div>` : ''}
                     ${(item.references && item.references.length) ? `<div class="refs"><h4>Referencias</h4><div class="ref-chips">${item.references.map(function(r) { return `<span class="ref-chip">${r}</span>`; }).join('')}</div></div>` : ''}
@@ -334,7 +338,7 @@ const FormacionView = {
         } else {
             contentHTML = `
                 <div class="reading-surface formacion-body qa-body">
-                    <h2 class="reading-h">${item.question}</h2>
+                    <h1 class="reading-h">${item.question}</h1>
                     <div class="reading-prose">${formacionParas(item.answer)}</div>
                     ${item.scripture ? `<blockquote class="scripture-quote"><span class="sq-label">${LumenIcons.cross} Escritura</span>${formacionParas(item.scripture)}</blockquote>` : ''}
                     ${item.catechism ? `<blockquote class="catechism-quote"><span class="sq-label">${LumenIcons.compass} Catecismo</span>${formacionParas(item.catechism)}</blockquote>` : ''}

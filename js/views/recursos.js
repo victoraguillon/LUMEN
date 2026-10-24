@@ -4,10 +4,10 @@ let resourceSearchQuery = "";
 const RecursosView = {
     render: function() {
         if (!LumenAuth.currentUser) {
-            return `<div class="state-container"><h3>Acceso para miembros</h3><p>Inicia sesión para acceder a los recursos.</p><button class="btn btn-primary v-mt15"  onclick="LumenUI.requireMember()">Iniciar Sesión</button></div>`;
+            return `<div class="state-container"><h1 class="sr-only">Recursos</h1><h3>Acceso para miembros</h3><p>Inicia sesión para acceder a los recursos.</p><button class="btn btn-primary v-mt15"  onclick="LumenUI.requireMember()">Iniciar Sesión</button></div>`;
         }
         if (!LumenAuth.isMember) {
-            return `<div class="state-container"><h3>Solo miembros</h3><p>Los recursos están disponibles para miembros de Juvemar.</p><button class="btn btn-primary v-mt15"  onclick="LumenUI.requireMember()">Solicitar Ingreso</button></div>`;
+            return `<div class="state-container"><h1 class="sr-only">Recursos</h1><h3>Solo miembros</h3><p>Los recursos están disponibles para miembros de Juvemar.</p><button class="btn btn-primary v-mt15"  onclick="LumenUI.requireMember()">Solicitar Ingreso</button></div>`;
         }
         const categorias = Object.keys(LumenData.recursos);
         let tabsHTML = '';
@@ -62,7 +62,7 @@ const RecursosView = {
             <div class="view">
                 <div class="v-header reveal">
                     <span class="v-eyebrow">${Icons.book} Formación</span>
-                    <h2 class="v-title">Recursos y <em>Formación</em></h2>
+                    <h1 class="v-title">Recursos y <em>Formación</em></h1>
                     <p class="v-sub">Materiales de formación, oraciones y guías exclusivas para miembros.</p>
                 </div>
                 <div class="v-section" style="padding-top:0;">
@@ -74,6 +74,7 @@ const RecursosView = {
         `;
     },
     init: function() {
+        if (LumenAuth.isMember && typeof LumenData !== 'undefined' && LumenData.loadRecursos) LumenData.loadRecursos();
         LumenRouter.initScrollReveal();
     },
     search: function(q) {

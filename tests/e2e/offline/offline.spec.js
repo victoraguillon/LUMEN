@@ -39,6 +39,30 @@ test.describe('Offline · shell y contenido estático', () => {
     await expect(page.locator('.evangelio-hero')).toBeVisible();
   });
 
+  test('Las descargas por grupo se conservan y sirven sin conexión', async ({ page, context }) => {
+    await controlled(page);
+    await page.goto('/offline');
+    await expect(page.getByRole('heading', { name: /Lleva LUMEN/i })).toBeVisible();
+
+    const card = page.locator('[data-offline-group="formacion"]');
+    await card.getByRole('button', { name: 'Descargar' }).click();
+    await expect(card.getByText(/Descargado/)).toBeVisible({ timeout: 20000 });
+
+    const cached = await page.evaluate(async () => {
+      const cache = await caches.open('lumen-downloads-v1');
+      return (await cache.keys()).map((request) => new URL(request.url).pathname);
+    });
+    expect(cached).toContain('/js/formacion_data.js');
+    expect(cached).toContain('/js/views/formacion.js');
+
+    await context.setOffline(true);
+    await page.goto('/');
+    await page.waitForFunction(() => typeof LumenRouter !== 'undefined' && !!LumenRouter.navigateTo, undefined, { timeout: 20000 });
+    await page.evaluate(() => LumenRouter.navigateTo('formacion'));
+    await expect(page.getByRole('heading', { name: /Formación/i }).first()).toBeVisible();
+    await context.setOffline(false);
+  });
+
   test('El shell está precacheador (manifest y raíz servibles offline)', async ({ page }) => {
     await controlled(page);
     const cached = await page.evaluate(async () => {

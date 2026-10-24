@@ -128,5 +128,47 @@ const ROSARIO_DATA = {
     "color": "bg-purple-500"
    }
   ]
+ },
+ "eucaristico": {
+  "id": "eucaristico",
+  "title": "Rosario Eucarístico",
+  "subtitle": "Contemplar a Cristo vivo en el Santísimo Sacramento",
+  "description": "Un rosario de cinco misterios para adorar a Jesús presente en la Eucaristía, con el Padre Nuestro en la cuenta grande y la alabanza eucarística en las cuentas pequeñas.",
+  "smallBeadPrayer": "Alabado sea Jesucristo en el Santísimo Sacramento del Altar. Sea por siempre bendito y alabado. Amén.",
+  "jaculatoria": "Jesús, pan vivo bajado del cielo, aumenta nuestra fe, nuestra esperanza y nuestro amor.",
+  "offering": "Te ofrezco, Señor, esta decena en reparación por las ofensas contra el Santísimo Sacramento y por las vocaciones sacerdotales.",
+  "closing": "Bendito sea Dios. Bendito sea su santo Nombre. Bendito sea Jesucristo, verdadero Dios y verdadero hombre. Bendito sea el Nombre de Jesús. Bendita sea su santísima Madre, la Virgen María. Bendito sea el Espíritu Santo, Consolador. Amén.",
+  "mysteries": [
+   {
+    "title": "La Institución de la Eucaristía",
+    "biblicalText": "Mientras comían, Jesús tomó el pan, pronunció la bendición, lo partió y lo dio a sus discípulos, diciendo: «Tomen y coman, esto es mi Cuerpo». Y tomando una copa, dio gracias y se la pasó diciendo: «Beban todos de ella, porque esta es mi Sangre, la Sangre de la alianza, que será derramada por muchos para el perdón de los pecados».",
+    "reference": "Mateo 26,26-28",
+    "color": "bg-amber-500"
+   },
+   {
+    "title": "El Lavatorio de los Pies",
+    "biblicalText": "Se levantó de la mesa, se quitó el manto y, tomando una toalla, se la ciñó. Luego echó agua en una palangana y comenzó a lavar los pies de los discípulos y a secárselos con la toalla que llevaba ceñida. Cuando terminó, les dijo: «¿Comprendéis lo que he hecho con vosotros? Vosotros me llamáis Maestro y Señor, y decís bien, porque lo soy. Pues si yo, el Señor y el Maestro, os he lavado los pies, también vosotros debéis lavaros los pies unos a otros».",
+    "reference": "Juan 13,4-15",
+    "color": "bg-amber-500"
+   },
+   {
+    "title": "El Pan de Vida",
+    "biblicalText": "Yo soy el pan vivo bajado del cielo. El que coma de este pan vivirá para siempre. Y el pan que yo daré es mi carne para la vida del mundo. En verdad, en verdad os digo: si no coméis la carne del Hijo del hombre y no bebéis su sangre, no tendréis vida en vosotros. El que come mi carne y bebe mi sangre tiene vida eterna, y yo le resucitaré en el último día.",
+    "reference": "Juan 6,51-54",
+    "color": "bg-amber-500"
+   },
+   {
+    "title": "Los Discípulos de Emaús",
+    "biblicalText": "Mientras conversaban y discutían, Jesús en persona se acercó y se puso a caminar con ellos. Tomó el pan, pronunció la bendición, lo partió y se lo dio. Entonces se les abrieron los ojos y lo reconocieron, pero él desapareció de su vista. Y se dijeron uno a otro: «¿No ardía nuestro corazón mientras nos hablaba por el camino y nos explicaba las Escrituras?».",
+    "reference": "Lucas 24,15.30-32",
+    "color": "bg-amber-500"
+   },
+   {
+    "title": "El Mandamiento del Amor",
+    "biblicalText": "Este es mi mandamiento: que os améis unos a otros como yo os he amado. Nadie tiene mayor amor que el que da la vida por sus amigos. Vosotros sois mis amigos si hacéis lo que yo os mando. No os llamo ya siervos, porque el siervo no sabe lo que hace su señor; a vosotros os llamo amigos, porque todo lo que he oído a mi Padre os lo he dado a conocer.",
+    "reference": "Juan 15,12-15",
+    "color": "bg-amber-500"
+   }
+  ]
  }
 };

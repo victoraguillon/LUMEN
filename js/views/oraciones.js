@@ -1,19 +1,51 @@
 const OracionesView = {
     _cat: null,
+    _sel: null,
 
     route: function() {
-        return { parts: this._cat ? [this._cat] : [], query: null };
+        return { parts: this._cat ? [this._cat] : [], query: this._sel ? 'p=' + encodeURIComponent(this._sel) : null };
     },
-    applyRoute: function(params) {
+    applyRoute: function(params, query) {
+        this._cat = null;
+        this._sel = null;
         if (params[0] && ORACIONES_DATA.categorias.some(function(c) { return c.id === params[0]; })) {
-            this._cat = params[0]; this._sel = null;
-        } else {
-            this._cat = null; this._sel = null;
+            this._cat = params[0];
+        }
+        const match = /(?:^|&)p=([^&]+)/.exec(query || '');
+        if (match) {
+            const id = decodeURIComponent(match[1]);
+            const found = this._findPrayer(id);
+            if (found) {
+                this._cat = found.cat.id;
+                this._sel = found.o.id;
+            }
         }
     },
 
     openCat: function(id) { this._cat = id; this._sel = null; LumenRouter.navigateTo('oraciones', true); },
-    back: function() { this._cat = null; LumenRouter.navigateTo('oraciones', true); },
+    back: function() { this._cat = null; this._sel = null; LumenRouter.navigateTo('oraciones', true); },
+
+    _findPrayer: function(id) {
+        for (let c = 0; c < ORACIONES_DATA.categorias.length; c++) {
+            const cat = ORACIONES_DATA.categorias[c];
+            const o = (cat.oraciones || []).find(function(x) { return x.id === id; });
+            if (o) return { cat: cat, o: o };
+        }
+        return null;
+    },
+
+    openPrayer: function(id) {
+        const found = this._findPrayer(id);
+        if (!found) {
+            const cat = ORACIONES_DATA.categorias.find(function(c) { return c.id === id; });
+            if (cat) return this.openCat(id);
+            return;
+        }
+        this._cat = found.cat.id;
+        this._sel = id;
+        LumenUI.setRecent('oraciones', id, found.o.title, ['oraciones', found.cat.id], 'p=' + encodeURIComponent(id));
+        LumenRouter.navigateTo('oraciones', true);
+    },
 
     togglePrayer: function(id) {
         this._sel = (this._sel === id) ? null : id;
@@ -21,19 +53,18 @@ const OracionesView = {
         items.forEach(function(el) { el.classList.toggle('open', el.dataset.id === this._sel); }, this);
         const head = document.querySelector('.prayer-item[data-id="' + id + '"] .prayer-chevron');
         if (head) head.textContent = (this._sel === id) ? '−' : '+';
-    },
-
-    _findPrayer: function(id) {
-        for (let c = 0; c < ORACIONES_DATA.categorias.length; c++) {
-            const o = ORACIONES_DATA.categorias[c].oraciones.find(function(x) { return x.id === id; });
-            if (o) return o;
+        if (this._sel) {
+            const found = this._findPrayer(this._sel);
+            if (found) LumenUI.setRecent('oraciones', this._sel, found.o.title, ['oraciones', this._cat], 'p=' + encodeURIComponent(this._sel));
         }
-        return null;
+        if (typeof LumenRouter !== 'undefined' && LumenRouter._syncUrl) {
+            try { LumenRouter._syncUrl({ replace: true }); } catch (e) {}
+        }
     },
 
     copyPrayer: function(id) {
-        const o = this._findPrayer(id);
-        const text = o ? (o.prayer || '') : '';
+        const found = this._findPrayer(id);
+        const text = found ? (found.o.prayer || '') : '';
         if (navigator.clipboard) {
             navigator.clipboard.writeText(text).then(function() { LumenUI.showToast('Oración copiada', 'success'); });
         } else {
@@ -67,7 +98,7 @@ const OracionesView = {
             <div class="view">
                 <div class="v-header reveal">
                     <span class="v-eyebrow">${LumenUI.liturgicalBadgeHTML()} Oración</span>
-                    <h2 class="v-title">Oraciones para <em>cada momento</em></h2>
+                    <h1 class="v-title">Oraciones para <em>cada momento</em></h1>
                     <p class="v-sub">Fundamentales, marianas, devocionales y litúrgicas.</p>
                     <div class="hero-actions v-jcc v-mt20" >${LumenUI.streakChipHTML()}</div>
                 </div>
@@ -97,6 +128,7 @@ const OracionesView = {
                     ${o.significance ? `<p class="prayer-significance">${LumenIcons.sparkles} ${o.significance}</p>` : ''}
                     <div class="prayer-actions">
                         ${this.favHeart('oraciones', o.id, o.title, cat.title)}
+                        ${(typeof LumenAudio !== 'undefined' && LumenAudio.supported && LumenAudio.supported() && o.prayer) ? LumenAudio.buttonHTML(o.prayer, 'Escuchar oración') : ''}
                         <button class="btn btn-sm" onclick="OracionesView.copyPrayer('${o.id}')">Copiar</button>
                     </div>
                 </div>
@@ -105,12 +137,14 @@ const OracionesView = {
 
         return `
         <div class="view">
+            <h1 class="sr-only">${cat.title}</h1>
             <header class="formacion-mhead reveal">
                 <button class="btn btn-icon" onclick="OracionesView.back()" aria-label="Volver a categorías">←</button>
                 <div class="fm-title"><span class="fm-mod">${LumenIcons.oraciones}${cat.title}</span></div>
-                <div class="fm-actions">${LumenUI.readerToolbarHTML()}</div>
+                <div class="fm-actions">${LumenUI.readerToolbarHTML()}<button class="btn btn-icon" type="button" onclick="LumenUI.togglePrayerFocus(this)" aria-label="Activar modo oración" aria-pressed="false">${LumenIcons.sparkles}</button></div>
             </header>
             <div class="oraciones-list">${items}</div>
+            <button class="focus-exit" type="button" onclick="LumenUI.togglePrayerFocus()">Salir del modo oración</button>
         </div>`;
     },
 
@@ -128,5 +162,10 @@ const OracionesView = {
     init: function() {
         LumenRouter.initScrollReveal();
         LumenUI.applyReaderPrefs();
+    },
+
+    destroy: function() {
+        if (typeof LumenAudio !== 'undefined' && LumenAudio.stop) LumenAudio.stop();
+        document.body.classList.remove('prayer-focus');
     }
 };

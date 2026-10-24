@@ -1,15 +1,21 @@
+const EVENT_SUMMARY_FIELDS = 'id,titulo,tipo,descripcion,ubicacion,requisitos_edad,requisitos_texto,requisito_fecha,requisito_min_edad,requisito_max_edad,costo,fecha_inicio,fecha_fin,dia,hora,notifs_sent,created_at,updated_at';
+
 const LumenData = {
-    eventos: [], recursos: {}, notifications: [], blogArticles: [], users: null, state: { eventos: 'loading', recursos: 'loading' }, selectedEventId: null, notifTake: 20,
-    _fp: { eventos: null, recursos: null, notificaciones: null, articulos: null, profiles: null },
+    eventos: [], recursos: {}, notifications: [], blogArticles: [], myInscripciones: [], users: null, state: { eventos: 'loading', recursos: 'loading' }, selectedEventId: null, notifTake: 20,
+    _fp: { eventos: null, recursos: null, notificaciones: null, articulos: null, profiles: null, inscripciones: null },
     _deb: {},
+    _eventImages: {},
+    _eventosFull: false,
+    _eventosResumenPromise: null,
+    _eventosFullPromise: null,
+    _recursosPromise: null,
+    _notifPromise: null,
+    _blogPromise: null,
+    _usersPromise: null,
+    _inscripcionesPromise: null,
     init: function() {
         this.loadEventos();
-        this.loadRecursos();
-        this.loadNotifications();
-        this.loadBlog();
-        this.loadUsers();
         this.subscribe();
-        const self = this;
         window.addEventListener('offline', () => { if (LumenUI.setOfflineBadge) LumenUI.setOfflineBadge(true); });
         window.addEventListener('online', () => LumenData.flushOutbox());
     },
@@ -23,6 +29,7 @@ const LumenData = {
             case 'notificaciones': return (rows || []).map(r => [r.id, r.timestamp || ''].join(':')).sort().join('|');
             case 'articulos': return (rows || []).map(r => [r.id, r.timestamp || ''].join(':')).sort().join('|');
             case 'profiles': return (rows || []).map(r => [r.id, r.status, r.role, r.updated_at || r.nombre || ''].join(':')).sort().join('|');
+            case 'inscripciones': return (rows || []).map(r => [r.id, r.evento_id, r.fecha || ''].join(':')).sort().join('|');
         }
         return '';
     },
@@ -38,35 +45,69 @@ const LumenData = {
     },
     subscribe: function() {
         try {
+            // Solo eventos: las tablas protegidas (recursos, notificaciones,
+            // profiles) no deben abrir canales anónimos que devuelven 401.
             supabase
                 .channel('lumen-realtime')
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'eventos' }, () => this.loadEventos())
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'recursos' }, () => this.loadRecursos())
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'notificaciones' }, () => this.loadNotifications())
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'articulos' }, () => this.loadBlog())
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, () => this.loadUsers())
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'eventos' }, () => this.loadEventos(this._eventosFull))
                 .subscribe();
         } catch (e) { console.error('[LUMEN] realtime', e); }
     },
-    loadEventos: function() {
-        return supabase.from('eventos').select('*').order('created_at', { ascending: true }).then(({ data, error }) => {
-            if (error) return this._servirCaché('eventos');
-            this._aplicarEventos(data);
-            LumenStore.cachedSet('eventos', data);
-            if (LumenUI.setOfflineBadge) LumenUI.setOfflineBadge(false);
-        }).catch(() => this._servirCaché('eventos'));
+    loadEventos: function(full) {
+        full = !!full;
+        if (full && this._eventosFull) return Promise.resolve(this.eventos);
+        if (!full && this._eventosFull) return Promise.resolve(this.eventos);
+        if (full && this._eventosFullPromise) return this._eventosFullPromise;
+        if (!full && this._eventosResumenPromise) return this._eventosResumenPromise;
+        const fields = full ? '*' : EVENT_SUMMARY_FIELDS;
+        const cacheKey = full ? 'eventos' : 'eventos_resumen';
+        const request = supabase.from('eventos').select(fields).order('created_at', { ascending: true })
+            .then(({ data, error }) => {
+                if (error) throw error;
+                this._aplicarEventos(data, full);
+                LumenStore.cachedSet(cacheKey, data || []);
+                if (LumenUI.setOfflineBadge) LumenUI.setOfflineBadge(false);
+                return this.eventos;
+            })
+            .catch(() => {
+                // Si ya hay un resumen en memoria, no sustituirlo por el estado de error.
+                if (this.eventos.length) return this.eventos;
+                return this._servirCaché('eventos');
+            });
+        const tracked = request.finally(() => {
+            if (full) this._eventosFullPromise = null;
+            else this._eventosResumenPromise = null;
+        });
+        if (full) this._eventosFullPromise = tracked;
+        else this._eventosResumenPromise = tracked;
+        return tracked;
     },
-    _aplicarEventos: function(data) {
+    ensureEventosFull: function() {
+        return this.loadEventos(true);
+    },
+    _aplicarEventos: function(data, full) {
+        data = data || [];
+        // El resumen no trae image_url (base64 pesado). Conservamos las imágenes
+        // ya cargadas y las inyectamos al vuelo para no volver a descargarlas.
+        data.forEach((ev) => {
+            if (ev.image_url) this._eventImages[ev.id] = ev.image_url;
+            else if (this._eventImages[ev.id]) ev.image_url = this._eventImages[ev.id];
+        });
         const fp = this._fingerprint('eventos', data);
-        if (fp === this._fp.eventos) return;
+        if (!full && fp === this._fp.eventos) return;
         this._fp.eventos = fp;
-        this.eventos = data || [];
-        this.state.eventos = data && data.length > 0 ? 'ideal' : 'empty';
+        this._eventosFull = !!full || this._eventosFull;
+        this.eventos = data;
+        this.state.eventos = data.length > 0 ? 'ideal' : 'empty';
         this._debouncedRender('actividades');
     },
     // Fallback offline: sirve el snapshot local y avisa; si no hay, marca error.
     _servirCaché: function(kind) {
-        return LumenStore.cachedGet(kind).then(cached => {
+        let cachedPromise = LumenStore.cachedGet(kind);
+        if (kind === 'eventos') {
+            cachedPromise = cachedPromise.then(cached => cached ? cached : LumenStore.cachedGet('eventos_resumen'));
+        }
+        return cachedPromise.then(cached => {
             if (cached) {
                 this._applyFromCache(kind, cached);
                 if (LumenUI.setOfflineBadge) LumenUI.setOfflineBadge(true);
@@ -78,7 +119,7 @@ const LumenData = {
         }).catch(() => null);
     },
     _viewOf: function(kind) {
-        return { eventos: 'actividades', recursos: 'recursos', notificaciones: 'notificaciones', articulos: 'blog', profiles: 'gestion' }[kind] || 'landing';
+        return { eventos: 'actividades', recursos: 'recursos', notificaciones: 'notificaciones', articulos: 'blog', profiles: 'gestion', inscripciones: 'actividades' }[kind] || 'landing';
     },
     _applyFromCache: function(kind, cached) {
         switch (kind) {
@@ -98,6 +139,10 @@ const LumenData = {
                 (cached || []).forEach(u => { this.users[u.id] = u; });
                 this._debouncedRender('inicio');
                 this._debouncedRender('gestion');
+                break;
+            case 'inscripciones':
+                this.myInscripciones = cached || [];
+                this._debouncedRender('actividades');
                 break;
         }
     },
@@ -129,11 +174,15 @@ const LumenData = {
         return supabase.rpc('cumpleanos_list', { p_dias: typeof dias === 'number' ? dias : 0 }).then(({ data, error }) => error ? [] : (data || []));
     },
     loadRecursos: function() {
-        return supabase.from('recursos').select('*').order('created_at', { ascending: true }).then(({ data, error }) => {
-            if (error) return this._servirCaché('recursos');
+        if (typeof LumenAuth === 'undefined' || !LumenAuth.isMember) return Promise.resolve();
+        if (this._recursosPromise) return this._recursosPromise;
+        this._recursosPromise = supabase.from('recursos').select('*').order('created_at', { ascending: true }).then(({ data, error }) => {
+            if (error) throw error;
             this._aplicarRecursos(data);
-            LumenStore.cachedSet('recursos', data);
-        }).catch(() => this._servirCaché('recursos'));
+            LumenStore.cachedSet('recursos', data || []);
+            return data;
+        }).catch(() => this._servirCaché('recursos')).finally(() => { this._recursosPromise = null; });
+        return this._recursosPromise;
     },
     _aplicarRecursos: function(data) {
         const fp = this._fingerprint('recursos', data);
@@ -148,44 +197,108 @@ const LumenData = {
         this._debouncedRender('recursos');
     },
     loadNotifications: function() {
-        return supabase.from('notificaciones').select('*').order('timestamp', { ascending: false }).limit(this.notifTake).then(({ data, error }) => {
-            if (error) return this._servirCaché('notificaciones');
+        if (typeof LumenAuth === 'undefined' || !LumenAuth.isMember) return Promise.resolve();
+        if (this._notifPromise) return this._notifPromise;
+        this._notifPromise = supabase.from('notificaciones').select('*').order('timestamp', { ascending: false }).limit(this.notifTake).then(({ data, error }) => {
+            if (error) throw error;
             const fp = this._fingerprint('notificaciones', data);
-            if (fp === this._fp.notificaciones) return;
+            if (fp === this._fp.notificaciones) return [];
             this._fp.notificaciones = fp;
             this.notifications = data && data.length > 0 ? data : [];
             this._debouncedRender('notificaciones');
-            LumenUI.updateNotifBadge();
+            if (LumenUI.updateNotifBadge) LumenUI.updateNotifBadge();
             LumenStore.cachedSet('notificaciones', data || []);
-        }).catch(() => this._servirCaché('notificaciones'));
+            return data || [];
+        }).catch(() => this._servirCaché('notificaciones')).finally(() => { this._notifPromise = null; });
+        return this._notifPromise;
     },
     loadMoreNotifications: function() {
         this.notifTake += 20;
         return this.loadNotifications();
     },
     loadBlog: function() {
-        return supabase.from('articulos').select('*').order('timestamp', { ascending: false }).limit(50).then(({ data, error }) => {
-            if (error) return this._servirCaché('articulos');
+        if (this._blogPromise) return this._blogPromise;
+        this._blogPromise = supabase.from('articulos').select('*').order('timestamp', { ascending: false }).limit(50).then(({ data, error }) => {
+            if (error) throw error;
             const fp = this._fingerprint('articulos', data);
-            if (fp === this._fp.articulos) return;
+            if (fp === this._fp.articulos) return [];
             this._fp.articulos = fp;
             this.blogArticles = data || [];
             this._debouncedRender('blog');
             LumenStore.cachedSet('articulos', data || []);
-        }).catch(() => this._servirCaché('articulos'));
+            return data || [];
+        }).catch(() => this._servirCaché('articulos')).finally(() => { this._blogPromise = null; });
+        return this._blogPromise;
+    },
+    // Inscripciones propias. La RLS de `inscripciones` ya permite SELECT/DELETE
+    // del propio usuario; no se consulta ningún dato de otros miembros.
+    loadMyInscripciones: function(force) {
+        if (typeof LumenAuth === 'undefined' || !LumenAuth.currentUser) return Promise.resolve([]);
+        if (this._inscripcionesPromise) return this._inscripcionesPromise;
+        const uid = LumenAuth.currentUser.id;
+        if (force) this._fp.inscripciones = null;
+        this._inscripcionesPromise = supabase.from('inscripciones').select('*')
+            .eq('user_id', uid).order('fecha', { ascending: false })
+            .then(({ data, error }) => {
+                if (error) throw error;
+                this._aplicarInscripciones(data);
+                LumenStore.cachedSet('inscripciones', data || []);
+                return data || [];
+            })
+            .catch(() => this._servirCaché('inscripciones'))
+            .finally(() => { this._inscripcionesPromise = null; });
+        return this._inscripcionesPromise;
+    },
+    _aplicarInscripciones: function(data) {
+        if (typeof LumenAuth !== 'undefined' && !LumenAuth.currentUser) return;
+        data = data || [];
+        const fp = this._fingerprint('inscripciones', data);
+        if (fp === this._fp.inscripciones) return;
+        this._fp.inscripciones = fp;
+        this.myInscripciones = data;
+        this._debouncedRender('actividades');
+    },
+    isInscrito: function(eventId) {
+        return (this.myInscripciones || []).some(function(i) { return i.evento_id === eventId; });
+    },
+    inscripcionFor: function(eventId) {
+        return (this.myInscripciones || []).find(function(i) { return i.evento_id === eventId; }) || null;
+    },
+    cancelInscripcion: function(inscripcionId) {
+        if (!inscripcionId) return Promise.resolve(false);
+        const removeLocal = () => {
+            this.myInscripciones = (this.myInscripciones || []).filter(i => i.id !== inscripcionId);
+            LumenStore.cachedSet('inscripciones', this.myInscripciones);
+        };
+        if (navigator.onLine === false) {
+            removeLocal();
+            return this._encolar('cancelInscripcion', { id: inscripcionId }).then(() => true);
+        }
+        return supabase.from('inscripciones').delete().eq('id', inscripcionId).then(({ error }) => {
+            if (error) throw error;
+            removeLocal();
+            return true;
+        });
     },
     loadUsers: function() {
-        return supabase.from('profiles').select('*').then(({ data, error }) => {
-            if (error) { console.error('[LUMEN] loadUsers', error); return this._servirCaché('profiles'); }
+        if (typeof LumenAuth === 'undefined' || !LumenAuth.isAdmin) return Promise.resolve();
+        if (this._usersPromise) return this._usersPromise;
+        this._usersPromise = supabase.from('profiles').select('*').then(({ data, error }) => {
+            if (error) throw error;
             const fp = this._fingerprint('profiles', data);
-            if (fp === this._fp.profiles) return;
+            if (fp === this._fp.profiles) return [];
             this._fp.profiles = fp;
             this.users = {};
             (data || []).forEach(u => { this.users[u.id] = u; });
             this._debouncedRender('inicio');
             this._debouncedRender('gestion');
             LumenStore.cachedSet('profiles', data || []);
-        }).catch((err) => { console.error('[LUMEN] loadUsers', err); return this._servirCaché('profiles'); });
+            return data || [];
+        }).catch((err) => {
+            console.error('[LUMEN] loadUsers', err);
+            return this._servirCaché('profiles');
+        }).finally(() => { this._usersPromise = null; });
+        return this._usersPromise;
     },
     checkExpiredActivities: function() {},
     checkScheduledNotifications: function() {},
@@ -274,6 +387,7 @@ const LumenData = {
             case 'saveResource': return this.saveResource(payload.categoria, payload.resource);
             case 'updateResource': return this.updateResource(payload.categoria, payload.id, payload.resource);
             case 'deleteResource': return this.deleteResource(payload.categoria, payload.id);
+            case 'cancelInscripcion': return supabase.from('inscripciones').delete().eq('id', payload.id).then(({ error }) => { if (error) throw error; });
             case 'notify': return this.saveNotification(payload.text, payload.forAdmin);
         }
         return Promise.resolve();

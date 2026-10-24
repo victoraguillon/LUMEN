@@ -2,7 +2,18 @@ let activeFilter = 'Todos';
 let actividadSearchQuery = '';
 
 const ActividadesView = {
-    cropper: null, 
+    cropper: null,
+    route: function() {
+        return { parts: [], query: activeFilter === 'mias' ? 'filtro=mias' : null };
+    },
+    applyRoute: function(params, query) {
+        const match = /(?:^|&)filtro=([^&]+)/.exec(query || '');
+        if (match && decodeURIComponent(match[1]) === 'mias') activeFilter = 'mias';
+        else if (!match && activeFilter === 'mias') activeFilter = 'Todos';
+        if (activeFilter === 'mias' && typeof LumenAuth !== 'undefined' && LumenAuth.currentUser && LumenData.loadMyInscripciones) {
+            LumenData.loadMyInscripciones().catch(function() {});
+        }
+    },
     render: function() {
         let content = '';
         let adminButton = LumenAuth.isAdmin ? `<button class="btn btn-add" onclick="ActividadesView.showAddForm()">${Icons.plus} Crear Nueva Actividad</button>` : '';
@@ -14,6 +25,9 @@ const ActividadesView = {
         else if (LumenData.state.eventos === 'empty') {
             content = `<div class="v-empty">${Icons.empty_box}<h3>No hay actividades programadas</h3><p>Vuelve pronto para ver los próximos retiros y misiones.</p></div>`;
         } 
+        else if (activeFilter === 'mias' && (!LumenAuth.currentUser || !LumenAuth.isMember)) {
+            content = `<div class="v-empty">${Icons.user}<h3>Inicia sesión como miembro</h3><p>Las inscripciones están disponibles para miembros aprobados de Juvemar.</p><button class="btn btn-primary" onclick="LumenUI.openModal('login-modal')">Iniciar sesión</button></div>`;
+        }
         else if (LumenData.state.eventos === 'ideal') {
             let pushMiniHTML = '';
             if (typeof LumenPush !== 'undefined') {
@@ -25,22 +39,33 @@ const ActividadesView = {
             }
 
             // Chips de Filtro
+            const mineChip = LumenAuth.currentUser && LumenAuth.isMember
+                ? `<div class="seg-tab ${activeFilter === 'mias' ? 'active' : ''}" onclick="ActividadesView.setFilter('mias')">Mis inscripciones</div>`
+                : '';
             let chipsHTML = `
                 <div class="seg-tabs reveal v-vgap" >
                     <div class="seg-tab ${activeFilter === 'Todos' ? 'active' : ''}" onclick="ActividadesView.setFilter('Todos')">Próximas</div>
                     <div class="seg-tab ${activeFilter === 'historial' ? 'active' : ''}" onclick="ActividadesView.setFilter('historial')">Historial</div>
                     <div class="seg-tab ${activeFilter === 'unico' ? 'active' : ''}" onclick="ActividadesView.setFilter('unico')">Únicos</div>
                     <div class="seg-tab ${activeFilter === 'recurrente' ? 'active' : ''}" onclick="ActividadesView.setFilter('recurrente')">Recurrentes</div>
+                    ${mineChip}
                 </div>
             `;
 
             let cardsHTML = '';
             // Filtrar: 'Todos' = próximas (recurrentes + únicos futuros), 'historial' = únicos ya finalizados
-            const baseList = activeFilter === 'historial' ? LumenData.historialEventos() : LumenData.upcomingEventos();
-            const filteredEvents = baseList.filter(ev => activeFilter === 'Todos' || activeFilter === 'historial' || ev.tipo === activeFilter);
+            let baseList;
+            if (activeFilter === 'mias') {
+                const ids = {};
+                (LumenData.myInscripciones || []).forEach(function(i) { ids[i.evento_id] = true; });
+                baseList = LumenData.sortedEventos().filter(function(ev) { return ids[ev.id]; });
+            } else {
+                baseList = activeFilter === 'historial' ? LumenData.historialEventos() : LumenData.upcomingEventos();
+            }
+            const filteredEvents = baseList.filter(ev => activeFilter === 'Todos' || activeFilter === 'historial' || activeFilter === 'mias' || ev.tipo === activeFilter);
             
             if (filteredEvents.length === 0) {
-                cardsHTML = `<div class="v-empty v-colall" >${Icons.empty_box}<h3>${activeFilter === 'historial' ? 'Aún no hay actividades finalizadas' : 'No hay actividades de este tipo'}</h3></div>`;
+                cardsHTML = `<div class="v-empty v-colall" >${Icons.empty_box}<h3>${activeFilter === 'historial' ? 'Aún no hay actividades finalizadas' : activeFilter === 'mias' ? 'Aún no tienes inscripciones' : 'No hay actividades de este tipo'}</h3><p>${activeFilter === 'mias' ? 'Cuando te inscribas a una actividad, aparecerá aquí.' : ''}</p></div>`;
             } else {
                 filteredEvents.forEach(evento => {
                     let adminButtons = LumenAuth.isAdmin ? `
@@ -51,6 +76,7 @@ const ActividadesView = {
                     ` : '';
                     let badgeClass = evento.tipo === 'recurrente' ? 'badge-recurring' : 'badge-unique';
                     let badgeText = evento.tipo === 'recurrente' ? 'Semanal' : 'Único';
+                    const inscrito = (typeof LumenData !== 'undefined' && LumenData.isInscrito) ? LumenData.isInscrito(evento.id) : false;
                     const fueFinalizada = evento.tipo === 'unico' && evento.fecha_fin && new Date(evento.fecha_fin) < new Date();
                     let fechaText = evento.tipo === 'recurrente' ? `Todos los ${evento.dia} a las ${evento.hora}` : (evento.fecha_inicio ? new Date(evento.fecha_inicio).toLocaleDateString('es-VE') : 'Pronto');
                     if (fueFinalizada) fechaText += ` · Finalizada`;
@@ -61,8 +87,9 @@ const ActividadesView = {
                             <h3>${LumenUI.escapeHTML(evento.titulo)}</h3>
                             <div class="v-mv10" >
                                 <span class="v-chip ${evento.tipo === 'recurrente' ? '' : 'is-dorado'}">${badgeText}</span>
+                                ${inscrito ? '<span class="v-chip is-inscrito">✓ Inscrito</span>' : ''}
                             </div>
-                            ${evento.image_url ? `<img src="${LumenUI.sanitizeImageUrl(evento.image_url)}" alt="${LumenUI.escapeHTML(evento.titulo)}" loading="lazy" class="v-media-h">` : ''}
+                            ${evento.image_url ? `<img src="${LumenUI.sanitizeImageUrl(evento.image_url)}" alt="${LumenUI.escapeHTML(evento.titulo)}" width="800" height="450" loading="lazy" decoding="async" class="v-media-h">` : ''}
                             <p>${LumenUI.escapeHTML((evento.descripcion || '').substring(0, 60))}...</p>
                             <button class="btn btn-primary btn-block" onclick="LumenData.selectedEventId='${evento.id}'; LumenRouter.navigateTo('detalle')">Ver Detalle</button>
                             ${adminButtons}
@@ -82,7 +109,7 @@ const ActividadesView = {
         return `<div class="view">
             <div class="v-header reveal align-left">
                 <span class="v-eyebrow">${Icons.calendar} Agenda</span>
-                <h2 class="v-title">Actividades</h2>
+                <h1 class="v-title">Actividades</h1>
                 <p class="v-sub">${activeFilter === 'historial' ? 'Actividades únicas ya realizadas.' : 'Próximas actividades y encuentros.'}</p>
             </div>
             <div class="v-section" style="padding-top:0;">
@@ -109,8 +136,12 @@ const ActividadesView = {
         const empty = document.getElementById('act-search-empty');
         if (empty) empty.classList.toggle('v-hide', visible > 0);
     },
-    showAddForm: function(id = null) {
+    showAddForm: function(id = null, retried = false) {
         const evento = id ? LumenData.eventos.find(e => e.id === id) : {};
+        if (id && !retried && !LumenData._eventosFull && LumenData.ensureEventosFull) {
+            LumenData.ensureEventosFull().then(() => this.showAddForm(id, true)).catch(() => this.showAddForm(id, true));
+            return;
+        }
         // Stored como ISO-8601 (UTC); devuélvelo a valor local del <input datetime-local>.
         const aLocal = function(iso) {
             if (!iso) return '';
@@ -200,11 +231,19 @@ const ActividadesView = {
             cropBtn.classList.remove('v-hide');
             cropArea.innerHTML = `<img class="v-mw100" src="${ev.target.result}" id="crop-image" >`;
             if (this.cropper) this.cropper.destroy();
-            const image = document.getElementById('crop-image');
-            this.cropper = new Cropper(image, {
-                aspectRatio: 16 / 9, viewMode: 1, dragMode: 'move', autoCropArea: 1.0,
-                cropBoxMovable: false, cropBoxResizable: false, background: false, guides: false
-            });
+            const startCropper = () => {
+                const image = document.getElementById('crop-image');
+                if (!image || typeof Cropper === 'undefined') return;
+                this.cropper = new Cropper(image, {
+                    aspectRatio: 16 / 9, viewMode: 1, dragMode: 'move', autoCropArea: 1.0,
+                    cropBoxMovable: false, cropBoxResizable: false, background: false, guides: false
+                });
+            };
+            if (typeof Cropper === 'undefined') {
+                LumenUI.ensureCropper().then(startCropper).catch(() => LumenUI.showToast('No se pudo cargar el editor de imagen.', 'error'));
+            } else {
+                startCropper();
+            }
         };
         reader.readAsDataURL(file);
     },
@@ -287,6 +326,9 @@ const ActividadesView = {
     init: function() {
         if (typeof LumenPush !== 'undefined' && LumenPush.aplicarEstadoUI) LumenPush.aplicarEstadoUI();
         LumenRouter.initScrollReveal();
+        if (LumenAuth.currentUser && LumenData.loadMyInscripciones) {
+            LumenData.loadMyInscripciones().catch(function() {});
+        }
     },
     destroy: function() {
         if (this.cropper) { try { this.cropper.destroy(); } catch (e) {} this.cropper = null; }

@@ -28,6 +28,42 @@ test.describe('Responsive · sin desborde horizontal', () => {
 });
 
 test.describe('Responsive · navegación', () => {
+  test('Nav del escritorio comparte tipografía y agrupa Actividades en Comunidad', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.use.viewport.width <= 1200, 'Solo escritorio ancho (>1200px)');
+    await page.goto('/');
+    await page.waitForFunction(() => typeof LumenRouter !== 'undefined');
+
+    const nav = await page.evaluate(() => {
+      const link = document.querySelector('.nav-links > li > a.nav-link');
+      const trigger = document.querySelector('.nav-links .dropdown-trigger');
+      const typography = (el) => {
+        if (!el) return null;
+        const style = getComputedStyle(el);
+        const box = el.getBoundingClientRect();
+        return {
+          fontFamily: style.fontFamily,
+          fontSize: style.fontSize,
+          fontWeight: style.fontWeight,
+          lineHeight: style.lineHeight,
+          padding: style.padding,
+          height: Math.round(box.height)
+        };
+      };
+      return {
+        link: typography(link),
+        trigger: typography(trigger),
+        topLevelActividades: !!document.querySelector('.nav-links > li > a[data-view="actividades"]'),
+        communityActividades: !!document.querySelector('#comunidad-dropdown a[data-view="actividades"]')
+      };
+    });
+
+    expect(nav.trigger).toEqual(nav.link);
+    expect(nav.link.fontSize).toBe('16px');
+    expect(nav.link.fontWeight).toBe('500');
+    expect(nav.topLevelActividades).toBe(false);
+    expect(nav.communityActividades).toBe(true);
+  });
+
   test('Nav del escritorio abre el dropdown Espiritualidad', async ({ page }, testInfo) => {
     test.skip(testInfo.project.use.viewport.width <= 1200, 'Solo escritorio ancho (>1200px)');
     await page.goto('/');

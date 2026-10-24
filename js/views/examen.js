@@ -109,6 +109,7 @@ const ExamenView = {
 
         host.innerHTML = `
         <div id="examen-report" class="examen-report">
+            <h1 class="sr-only">Examen de conciencia</h1>
             <h2>Conciencia examinada</h2>
             <p class="examen-summary">${summary}</p>
             <h3>${LumenIcons.oraciones} Recordar para la confesión</h3>
@@ -165,7 +166,7 @@ const ExamenView = {
             <div class="view">
                 <div class="v-header reveal">
                     <span class="v-eyebrow">Reflexión sincera ante Dios ${LumenUI.liturgicalBadgeHTML()}</span>
-                    <h2 class="v-title">Examen de <em>Conciencia</em></h2>
+                    <h1 class="v-title">Examen de <em>Conciencia</em></h1>
                     <p class="v-sub">Guíate por los mandamientos y los preceptos de la Iglesia para preparar tu confesión con honestidad y paz.</p>
                     <div class="hero-actions v-jcc v-mt20" >${LumenUI.streakChipHTML()}</div>
                 </div>

@@ -25,6 +25,52 @@ const InicioView = {
             `;
         });
     },
+    _todayPanel: function() {
+        const info = (typeof LumenUI !== 'undefined' && LumenUI.liturgicalInfo) ? LumenUI.liturgicalInfo(new Date()) : { seasonId: 'ordinario', label: 'Tiempo Ordinario' };
+        const dayMap = { 0: 'gloriosos', 1: 'gozosos', 2: 'dolorosos', 3: 'gloriosos', 4: 'luminosos', 5: 'dolorosos', 6: 'gozosos' };
+        const set = dayMap[new Date().getDay()] || 'gozosos';
+        const setTitle = { gozosos: 'Gozosos', dolorosos: 'Dolorosos', gloriosos: 'Gloriosos', luminosos: 'Luminosos' }[set];
+        const planId = ['adviento', 'navidad', 'cuaresma', 'pascua'].indexOf(info.seasonId) > -1 ? info.seasonId : null;
+        const planTitle = planId ? { adviento: 'Adviento', navidad: 'Navidad', cuaresma: 'Cuaresma', pascua: 'Pascua' }[planId] : 'Planes estacionales';
+        const recent = (typeof LumenUI !== 'undefined' && LumenUI.recentHTML) ? LumenUI.recentHTML(3) : '';
+        const streak = (typeof LumenUI !== 'undefined' && LumenUI.streakChipHTML) ? LumenUI.streakChipHTML() : '';
+        const next = (typeof LumenData !== 'undefined' && LumenData.upcomingEventos) ? LumenData.upcomingEventos(1)[0] : null;
+        const nextText = next ? (next.titulo || 'Próxima actividad') : 'Sin actividades próximas';
+        const nextSub = next ? (next.tipo === 'recurrente' ? ('Todos los ' + (next.dia || '') + ' · ' + (next.hora || '')) : (next.fecha_inicio ? LumenUI.formatDate(next.fecha_inicio).split(' ')[0] : 'Próximamente')) : 'Consulta la agenda';
+        return `<section class="today-panel reveal" aria-label="Resumen de hoy">
+            <div class="today-head">
+                <div>
+                    <span class="section-kicker">Hoy</span>
+                    <h2 class="today-title">Tu día de fe, <em>en un vistazo</em></h2>
+                </div>
+                <div class="today-actions">${streak}<span class="liturgical-badge ${info.cls}"><span class="lit-dot" style="background:${info.color}"></span>${info.label}</span></div>
+            </div>
+            <div class="today-grid">
+                <button class="today-card" type="button" onclick="LumenRouter.navigateTo('evangelio')">
+                    <span class="today-icon">${LumenIcons.book}</span>
+                    <span class="today-copy"><strong>Evangelio del día</strong><small>Lectura y reflexión para hoy</small></span>
+                    <span class="today-arrow">→</span>
+                </button>
+                <button class="today-card" type="button" onclick="RosarioView.pick('${set}')">
+                    <span class="today-icon">${LumenIcons.rosario}</span>
+                    <span class="today-copy"><strong>Rosario de hoy</strong><small>Misterios ${setTitle}</small></span>
+                    <span class="today-arrow">→</span>
+                </button>
+                <button class="today-card" type="button" onclick="PlanesView.${planId ? "open('" + planId + "')" : "back()"}">
+                    <span class="today-icon">${LumenIcons.compass}</span>
+                    <span class="today-copy"><strong>${planTitle}</strong><small>${planId ? 'Continúa tu camino' : 'Adviento, Navidad, Cuaresma y Pascua'}</small></span>
+                    <span class="today-arrow">→</span>
+                </button>
+                <button class="today-card" type="button" onclick="LumenRouter.navigateTo('actividades')">
+                    <span class="today-icon">${LumenIcons.calendar}</span>
+                    <span class="today-copy"><strong>${LumenUI.escapeHTML(nextText)}</strong><small>${LumenUI.escapeHTML(nextSub)}</small></span>
+                    <span class="today-arrow">→</span>
+                </button>
+            </div>
+            ${recent}
+        </section>`;
+    },
+
     render: function() {
         const isMember = LumenAuth.isMember;
 
@@ -56,9 +102,11 @@ const InicioView = {
             return `
                 <div class="view">
                     <div class="v-header reveal">
-                        <h2 class="v-title">¡Bienvenido a <em>LUMEN</em>    !</h2>
+                        <h1 class="v-title">¡Bienvenido a <em>LUMEN</em>    !</h1>
                         <p class="v-sub">Descubre nuestra comunidad, actividades y crecimiento espiritual.</p>
                     </div>
+
+                    ${this._todayPanel()}
 
                     <div class="bento-grid v-stagger">
                         <div class="bento-box bento-large reveal" style="background: var(--gradiente-lumen); justify-content: center; text-align: center; padding: 40px;">
@@ -228,12 +276,14 @@ const InicioView = {
         return `
             <div class="view">
                 <div class="v-header reveal align-left v-tal v-aifs" >
-                    <h2 class="v-title">${greeting}, <em>${firstName}</em>!</h2>
+                    <h1 class="v-title">${greeting}, <em>${firstName}</em>!</h1>
                     <p class="v-sub">${tenureMessage}</p>
                     <div class="v-flex v-gap10 v-owrap v-mt4" >
                         <span class="v-chip">${Icons.calendar} ${LumenData.eventos.length} Actividades</span>
                     </div>
                 </div>
+
+                ${this._todayPanel()}
 
                 <div class="bento-grid v-stagger">
                     <div class="bento-box bento-large reveal" style="background: var(--gradiente-lumen); justify-content: center; text-align: center; padding: 40px;">

@@ -1,10 +1,10 @@
 const NotificacionesView = {
     render: function() {
         if (!LumenAuth.currentUser) {
-            return `<div class="state-container"><h3>Acceso para miembros</h3><p>Inicia sesión para ver los avisos del grupo.</p><button class="btn btn-primary v-mt15"  onclick="LumenUI.requireMember()">Iniciar Sesión</button></div>`;
+            return `<div class="state-container"><h1 class="sr-only">Avisos</h1><h3>Acceso para miembros</h3><p>Inicia sesión para ver los avisos del grupo.</p><button class="btn btn-primary v-mt15"  onclick="LumenUI.requireMember()">Iniciar Sesión</button></div>`;
         }
         if (!LumenAuth.isMember) {
-            return `<div class="state-container"><h3>Solo miembros</h3><p>Los avisos del grupo están disponibles para miembros de Juvemar.</p><button class="btn btn-primary v-mt15"  onclick="LumenUI.requireMember()">Solicitar Ingreso</button></div>`;
+            return `<div class="state-container"><h1 class="sr-only">Avisos</h1><h3>Solo miembros</h3><p>Los avisos del grupo están disponibles para miembros de Juvemar.</p><button class="btn btn-primary v-mt15"  onclick="LumenUI.requireMember()">Solicitar Ingreso</button></div>`;
         }
 
         let notifs = [];
@@ -15,7 +15,7 @@ const NotificacionesView = {
         let html = `
             <div class="v-header reveal align-left">
                 <span class="v-eyebrow">${Icons.bell} Avisos</span>
-                <h2 class="v-title">Centro de <em>Notificaciones</em></h2>
+                <h1 class="v-title">Centro de <em>Notificaciones</em></h1>
                 <p class="v-sub">Mantente al día con los avisos, recordatorios y noticias de Juvemar.</p>
                 <div class="v-mt16" >
                     <button class="btn btn-outline" onclick="NotificacionesView.markAllRead()">✓ Marcar todo como leído</button>
@@ -49,6 +49,7 @@ const NotificacionesView = {
         return `<div class="view" style="padding-top:var(--view-pad-top);">${html}</div>`;
     },
     init: function() {
+        if (LumenAuth.isMember && typeof LumenData !== 'undefined' && LumenData.loadNotifications) LumenData.loadNotifications();
         // Al entrar a la vista, marcamos todas como leídas en el LocalStorage y actualizamos el badge
         localStorage.setItem('lumen-last-read-notif', Date.now());
         LumenUI.updateNotifBadge();

@@ -62,6 +62,15 @@ createServer(async (req, res) => {
     return;
   }
   if (pathname === "/") pathname = "/index.html";
+  // Fallback SPA para las rutas limpias (Vercel lo hace con rewrites).
+  const SPA_ROUTES = new Set([
+    "inicio", "nosotros", "actividades", "calendario", "detalle",
+    "recursos", "formacion", "oraciones", "rosario", "novenas", "examen",
+    "favoritos", "notificaciones", "intenciones", "encuestas", "perfil",
+    "gestion", "contacto", "blog", "devocional", "evangelio",
+    "planes", "offline"
+  ]);
+  if (SPA_ROUTES.has(pathname.split("/")[1])) pathname = "/index.html";
   const filePath = normalize(join(ROOT, pathname));
   if (!filePath.startsWith(ROOT)) {
     res.statusCode = 403;

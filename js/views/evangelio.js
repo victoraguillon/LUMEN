@@ -17,7 +17,7 @@ const EvangelioView = {
                         Evangelio del día
                     </div>
                     <p class="evangelio-date-text">${todayLabel}</p>
-                    <h2 class="evangelio-title">Lecturas de hoy</h2>
+                    <h1 class="evangelio-title">Lecturas de hoy</h1>
                     <p class="evangelio-sub">Palabra del día según el calendario litúrgico vaticano, con la meditación de los Papas.</p>
                     <div class="evangelio-hero-actions">
                         <button class="btn" onclick="EvangelioView.copy()" aria-label="Copiar evangelio del día">

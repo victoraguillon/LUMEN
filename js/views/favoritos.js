@@ -34,7 +34,7 @@ const FavoritosView = {
             return `<div class="view">
                 <div class="v-header reveal">
                     <span class="v-eyebrow">Tus guardados ${LumenUI.liturgicalBadgeHTML()}</span>
-                    <h2 class="v-title">Mis <em>Favoritos</em></h2>
+                    <h1 class="v-title">Mis <em>Favoritos</em></h1>
                     <p class="v-sub">Toca ♥ en cualquier sección, oración, novena o santo para guardarlo aquí.</p>
                 </div>
                 <div class="v-empty reveal v-wrap1080" >${typeof Icons !== 'undefined' ? Icons.empty_box : '📭'}<h3>Sin favoritos todavía</h3><p>Explora Formación, Oraciones o Novenas y marca lo que más te guste.</p><button class="btn btn-primary" onclick="LumenRouter.navigateTo('formacion')">Explorar Formación</button></div>
@@ -72,7 +72,7 @@ const FavoritosView = {
         return `<div class="view">
             <div class="v-header reveal">
                 <span class="v-eyebrow">Tus guardados ${LumenUI.liturgicalBadgeHTML()}</span>
-                <h2 class="v-title">Mis <em>Favoritos</em></h2>
+                <h1 class="v-title">Mis <em>Favoritos</em></h1>
                 <p class="v-sub">${ids.length} elemento${ids.length === 1 ? '' : 's'} guardado${ids.length === 1 ? '' : 's'}.</p>
             </div>
             <div class="v-section" style="padding-top:0;">

@@ -1,4 +1,9 @@
 // LUMEN - Service Worker único (v32) en la RAÍZ (/sw.js)
+// v59: restaura la proporción original de la foto de bienvenida
+// v58: tipografía superior más legible sin cambiar la agrupación de Actividades
+// v57: navegación superior compacta y Actividades dentro de Comunidad
+// v56: enlace de Descargas en el menú y pulido de búsqueda/rosario
+// v55: planes estacionales, descargas offline, búsqueda global y audio/foco
 // v49: limpieza F4 – utilidades de layout, iconos PWA reales y screenshots (bump de caché)
 // v48: compartir: selector de formato (historia / post 4:5 / post cuadrado) + emailCheck anti-rebote (migración 17)
 // v47: shell SPA solo se cachea en "/" (no se contamina con legales) + sincronización offline robusta
@@ -24,7 +29,8 @@
 // v25: bitácora de exportaciones (migración 11)
 // v50: fix v-hide !important (pestañas del devocional, cumpleaños de inicio, botones de recorte) + 10 oraciones y 1 novena
 // v53: iconos de app a sangre completa (sin marco), favicon y badge de notificaciones
-const CACHE = "lumen-cache-v53";
+// v54: rutas limpias SPA, carga diferida de datasets y correcciones de auditoría
+const CACHE = "lumen-cache-v59";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";
@@ -40,17 +46,13 @@ const SHELL = [
   "/js/auth.js",
   "/js/store.js",
   "/js/data.js",
+  "/js/audio.js",
+  "/js/ics.js",
+  "/js/search.js",
+  "/js/offline.js",
   "/js/push.js",
   "/js/app.js",
   "/js/links_data.js",
-  "/js/santoral.js",
-  "/js/devocional_data.js",
-  "/js/frases_santos.js",
-  "/js/formacion_data.js",
-  "/js/oraciones_data.js",
-  "/js/rosario_data.js",
-  "/js/novenas_data.js",
-  "/js/examen_data.js",
   "/js/views/landing.js",
   "/js/views/inicio.js",
   "/js/views/nosotros.js",
@@ -74,6 +76,8 @@ const SHELL = [
   "/js/views/favoritos.js",
   "/js/views/gestion.js",
   "/js/views/contacto.js",
+  "/js/views/planes.js",
+  "/js/views/offline.js",
   "/assets/icons/logo-192.png",
   "/assets/icons/logo-512.png",
   "/assets/icons/logo-maskable.png",
@@ -100,7 +104,10 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches
       .keys()
-      .then((keys) => (keys || []).some((k) => k !== CACHE) ? Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))) : Promise.resolve())
+      // Conserva las descargas explícitas del usuario entre versiones del SW.
+      .then((keys) => (keys || []).some((k) => k !== CACHE && k !== "lumen-downloads-v1")
+        ? Promise.all(keys.filter((k) => k !== CACHE && k !== "lumen-downloads-v1").map((k) => caches.delete(k)))
+        : Promise.resolve())
       .then(() => self.clients.claim())
   );
 });
@@ -116,11 +123,18 @@ self.addEventListener("fetch", (event) => {
   // se dejan pasar sin interceptar para que el navegador las cargue de red.
   if (req.mode === "navigate") {
     const path = new URL(req.url).pathname;
-    // Solo el shell SPA (/) se gestiona con caché stale-while-revalidate.
-    // Las páginas estáticas standalone (legal/*.html y los rewrites sin
-    // extensión) se dejan pasar sin interceptar: así el cacheo bajo "/" no
-    // se contamina con contenido ajeno y no se sirve el shell en su lugar.
-    const esShell = path === "/" || path === "/index.html";
+    // Shell SPA: la portada, las rutas limpias de la app y sus subrutas.
+    // Las páginas estáticas standalone (legal/*.html) y los rewrites legales
+    // se dejan pasar sin interceptar para no servirles el shell por error.
+    const first = path.split("/")[1];
+    const spaRoutes = new Set([
+      "inicio", "nosotros", "actividades", "calendario", "detalle",
+      "recursos", "formacion", "oraciones", "rosario", "novenas", "examen",
+      "favoritos", "notificaciones", "intenciones", "encuestas", "perfil",
+      "gestion", "contacto", "blog", "devocional", "evangelio",
+      "planes", "offline"
+    ]);
+    const esShell = path === "/" || path === "/index.html" || spaRoutes.has(first);
     if (!esShell) return;
     event.respondWith(
       caches.match("/").then((cached) => {

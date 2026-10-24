@@ -3,7 +3,6 @@ const LandingView = {
     _animFrame: null,
     _observer: null,
     _resizeHandler: null,
-    _typewriterTimeout: null,
     _countUpRaf: null,
     _dataTimer: null,
 
@@ -33,30 +32,8 @@ const LandingView = {
             this._initParticles(ctx, w, h);
         }
 
-        // Typewriter
-        const subtitle = hero.querySelector('.hero-subtitle');
-        if (subtitle) {
-            if (prefersReduced) {
-                subtitle.textContent = subtitle.dataset.text;
-            } else {
-                const text = subtitle.dataset.text;
-                subtitle.textContent = '';
-                let i = 0;
-                const type = () => {
-                    if (i < text.length) {
-                        subtitle.textContent += text[i++];
-                        this._typewriterTimeout = setTimeout(type, 35);
-                    }
-                };
-                this._typewriterTimeout = setTimeout(type, 800);
-            }
-        }
-
-        // Scroll reveal fade in
+        // La portada se pinta visible desde el primer frame (mejora LCP).
         hero.classList.add('reveal-visible');
-        if (prefersReduced) {
-            hero.style.opacity = '1';
-        }
     },
 
     // Cuenta animada de las cifras (respetando prefers-reduced-motion)
@@ -199,12 +176,14 @@ const LandingView = {
     _modules: function() {
         const M = (typeof LumenIcons !== 'undefined') ? LumenIcons : {};
         return [
-            { icon: M.compass || '', name: 'Devocional', desc: 'Pasaje, santo y reflexión de cada día.', view: 'devocional' },
-            { icon: M.rosario || '', name: 'Rosario', desc: 'Reza el rosario paso a paso guiado.', view: 'rosario' },
-            { icon: M.novenas || '', name: 'Novenas', desc: 'Novenas de poder y tradición.', view: 'novenas' },
-            { icon: M.examen || '', name: 'Examen de Conciencia', desc: 'Una pausa diaria para mirar el corazón.', view: 'examen' },
-            { icon: M.book || '', name: 'Formación', desc: 'Catecismo, apologética y crecimiento.', view: 'formacion' },
-            { icon: M.oraciones || '', name: 'Oraciones', desc: 'La oración de cada momento del año.', view: 'oraciones' },
+            { icon: M.compass || '', name: 'Devocional', desc: 'Pasaje, santo y reflexión de cada día.', more: 'Un espacio breve para comenzar el día con la Palabra, conocer al santo que la Iglesia celebra y llevarte una idea concreta para vivir.', view: 'devocional' },
+            { icon: M.rosario || '', name: 'Rosario', desc: 'Reza el rosario paso a paso guiado.', more: 'Incluye los misterios gozosos, dolorosos, gloriosos y luminosos, el Rosario Eucarístico y cuatro coronillas: Divina Misericordia, San Miguel, Espíritu Santo y San José.', view: 'rosario' },
+            { icon: M.novenas || '', name: 'Novenas', desc: 'Novenas de poder y tradición.', more: 'Nueve días de oración para preparar una fiesta, pedir una gracia o confiar una intención. Puedes marcar cada día y retomar donde lo dejaste.', view: 'novenas' },
+            { icon: M.examen || '', name: 'Examen de Conciencia', desc: 'Una pausa diaria para mirar el corazón.', more: 'Una guía serena para revisar la jornada, reconocer la acción de Dios y prepararte para la confesión, sin juicios ni prisas.', view: 'examen' },
+            { icon: M.book || '', name: 'Formación', desc: 'Catecismo, apologética y crecimiento.', more: 'Módulos con puntos clave, referencias y un lector cómodo para estudiar la fe a tu ritmo. Tu progreso queda guardado en este dispositivo.', view: 'formacion' },
+            { icon: M.oraciones || '', name: 'Oraciones', desc: 'La oración de cada momento del año.', more: 'Oraciones tradicionales y marianas, con búsqueda, audio, favoritos y enlaces directos para volver a la que necesitas.', view: 'oraciones' },
+            { icon: M.compass || '', name: 'Planes estacionales', desc: 'Adviento, Navidad, Cuaresma y Pascua.', more: 'Cuatro recorridos generales, paso a paso, para vivir cada tiempo litúrgico con la Palabra, la oración y un gesto concreto. Sin fechas fijas: empieza cuando lo necesites.', view: 'planes' },
+            { icon: M.download || '', name: 'Descargas', desc: 'Lleva LUMEN contigo sin conexión.', more: 'Descarga formación, oración, devocional o planes completos. Las descargas son públicas y puedes quitarlas en cualquier momento.', view: 'offline' },
         ];
     },
 
@@ -228,10 +207,10 @@ const LandingView = {
         const mods = this._modules();
         return `
             <div class="view">
-                <div class="hero" id="landing-hero">
-                    <canvas id="hero-particles"></canvas>
+                <div class="hero reveal-visible" id="landing-hero">
+                    <canvas id="hero-particles" aria-hidden="true"></canvas>
                     <h1 class="hero-title">LUMEN</h1>
-                    <p class="hero-subtitle" data-text="Más que una página, una comunidad en salida que cree, vive y anuncia el evangelio."></p>
+                    <p class="hero-subtitle">Más que una página: una comunidad en salida que cree, vive y anuncia el Evangelio en la Parroquia Nuestra Señora de Lourdes, Maracaibo.</p>
                     <div class="hero-actions">
                         <button class="${persona.primary.cls}" onclick="${persona.primary.onclick}">${persona.primary.label}</button>
                         <button class="${persona.secondary.cls}" onclick="${persona.secondary.onclick}">${persona.secondary.label}</button>
@@ -242,7 +221,7 @@ const LandingView = {
                 </div>
 
                 <div class="platform-intro reveal">
-                    <img src="assets/grupo_lumen.jpg" alt="Jóvenes católicos" onerror="this.src='https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=800&q=80'">
+                    <img src="assets/grupo_lumen.jpg" width="960" height="621" loading="lazy" decoding="async" alt="Jóvenes de Juvemar reunidos en la Parroquia Nuestra Señora de Lourdes" onerror="this.src='https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=800&q=80'">
                     <div class="platform-intro-text">
                         <h2>¡Bienvenido querido hermano!</h2>
                         <p>LUMEN nace de una necesidad concreta de nuestra <strong>Parroquia Ntra. Sra. de Lourdes</strong>: <strong>poner la tecnología al servicio del Evangelio</strong>. Aquí encontrarás todo lo que necesitas saber sobre nuestro grupo de apostolado <strong>Juvemar</strong> y nuestra hermandad <strong>"El Llamado de Samuel"</strong>: formación, oración, actividades y una comunidad que camina junta.</p>
@@ -292,14 +271,14 @@ const LandingView = {
                     </div>
                     <div class="modules-grid">
                         ${mods.map((m, i) => `
-                            <a href="#/${m.view}" class="module-card reveal ${i > 3 ? 'reveal-delay-1' : ''}">
-                                <span class="module-icon">${m.icon}</span>
-                                <span class="module-info">
-                                    <h3>${m.name}</h3>
-                                    <p>${m.desc}</p>
-                                </span>
-                                <span class="module-arrow" aria-hidden="true">→</span>
-                            </a>`).join('')}
+                            <div class="module-card module-card-expandable reveal ${i > 3 ? 'reveal-delay-1' : ''}">
+                                <a href="${LumenRouter.hrefFor([m.view])}" class="module-link" data-view="${m.view}">
+                                    <span class="module-icon">${m.icon}</span>
+                                    <span class="module-info"><h3>${m.name}</h3></span>
+                                    <span class="module-arrow" aria-hidden="true">→</span>
+                                </a>
+                                <div class="module-expand">${LumenUI.expandableHTML(m.desc, m.more)}</div>
+                            </div>`).join('')}
                     </div>
                 </div>
 
@@ -332,30 +311,14 @@ const LandingView = {
                     </div>
                 </div>
 
-                <div class="pwa-tutorial reveal">
-                    <h2 style="text-align: center; color: var(--texto-oscuro); margin-bottom: 15px; font-family: 'Sora', sans-serif;">Instala LUMEN en tu Celular</h2>
-                    <p class="v-tac v-txt-muted" >Accede más rápido y recibe notificaciones instalando la app en tu pantalla de inicio.</p>
-                    <div class="pwa-steps">
-                        <div class="pwa-step">
-                            <h4>Para Android (Chrome)</h4>
-                            <ol>
-                                <li>Abre LUMEN en Google Chrome.</li>
-                                <li>Toca el menú de 3 puntos (arriba a la derecha).</li>
-                                <li>Selecciona "Agregar a pantalla de inicio".</li>
-                                <li>Toca "Instalar" o "Agregar". ¡Listo!</li>
-                            </ol>
-                        </div>
-                        <div class="pwa-step">
-                            <h4>Para iPhone (Safari)</h4>
-                            <ol>
-                                <li>Abre LUMEN en el navegador Safari.</li>
-                                <li>Toca el botón "Compartir" (cuadro con flecha hacia arriba).</li>
-                                <li>Desplázate y selecciona "Añadir a inicio".</li>
-                                <li>Toca "Añadir" en la esquina superior derecha.</li>
-                            </ol>
-                        </div>
+                <section class="pwa-compact reveal" aria-labelledby="pwa-compact-title">
+                    <div class="pwa-compact-copy">
+                        <span class="section-kicker">En tu bolsillo</span>
+                        <h2 id="pwa-compact-title">Lleva LUMEN contigo</h2>
+                        <p>Instálala en tu pantalla de inicio para abrirla más rápido y recibir los avisos de la comunidad.</p>
                     </div>
-                </div>
+                    <button class="btn btn-outline" type="button" onclick="LumenInstall.mostrarGuia()">Cómo instalar</button>
+                </section>
 
                 <section class="landing-cta reveal">
                     ${persona.logged
@@ -425,7 +388,6 @@ const LandingView = {
         if (this._counterObserver) { this._counterObserver.disconnect(); this._counterObserver = null; }
         if (this._observer) { this._observer.disconnect(); this._observer = null; }
         if (this._resizeHandler) { window.removeEventListener('resize', this._resizeHandler); this._resizeHandler = null; }
-        if (this._typewriterTimeout) { clearTimeout(this._typewriterTimeout); this._typewriterTimeout = null; }
         this._particles = [];
     }
 };

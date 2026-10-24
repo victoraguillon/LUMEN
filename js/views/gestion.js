@@ -6,13 +6,13 @@ let currentMatrixMonth = new Date().getMonth() + 1;
 const GestionView = {
     render: function() {
         if (!LumenAuth.isAdmin) {
-            return `<div class="state-container">${Icons.alert}<h3>Acceso Denegado</h3><p>No tienes permisos de administrador.</p></div>`;
+            return `<div class="state-container"><h1 class="sr-only">Gestión</h1>${Icons.alert}<h3>Acceso Denegado</h3><p>No tienes permisos de administrador.</p></div>`;
         }
         return `
             <div class="view">
                 <div class="v-header reveal align-left">
                     <span class="v-eyebrow">${LumenIcons.shield} Administración</span>
-                    <h2 class="v-title">Módulo de <em>Gestión</em></h2>
+                    <h1 class="v-title">Módulo de <em>Gestión</em></h1>
                     <p class="v-sub">Censo, inscritos, asistencia, comunicación y más herramientas para los coordinadores.</p>
                 </div>
                 <div class="v-section" style="padding-top:0;">
@@ -31,6 +31,7 @@ const GestionView = {
         `;
     },
     init: function() {
+        if (!LumenAuth.isAdmin) return;
         const withUsers = () => {
             const empty = (LumenData.users && Object.keys(LumenData.users).length === 0);
             if (!LumenData.users || empty) { LumenData.loadUsers().then(() => this.renderContent()); } else { this.renderContent(); }
@@ -63,6 +64,7 @@ const GestionView = {
     },
     renderContent: function() {
         const container = document.getElementById('gestion-content');
+        if (!container) return;
         if (currentGestionTab === 'estadisticas') container.innerHTML = this.renderStats();
         else if (currentGestionTab === 'usuarios') container.innerHTML = this.renderUsuarios();
         else if (currentGestionTab === 'inscritos') container.innerHTML = this.renderInscritos();
@@ -755,6 +757,7 @@ const GestionView = {
 
 const originalRenderContent = GestionView.renderContent;
 GestionView.renderContent = function() {
+    if (!document.getElementById('gestion-content')) return;
     originalRenderContent.call(this);
     if (currentGestionTab === 'estadisticas') {
         setTimeout(() => this.initCharts(), 100);

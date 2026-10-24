@@ -86,7 +86,7 @@ const NovenasView = {
             <div class="view">
                 <div class="v-header reveal">
                     <span class="v-eyebrow">Nueve días de oración ${LumenUI.liturgicalBadgeHTML()}</span>
-                    <h2 class="v-title">Novenas de <em>fe y espera</em></h2>
+                    <h1 class="v-title">Novenas de <em>fe y espera</em></h1>
                     <p class="v-sub">Reza durante nueve días pidiendo la intercesión de la Virgen, los santos y las devociones. Marca cada día al completarlo.</p>
                     <div class="hero-actions v-jcc v-mt20" >${LumenUI.streakChipHTML()}</div>
                 </div>
@@ -127,6 +127,7 @@ const NovenasView = {
 
         return `
         <div class="view">
+            <h1 class="sr-only">${nov.title}</h1>
             <header class="formacion-mhead reveal">
                 <button class="btn btn-icon" onclick="NovenasView.back()" aria-label="Volver a novenas">←</button>
                 <div class="fm-title"><span class="fm-mod">${LumenIcons.novenas}${nov.title}</span>

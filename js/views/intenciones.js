@@ -32,7 +32,7 @@ const IntencionesView = {
             <div class="view">
                 <div class="v-header reveal">
                     <span class="v-eyebrow">${Icons.heart} Comunidad</span>
-                    <h2 class="v-title">Muro de <em>Intenciones</em></h2>
+                    <h1 class="v-title">Muro de <em>Intenciones</em></h1>
                     <p class="v-sub">Oremos unos por otros. Comparte por quién quieres que recemos hoy.</p>
                 </div>
 

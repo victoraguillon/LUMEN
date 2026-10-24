@@ -24,6 +24,7 @@ const DevocionalView = {
 
         return `
             <div class="view">
+                <h1 class="sr-only">Devocional diario</h1>
                 <!-- PASAJE DEL DÍA — HERO -->
                 <article class="devocional-hero reveal reveal-delay-1" aria-label="Alimento de Hoy">
                     <div class="v-eyebrow on-gradient">
@@ -120,15 +121,15 @@ const DevocionalView = {
                         <p>Elige cómo orar hoy; cada camino te acerca más a Dios.</p>
                     </div>
                     <div class="ora-grid">
-                        <a href="#/oraciones" class="ora-card" style="--tone:#3d8bfd;" onclick="LumenRouter.navigateTo('oraciones')" aria-label="Ir a Oraciones">
+                        <a href="${LumenRouter.hrefFor(['oraciones'])}" class="ora-card" style="--tone:#3d8bfd;" data-view="oraciones" aria-label="Ir a Oraciones">
                             <span class="ora-icon"><img src="assets/oracion.jpg" alt="Oraciones" class="v-media"></span>
                             <span class="ora-info">
                                 <strong>Oraciones</strong>
-                                <small>con texto, audio y recordatorios</small>
+                                <small>con texto y audio</small>
                             </span>
                             <span class="ora-arrow">${Icons.chevron_right || LumenIcons.chevron_right}</span>
                         </a>
-                        <a href="#/rosario" class="ora-card" style="--tone:#0e7490;" onclick="LumenRouter.navigateTo('rosario')" aria-label="Ir a Rosario">
+                        <a href="${LumenRouter.hrefFor(['rosario'])}" class="ora-card" style="--tone:#0e7490;" data-view="rosario" aria-label="Ir a Rosario">
                             <span class="ora-icon"><img src="assets/gloriosos.jpg" alt="Rosario" class="v-media"></span>
                             <span class="ora-info">
                                 <strong>Rosario</strong>
@@ -136,7 +137,7 @@ const DevocionalView = {
                             </span>
                             <span class="ora-arrow">${Icons.chevron_right || LumenIcons.chevron_right}</span>
                         </a>
-                        <a href="#/novenas" class="ora-card" style="--tone:#d97706;" onclick="LumenRouter.navigateTo('novenas')" aria-label="Ir a Novenas">
+                        <a href="${LumenRouter.hrefFor(['novenas'])}" class="ora-card" style="--tone:#d97706;" data-view="novenas" aria-label="Ir a Novenas">
                             <span class="ora-icon"><img src="assets/divinamisericordia.jpeg" alt="Novenas" class="v-media"></span>
                             <span class="ora-info">
                                 <strong>Novenas</strong>
@@ -144,7 +145,7 @@ const DevocionalView = {
                             </span>
                             <span class="ora-arrow">${Icons.chevron_right || LumenIcons.chevron_right}</span>
                         </a>
-                        <a href="#/examen" class="ora-card" style="--tone:#7c3aed;" onclick="LumenRouter.navigateTo('examen')" aria-label="Ir a Examen de Conciencia">
+                        <a href="${LumenRouter.hrefFor(['examen'])}" class="ora-card" style="--tone:#7c3aed;" data-view="examen" aria-label="Ir a Examen de Conciencia">
                             <span class="ora-icon"><img src="assets/devocion.jpg" alt="Examen de Conciencia" class="v-media"></span>
                             <span class="ora-info">
                                 <strong>Examen de Conciencia</strong>

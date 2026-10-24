@@ -186,7 +186,7 @@ const CalendarioView = {
         <div class="view">
             <div class="v-header reveal align-left">
                 <span class="v-eyebrow">${Icons.calendar} Calendario</span>
-                <h2 class="v-title">Agenda de <em>comunidad</em></h2>
+                <h1 class="v-title">Agenda de <em>comunidad</em></h1>
                 <p class="v-sub">Mes a mes, los encuentros, retiros y actividades de Juvemar.</p>
             </div>
             <div class="v-section" style="padding-top:0;">

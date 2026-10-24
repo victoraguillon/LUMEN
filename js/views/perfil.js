@@ -17,7 +17,7 @@ const PerfilView = {
     },
 
     render: function() {
-        if (!LumenAuth.currentUser) return `<div class="state-container"><h3>Acceso Denegado</h3><p>Debes iniciar sesión.</p></div>`;
+        if (!LumenAuth.currentUser) return `<div class="state-container"><h1 class="sr-only">Mi perfil</h1><h3>Acceso Denegado</h3><p>Debes iniciar sesión.</p></div>`;
 
         const user = LumenAuth.userProfile || {};
         const isJuvemar = this.isJuvemar(user);
@@ -86,7 +86,7 @@ const PerfilView = {
             <div class="view">
                 <div class="profile-header-card">
                     <img src="${picUrl}" alt="Perfil" class="profile-avatar-large">
-                    <h2 class="profile-name-large">${LumenUI.escapeHTML(user.nombre || 'Usuario')} ${roleBadge}</h2>
+                    <h1 class="profile-name-large">${LumenUI.escapeHTML(user.nombre || 'Usuario')} ${roleBadge}</h1>
                     <p class="profile-email-large">${LumenUI.escapeHTML(user.email)}</p>
                     ${user.role === 'miembro' && user.status === 'pending' ? `
                     <div style="background: rgba(255,183,77,.15); border:1px solid var(--warning); border-radius:12px; padding:12px 16px; display:flex; gap:10px; align-items:flex-start; margin-top:16px; text-align:left; width:100%; max-width:340px;">
@@ -189,11 +189,19 @@ const PerfilView = {
             cropBtn.classList.remove('v-hide');
             cropArea.innerHTML = `<img class="v-mw100" src="${ev.target.result}" id="crop-image" >`;
             if (this.cropper) this.cropper.destroy();
-            const image = document.getElementById('crop-image');
-            this.cropper = new Cropper(image, {
-                aspectRatio: 1 / 1, viewMode: 1, dragMode: 'move', autoCropArea: 1.0,
-                cropBoxMovable: false, cropBoxResizable: false, background: false, center: false, guides: false
-            });
+            const startCropper = () => {
+                const image = document.getElementById('crop-image');
+                if (!image || typeof Cropper === 'undefined') return;
+                this.cropper = new Cropper(image, {
+                    aspectRatio: 1 / 1, viewMode: 1, dragMode: 'move', autoCropArea: 1.0,
+                    cropBoxMovable: false, cropBoxResizable: false, background: false, center: false, guides: false
+                });
+            };
+            if (typeof Cropper === 'undefined') {
+                LumenUI.ensureCropper().then(startCropper).catch(() => LumenUI.showToast('No se pudo cargar el editor de imagen.', 'error'));
+            } else {
+                startCropper();
+            }
         };
         reader.readAsDataURL(file);
     },
