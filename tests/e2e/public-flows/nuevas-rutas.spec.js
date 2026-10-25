@@ -98,6 +98,26 @@ test.describe('Rosario ampliado, planes y descargas', () => {
   });
 });
 
+test.describe('Formación sugerida en Inicio', () => {
+  test.use({ timezoneId: 'America/Caracas' });
+
+  test('Hoy sugiere un módulo de formación estable y abre su lector', async ({ page }) => {
+    await page.clock.install({ time: new Date('2026-10-25T12:00:00-04:00') });
+    await page.goto('/inicio');
+
+    const cards = page.locator('.today-grid .today-card');
+    await expect(cards).toHaveCount(4);
+    const formacionCard = cards.nth(3);
+    await expect(formacionCard).toContainText('Formación de hoy');
+    await expect(formacionCard).toContainText('Vocación y Propósito');
+
+    await formacionCard.click();
+    await expect(page).toHaveURL(/\/formacion\/vocacion$/);
+    await expect(page.locator('.fm-mod')).toContainText('Vocación y Propósito');
+    await expect(page.locator('.reading-h')).toBeVisible();
+  });
+});
+
 test.describe('Frase del día', () => {
   test.use({ timezoneId: 'America/Caracas' });
 

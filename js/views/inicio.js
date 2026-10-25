@@ -1,4 +1,19 @@
 const InicioView = {
+    // Metadatos mínimos para el módulo sugerido del día. Evitamos cargar
+    // formacion_data.js (≈0,8 MB) solo para pintar una tarjeta en Inicio.
+    // Mantener en sintonía con FORMACION_DATA.modules; se excluyen glosario y faq.
+    _formacionSugerencias: [
+        { id: 'introduccion', title: 'Introducción a la Fe', description: 'Fundamentos del catolicismo y primeros pasos en la fe' },
+        { id: 'catecismo', title: 'Catecismo', description: 'Enseñanzas fundamentales de la Iglesia Católica' },
+        { id: 'liturgia', title: 'Liturgia y Sacramentos', description: 'Los siete sacramentos y la vida litúrgica de la Iglesia' },
+        { id: 'apologetica', title: 'Apologética', description: 'Defensa razonada de la fe católica' },
+        { id: 'santos', title: 'Santos y Vidas Ejemplares', description: 'Historias de santos y modelos de vida cristiana' },
+        { id: 'moral', title: 'Moral y Vida en Cristo', description: 'Conciencia, virtudes, mandamientos y perdón: vivir la fe en lo concreto de cada día' },
+        { id: 'doctrina-social', title: 'Doctrina Social de la Iglesia', description: 'El amor de Cristo aplicado a la familia, el trabajo, la política y la casa común' },
+        { id: 'vocacion', title: 'Vocación y Propósito', description: 'Descubre para qué te creó Dios y cómo discernir tu camino' },
+        { id: 'virgen', title: 'La Virgen María', description: 'María en la Escritura, los dogmas marianos, el Rosario y el camino de amor hacia Jesús' },
+        { id: 'mundo-actual', title: 'Fe y Mundo Actual', description: 'Vivir, razonar y dar testimonio de la fe en las redes, la ciencia y la cultura' }
+    ],
     init: function() {
         // Cumpleañero de hoy (vía RPC, no depende de RLS de profiles)
         this.loadHoyBirthday();
@@ -25,6 +40,29 @@ const InicioView = {
             `;
         });
     },
+    _formacionSugerida: function() {
+        const mods = this._formacionSugerencias || [];
+        if (!mods.length) return null;
+        const hoy = new Date();
+        const inicio = Date.UTC(hoy.getFullYear(), 0, 0);
+        const actual = Date.UTC(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+        const diaDelAno = Math.floor((actual - inicio) / 86400000);
+        return mods[(diaDelAno - 1) % mods.length] || mods[0];
+    },
+    openFormacion: function(id) {
+        const abrir = function() {
+            if (typeof FormacionView !== 'undefined' && FormacionView.go) FormacionView.go(id);
+        };
+        if (typeof LumenAssets !== 'undefined' && LumenAssets.ensure) {
+            LumenAssets.ensure('formacion').then(abrir).catch(function() {
+                if (typeof LumenUI !== 'undefined' && LumenUI.showToast) {
+                    LumenUI.showToast('No se pudo abrir Formación. Revisa tu conexión.', 'error');
+                }
+            });
+            return;
+        }
+        abrir();
+    },
     _todayPanel: function() {
         const info = (typeof LumenUI !== 'undefined' && LumenUI.liturgicalInfo) ? LumenUI.liturgicalInfo(new Date()) : { seasonId: 'ordinario', label: 'Tiempo Ordinario' };
         const dayMap = { 0: 'gloriosos', 1: 'gozosos', 2: 'dolorosos', 3: 'gloriosos', 4: 'luminosos', 5: 'dolorosos', 6: 'gozosos' };
@@ -34,9 +72,18 @@ const InicioView = {
         const planTitle = planId ? { adviento: 'Adviento', navidad: 'Navidad', cuaresma: 'Cuaresma', pascua: 'Pascua' }[planId] : 'Planes litúrgicos';
         const recent = (typeof LumenUI !== 'undefined' && LumenUI.recentHTML) ? LumenUI.recentHTML(3) : '';
         const streak = (typeof LumenUI !== 'undefined' && LumenUI.streakChipHTML) ? LumenUI.streakChipHTML() : '';
-        const next = (typeof LumenData !== 'undefined' && LumenData.upcomingEventos) ? LumenData.upcomingEventos(1)[0] : null;
-        const nextText = next ? (next.titulo || 'Próxima actividad') : 'Sin actividades próximas';
-        const nextSub = next ? (next.tipo === 'recurrente' ? ('Todos los ' + (next.dia || '') + ' · ' + (next.hora || '')) : (next.fecha_inicio ? LumenUI.formatDate(next.fecha_inicio).split(' ')[0] : 'Próximamente')) : 'Consulta la agenda';
+        const formacion = this._formacionSugerida();
+        const formacionCard = formacion ? `
+                <button class="today-card today-card-formacion" type="button" onclick="InicioView.openFormacion('${formacion.id}')" aria-label="Formación de hoy: ${LumenUI.escapeHTML(formacion.title)}" title="${LumenUI.escapeHTML(formacion.description)}">
+                    <span class="today-icon">${LumenIcons.catecismo}</span>
+                    <span class="today-copy"><strong>Formación de hoy</strong><small>${LumenUI.escapeHTML(formacion.title)}</small></span>
+                    <span class="today-arrow">→</span>
+                </button>` : `
+                <button class="today-card" type="button" onclick="LumenRouter.navigateTo('formacion')">
+                    <span class="today-icon">${LumenIcons.catecismo}</span>
+                    <span class="today-copy"><strong>Formación</strong><small>Crece en la fe a tu ritmo</small></span>
+                    <span class="today-arrow">→</span>
+                </button>`;
         return `<section class="today-panel reveal" aria-label="Resumen de hoy">
             <div class="today-head">
                 <div>
@@ -61,11 +108,7 @@ const InicioView = {
                     <span class="today-copy"><strong>${planTitle}</strong><small>${planId ? 'Continúa tu camino' : 'Adviento, Navidad, Cuaresma y Pascua'}</small></span>
                     <span class="today-arrow">→</span>
                 </button>
-                <button class="today-card" type="button" onclick="LumenRouter.navigateTo('actividades')">
-                    <span class="today-icon">${LumenIcons.calendar}</span>
-                    <span class="today-copy"><strong>${LumenUI.escapeHTML(nextText)}</strong><small>${LumenUI.escapeHTML(nextSub)}</small></span>
-                    <span class="today-arrow">→</span>
-                </button>
+                ${formacionCard}
             </div>
             ${recent}
         </section>`;
