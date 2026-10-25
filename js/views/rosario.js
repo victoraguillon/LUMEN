@@ -309,6 +309,7 @@ const RosarioView = {
 
     _audioText: function(step) {
         if (!step) return '';
+        // La voz lee solo la oración o el pasaje bíblico, nunca el título del paso.
         return step.text || (step.mystery && step.mystery.biblicalText) || '';
     },
 
@@ -337,8 +338,11 @@ const RosarioView = {
 
     _stepHTML: function(step, pct) {
         const text = step.text || (step.mystery && step.mystery.biblicalText) || '';
+        const sectionHTML = step.sectionStart && step.sectionTitle ? `<p class="rosario-section-label">${LumenUI.escapeHTML(step.sectionTitle)}</p>` : '';
         return `<div class="rosario-step-content">
-            <h2 class="sr-only">${LumenUI.escapeHTML(step.label || '')}</h2>
+            <span class="rosario-icon">${step.icon || LumenIcons.rosario}</span>
+            ${sectionHTML}
+            <h2>${LumenUI.escapeHTML(step.label || '')}</h2>
             <div class="reading-surface rosario-text">${String(text).replace(/\n/g, '<br>')}</div>
             <div class="rosario-step-actions">${this._audioButton(step)}</div>
             <div class="rosario-progress"><i id="rosario-bar" style="width:${pct}%"></i></div>

@@ -4904,6 +4904,7 @@ body.prayer-focus .plan-step { padding: 18px; border-radius: 24px; background: v
 body.prayer-focus .formacion-mhead { background: transparent; border: 0; box-shadow: none; padding: 0; }
 body.prayer-focus #rosario-prayer-header { display: none; }
 body.prayer-focus .focus-exit { display: block; }
+body.prayer-focus .rosario-step-content h2 { font-size: clamp(23px, 4vw, 30px); }
 body.prayer-focus .reading-surface { font-size: 17px; line-height: 1.85; }
 body.prayer-focus .rosario-text { font-size: 18px; line-height: 1.9; }
 body.prayer-focus .v-header { display: none; }

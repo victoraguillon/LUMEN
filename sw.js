@@ -1,4 +1,5 @@
 // LUMEN - Service Worker único (v32) en la RAÍZ (/sw.js)
+// v62: restaura el título visible de las oraciones; la voz sigue leyendo solo la oración
 // v61: planes litúrgicos, referencias bíblicas completas y oración sin títulos
 // v60: carga el santoral antes de resolver la frase del día
 // v59: restaura la proporción original de la foto de bienvenida
@@ -32,7 +33,7 @@
 // v50: fix v-hide !important (pestañas del devocional, cumpleaños de inicio, botones de recorte) + 10 oraciones y 1 novena
 // v53: iconos de app a sangre completa (sin marco), favicon y badge de notificaciones
 // v54: rutas limpias SPA, carga diferida de datasets y correcciones de auditoría
-const CACHE = "lumen-cache-v61";
+const CACHE = "lumen-cache-v62";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";

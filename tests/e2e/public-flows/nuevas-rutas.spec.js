@@ -71,12 +71,12 @@ test.describe('Rosario ampliado, planes y descargas', () => {
     expect(normalized).toContain('Juan, capítulo 3, versículo 16');
   });
 
-  test('El rosario y las coronillas muestran solo el texto de la oración', async ({ page }) => {
+  test('El rosario y las coronillas muestran el título y la voz lee solo la oración', async ({ page }) => {
     await page.goto('/rosario/eucaristico');
-    await expect(page.locator('.rosario-step-content h2.sr-only')).toHaveCount(1);
-    await expect(page.locator('.rosario-step-content h2:not(.sr-only)')).toHaveCount(0);
-    await expect(page.locator('.rosario-section-label')).toHaveCount(0);
-    await expect(page.locator('.mystery-box')).toHaveCount(0);
+    const firstTitle = page.locator('.rosario-step-content h2');
+    await expect(firstTitle).toBeVisible();
+    await expect(firstTitle).toHaveText('Señal de la Cruz');
+    await expect(page.locator('.rosario-step-content .rosario-icon')).toBeVisible();
     await expect(page.locator('.rosario-step-content .rosario-text')).toContainText('Por la señal de la Santa Cruz');
     const firstAudio = await page.locator('.rosario-step-actions .audio-btn').getAttribute('data-audio-text');
     expect(firstAudio).toContain('Por la señal de la Santa Cruz');
@@ -86,14 +86,15 @@ test.describe('Rosario ampliado, planes y descargas', () => {
     for (let i = 0; i < 5; i++) {
       await page.getByRole('button', { name: /Siguiente cuenta/i }).click();
     }
+    await expect(page.locator('.rosario-section-label')).toHaveText('Don de Sabiduría');
+    await expect(page.locator('.rosario-step-content h2')).toHaveText('Espíritu de Sabiduría 1/7');
     const invocation = page.locator('.rosario-step-content .rosario-text');
     await expect(invocation).toContainText('Ven, Espíritu de Sabiduría');
-    await expect(invocation).not.toContainText('Don de Sabiduría');
-    await expect(invocation).not.toContainText('Isaías 11,2');
     const invocationAudio = await page.locator('.rosario-step-actions .audio-btn').getAttribute('data-audio-text');
     expect(invocationAudio).toContain('Ven, Espíritu de Sabiduría');
     expect(invocationAudio).not.toContain('Don de Sabiduría');
     expect(invocationAudio).not.toContain('Isaías 11,2');
+    expect(invocationAudio).not.toContain('1/7');
   });
 });
 
