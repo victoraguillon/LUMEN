@@ -55,6 +55,7 @@ const LumenAuth = {
                 this.ready = true;
                 this.isAdmin = !!(profile && profile.role === 'admin' && profile.status === 'approved');
                 this.updateUI();
+                if (profile && typeof LumenUI !== 'undefined' && LumenUI.syncStreak) LumenUI.syncStreak();
                 if (this.isAdmin && typeof LumenData !== 'undefined' && LumenData.loadUsers) LumenData.loadUsers();
                 if (this.isMember && typeof LumenData !== 'undefined' && LumenData.loadNotifications) LumenData.loadNotifications();
                 if (this.isMember && typeof LumenData !== 'undefined' && LumenData.loadMyInscripciones) LumenData.loadMyInscripciones();

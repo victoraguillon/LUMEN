@@ -1167,36 +1167,191 @@ Object.assign(LumenUI, {
     },
 
     // ---- Racha diaria ----
+    // La fuente de verdad es public.streaks (servidor, hora de Venezuela).
+    // localStorage se conserva como caché/fallback y para migrar la racha
+    // que ya existía antes de la sincronización.
     _streakKey: 'lumen-streak',
-    _dayKey: function(d) { d = d || new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); },
-    streakInfo: function() {
-        let s = null;
-        try { s = JSON.parse(localStorage.getItem(this._streakKey)); } catch (e) {}
-        if (!s) return { days: 0, today: false, streakAlive: false };
+    _streakUserPrefix: 'lumen-streak:',
+    _streakSyncPromise: null,
+    _streakSyncUid: null,
+    _veDateKey: function(d) {
+        d = d || new Date();
+        try {
+            const parts = new Intl.DateTimeFormat('en-CA', {
+                timeZone: 'America/Caracas',
+                year: 'numeric', month: '2-digit', day: '2-digit'
+            }).formatToParts(d);
+            const get = function(type) {
+                for (let i = 0; i < parts.length; i++) {
+                    if (parts[i].type === type) return parts[i].value;
+                }
+                return '';
+            };
+            return get('year') + '-' + get('month') + '-' + get('day');
+        } catch (e) {
+            return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+        }
+    },
+    _dayKey: function(d) { return this._veDateKey(d); },
+    _yesterdayKey: function(today) {
+        // Venezuela no aplica horario de verano: UTC-4 todo el año.
+        const base = (today || this._dayKey()) + 'T12:00:00-04:00';
+        return this._veDateKey(new Date(Date.parse(base) - 86400000));
+    },
+    _streakUserId: function() {
+        return (typeof LumenAuth !== 'undefined' && LumenAuth.currentUser) ? LumenAuth.currentUser.id : '';
+    },
+    _streakUserKey: function(uid) { return this._streakUserPrefix + uid; },
+    _readStreakRaw: function(key) {
+        try { return JSON.parse(localStorage.getItem(key)) || null; } catch (e) { return null; }
+    },
+    _writeStreakRaw: function(key, data) {
+        try { localStorage.setItem(key, JSON.stringify(data)); } catch (e) {}
+    },
+    _readStreak: function() {
+        const uid = this._streakUserId();
+        if (uid) {
+            const own = this._readStreakRaw(this._streakUserKey(uid));
+            if (own) return own;
+            const legacy = this._readStreakRaw(this._streakKey);
+            if (legacy && (!legacy.uid || legacy.uid === uid)) {
+                // La racha antigua (sin usuario) se adopta una sola vez para
+                // que no se comparta con otra cuenta que use este dispositivo.
+                if (!legacy.uid) {
+                    legacy.uid = uid;
+                    this._writeStreakRaw(this._streakKey, legacy);
+                }
+                return legacy;
+            }
+            return null;
+        }
+        const legacy = this._readStreakRaw(this._streakKey);
+        return legacy && !legacy.uid ? legacy : null;
+    },
+    _writeStreak: function(data) {
+        const uid = this._streakUserId();
+        const payload = Object.assign({}, data, { uid: uid || null });
+        this._writeStreakRaw(uid ? this._streakUserKey(uid) : this._streakKey, payload);
+        this.refreshStreakChips();
+        return payload;
+    },
+    _streakIsNewer: function(candidate, reference) {
+        if (!candidate || !candidate.last || !candidate.days) return false;
+        if (!reference || !reference.last) return true;
+        return candidate.last > reference.last ||
+            (candidate.last === reference.last && (Number(candidate.days) || 0) > (Number(reference.days) || 0));
+    },
+    _applyServerStreak: function(uid, server) {
+        if (this._streakUserId() !== uid) return null;
+        const current = this._readStreak();
+        // Una respuesta atrasada nunca debe borrar una racha local más nueva
+        // (por ejemplo, si el usuario completó mientras el sync estaba en vuelo).
+        if (this._streakIsNewer(current, server)) return this._writeStreak(current);
+        return this._writeStreak({ last: server.last, days: server.days, dirty: false });
+    },
+    _streakInfoFrom: function(s) {
+        if (!s || !s.last || !s.days) return { days: 0, today: false, streakAlive: false, displayDays: 0 };
         const today = this._dayKey();
-        const y = new Date(); y.setDate(y.getDate() - 1);
-        const yesterday = this._dayKey(y);
+        const yesterday = this._yesterdayKey(today);
         const alive = (s.last === today || s.last === yesterday);
         return { days: s.days, today: (s.last === today), streakAlive: alive, displayDays: alive ? s.days : 0 };
     },
+    streakInfo: function() {
+        return this._streakInfoFrom(this._readStreak());
+    },
     recordStreak: function() {
         const today = this._dayKey();
-        let s = { last: today, days: 1 };
-        try { s = JSON.parse(localStorage.getItem(this._streakKey)) || s; } catch (e) {}
-        if (s.last === today) return { days: s.days, newDay: false };
-        const y = new Date(); y.setDate(y.getDate() - 1);
-        if (s.last === this._dayKey(y)) { s.days += 1; } else { s.days = 1; }
-        s.last = today;
-        localStorage.setItem(this._streakKey, JSON.stringify(s));
-        return { days: s.days, newDay: true };
+        const yesterday = this._yesterdayKey(today);
+        const prev = this._readStreak();
+        let days, newDay, needsSync;
+        if (prev && prev.last === today) {
+            days = Number(prev.days) || 1;
+            newDay = false;
+            needsSync = prev.dirty !== false;
+        } else {
+            days = (prev && prev.last === yesterday) ? (Number(prev.days) || 0) + 1 : 1;
+            newDay = true;
+            needsSync = true;
+        }
+        const local = this._writeStreak({ last: today, days: days, dirty: needsSync });
+        if (needsSync) this._syncRecordStreak(local);
+        return { days: days, newDay: newDay };
+    },
+    _syncRecordStreak: function(local) {
+        if (!local || typeof supabase === 'undefined') return;
+        if (typeof navigator !== 'undefined' && navigator.onLine === false) return;
+        const uid = this._streakUserId();
+        if (!uid) return;
+        try {
+            supabase.rpc('record_streak', { p_last: local.last, p_days: local.days }).then(({ data, error }) => {
+                if (error) { console.warn('[LUMEN] record_streak', error.message); return; }
+                const row = Array.isArray(data) ? data[0] : data;
+                if (!row || !row.days || !row.last_date) return;
+                this._applyServerStreak(uid, { last: row.last_date, days: row.days });
+            }).catch(function() {});
+        } catch (e) {}
+    },
+    _syncLocalStreak: function(uid, local) {
+        return supabase.rpc('sync_streak', { p_last: local.last, p_days: local.days }).then(({ data, error }) => {
+            if (error) { console.warn('[LUMEN] sync_streak', error.message); return null; }
+            const row = Array.isArray(data) ? data[0] : data;
+            if (!row || !row.days || !row.last_date) return null;
+            return this._applyServerStreak(uid, { last: row.last_date, days: row.days });
+        }).catch(function() { return null; });
+    },
+    syncStreak: function() {
+        const uid = this._streakUserId();
+        if (!uid || typeof supabase === 'undefined') return Promise.resolve(null);
+        if (this._streakSyncPromise && this._streakSyncUid === uid) return this._streakSyncPromise;
+        this._streakSyncUid = uid;
+        const today = this._dayKey();
+        const yesterday = this._yesterdayKey(today);
+        this._streakSyncPromise = supabase
+            .from('streaks')
+            .select('days,last_date')
+            .eq('user_id', uid)
+            .maybeSingle()
+            .then(({ data, error }) => {
+                if (error) { console.warn('[LUMEN] syncStreak', error.message); return null; }
+                if (this._streakUserId() !== uid) return null;
+                // Se relee la copia local al recibir la respuesta: pudo cambiar
+                // mientras la consulta estaba en vuelo.
+                const current = this._readStreak();
+                if (data && data.days && data.last_date) {
+                    const server = { last: data.last_date, days: Number(data.days) || 0 };
+                    if (this._streakIsNewer(current, server)) {
+                        return this._syncLocalStreak(uid, current);
+                    }
+                    return this._applyServerStreak(uid, server);
+                }
+                if (current && current.days && current.last && (current.last === today || current.last === yesterday)) {
+                    return this._syncLocalStreak(uid, current);
+                }
+                return null;
+            })
+            .catch(function() { return null; })
+            .finally(() => {
+                if (this._streakSyncUid === uid) {
+                    this._streakSyncPromise = null;
+                    this._streakSyncUid = null;
+                }
+            });
+        return this._streakSyncPromise;
+    },
+    refreshStreakChips: function() {
+        if (typeof document === 'undefined') return;
+        const chips = document.querySelectorAll('.streak-chip');
+        if (!chips.length) return;
+        const html = this.streakChipHTML();
+        for (let i = 0; i < chips.length; i++) chips[i].outerHTML = html;
     },
     streakChipHTML: function() {
         const info = this.streakInfo();
         const days = info.displayDays || 0;
         if (!days) {
-            return `<span class="streak-chip is-new" title="Empieza tu racha hoy">${LumenIcons.racha} Empieza tu racha</span>`;
+            return `<span class="streak-chip is-new" data-streak-days="0" title="Empieza tu racha hoy">${LumenIcons.racha} Empieza tu racha</span>`;
         }
-        return `<span class="streak-chip" title="Días seguidos en LUMEN">${LumenIcons.racha} ${days} día${days === 1 ? '' : 's'}</span>`;
+        return `<span class="streak-chip" data-streak-days="${days}" title="Días seguidos en LUMEN">${LumenIcons.racha} ${days} día${days === 1 ? '' : 's'}</span>`;
     },
 
     // ---- Contenido reciente ----

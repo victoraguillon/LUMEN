@@ -78,8 +78,9 @@ const FormacionView = {
             LumenUI.showToast('Marcado como pendiente');
         } else {
             prog[modId][key] = true;
-            LumenUI.recordStreak();
-            LumenUI.showToast('¡Sección completada!', 'success');
+            const streak = LumenUI.recordStreak ? LumenUI.recordStreak() : null;
+            const streakMsg = streak && streak.days ? ' Racha: ' + streak.days + (streak.days === 1 ? ' día.' : ' días.') : '';
+            LumenUI.showToast('¡Sección completada!' + streakMsg, 'success');
         }
         this._saveProg(prog);
         const pct = this._modProgress(modId);

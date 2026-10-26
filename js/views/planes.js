@@ -74,15 +74,15 @@ const PlanesView = {
         if (this._pos < total - 1) {
             this._pos++;
             this._save();
-            if (typeof LumenUI !== 'undefined' && LumenUI.recordStreak) LumenUI.recordStreak();
             this._rerender();
             return;
         }
         this._pos = total;
         this._save();
-        if (typeof LumenUI !== 'undefined' && LumenUI.recordStreak) LumenUI.recordStreak();
+        const streak = (typeof LumenUI !== 'undefined' && LumenUI.recordStreak) ? LumenUI.recordStreak() : null;
+        const streakMsg = streak && streak.days ? ' Racha: ' + streak.days + (streak.days === 1 ? ' día.' : ' días.') : '';
         if (typeof LumenUI !== 'undefined' && LumenUI.celebrate) {
-            LumenUI.celebrate('¡Plan completado!', 'Has recorrido ' + total + ' pasos de ' + plan.shortTitle + '. La gracia no termina aquí: vuelve cuando lo necesites.');
+            LumenUI.celebrate('¡Plan completado!', 'Has recorrido ' + total + ' pasos de ' + plan.shortTitle + '. La gracia no termina aquí: vuelve cuando lo necesites.' + streakMsg);
         }
         LumenRouter.navigateTo('planes', true);
     },

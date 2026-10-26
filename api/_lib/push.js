@@ -79,12 +79,31 @@ export async function getProfile(userId) {
   return neg(await sb.from("profiles").select("id,role,status").eq("id", userId).maybeSingle());
 }
 
-export async function getSubscriptions() {
+// Audiencias separadas:
+//   members -> cumpleaños, avisos manuales, evangelio y devocional.
+//   all     -> racha diaria (incluye a los usuarios con rol global).
+export function rolesForAudience(audience) {
+  return audience === "all" ? ["global", "miembro", "admin"] : ["miembro", "admin"];
+}
+
+export async function getMemberSubscriptions() {
   const data = await neg(
     await sb
       .from("push_subscriptions")
       .select("endpoint,user_id,keys,profiles!inner(role,status)")
-      .in("profiles.role", ["miembro", "admin"])
+      .in("profiles.role", rolesForAudience("members"))
+      .eq("profiles.status", "approved")
+  );
+  return (data || []).filter((s) => s.keys && s.keys.p256dh && s.keys.auth);
+}
+
+// La racha sí llega a todos los dispositivos aprobados, también a global.
+export async function getAllApprovedSubscriptions() {
+  const data = await neg(
+    await sb
+      .from("push_subscriptions")
+      .select("endpoint,user_id,keys,profiles!inner(role,status)")
+      .in("profiles.role", rolesForAudience("all"))
       .eq("profiles.status", "approved")
   );
   return (data || []).filter((s) => s.keys && s.keys.p256dh && s.keys.auth);
@@ -124,6 +143,36 @@ export function veNow(now = new Date()) {
     hour: Number(parts.hour),
     minute: Number(parts.minute),
   };
+}
+
+// ---------- racha diaria (18:00 VE, recuperación hasta las 21:00) ----------
+
+export function rachaDue(ve, alreadySent = false) {
+  if (alreadySent) return false;
+  const hour = Number(ve && ve.hour);
+  return Number.isFinite(hour) && hour >= 18 && hour <= 21;
+}
+
+function dateKeyOffset(dateKey, days) {
+  return new Date(Date.parse(dateKey + "T12:00:00Z") + days * 86400000).toISOString().slice(0, 10);
+}
+
+export function rachaPayload(streak, today) {
+  const days = Number(streak && streak.days) || 0;
+  const last = streak && streak.last_date;
+  const yesterday = today ? dateKeyOffset(today, -1) : "";
+  const active = !!(last && (last === today || last === yesterday));
+  let body;
+
+  if (!active || days < 1) {
+    body = "Completa tu práctica de hoy y suma un día a tu racha. 🔥";
+  } else if (last === today) {
+    body = `Llevas ${days} día${days === 1 ? "" : "s"} de racha. ¡Ya completaste hoy! Sigue así. 🔥`;
+  } else {
+    body = `Llevas ${days} día${days === 1 ? "" : "s"} de racha. Completa tu práctica hoy para llegar a ${days + 1}. 🔥`;
+  }
+
+  return { title: "LUMEN · Tu racha", body, url: "/inicio", tag: "lumen-racha" };
 }
 
 // ---------- entrega ----------
@@ -347,13 +396,60 @@ async function notificarDiario(subs, ve) {
   return null;
 }
 
+// ---------- racha diaria a todos los dispositivos aprobados ----------
+
+async function getStreaksByUserIds(userIds) {
+  const ids = [...new Set((userIds || []).filter(Boolean))];
+  if (ids.length === 0) return new Map();
+  const rows = await neg(
+    await sb.from("streaks").select("user_id,days,last_date").in("user_id", ids)
+  );
+  return new Map((rows || []).map((r) => [r.user_id, r]));
+}
+
+async function notificarRacha(ve) {
+  if (!rachaDue(ve)) return null;
+
+  const ya = await neg(
+    await sb.from("push_daily").select("clave").eq("clave", "racha").eq("fecha", ve.date).limit(1)
+  );
+  if (ya && ya.length > 0) return null;
+
+  const subs = await getAllApprovedSubscriptions();
+  const porUsuario = new Map();
+  for (const s of subs) {
+    if (!s.user_id) continue;
+    if (!porUsuario.has(s.user_id)) porUsuario.set(s.user_id, []);
+    porUsuario.get(s.user_id).push(s);
+  }
+
+  const rachas = await getStreaksByUserIds([...porUsuario.keys()]);
+
+  // Se marca antes de enviar: si el cron se reintenta, no duplica el aviso.
+  await neg(await sb.from("push_daily").insert({ clave: "racha", fecha: ve.date }));
+
+  const total = { sent: 0, failed: 0, gone: 0 };
+  for (const [uid, list] of porUsuario) {
+    try {
+      const r = await pushToSubscriptions(list, rachaPayload(rachas.get(uid), ve.date));
+      total.sent += r.sent;
+      total.failed += r.failed;
+      total.gone += r.gone;
+    } catch (e) {
+      console.error("[push] racha", uid, e.message);
+    }
+  }
+
+  return { users: porUsuario.size, ...total };
+}
+
 // ---------- modo cron (GitHub Actions cada 5 min) ----------
 
 export async function runCron() {
   const nowMs = Date.now();
   const ve = veNow(new Date(nowMs));
   const push = { sent: 0, failed: 0, gone: 0 };
-  const report = { hits: 0, pendientes: 0, recordatorios: 0, evangelio: false, devocional: false, cumple: { hoy: 0 } };
+  const report = { hits: 0, pendientes: 0, recordatorios: 0, evangelio: false, devocional: false, cumple: { hoy: 0 }, racha: false, rachaUsers: 0 };
 
   // 1) Recordatorios «1 día antes» → inscritos.
   try {
@@ -367,17 +463,17 @@ export async function runCron() {
     console.error("[push] recordatorios", e.message);
   }
 
-  // 2) Avisos manuales pendientes → todos los suscritos.
-  let subs = [];
-  try { subs = await getSubscriptions(); } catch (e) { console.error("[push] subscriptions", e.message); }
+  // 2) Avisos manuales pendientes → miembros/admin aprobados.
+  let memberSubs = [];
+  try { memberSubs = await getMemberSubscriptions(); } catch (e) { console.error("[push] subscriptions", e.message); }
 
   let pendientes = [];
   try {
     pendientes = await neg(await sb.from("notificaciones").select("id,texto").eq("manual", true).is("pushed_at", null).limit(50));
   } catch (e) { console.error("[push] pendientes", e.message); }
   report.pendientes = (pendientes || []).length;
-  if ((pendientes || []).length > 0 && subs.length > 0) {
-    const r = await pushToSubscriptions(subs, { title: "LUMEN · Aviso", body: pendientes.map((n) => n.texto.replace(/"/g, "")).join(" · "), url: "/notificaciones" });
+  if ((pendientes || []).length > 0 && memberSubs.length > 0) {
+    const r = await pushToSubscriptions(memberSubs, { title: "LUMEN · Aviso", body: pendientes.map((n) => n.texto.replace(/"/g, "")).join(" · "), url: "/notificaciones" });
     push.sent += r.sent;
     push.failed += r.failed;
     push.gone += r.gone;
@@ -386,9 +482,9 @@ export async function runCron() {
     }
   }
 
-  // 3) Cumpleaños del día.
+  // 3) Cumpleaños del día (nunca a usuarios global).
   try {
-    const celeb = await repartirCumpleanos(subs, ve.date);
+    const celeb = await repartirCumpleanos(memberSubs, ve.date);
     if (celeb) {
       report.cumple.hoy = celeb.hoy;
       push.sent += celeb.push.sent;
@@ -397,9 +493,9 @@ export async function runCron() {
     }
   } catch (e) { console.error("[push] cumpleaños", e.message); }
 
-  // 4) Evangelio (07:00) y devocional (20:00).
+  // 4) Evangelio (07:00) y devocional (20:00) → miembros/admin.
   try {
-    const diario = await notificarDiario(subs, ve);
+    const diario = await notificarDiario(memberSubs, ve);
     if (diario) {
       if (diario.evangelio) report.evangelio = true;
       if (diario.devocional) report.devocional = true;
@@ -409,7 +505,19 @@ export async function runCron() {
     }
   } catch (e) { console.error("[push] diario", e.message); }
 
-  await logPush("cron", { targetCount: (pendientes || []).length + report.recordatorios + (report.cumple.hoy > 0 ? 1 : 0), ...push });
+  // 5) Racha diaria a las 18:00 VE (recuperación hasta las 21:00).
+  try {
+    const racha = await notificarRacha(ve);
+    if (racha) {
+      report.racha = racha.sent > 0 || racha.failed > 0;
+      report.rachaUsers = racha.users;
+      push.sent += racha.sent;
+      push.failed += racha.failed;
+      push.gone += racha.gone;
+    }
+  } catch (e) { console.error("[push] racha", e.message); }
+
+  await logPush("cron", { targetCount: (pendientes || []).length + report.recordatorios + (report.cumple.hoy > 0 ? 1 : 0) + report.rachaUsers, ...push });
 
   return {
     mode: "cron",
@@ -419,6 +527,7 @@ export async function runCron() {
     push,
     cumple: { hoy: report.cumple.hoy },
     diario: { evangelio: report.evangelio, devocional: report.devocional },
+    racha: { enviada: report.racha, usuarios: report.rachaUsers },
     ping: await recientesSinRecibo(60),
   };
 }
@@ -426,7 +535,7 @@ export async function runCron() {
 // ---------- envíos solicitados por la app ----------
 
 export async function sendAll(payload, avisoId) {
-  const subs = await getSubscriptions();
+  const subs = await getMemberSubscriptions();
   const res = await pushToSubscriptions(subs, {
     title: payload.title || "LUMEN · Aviso",
     body: payload.body || "",

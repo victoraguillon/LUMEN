@@ -17,7 +17,10 @@ const LumenData = {
         this.loadEventos();
         this.subscribe();
         window.addEventListener('offline', () => { if (LumenUI.setOfflineBadge) LumenUI.setOfflineBadge(true); });
-        window.addEventListener('online', () => LumenData.flushOutbox());
+        window.addEventListener('online', () => {
+            LumenData.flushOutbox();
+            if (typeof LumenUI !== 'undefined' && LumenUI.syncStreak) LumenUI.syncStreak();
+        });
     },
     // Huella de un dataset: identifica por id + campos de mutabilidad.
     // Un re-render por realtime sólo ocurre si la huella CAMBIÓ (se evita el

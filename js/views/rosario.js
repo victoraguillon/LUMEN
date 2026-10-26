@@ -280,13 +280,13 @@ const RosarioView = {
         if (this._pos < steps.length - 1) {
             this._pos++;
             this._savePos();
-            if (typeof LumenUI !== 'undefined' && LumenUI.recordStreak) LumenUI.recordStreak();
             this._rerenderStep();
             return;
         }
-        if (typeof LumenUI !== 'undefined' && LumenUI.recordStreak) LumenUI.recordStreak();
+        const streak = (typeof LumenUI !== 'undefined' && LumenUI.recordStreak) ? LumenUI.recordStreak() : null;
         const title = this._mode === 'eucaristico' ? '¡Rosario Eucarístico completado!' : (this._mode === 'coronilla' ? '¡Coronilla completada!' : '¡Rosario completado!');
-        const msg = this._mode === 'coronilla' ? 'Has terminado esta coronilla con devoción y fe.' : 'Has rezado este rosario con devoción y fe.';
+        let msg = this._mode === 'coronilla' ? 'Has terminado esta coronilla con devoción y fe.' : 'Has rezado este rosario con devoción y fe.';
+        if (streak && streak.days) msg += ' Racha: ' + streak.days + (streak.days === 1 ? ' día.' : ' días.');
         if (typeof LumenUI !== 'undefined' && LumenUI.celebrate) LumenUI.celebrate(title, msg);
         this._pos = 0;
         this._savePos();

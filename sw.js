@@ -1,4 +1,5 @@
-// LUMEN - Service Worker único (v32) en la RAÍZ (/sw.js)
+// LUMEN - Service Worker único (v64) en la RAÍZ (/sw.js)
+// v64: racha solo al completar + aviso diario 18:00 VE con el conteo exacto
 // v63: sugerencia diaria de formación en el panel Hoy
 // v62: restaura el título visible de las oraciones; la voz sigue leyendo solo la oración
 // v61: planes litúrgicos, referencias bíblicas completas y oración sin títulos
@@ -34,7 +35,7 @@
 // v50: fix v-hide !important (pestañas del devocional, cumpleaños de inicio, botones de recorte) + 10 oraciones y 1 novena
 // v53: iconos de app a sangre completa (sin marco), favicon y badge de notificaciones
 // v54: rutas limpias SPA, carga diferida de datasets y correcciones de auditoría
-const CACHE = "lumen-cache-v63";
+const CACHE = "lumen-cache-v64";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";
@@ -234,7 +235,7 @@ self.addEventListener("push", (event) => {
         icon: "/assets/icons/logo-192.png",
         badge: "/assets/icons/notification-badge.png",
         data: { url: data.url },
-        tag: "lumen-notif",
+        tag: data.tag || "lumen-notif",
         renotify: true
       })
       .catch(() =>
@@ -243,7 +244,7 @@ self.addEventListener("push", (event) => {
         self.registration.showNotification(data.title, {
           body: data.body,
           data: { url: data.url },
-          tag: "lumen-notif",
+          tag: data.tag || "lumen-notif",
           renotify: true
         })
       );
