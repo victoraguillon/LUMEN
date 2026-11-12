@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <base href="/">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
     <meta name="strix-verification" content="strix-verify-484a1d0496f6c25d0dd04e428b4e31ed">
+    <meta name="color-scheme" content="light dark">
     <title>LUMEN | Comunidad juvenil católica en Maracaibo</title>
     <meta name="description" content="LUMEN es la comunidad juvenil católica de Juvemar y El Llamado de Samuel en la Parroquia Nuestra Señora de Lourdes, Maracaibo. Formación, oración, actividades y acompañamiento.">
     <link rel="canonical" id="canonical-link" href="https://lumenve.vercel.app/">
@@ -30,10 +31,10 @@
     <meta name="apple-mobile-web-app-title" content="LUMEN">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon-180.png">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#005F8A">
+    <meta name="theme-color" id="theme-color-meta" content="#F6F8FB">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700&family=Cinzel:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
     <script type="application/ld+json">
     {
@@ -58,7 +59,20 @@
     </script>
 </head>
 <body>
-    <a href="#app-container" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:10001;padding:12px 20px;background:var(--celeste-primario);color:white;font-weight:600;border-radius:0 0 12px 0;">Saltar al contenido principal</a>
+    <script>
+    (function () {
+        try {
+            var saved = localStorage.getItem('lumen-theme');
+            var dark = saved === 'dark' || (saved !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+            document.documentElement.classList.toggle('dark-scheme', dark);
+            if (dark) document.body.classList.add('dark-theme');
+            var meta = document.getElementById('theme-color-meta');
+            if (meta) meta.setAttribute('content', dark ? '#080D15' : '#F6F8FB');
+        } catch (e) {}
+    })();
+    </script>
+    <a href="#app-container" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:10001;padding:12px 20px;background:var(--primary);color:white;font-weight:600;border-radius:0 0 12px 0;">Saltar al contenido principal</a>
     <noscript><style>#preloader{display:none!important}</style></noscript>
 
     <div id="preloader" aria-hidden="true">
@@ -75,46 +89,46 @@
         
         <ul class="nav-links" aria-label="Navegación principal">
             <li><a href="/inicio" class="nav-link" data-view="inicio">Inicio</a></li>
-            <li><a href="/nosotros" class="nav-link" data-view="nosotros">Nosotros</a></li>
-            <li><a href="/calendario" class="nav-link" data-view="calendario">Calendario</a></li>
+            <li><a href="/formacion" class="nav-link" data-view="formacion">Formación</a></li>
             <li class="dropdown">
-                <button type="button" class="dropdown-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="espiritualidad-dropdown" data-dropdown="espiritualidad-dropdown" onclick="LumenUI.toggleDropdown('espiritualidad-dropdown', this)">Espiritualidad
+                <button type="button" class="dropdown-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="oracion-dropdown" data-dropdown="oracion-dropdown" data-nav-group="oracion" onclick="LumenUI.toggleDropdown('oracion-dropdown', this)">Oración
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </button>
-                <div class="dropdown-content" id="espiritualidad-dropdown">
-                    <a href="/devocional" class="nav-link" data-view="devocional">Devocional</a>
+                <div class="dropdown-content" id="oracion-dropdown">
                     <a href="/evangelio" class="nav-link" data-view="evangelio">Evangelio del día</a>
-                    <a href="/formacion" class="nav-link" data-view="formacion">Formación</a>
-                    <a href="/oraciones" class="nav-link" data-view="oraciones">Oraciones</a>
+                    <a href="/devocional" class="nav-link" data-view="devocional">Devocional</a>
                     <a href="/rosario" class="nav-link" data-view="rosario">Rosario</a>
-                    <a href="/planes" class="nav-link" data-view="planes">Planes</a>
-                    <a href="/offline" class="nav-link" data-view="offline">Descargas</a>
+                    <a href="/oraciones" class="nav-link" data-view="oraciones">Oraciones</a>
                     <a href="/novenas" class="nav-link" data-view="novenas">Novenas</a>
-                    <a href="/examen" class="nav-link" data-view="examen">Examen de Conciencia</a>
+                    <a href="/planes" class="nav-link" data-view="planes">Planes litúrgicos</a>
+                    <a href="/examen" class="nav-link" data-view="examen">Examen de conciencia</a>
+                    <a href="/offline" class="nav-link" data-view="offline">Descargas</a>
                 </div>
             </li>
-            <li><a href="/blog" class="nav-link" data-view="blog">Blog</a></li>
             <li class="dropdown">
-                <button type="button" class="dropdown-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="comunidad-dropdown" data-dropdown="comunidad-dropdown" onclick="LumenUI.toggleDropdown('comunidad-dropdown', this)">Comunidad
+                <button type="button" class="dropdown-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="comunidad-dropdown" data-dropdown="comunidad-dropdown" data-nav-group="comunidad" onclick="LumenUI.toggleDropdown('comunidad-dropdown', this)">Comunidad
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </button>
                 <div class="dropdown-content" id="comunidad-dropdown">
                     <a href="/actividades" class="nav-link" data-view="actividades">Actividades</a>
+                    <a href="/calendario" class="nav-link" data-view="calendario">Calendario</a>
+                    <a href="/blog" class="nav-link" data-view="blog">Blog</a>
                     <a href="/notificaciones" class="nav-link has-badge" data-view="notificaciones" id="notificaciones-nav-link">Avisos <span id="notif-badge" class="notif-badge" style="display:none;"></span></a>
                     <a href="/intenciones" class="nav-link" data-view="intenciones" id="intenciones-nav-link">Intenciones</a>
                     <a href="/encuestas" class="nav-link" data-view="encuestas" id="encuestas-nav-link">Encuestas</a>
                     <a href="/recursos" class="nav-link" data-view="recursos" id="recursos-nav-link" style="display:none;">Recursos</a>
+                    <a href="/contacto" class="nav-link" data-view="contacto">Contacto</a>
                 </div>
             </li>
-            <li id="admin-nav-link" style="display:none;"><a href="/gestion" class="nav-link" data-view="gestion">Gestión</a></li>
-            <li><a href="/contacto" class="nav-link" data-view="contacto">Contacto</a></li>
+            <li><a href="/nosotros" class="nav-link" data-view="nosotros">Nosotros</a></li>
+            <li id="admin-nav-link" class="nav-admin" style="display:none;"><a href="/gestion" class="nav-link" data-view="gestion">Gestión</a></li>
         </ul>
         
         <div class="user-zone">
             <button class="theme-toggle-btn search-toggle-btn" type="button" data-search-open aria-label="Buscar en LUMEN" title="Buscar (Ctrl+K)">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
             </button>
-            <button class="theme-toggle-btn" type="button" onclick="LumenUI.toggleDarkMode()" aria-label="Cambiar tema claro/oscuro">
+            <button class="theme-toggle-btn" id="theme-toggle-btn" type="button" onclick="LumenUI.toggleDarkMode()" aria-label="Cambiar tema claro/oscuro" aria-pressed="false">
                 <svg id="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
                 <svg id="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" style="display:none;" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
             </button>
@@ -214,6 +228,89 @@
         <a href="/gestion" class="drawer-link" id="drawer-admin-link" style="display:none;" data-view="gestion">Gestión</a>
         <a href="/contacto" class="drawer-link" data-view="contacto">Contacto</a>
     </aside>
+
+    <!-- Navegación inferior móvil -->
+    <nav class="bottom-nav" id="bottom-nav" aria-label="Navegación principal en móvil">
+        <div class="bottom-nav-inner">
+            <a href="/inicio" class="bottom-nav-item" data-nav="inicio" data-view="inicio" aria-label="Inicio">
+                <span class="bn-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"></path><path d="M5 9.5V21h14V9.5"></path><path d="M9.5 21v-6h5v6"></path></svg></span>
+                <span class="bn-label">Inicio</span>
+            </a>
+            <a href="/formacion" class="bottom-nav-item" data-nav="formacion" data-view="formacion" aria-label="Formación">
+                <span class="bn-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path><path d="M9 7h6"></path></svg></span>
+                <span class="bn-label">Formación</span>
+            </a>
+            <button class="bottom-nav-pray" type="button" onclick="LumenUI.openPrayerSheet(this)" aria-haspopup="dialog" aria-controls="prayer-sheet" aria-label="Abrir el espacio de oración">
+                <span class="bn-pray-circle" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"></path><path d="M6.5 9.5h11"></path></svg></span>
+                <span class="bn-label">Orar</span>
+            </button>
+            <a href="/actividades" class="bottom-nav-item" data-nav="comunidad" data-view="actividades" aria-label="Comunidad">
+                <span class="bn-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span>
+                <span class="bn-label">Comunidad</span>
+            </a>
+            <a href="/perfil" class="bottom-nav-item" data-nav="perfil" data-view="perfil" aria-label="Mi perfil">
+                <span class="bn-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg></span>
+                <span class="bn-label">Perfil</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hoja de oración -->
+    <div class="sheet-overlay" id="prayer-sheet-overlay" aria-hidden="true" onclick="LumenUI.closePrayerSheet()"></div>
+    <section class="prayer-sheet" id="prayer-sheet" role="dialog" aria-modal="true" aria-labelledby="prayer-sheet-title" aria-hidden="true" tabindex="-1">
+        <div class="sheet-grab" aria-hidden="true"></div>
+        <header class="prayer-sheet-head">
+            <div>
+                <p class="sheet-kicker">Detente un momento</p>
+                <h2 id="prayer-sheet-title" class="sheet-title">Orar</h2>
+                <p class="sheet-sub">Respira. Dios te espera aquí.</p>
+            </div>
+            <button class="prayer-sheet-close" type="button" onclick="LumenUI.closePrayerSheet()" aria-label="Cerrar espacio de oración">&times;</button>
+        </header>
+        <div class="prayer-sheet-grid">
+            <a href="/evangelio" class="prayer-sheet-link" data-view="evangelio">
+                <span class="ps-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></span>
+                <span class="ps-copy"><strong>Evangelio del día</strong><small>La Palabra que ilumina hoy</small></span>
+                <span class="ps-arrow" aria-hidden="true">→</span>
+            </a>
+            <a href="/devocional" class="prayer-sheet-link" data-view="devocional">
+                <span class="ps-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M5 9h14"></path></svg></span>
+                <span class="ps-copy"><strong>Devocional</strong><small>Pasaje, santo y reflexión</small></span>
+                <span class="ps-arrow" aria-hidden="true">→</span>
+            </a>
+            <a href="/rosario" class="prayer-sheet-link" data-view="rosario">
+                <span class="ps-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="7" r="1"></circle><circle cx="16.5" cy="9.5" r="1"></circle><circle cx="16.5" cy="14.5" r="1"></circle><circle cx="12" cy="17" r="1"></circle><circle cx="7.5" cy="14.5" r="1"></circle><circle cx="7.5" cy="9.5" r="1"></circle></svg></span>
+                <span class="ps-copy"><strong>Rosario</strong><small>Misterios y coronillas</small></span>
+                <span class="ps-arrow" aria-hidden="true">→</span>
+            </a>
+            <a href="/oraciones" class="prayer-sheet-link" data-view="oraciones">
+                <span class="ps-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 11c0 5.65-7 10-7 10z"></path></svg></span>
+                <span class="ps-copy"><strong>Oraciones</strong><small>Para cada momento</small></span>
+                <span class="ps-arrow" aria-hidden="true">→</span>
+            </a>
+            <a href="/examen" class="prayer-sheet-link" data-view="examen">
+                <span class="ps-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span>
+                <span class="ps-copy"><strong>Examen de conciencia</strong><small>Una pausa para mirar el corazón</small></span>
+                <span class="ps-arrow" aria-hidden="true">→</span>
+            </a>
+            <a href="/novenas" class="prayer-sheet-link" data-view="novenas">
+                <span class="ps-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path><path d="M12 14v4M10 16h4"></path></svg></span>
+                <span class="ps-copy"><strong>Novenas</strong><small>Nueve días de oración</small></span>
+                <span class="ps-arrow" aria-hidden="true">→</span>
+            </a>
+            <a href="/planes" class="prayer-sheet-link" data-view="planes">
+                <span class="ps-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h12"></path><circle cx="19" cy="18" r="2"></circle></svg></span>
+                <span class="ps-copy"><strong>Planes litúrgicos</strong><small>Adviento, Cuaresma, Pascua</small></span>
+                <span class="ps-arrow" aria-hidden="true">→</span>
+            </a>
+            <a href="/favoritos" class="prayer-sheet-link" data-view="favoritos">
+                <span class="ps-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg></span>
+                <span class="ps-copy"><strong>Mis favoritos</strong><small>Vuelve a lo que te sostiene</small></span>
+                <span class="ps-arrow" aria-hidden="true">→</span>
+            </a>
+        </div>
+        <p class="prayer-sheet-foot">«Venid a mí todos los que estáis cansados y agobiados, y yo os aliviaré.» <span>Mt 11, 28</span></p>
+    </section>
 
     <!-- Botón Volver Arriba -->
     <button id="scroll-top-btn" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Volver arriba"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg></button>

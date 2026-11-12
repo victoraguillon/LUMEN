@@ -75,6 +75,37 @@ const LumenRouter = {
         perfil: 'user'
     },
 
+    // Agrupación de vistas para la barra inferior. "oracion" no ocupa un slot:
+    // ilumina el botón central mientras el usuario reza o se forma.
+    _navGroups: {
+        inicio: ['landing', 'inicio'],
+        formacion: ['formacion'],
+        oracion: ['evangelio', 'devocional', 'rosario', 'oraciones', 'examen', 'novenas', 'planes', 'favoritos', 'offline'],
+        comunidad: ['actividades', 'detalle', 'calendario', 'blog', 'notificaciones', 'intenciones', 'encuestas', 'recursos', 'contacto', 'nosotros'],
+        perfil: ['perfil', 'gestion']
+    },
+    _groupForView: function(viewName) {
+        const groups = this._navGroups;
+        for (const group in groups) {
+            if (groups[group].indexOf(viewName) > -1) return group;
+        }
+        return '';
+    },
+    _updateBottomNav: function(viewName) {
+        const group = this._groupForView(viewName);
+        document.querySelectorAll('#bottom-nav .bottom-nav-item').forEach(item => {
+            const on = item.getAttribute('data-nav') === group;
+            item.classList.toggle('active', on);
+            if (on) item.setAttribute('aria-current', 'page');
+            else item.removeAttribute('aria-current');
+        });
+        const pray = document.querySelector('#bottom-nav .bottom-nav-pray');
+        if (pray) pray.classList.toggle('is-current', group === 'oracion');
+        document.querySelectorAll('.nav-links .dropdown-trigger[data-nav-group]').forEach(btn => {
+            btn.classList.toggle('is-current', btn.getAttribute('data-nav-group') === group);
+        });
+    },
+
     _switchView: function(viewName) {
         switch(viewName) {
             case 'landing': return { obj: typeof LandingView !== 'undefined' ? LandingView : null, title: "Inicio" };
@@ -283,6 +314,7 @@ const LumenRouter = {
 
         if (typeof LumenUI !== 'undefined' && LumenUI.closeDrawer) LumenUI.closeDrawer(false);
         if (typeof LumenUI !== 'undefined' && LumenUI.closeDropdowns) LumenUI.closeDropdowns();
+        if (typeof LumenUI !== 'undefined' && LumenUI.closePrayerSheet) LumenUI.closePrayerSheet(false);
 
         if (!viewObj || !viewObj.render) {
             document.title = 'LUMEN | Página no encontrada';
@@ -310,6 +342,7 @@ const LumenRouter = {
                 link.classList.add('active');
                 link.setAttribute('aria-current', 'page');
             });
+            this._updateBottomNav(viewName);
             this.initScrollReveal();
             if (typeof LumenUI !== 'undefined' && LumenUI.updateNotifBadge) LumenUI.updateNotifBadge();
             // Las actividades necesitan las imágenes, que viven en la misma fila

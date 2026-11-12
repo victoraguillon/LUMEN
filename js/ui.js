@@ -101,6 +101,7 @@ const LumenUI = {
         if (modalId === 'register-modal') this._resetRegister();
         this.closeDrawer(false);
         this.closeDropdowns();
+        this.closePrayerSheet(false);
         this._lastFocused = document.activeElement;
         modal.classList.add('active');
         modal.setAttribute('role', 'dialog');
@@ -228,33 +229,37 @@ const LumenUI = {
     },
     hidePreloader: function() { document.getElementById('preloader').classList.add('hidden'); },
     
+    // Aplica el tema en todos los puntos que dependen de él: clases del body y
+    // del html (compatibilidad), data-theme, iconos, aria-pressed y barra del sistema.
+    _applyTheme: function(isDark) {
+        document.body.classList.toggle('dark-theme', !!isDark);
+        document.documentElement.classList.toggle('dark-scheme', !!isDark);
+        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        const sunIcon = document.getElementById('theme-icon-sun');
+        const moonIcon = document.getElementById('theme-icon-moon');
+        if (sunIcon) sunIcon.style.display = isDark ? 'none' : 'block';
+        if (moonIcon) moonIcon.style.display = isDark ? 'block' : 'none';
+        const toggle = document.getElementById('theme-toggle-btn');
+        if (toggle) {
+            toggle.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+            toggle.setAttribute('aria-label', isDark ? 'Activar tema claro' : 'Activar tema oscuro');
+            toggle.setAttribute('title', isDark ? 'Tema claro' : 'Tema oscuro');
+        }
+        const meta = document.getElementById('theme-color-meta') || document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', isDark ? '#080D15' : '#F6F8FB');
+    },
     toggleDarkMode: function() {
         try {
-            document.body.classList.toggle('dark-theme');
-            const isDark = document.body.classList.contains('dark-theme');
-            document.documentElement.classList.toggle('dark-scheme', isDark);
+            const isDark = !document.body.classList.contains('dark-theme');
+            this._applyTheme(isDark);
             localStorage.setItem('lumen-theme', isDark ? 'dark' : 'light');
-            const sunIcon = document.getElementById('theme-icon-sun');
-            const moonIcon = document.getElementById('theme-icon-moon');
-            if (sunIcon) sunIcon.style.display = isDark ? 'none' : 'block';
-            if (moonIcon) moonIcon.style.display = isDark ? 'block' : 'none';
-            const meta = document.querySelector('meta[name="theme-color"]');
-            if (meta) meta.content = isDark ? '#0B0F19' : '#005F8A';
         } catch(e) { console.error("Error toggling dark mode", e); }
     },
     initDarkMode: function() {
         try {
-            const savedTheme = localStorage.getItem('lumen-theme') || 'light';
-            if (savedTheme === 'dark') {
-                document.body.classList.add('dark-theme');
-                document.documentElement.classList.add('dark-scheme');
-                const sunIcon = document.getElementById('theme-icon-sun');
-                const moonIcon = document.getElementById('theme-icon-moon');
-                if (sunIcon) sunIcon.style.display = 'none';
-                if (moonIcon) moonIcon.style.display = 'block';
-                const meta = document.querySelector('meta[name="theme-color"]');
-                if (meta) meta.content = '#0B0F19';
-            }
+            const savedTheme = localStorage.getItem('lumen-theme');
+            const prefersDark = !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            this._applyTheme(savedTheme ? savedTheme === 'dark' : prefersDark);
         } catch(e) { console.error("Error init dark mode", e); }
     },
 
@@ -817,6 +822,49 @@ const LumenUI = {
         }
         this._drawerReturnFocus = null;
     },
+
+    /* ---- Hoja de oración (bottom sheet) ---- */
+    openPrayerSheet: function(trigger) {
+        const sheet = document.getElementById('prayer-sheet');
+        const overlay = document.getElementById('prayer-sheet-overlay');
+        if (!sheet || sheet.classList.contains('active')) return;
+        this._sheetReturnFocus = trigger || document.activeElement;
+        this.closeDropdowns();
+        this.closeDrawer(false);
+        sheet.classList.add('active');
+        sheet.setAttribute('aria-hidden', 'false');
+        if (overlay) overlay.classList.add('active');
+        document.body.classList.add('sheet-open');
+        const prayBtn = document.querySelector('.bottom-nav-pray');
+        if (prayBtn) prayBtn.setAttribute('aria-expanded', 'true');
+        // El foco entra en la hoja, pero nunca antes de que termine de subir.
+        window.setTimeout(() => {
+            const first = sheet.querySelector('a[href], button:not([disabled])');
+            if (first) { try { first.focus({ preventScroll: true }); } catch (e) {} }
+        }, 80);
+    },
+    closePrayerSheet: function(restoreFocus) {
+        const sheet = document.getElementById('prayer-sheet');
+        const overlay = document.getElementById('prayer-sheet-overlay');
+        if (!sheet || !sheet.classList.contains('active')) return;
+        sheet.classList.remove('active');
+        sheet.setAttribute('aria-hidden', 'true');
+        if (overlay) overlay.classList.remove('active');
+        document.body.classList.remove('sheet-open');
+        const prayBtn = document.querySelector('.bottom-nav-pray');
+        if (prayBtn) prayBtn.setAttribute('aria-expanded', 'false');
+        if (restoreFocus !== false && this._sheetReturnFocus && document.contains(this._sheetReturnFocus)) {
+            try { this._sheetReturnFocus.focus({ preventScroll: true }); } catch (e) {}
+        }
+        this._sheetReturnFocus = null;
+    },
+    togglePrayerSheet: function(trigger) {
+        const sheet = document.getElementById('prayer-sheet');
+        if (!sheet) return;
+        if (sheet.classList.contains('active')) this.closePrayerSheet();
+        else this.openPrayerSheet(trigger);
+    },
+
     toggleDropdown: function(id, trigger) {
         const menu = document.getElementById(id);
         if (!menu) return;
@@ -973,13 +1021,18 @@ document.addEventListener('keydown', function(e) {
         if (open.length) { LumenUI.closeModal(open[open.length - 1].id); return; }
         const drawer = document.getElementById('side-drawer');
         if (drawer && drawer.classList.contains('active')) { LumenUI.closeDrawer(); return; }
+        const sheet = document.getElementById('prayer-sheet');
+        if (sheet && sheet.classList.contains('active')) { LumenUI.closePrayerSheet(); return; }
         if (document.body.classList.contains('prayer-focus')) { LumenUI.togglePrayerFocus(); return; }
         LumenUI.closeDropdowns();
     }
     if (e.key === 'Tab') {
         const modal = document.querySelector('.modal-overlay.active');
         const drawer = document.getElementById('side-drawer');
-        const container = modal || (drawer && drawer.classList.contains('active') ? drawer : null);
+        const sheet = document.getElementById('prayer-sheet');
+        const container = modal
+            || (drawer && drawer.classList.contains('active') ? drawer : null)
+            || (sheet && sheet.classList.contains('active') ? sheet : null);
         if (!container) return;
         const focusables = container.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select, textarea, summary, [tabindex]:not([tabindex="-1"])');
         if (!focusables.length) return;
