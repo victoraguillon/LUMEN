@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { milestoneDue, rachaDue, rachaPayload, rolesForAudience, veNow } from './push.js';
+import { milestoneDue, rachaDue, rachaPayload, rolesForAudience, veNow, evangelioDue, devocionalDue } from './push.js';
 
 const HOUR = 3600000;
 const now = () => Date.now();
@@ -81,4 +81,24 @@ test('rachaPayload: sin fila o con racha rota usa un mensaje genérico', () => {
     assert.match(p.body, /Completa tu práctica de hoy/);
     assert.doesNotMatch(p.body, /Llevas/);
   }
+});
+
+test('evangelioDue: ventana ampliada de 07:00 a 10:59 VE', () => {
+  const ve = (hour, minute = 0) => ({ date: '2026-10-25', hour, minute });
+  assert.equal(evangelioDue(ve(6, 59)), false);
+  assert.equal(evangelioDue(ve(7, 0)), true);
+  assert.equal(evangelioDue(ve(9, 30)), true, 'tolera retrasos del cron');
+  assert.equal(evangelioDue(ve(10, 59)), true);
+  assert.equal(evangelioDue(ve(11, 0)), false);
+  assert.equal(evangelioDue(null), false);
+});
+
+test('devocionalDue: ventana ampliada de 20:00 a 23:59 VE', () => {
+  const ve = (hour, minute = 0) => ({ date: '2026-10-25', hour, minute });
+  assert.equal(devocionalDue(ve(19, 59)), false);
+  assert.equal(devocionalDue(ve(20, 0)), true);
+  assert.equal(devocionalDue(ve(22, 30)), true, 'tolera retrasos del cron');
+  assert.equal(devocionalDue(ve(23, 59)), true);
+  assert.equal(devocionalDue(ve(0, 0)), false, 'no cruza la medianoche');
+  assert.equal(devocionalDue(null), false);
 });

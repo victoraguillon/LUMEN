@@ -80,8 +80,8 @@ export async function getProfile(userId) {
 }
 
 // Audiencias separadas:
-//   members -> cumpleaños, avisos manuales, evangelio y devocional.
-//   all     -> racha diaria (incluye a los usuarios con rol global).
+//   members -> cumpleaños y avisos manuales.
+//   all     -> racha, evangelio y devocional (incluye a los usuarios con rol global).
 export function rolesForAudience(audience) {
   return audience === "all" ? ["global", "miembro", "admin"] : ["miembro", "admin"];
 }
@@ -97,7 +97,8 @@ export async function getMemberSubscriptions() {
   return (data || []).filter((s) => s.keys && s.keys.p256dh && s.keys.auth);
 }
 
-// La racha sí llega a todos los dispositivos aprobados, también a global.
+// Racha, evangelio y devocional llegan a todos los dispositivos aprobados,
+// también a los de rol global.
 export async function getAllApprovedSubscriptions() {
   const data = await neg(
     await sb
@@ -351,11 +352,28 @@ async function repartirCumpleanos(subs, fechaVE) {
   return { hoy: celeb.length, push: r };
 }
 
-// ---------- evangelio 07:00 + devocional 20:00 (hora Venezuela) ----------
+// ---------- evangelio (mañana) + devocional (noche), hora Venezuela ----------
+// Ventanas amplias: el cron de GitHub puede retrasarse horas. El registro en
+// push_daily (clave + fecha) garantiza un único envío por día.
+
+// Evangelio: 07:00–10:59 VE.
+export function evangelioDue(ve) {
+  const hour = Number(ve && ve.hour);
+  return Number.isFinite(hour) && hour >= 7 && hour <= 10;
+}
+
+// Devocional: 20:00–23:59 VE.
+export function devocionalDue(ve) {
+  const hour = Number(ve && ve.hour);
+  return Number.isFinite(hour) && hour >= 20 && hour <= 23;
+}
+
+async function marcarDiario(clave, fecha) {
+  await neg(await sb.from("push_daily").insert({ clave, fecha }));
+}
 
 async function notificarDiario(subs, ve) {
-  // Evangelio del día: 07:00 (ventana de 5 min por si el cron se retrasa).
-  if (ve.hour === 7 && ve.minute <= 4) {
+  if (evangelioDue(ve)) {
     const ya = await neg(await sb.from("push_daily").select("clave").eq("clave", "evangelio").eq("fecha", ve.date).limit(1));
     if (!ya || ya.length === 0) {
       try {
@@ -369,8 +387,10 @@ async function notificarDiario(subs, ve) {
             .replace(/\s+/g, " ")
             .trim();
           const body = excerpt ? `${ref}: ${excerpt.slice(0, 160)}` : `Hoy te espera la Palabra: ${ref}`;
-          await neg(await sb.from("push_daily").insert({ clave: "evangelio", fecha: ve.date }));
           const r = await pushToSubscriptions(subs, { title: "LUMEN · Evangelio del día", body, url: "/evangelio" });
+          // Se marca si se entregó a alguien o si no hubo fallos transitorios.
+          // Si todos los envíos fallan, se reintenta en el siguiente tick.
+          if (r.sent > 0 || r.failed === 0) await marcarDiario("evangelio", ve.date);
           return { evangelio: r.sent > 0 || r.failed > 0, push: r };
         }
       } catch (e) {
@@ -379,16 +399,15 @@ async function notificarDiario(subs, ve) {
     }
   }
 
-  // Devocional (noche de oración): 20:00.
-  if (ve.hour === 20 && ve.minute <= 4) {
+  if (devocionalDue(ve)) {
     const ya = await neg(await sb.from("push_daily").select("clave").eq("clave", "devocional").eq("fecha", ve.date).limit(1));
     if (!ya || ya.length === 0) {
-      await neg(await sb.from("push_daily").insert({ clave: "devocional", fecha: ve.date }));
       const r = await pushToSubscriptions(subs, {
         title: "LUMEN · Devocional",
         body: "Tómate unos minutos para el «Alimento de Hoy» y cierra el día en oración 🙏",
         url: "/devocional",
       });
+      if (r.sent > 0 || r.failed === 0) await marcarDiario("devocional", ve.date);
       return { devocional: r.sent > 0 || r.failed > 0, push: r };
     }
   }
@@ -467,6 +486,10 @@ export async function runCron() {
   let memberSubs = [];
   try { memberSubs = await getMemberSubscriptions(); } catch (e) { console.error("[push] subscriptions", e.message); }
 
+  // Evangelio y devocional llegan a todos los aprobados (global incluido).
+  let allSubs = [];
+  try { allSubs = await getAllApprovedSubscriptions(); } catch (e) { console.error("[push] all subscriptions", e.message); }
+
   let pendientes = [];
   try {
     pendientes = await neg(await sb.from("notificaciones").select("id,texto").eq("manual", true).is("pushed_at", null).limit(50));
@@ -493,9 +516,9 @@ export async function runCron() {
     }
   } catch (e) { console.error("[push] cumpleaños", e.message); }
 
-  // 4) Evangelio (07:00) y devocional (20:00) → miembros/admin.
+  // 4) Evangelio (07:00–10:59) y devocional (20:00–23:59) → todos los aprobados.
   try {
-    const diario = await notificarDiario(memberSubs, ve);
+    const diario = await notificarDiario(allSubs, ve);
     if (diario) {
       if (diario.evangelio) report.evangelio = true;
       if (diario.devocional) report.devocional = true;

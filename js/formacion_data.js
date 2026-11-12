@@ -4646,7 +4646,7 @@ const FORMACION_DATA = {
     "subtitle": "Creer hoy",
     "description": "Vivir, razonar y dar testimonio de la fe en las redes, la ciencia y la cultura",
     "tipo": "curso",
-    "count": 16,
+    "count": 17,
     "units": [
      {
       "id": "creer-hoy",
@@ -4703,6 +4703,24 @@ const FORMACION_DATA = {
          "Isaías 44,6-8",
          "Mateo 6,25-34",
          "CIC 2110-2117"
+        ]
+       },
+       {
+        "id": "halloween",
+        "title": "Halloween: por qué no es una fiesta católica",
+        "content": "La noche del 31 de octubre se llamó durante siglos All Hallows' Eve, la víspera de Todos los Santos: una vigilia de oración con la que los cristianos se preparaban para celebrar a los santos y, al día siguiente, a los fieles difuntos. Esa raíz cristiana existe y conviene recordarla. Pero el Halloween que hoy se impone en las calles es otra cosa: una mezcla de folclore comercial, estética de terror y símbolos ocultistas que conserva muy poco de aquella vigilia. No es lo mismo recordar a los santos que celebrar la oscuridad.\n\nLa fe católica no prohíbe disfrazarse ni divertirse; prohíbe el ocultismo. La adivinación, el espiritismo, la magia y el recurso a brujas, amuletos o tablas ouija son desórdenes espirituales graves (cf. CIC 2115-2117), no juegos inocentes: buscan un poder que no viene de Dios y abren puertas que después no se cierran con facilidad. San Pablo lo dice sin rodeos: «no participéis en las obras infructuosas de las tinieblas» (Ef 5,11). El cristiano no teme a las tinieblas, pero tampoco juega con ellas.\n\nEl problema no está en la calabaza ni en los dulces: está en banalizar el mal y la muerte. Glamorizar demonios, asesinos y torturas, o convertir el horror en espectáculo, educa la sensibilidad en la dirección equivocada e hiere la conciencia, sobre todo la de los niños (cf. Flp 4,8). La muerte no es un disfraz: es el paso hacia la eternidad, y merece respeto y oración. Conviene evitar dos extremos: condenar a las personas que participan sin conocer lo que hay detrás, y normalizar mensajes que dañan el alma. Ni todo es satanismo ni todo es inocente; la prudencia pastoral discierne cada caso.\n\nLa Iglesia ofrece la fiesta verdadera: Todos los Santos, el 1 de noviembre, y la conmemoración de los Fieles Difuntos, el 2. Es la respuesta de la luz al miedo: celebrar a quienes ya ven a Dios, rezar por nuestros difuntos, visitar el cementerio y reunir a la familia en torno a la esperanza que no defrauda. Muchas comunidades proponen disfraces de santos, vigilias de oración y dulces compartidos con sentido cristiano. No se trata de encerrarse ni de tener miedo al mundo, sino de elegir la luz: «enjugará toda lágrima de sus ojos, y no habrá ya muerte» (Ap 21,4).",
+        "keyPoints": [
+         "All Hallows' Eve nació como víspera cristiana de Todos los Santos",
+         "Ocultismo y adivinación no son juego (cf. CIC 2115-2117)",
+         "No todo disfraz es pecado, pero banalizar el mal hiere el alma",
+         "La alternativa es la luz: Todos los Santos y los Fieles Difuntos",
+         "Ni satanizarlo todo ni normalizarlo todo: prudencia pastoral"
+        ],
+        "references": [
+         "Efesios 5,11-12",
+         "Filipenses 4,8",
+         "Apocalipsis 21,4",
+         "CIC 2115-2117"
         ]
        }
       ]
