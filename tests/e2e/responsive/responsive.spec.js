@@ -181,3 +181,64 @@ test.describe('Responsive · navegación', () => {
     }
   });
 });
+
+test.describe('Responsive · safe areas (notch/isla dinámica)', () => {
+  async function assertSafeTop(page, width, height) {
+    await page.setViewportSize({ width, height });
+    await page.addInitScript(() => {
+      try {
+        localStorage.setItem('lumen-cookie-consent', JSON.stringify({ level: 'essential', ts: Date.now() }));
+        localStorage.setItem('lumen_pwa_dismissed', '1');
+      } catch (e) {}
+    });
+    await page.goto('/');
+    await page.waitForFunction(() => typeof LumenRouter !== 'undefined');
+    await page.addStyleTag({ content: ':root{--safe-top:59px!important;--safe-right:0px!important;--safe-bottom:34px!important;--safe-left:0px!important;}' });
+    await page.waitForTimeout(120);
+
+    const m = await page.evaluate(() => {
+      const doc = document.documentElement;
+      const navbar = document.querySelector('.navbar');
+      const logo = document.querySelector('.navbar .logo');
+      const search = document.querySelector('.navbar [data-search-open]');
+      const mainNav = document.querySelector('.main-nav');
+      const app = document.getElementById('app-container');
+      const navBox = navbar.getBoundingClientRect();
+      const logoBox = logo.getBoundingClientRect();
+      const searchBox = search.getBoundingClientRect();
+      const mainNavStyle = mainNav ? getComputedStyle(mainNav) : null;
+      const first = app && app.firstElementChild ? app.firstElementChild.getBoundingClientRect() : null;
+      return {
+        overflow: Math.max(doc.scrollWidth, document.body.scrollWidth) <= doc.clientWidth + 2,
+        navTop: navBox.top,
+        logoTop: Math.round(logoBox.top),
+        searchTop: Math.round(searchBox.top),
+        navHeight: Math.round(navBox.height),
+        mainNavDisplay: mainNavStyle ? mainNavStyle.display : null,
+        mainNavTop: mainNav ? Math.round(mainNav.getBoundingClientRect().top) : null,
+        firstContentTop: first ? Math.round(first.top) : null
+      };
+    });
+
+    expect(m.overflow).toBe(true);
+    expect(m.navTop).toBe(0);
+    expect(m.logoTop).toBeGreaterThanOrEqual(59);
+    expect(m.searchTop).toBeGreaterThanOrEqual(59);
+    expect(m.navHeight).toBeGreaterThanOrEqual(127);
+    if (width >= 1024) {
+      expect(m.mainNavDisplay).not.toBe('none');
+      expect(m.mainNavTop).toBe(127);
+    } else {
+      expect(m.mainNavDisplay).toBe('none');
+      expect(m.firstContentTop).toBeGreaterThanOrEqual(127);
+    }
+  }
+
+  test('Header respeta safe area superior en 430×932', async ({ page }) => {
+    await assertSafeTop(page, 430, 932);
+  });
+
+  test('Header respeta safe area superior en 932×430 (horizontal)', async ({ page }) => {
+    await assertSafeTop(page, 932, 430);
+  });
+});

@@ -38,7 +38,8 @@
 // v53: iconos de app a sangre completa (sin marco), favicon y badge de notificaciones
 // v54: rutas limpias SPA, carga diferida de datasets y correcciones de auditoría
 // v67: header de marca minimalista, main-nav de escritorio y hoja de Comunidad
-const CACHE = "lumen-cache-v67";
+// v68: safe areas (isla dinámica/notch) y tinte de barra de estado en el header
+const CACHE = "lumen-cache-v68";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";

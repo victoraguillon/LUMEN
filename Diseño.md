@@ -107,8 +107,8 @@ Criterios:
 
 ```
 body
-├── header.navbar            barra de marca fija: logo, búsqueda y tema (68 px)
-├── nav.main-nav             enlaces de escritorio (54 px, ≥1024 px)
+├── header.navbar            barra de marca fija: logo, búsqueda y tema (68 px + safe area)
+├── nav.main-nav             enlaces de escritorio (54 px, ≥1024 px, bajo el header)
 ├── main#app-container       contenido con padding de shell
 ├── footer.app-footer
 ├── aside.side-drawer        menú lateral completo (≤1023 px)
@@ -120,23 +120,24 @@ body
 ### Navegación
 
 - **Header de marca (todos los anchos):** solo logo LUMEN, búsqueda y selector claro/oscuro. El perfil y la sesión ya no viven aquí.
+- **Safe areas (notch / isla dinámica):** el shell usa `--safe-top/right/bottom/left` (`env(safe-area-inset-*)`). El header suma `--safe-top` a su alto (`--shell-top = --nav-h + --safe-top`) y lo desplaza con `padding-top`; una franja azul marino (`.navbar::before`) tiñe la barra de estado para que la hora y la batería (iconos blancos en PWA `black-translucent`) se lean siempre. `main-nav` se ancla a `--shell-top`.
 - **Escritorio (≥1024 px):** `nav.main-nav` bajo el header con Inicio, Formación, Oración, Comunidad, Nosotros y Mi perfil. Descargas se agrupa dentro del desplegable de Comunidad.
 - **Móvil/tablet (≤1023 px):** barra inferior de 5 destinos: Inicio · Formación · **Orar** · Comunidad · Perfil. El botón central eleva una hoja de oración; **Comunidad** abre una hoja con Actividades, Calendario, Blog, Avisos, Intenciones, Encuestas, Recursos, Descargas, Contacto y Nosotros, más “Ver todo el menú” para el drawer completo.
-- Altura de referencia: `--nav-h: 68px`, `--main-nav-h: 54px`, `--bottom-nav-h: 64px`.
+- Altura de referencia: `--nav-h: 68px`, `--main-nav-h: 54px`, `--bottom-nav-h: 64px`, `--shell-top-desktop = --nav-h + --main-nav-h + --safe-top`.
 - La barra superior usa `backdrop-filter` y un borde hairline; no compite con el contenido.
-- Los avisos PWA se colocan por encima de la barra inferior, nunca encima de ella.
+- Los avisos PWA, toasts y botones flotantes respetan los insets inferior y laterales; drawer, modales y hojas usan `100dvh` y padding seguro.
 
 ### Contenedor
 
 ```css
 #app-container {
     max-width: var(--page-max); /* 1180px */
-    padding: calc(var(--nav-h) + var(--main-nav-h) + 34px) var(--page-pad) 64px;
+    padding: calc(var(--shell-top-desktop) + 34px) var(--page-pad) 64px;
 }
 @media (max-width: 1023px) {
     #app-container {
-        padding: calc(var(--nav-h) + 20px) 16px
-                 calc(var(--bottom-nav-h) + env(safe-area-inset-bottom) + 30px);
+        padding: calc(var(--shell-top) + 20px) 16px
+                 calc(var(--bottom-nav-h) + var(--safe-bottom) + 30px);
     }
 }
 ```
