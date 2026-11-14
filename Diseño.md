@@ -125,22 +125,25 @@ body
 - **Móvil/tablet (≤1023 px):** barra inferior de 5 destinos: Inicio · Formación · **Orar** · Comunidad · Perfil. El botón central eleva una hoja de oración; **Comunidad** abre una hoja con Actividades, Calendario, Blog, Avisos, Intenciones, Encuestas, Recursos, Descargas, Contacto y Nosotros, más “Ver todo el menú” para el drawer completo.
 - Altura de referencia: `--nav-h: 68px`, `--main-nav-h: 54px`, `--bottom-nav-h: 64px`, `--shell-top-desktop = --nav-h + --main-nav-h + --safe-top`.
 - La barra superior usa `backdrop-filter` y un borde hairline; no compite con el contenido.
+- **Respiro final:** `--content-end-space: 28px` (escritorio) y `--content-end-space-mobile: calc(var(--bottom-nav-h) + var(--safe-bottom) + 16px)` acercan el footer al contenido sin solapar la barra inferior; el último bloque del flujo principal colapsa su margen inferior.
 - Los avisos PWA, toasts y botones flotantes respetan los insets inferior y laterales; drawer, modales y hojas usan `100dvh` y padding seguro.
 
-### Contenedor
+### Contenedor y footer
 
 ```css
 #app-container {
     max-width: var(--page-max); /* 1180px */
-    padding: calc(var(--shell-top-desktop) + 34px) var(--page-pad) 64px;
+    min-height: 0;
+    padding: calc(var(--shell-top-desktop) + 34px) var(--page-pad) var(--content-end-space);
 }
 @media (max-width: 1023px) {
     #app-container {
-        padding: calc(var(--shell-top) + 20px) 16px
-                 calc(var(--bottom-nav-h) + var(--safe-bottom) + 30px);
+        padding: calc(var(--shell-top) + 20px) 16px var(--content-end-space-mobile);
     }
 }
 ```
+
+`.app-footer` usa `var(--page-max)`/`var(--page-pad` y padding vertical compacto, alineado al respiro del contenedor.
 
 ## 5. Componentes
 
