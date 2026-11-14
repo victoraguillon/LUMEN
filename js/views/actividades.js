@@ -40,14 +40,14 @@ const ActividadesView = {
 
             // Chips de Filtro
             const mineChip = LumenAuth.currentUser && LumenAuth.isMember
-                ? `<div class="seg-tab ${activeFilter === 'mias' ? 'active' : ''}" onclick="ActividadesView.setFilter('mias')">Mis inscripciones</div>`
+                ? `<button type="button" class="seg-tab ${activeFilter === 'mias' ? 'active' : ''}" aria-pressed="${activeFilter === 'mias'}" onclick="ActividadesView.setFilter('mias')">Mis inscripciones</button>`
                 : '';
             let chipsHTML = `
                 <div class="seg-tabs reveal v-vgap" >
-                    <div class="seg-tab ${activeFilter === 'Todos' ? 'active' : ''}" onclick="ActividadesView.setFilter('Todos')">Próximas</div>
-                    <div class="seg-tab ${activeFilter === 'historial' ? 'active' : ''}" onclick="ActividadesView.setFilter('historial')">Historial</div>
-                    <div class="seg-tab ${activeFilter === 'unico' ? 'active' : ''}" onclick="ActividadesView.setFilter('unico')">Únicos</div>
-                    <div class="seg-tab ${activeFilter === 'recurrente' ? 'active' : ''}" onclick="ActividadesView.setFilter('recurrente')">Recurrentes</div>
+                    <button type="button" class="seg-tab ${activeFilter === 'Todos' ? 'active' : ''}" aria-pressed="${activeFilter === 'Todos'}" onclick="ActividadesView.setFilter('Todos')">Próximas</button>
+                    <button type="button" class="seg-tab ${activeFilter === 'historial' ? 'active' : ''}" aria-pressed="${activeFilter === 'historial'}" onclick="ActividadesView.setFilter('historial')">Historial</button>
+                    <button type="button" class="seg-tab ${activeFilter === 'unico' ? 'active' : ''}" aria-pressed="${activeFilter === 'unico'}" onclick="ActividadesView.setFilter('unico')">Únicos</button>
+                    <button type="button" class="seg-tab ${activeFilter === 'recurrente' ? 'active' : ''}" aria-pressed="${activeFilter === 'recurrente'}" onclick="ActividadesView.setFilter('recurrente')">Recurrentes</button>
                     ${mineChip}
                 </div>
             `;

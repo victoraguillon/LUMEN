@@ -109,7 +109,6 @@ const LumenAuth = {
             .catch(() => {});
     },
     updateUI: function() {
-        const userDataZone = document.getElementById('user-data-zone');
         const adminLink = document.getElementById('admin-nav-link');
         const notifLink = document.getElementById('notificaciones-nav-link');
         const intencionesLink = document.getElementById('intenciones-nav-link');
@@ -120,44 +119,44 @@ const LumenAuth = {
         const drawerIntencionesLink = document.getElementById('drawer-intenciones-link');
         const drawerEncuestasLink = document.getElementById('drawer-encuestas-link');
         const drawerRecursosLink = document.getElementById('drawer-recursos-link');
-        
+        const communityNotifLink = document.getElementById('community-notif-link');
+        const communityIntencionesLink = document.getElementById('community-intenciones-link');
+        const communityEncuestasLink = document.getElementById('community-encuestas-link');
+        const communityRecursosLink = document.getElementById('community-recursos-link');
+
         if (this.currentUser) {
-            const avatarLetter = this.userProfile?.nombre ? this.userProfile.nombre.charAt(0).toUpperCase() : 'L';
-            let picUrl;
-            if (this.userProfile?.photo_url) {
-                picUrl = LumenUI.sanitizeImageUrl(this.userProfile.photo_url);
-            }
-            if (!picUrl) {
-                const svg = encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="#005F8A"/><text x="50" y="50" fill="#fff" font-family="Arial, sans-serif" font-size="48" text-anchor="middle" dominant-baseline="central">${avatarLetter}</text></svg>`);
-                picUrl = `data:image/svg+xml;charset=utf-8,${svg}`;
-            }
-            userDataZone.innerHTML = `<button type="button" class="user-profile-btn" onclick="LumenRouter.navigateTo('perfil')" aria-label="Abrir mi perfil"><img src="${picUrl}" alt="" width="32" height="32"><span>${LumenUI.escapeHTML(this.userProfile?.nombre || 'Usuario')}</span></button>`;
-            
             const isMember = this.isMember;
 
             adminLink.style.display = this.isAdmin ? 'block' : 'none';
             if(drawerAdminLink) drawerAdminLink.style.display = this.isAdmin ? 'block' : 'none';
-            
+
             notifLink.style.display = isMember ? 'block' : 'none';
             if(drawerNotifLink) drawerNotifLink.style.display = isMember ? 'block' : 'none';
             if(recursosLink) recursosLink.style.display = isMember ? 'block' : 'none';
             if(drawerRecursosLink) drawerRecursosLink.style.display = isMember ? 'block' : 'none';
+            if(communityNotifLink) communityNotifLink.style.display = isMember ? 'flex' : 'none';
+            if(communityRecursosLink) communityRecursosLink.style.display = isMember ? 'flex' : 'none';
             encuestasLink.style.display = 'block';
             if(drawerEncuestasLink) drawerEncuestasLink.style.display = 'block';
+            if(communityEncuestasLink) communityEncuestasLink.style.display = 'flex';
             intencionesLink.style.display = 'block';
             if(drawerIntencionesLink) drawerIntencionesLink.style.display = 'block';
+            if(communityIntencionesLink) communityIntencionesLink.style.display = 'flex';
         } else {
-            userDataZone.innerHTML = `<button type="button" class="btn btn-primary login-btn" aria-label="Iniciar sesión" onclick="LumenUI.openModal('login-modal')"><span class="login-label">Iniciar sesión</span><span class="login-icon" aria-hidden="true">${Icons.user}</span></button>`;
-            adminLink.style.display = 'none'; 
+            adminLink.style.display = 'none';
             if(drawerAdminLink) drawerAdminLink.style.display = 'none';
             notifLink.style.display = 'none';
             if(drawerNotifLink) drawerNotifLink.style.display = 'none';
+            if(communityNotifLink) communityNotifLink.style.display = 'none';
             intencionesLink.style.display = 'block';
             if(drawerIntencionesLink) drawerIntencionesLink.style.display = 'block';
+            if(communityIntencionesLink) communityIntencionesLink.style.display = 'flex';
             encuestasLink.style.display = 'none';
             if(drawerEncuestasLink) drawerEncuestasLink.style.display = 'none';
+            if(communityEncuestasLink) communityEncuestasLink.style.display = 'none';
             if(recursosLink) recursosLink.style.display = 'none';
             if(drawerRecursosLink) drawerRecursosLink.style.display = 'none';
+            if(communityRecursosLink) communityRecursosLink.style.display = 'none';
         }
     },
     login: function(email, password) {

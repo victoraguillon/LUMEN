@@ -197,7 +197,7 @@ const CalendarioView = {
                         <button type="button" class="btn btn-outline cal-nav cal-next" aria-label="Mes siguiente" onclick="CalendarioView.cambiarMes(1)">${LumenIcons.chevron_right}</button>
                         <button type="button" class="btn btn-outline cal-today" onclick="CalendarioView.irHoy()">Hoy</button>
                     </div>
-                    <div class="cal-grid" role="grid" aria-label="Calendario de ${LumenUI.escapeHTML(monthTitle)}">
+                    <div class="cal-grid" role="group" aria-label="Calendario de ${LumenUI.escapeHTML(monthTitle)}">
                         ${head}
                         ${cells}
                     </div>

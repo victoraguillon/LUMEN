@@ -80,8 +80,8 @@ const LumenRouter = {
     _navGroups: {
         inicio: ['landing', 'inicio'],
         formacion: ['formacion'],
-        oracion: ['evangelio', 'devocional', 'rosario', 'oraciones', 'examen', 'novenas', 'planes', 'favoritos', 'offline'],
-        comunidad: ['actividades', 'detalle', 'calendario', 'blog', 'notificaciones', 'intenciones', 'encuestas', 'recursos', 'contacto', 'nosotros'],
+        oracion: ['evangelio', 'devocional', 'rosario', 'oraciones', 'examen', 'novenas', 'planes', 'favoritos'],
+        comunidad: ['actividades', 'detalle', 'calendario', 'blog', 'notificaciones', 'intenciones', 'encuestas', 'recursos', 'offline', 'contacto', 'nosotros'],
         perfil: ['perfil', 'gestion']
     },
     _groupForView: function(viewName) {

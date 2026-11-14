@@ -1,4 +1,5 @@
-// LUMEN - Service Worker único (v65) en la RAÍZ (/sw.js)
+// LUMEN - Service Worker único (v67) en la RAÍZ (/sw.js)
+// v66: rediseño visual, navegación inferior, hoja de oración y tipografías Inter/Sora/Cormorant
 // v65: evangelio y devocional a todos los aprobados + apartado de Halloween en Fe y Mundo Actual
 // v64: racha solo al completar + aviso diario 18:00 VE con el conteo exacto
 // v63: sugerencia diaria de formación en el panel Hoy
@@ -36,7 +37,8 @@
 // v50: fix v-hide !important (pestañas del devocional, cumpleaños de inicio, botones de recorte) + 10 oraciones y 1 novena
 // v53: iconos de app a sangre completa (sin marco), favicon y badge de notificaciones
 // v54: rutas limpias SPA, carga diferida de datasets y correcciones de auditoría
-const CACHE = "lumen-cache-v65";
+// v67: header de marca minimalista, main-nav de escritorio y hoja de Comunidad
+const CACHE = "lumen-cache-v67";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";

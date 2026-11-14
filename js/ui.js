@@ -865,6 +865,52 @@ const LumenUI = {
         else this.openPrayerSheet(trigger);
     },
 
+    /* ---- Hoja de Comunidad (bottom sheet) ---- */
+    openCommunitySheet: function(trigger) {
+        const sheet = document.getElementById('community-sheet');
+        const overlay = document.getElementById('community-sheet-overlay');
+        if (!sheet || sheet.classList.contains('active')) return;
+        this._communityReturnFocus = trigger || document.activeElement;
+        this.closeDropdowns();
+        this.closeDrawer(false);
+        this.closePrayerSheet(false);
+        sheet.classList.add('active');
+        sheet.setAttribute('aria-hidden', 'false');
+        if (overlay) overlay.classList.add('active');
+        document.body.classList.add('sheet-open');
+        const communityBtn = document.querySelector('.bottom-nav-item[data-nav="comunidad"]');
+        if (communityBtn) communityBtn.setAttribute('aria-expanded', 'true');
+        window.setTimeout(() => {
+            const first = sheet.querySelector('a[href], button:not([disabled])');
+            if (first) { try { first.focus({ preventScroll: true }); } catch (e) {} }
+        }, 80);
+    },
+    closeCommunitySheet: function(restoreFocus) {
+        const sheet = document.getElementById('community-sheet');
+        const overlay = document.getElementById('community-sheet-overlay');
+        if (!sheet || !sheet.classList.contains('active')) return;
+        sheet.classList.remove('active');
+        sheet.setAttribute('aria-hidden', 'true');
+        if (overlay) overlay.classList.remove('active');
+        document.body.classList.remove('sheet-open');
+        const communityBtn = document.querySelector('.bottom-nav-item[data-nav="comunidad"]');
+        if (communityBtn) communityBtn.setAttribute('aria-expanded', 'false');
+        if (restoreFocus !== false && this._communityReturnFocus && document.contains(this._communityReturnFocus)) {
+            try { this._communityReturnFocus.focus({ preventScroll: true }); } catch (e) {}
+        }
+        this._communityReturnFocus = null;
+    },
+    toggleCommunitySheet: function(trigger) {
+        const sheet = document.getElementById('community-sheet');
+        if (!sheet) return;
+        if (sheet.classList.contains('active')) this.closeCommunitySheet();
+        else this.openCommunitySheet(trigger);
+    },
+    openDrawerFromCommunitySheet: function() {
+        this.closeCommunitySheet(false);
+        this.openDrawer();
+    },
+
     toggleDropdown: function(id, trigger) {
         const menu = document.getElementById(id);
         if (!menu) return;
@@ -1021,6 +1067,8 @@ document.addEventListener('keydown', function(e) {
         if (open.length) { LumenUI.closeModal(open[open.length - 1].id); return; }
         const drawer = document.getElementById('side-drawer');
         if (drawer && drawer.classList.contains('active')) { LumenUI.closeDrawer(); return; }
+        const communitySheet = document.getElementById('community-sheet');
+        if (communitySheet && communitySheet.classList.contains('active')) { LumenUI.closeCommunitySheet(); return; }
         const sheet = document.getElementById('prayer-sheet');
         if (sheet && sheet.classList.contains('active')) { LumenUI.closePrayerSheet(); return; }
         if (document.body.classList.contains('prayer-focus')) { LumenUI.togglePrayerFocus(); return; }
@@ -1029,9 +1077,11 @@ document.addEventListener('keydown', function(e) {
     if (e.key === 'Tab') {
         const modal = document.querySelector('.modal-overlay.active');
         const drawer = document.getElementById('side-drawer');
+        const communitySheet = document.getElementById('community-sheet');
         const sheet = document.getElementById('prayer-sheet');
         const container = modal
             || (drawer && drawer.classList.contains('active') ? drawer : null)
+            || (communitySheet && communitySheet.classList.contains('active') ? communitySheet : null)
             || (sheet && sheet.classList.contains('active') ? sheet : null);
         if (!container) return;
         const focusables = container.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select, textarea, summary, [tabindex]:not([tabindex="-1"])');

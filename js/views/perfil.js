@@ -17,7 +17,25 @@ const PerfilView = {
     },
 
     render: function() {
-        if (!LumenAuth.currentUser) return `<div class="state-container"><h1 class="sr-only">Mi perfil</h1><h3>Acceso Denegado</h3><p>Debes iniciar sesión.</p></div>`;
+        if (!LumenAuth.currentUser) return `
+            <div class="view">
+                <div class="v-header">
+                    <span class="v-eyebrow">${Icons.users} Tu espacio</span>
+                    <h1 class="v-title">Un lugar para <em>tu camino</em></h1>
+                    <p class="v-sub">Inicia sesión para cuidar tu perfil, guardar favoritos y acompañar tu formación paso a paso.</p>
+                </div>
+                <section class="profile-guest reveal" aria-labelledby="profile-guest-title">
+                    <span class="profile-guest-icon">${Icons.user}</span>
+                    <h2 id="profile-guest-title">Tu perfil te espera</h2>
+                    <p>Al entrar podrás actualizar tus datos, seguir tu progreso y encontrar de nuevo todo lo que has guardado.</p>
+                    <div class="profile-guest-actions">
+                        <button class="btn btn-primary" onclick="LumenUI.openModal('login-modal')">Iniciar sesión</button>
+                        <button class="btn btn-outline" onclick="LumenUI.openModal('register-modal')">Crear cuenta</button>
+                    </div>
+                    <p class="profile-guest-note">${Icons.heart} Tus favoritos y tu racha se guardan en este dispositivo.</p>
+                </section>
+            </div>`;
+
 
         const user = LumenAuth.userProfile || {};
         const isJuvemar = this.isJuvemar(user);

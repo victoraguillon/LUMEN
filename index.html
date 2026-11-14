@@ -81,13 +81,26 @@
         <p>Iluminando el camino...</p>
     </div>
 
-   <header class="navbar">
+   <header class="navbar" id="app-header">
         <a class="logo" href="/" aria-label="LUMEN, ir al inicio" onclick="event.preventDefault();LumenRouter.navigateTo('landing')">
             <img src="assets/icons/logo-192.png" alt="" width="28" height="28">
             LUMEN
         </a>
-        
-        <ul class="nav-links" aria-label="Navegación principal">
+
+        <div class="user-zone">
+            <button class="theme-toggle-btn search-toggle-btn" type="button" data-search-open aria-label="Buscar en LUMEN" title="Buscar (Ctrl+K)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </button>
+            <button class="theme-toggle-btn" id="theme-toggle-btn" type="button" onclick="LumenUI.toggleDarkMode()" aria-label="Cambiar tema claro/oscuro" aria-pressed="false">
+                <svg id="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                <svg id="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" style="display:none;" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Barra de navegación principal (escritorio) -->
+    <nav class="main-nav" id="main-nav" aria-label="Navegación principal">
+        <ul class="nav-links">
             <li><a href="/inicio" class="nav-link" data-view="inicio">Inicio</a></li>
             <li><a href="/formacion" class="nav-link" data-view="formacion">Formación</a></li>
             <li class="dropdown">
@@ -102,7 +115,6 @@
                     <a href="/novenas" class="nav-link" data-view="novenas">Novenas</a>
                     <a href="/planes" class="nav-link" data-view="planes">Planes litúrgicos</a>
                     <a href="/examen" class="nav-link" data-view="examen">Examen de conciencia</a>
-                    <a href="/offline" class="nav-link" data-view="offline">Descargas</a>
                 </div>
             </li>
             <li class="dropdown">
@@ -117,28 +129,15 @@
                     <a href="/intenciones" class="nav-link" data-view="intenciones" id="intenciones-nav-link">Intenciones</a>
                     <a href="/encuestas" class="nav-link" data-view="encuestas" id="encuestas-nav-link">Encuestas</a>
                     <a href="/recursos" class="nav-link" data-view="recursos" id="recursos-nav-link" style="display:none;">Recursos</a>
+                    <a href="/offline" class="nav-link" data-view="offline">Descargas</a>
                     <a href="/contacto" class="nav-link" data-view="contacto">Contacto</a>
                 </div>
             </li>
             <li><a href="/nosotros" class="nav-link" data-view="nosotros">Nosotros</a></li>
+            <li><a href="/perfil" class="nav-link nav-profile-link" data-view="perfil">Mi perfil</a></li>
             <li id="admin-nav-link" class="nav-admin" style="display:none;"><a href="/gestion" class="nav-link" data-view="gestion">Gestión</a></li>
         </ul>
-        
-        <div class="user-zone">
-            <button class="theme-toggle-btn search-toggle-btn" type="button" data-search-open aria-label="Buscar en LUMEN" title="Buscar (Ctrl+K)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            </button>
-            <button class="theme-toggle-btn" id="theme-toggle-btn" type="button" onclick="LumenUI.toggleDarkMode()" aria-label="Cambiar tema claro/oscuro" aria-pressed="false">
-                <svg id="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                <svg id="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" style="display:none;" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-            </button>
-            <div id="user-data-zone"></div>
-            <!-- Botón Hamburguesa (Solo Móvil) -->
-            <button class="mobile-menu-btn" type="button" onclick="LumenUI.toggleDrawer()" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="side-drawer">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-            </button>
-        </div>
-    </header>
+    </nav>
 
     <!-- Banner Consentimiento Cookies: en el flujo, no tapa el contenido -->
     <div id="cookie-consent-banner" role="region" aria-label="Preferencias de cookies" style="display:none;">
@@ -208,7 +207,6 @@
                 <a href="/planes" class="drawer-link" data-view="planes">Planes</a>
                 <a href="/novenas" class="drawer-link" data-view="novenas">Novenas</a>
                 <a href="/examen" class="drawer-link" data-view="examen">Examen de Conciencia</a>
-                <a href="/offline" class="drawer-link" data-view="offline">Descargas</a>
                 <a href="/favoritos" class="drawer-link" data-view="favoritos">Mis Favoritos</a>
             </div>
         </details>
@@ -222,9 +220,11 @@
                 <a href="/intenciones" class="drawer-link" id="drawer-intenciones-link" data-view="intenciones">Intenciones</a>
                 <a href="/encuestas" class="drawer-link" id="drawer-encuestas-link" data-view="encuestas">Encuestas</a>
                 <a href="/recursos" class="drawer-link" id="drawer-recursos-link" data-view="recursos">Recursos</a>
+                <a href="/offline" class="drawer-link" data-view="offline">Descargas</a>
             </div>
         </details>
         <a href="/blog" class="drawer-link" data-view="blog">Blog</a>
+        <a href="/perfil" class="drawer-link" data-view="perfil">Mi perfil</a>
         <a href="/gestion" class="drawer-link" id="drawer-admin-link" style="display:none;" data-view="gestion">Gestión</a>
         <a href="/contacto" class="drawer-link" data-view="contacto">Contacto</a>
     </aside>
@@ -244,10 +244,10 @@
                 <span class="bn-pray-circle" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"></path><path d="M6.5 9.5h11"></path></svg></span>
                 <span class="bn-label">Orar</span>
             </button>
-            <a href="/actividades" class="bottom-nav-item" data-nav="comunidad" data-view="actividades" aria-label="Comunidad">
+            <button class="bottom-nav-item" type="button" data-nav="comunidad" aria-haspopup="dialog" aria-expanded="false" aria-controls="community-sheet" aria-label="Abrir el menú de Comunidad" onclick="LumenUI.openCommunitySheet(this)">
                 <span class="bn-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span>
                 <span class="bn-label">Comunidad</span>
-            </a>
+            </button>
             <a href="/perfil" class="bottom-nav-item" data-nav="perfil" data-view="perfil" aria-label="Mi perfil">
                 <span class="bn-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg></span>
                 <span class="bn-label">Perfil</span>
@@ -310,6 +310,74 @@
             </a>
         </div>
         <p class="prayer-sheet-foot">«Venid a mí todos los que estáis cansados y agobiados, y yo os aliviaré.» <span>Mt 11, 28</span></p>
+    </section>
+
+    <!-- Hoja de Comunidad -->
+    <div class="sheet-overlay" id="community-sheet-overlay" aria-hidden="true" onclick="LumenUI.closeCommunitySheet()"></div>
+    <section class="prayer-sheet community-sheet" id="community-sheet" role="dialog" aria-modal="true" aria-labelledby="community-sheet-title" aria-hidden="true" tabindex="-1">
+        <div class="sheet-grab" aria-hidden="true"></div>
+        <header class="prayer-sheet-head">
+            <div>
+                <p class="sheet-kicker">Caminar juntos</p>
+                <h2 id="community-sheet-title" class="sheet-title">Comunidad</h2>
+                <p class="sheet-sub">Actividades, avisos y descargas de LUMEN.</p>
+            </div>
+            <button class="prayer-sheet-close" type="button" onclick="LumenUI.closeCommunitySheet()" aria-label="Cerrar menú de Comunidad">&times;</button>
+        </header>
+        <div class="prayer-sheet-grid">
+            <a href="/actividades" class="prayer-sheet-link" data-view="actividades">
+                <span class="ps-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg></span>
+                <span class="ps-copy"><strong>Actividades</strong><small>Próximos encuentros</small></span>
+                <span class="ps-arrow" aria-hidden="true">→</span>
+            </a>
+            <a href="/calendario" class="prayer-sheet-link" data-view="calendario">
+                <span class="ps-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"></path></svg></span>
+                <span class="ps-copy"><strong>Calendario</strong><small>La agenda de la comunidad</small></span>
+                <span class="ps-arrow" aria-hidden="true">→</span>
+            </a>
+            <a href="/blog" class="prayer-sheet-link" data-view="blog">
+                <span class="ps-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></span>
+                <span class="ps-copy"><strong>Blog</strong><small>Reflexiones y testimonios</small></span>
+                <span class="ps-arrow" aria-hidden="true">→</span>
+            </a>
+            <a href="/notificaciones" class="prayer-sheet-link" data-view="notificaciones" id="community-notif-link">
+                <span class="ps-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg></span>
+                <span class="ps-copy"><strong>Avisos</strong><small>Lo que no te puedes perder</small></span>
+                <span class="ps-arrow" aria-hidden="true">→</span>
+            </a>
+            <a href="/intenciones" class="prayer-sheet-link" data-view="intenciones" id="community-intenciones-link">
+                <span class="ps-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 11c0 5.65-7 10-7 10z"></path></svg></span>
+                <span class="ps-copy"><strong>Intenciones</strong><small>Rezar unos por otros</small></span>
+                <span class="ps-arrow" aria-hidden="true">→</span>
+            </a>
+            <a href="/encuestas" class="prayer-sheet-link" data-view="encuestas" id="community-encuestas-link">
+                <span class="ps-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg></span>
+                <span class="ps-copy"><strong>Encuestas</strong><small>Tu voz en la comunidad</small></span>
+                <span class="ps-arrow" aria-hidden="true">→</span>
+            </a>
+            <a href="/recursos" class="prayer-sheet-link" data-view="recursos" id="community-recursos-link">
+                <span class="ps-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path><path d="M9 7h6"></path></svg></span>
+                <span class="ps-copy"><strong>Recursos</strong><small>Materiales para miembros</small></span>
+                <span class="ps-arrow" aria-hidden="true">→</span>
+            </a>
+            <a href="/offline" class="prayer-sheet-link" data-view="offline">
+                <span class="ps-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></span>
+                <span class="ps-copy"><strong>Descargas</strong><small>Lleva LUMEN sin conexión</small></span>
+                <span class="ps-arrow" aria-hidden="true">→</span>
+            </a>
+            <a href="/contacto" class="prayer-sheet-link" data-view="contacto">
+                <span class="ps-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"></path><path d="m4 6 8 6 8-6"></path></svg></span>
+                <span class="ps-copy"><strong>Contacto</strong><small>Escríbenos</small></span>
+                <span class="ps-arrow" aria-hidden="true">→</span>
+            </a>
+            <a href="/nosotros" class="prayer-sheet-link" data-view="nosotros">
+                <span class="ps-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span>
+                <span class="ps-copy"><strong>Nosotros</strong><small>Conoce LUMEN</small></span>
+                <span class="ps-arrow" aria-hidden="true">→</span>
+            </a>
+        </div>
+        <button class="sheet-more" type="button" onclick="LumenUI.openDrawerFromCommunitySheet()">Ver todo el menú</button>
+        <p class="prayer-sheet-foot">«Donde dos o tres están reunidos en mi nombre, allí estoy yo en medio de ellos.» <span>Mt 18, 20</span></p>
     </section>
 
     <!-- Botón Volver Arriba -->
@@ -518,7 +586,7 @@
                     <div class="checkbox-item" style="align-items:flex-start;">
                         <input type="checkbox" id="reg-legal" style="margin-top:3px;" aria-required="true">
                         <label for="reg-legal" style="font-size:13px; line-height:1.5;">
-                            He leído y acepto los <a href="/legal/terminos.html" target="_blank" rel="noopener" style="color:var(--celeste-primario); text-decoration:underline;">Términos y Condiciones</a> y la <a href="/legal/privacidad.html" target="_blank" rel="noopener" style="color:var(--celeste-primario); text-decoration:underline;">Política de Privacidad</a>, incluyendo el tratamiento de mis datos personales.
+                            He leído y acepto los <a href="/legal/terminos.html" target="_blank" rel="noopener" style="color:var(--accent-text); text-decoration:underline;">Términos y Condiciones</a> y la <a href="/legal/privacidad.html" target="_blank" rel="noopener" style="color:var(--accent-text); text-decoration:underline;">Política de Privacidad</a>, incluyendo el tratamiento de mis datos personales.
                         </label>
                     </div>
                 </div>

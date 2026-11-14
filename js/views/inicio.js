@@ -95,7 +95,7 @@ const InicioView = {
             <div class="today-grid">
                 <button class="today-card" type="button" onclick="LumenRouter.navigateTo('evangelio')">
                     <span class="today-icon">${LumenIcons.book}</span>
-                    <span class="today-copy"><strong>Evangelio del día</strong><small>Lectura y reflexión para hoy</small></span>
+                    <span class="today-copy"><strong>Evangelio del día</strong><small>Palabra y reflexión</small></span>
                     <span class="today-arrow">→</span>
                 </button>
                 <button class="today-card" type="button" onclick="RosarioView.pick('${set}')">

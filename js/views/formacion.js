@@ -278,8 +278,11 @@ const FormacionView = {
                 <span class="v-eyebrow">${LumenUI.liturgicalBadgeHTML()} Camino de fe</span>
                 <h1 class="v-title">Formación paso a <em>paso</em></h1>
                 <p class="v-sub">Módulos en unidades con puntos clave y referencias para crecer a tu ritmo. Sin necesidad de cuenta, abierta a todos.</p>
-                <div class="hero-actions v-jcc v-mt20" >
-                    <button class="btn" onclick="LumenRouter.navigateTo('favoritos')" aria-label="Ver favoritos">♥ Mis favoritos (${Object.keys(LumenUI.getFavorites()).length})</button>
+                <div class="formacion-hub-actions v-jcc v-mt20">
+                    <button class="btn btn-outline" onclick="LumenRouter.navigateTo('favoritos')" aria-label="Ver mis favoritos">
+                        ${LumenIcons.heart} Mis favoritos
+                        <span class="formacion-fav-count">${Object.keys(LumenUI.getFavorites()).length}</span>
+                    </button>
                     ${LumenUI.streakChipHTML()}
                 </div>
             </div>

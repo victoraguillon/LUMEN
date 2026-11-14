@@ -30,7 +30,7 @@ test.describe('Rosario ampliado, planes y descargas', () => {
 
   test('Los planes litúrgicos muestran los cuatro caminos y sus pasos', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByText('Planes litúrgicos', { exact: true })).toBeVisible();
+    await expect(page.locator('#app-container').getByText('Planes litúrgicos', { exact: true })).toBeVisible();
     await page.goto('/planes');
     await expect(page.getByRole('heading', { name: /Planes litúrgicos/i })).toBeVisible();
     await expect(page).toHaveTitle(/Planes litúrgicos/);
