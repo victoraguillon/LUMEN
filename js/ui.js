@@ -377,6 +377,26 @@ const LumenUI = {
         if (drawerBadge) { drawerBadge.style.display = show ? 'inline-block' : 'none'; drawerBadge.innerText = unread; }
     },
 
+    updateGestionBadge: function() {
+        const links = [document.querySelector('#admin-nav-link a[data-view="gestion"]'), document.getElementById('drawer-admin-link')].filter(Boolean);
+        if (!links.length) return;
+        let n = 0;
+        if (typeof LumenAuth !== 'undefined' && LumenAuth.isAdmin && typeof LumenData !== 'undefined' && Array.isArray(LumenData.blogArticles)) {
+            n = LumenData.blogArticles.filter(a => a.status === 'pending').length;
+        }
+        links.forEach(link => {
+            let badge = link.querySelector('.gestion-pending-badge');
+            if (!badge) {
+                badge = document.createElement('span');
+                badge.className = 'gestion-pending-badge';
+                badge.style.cssText = 'display:none;margin-left:6px;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:var(--error,#d33);color:#fff;font-size:11px;font-weight:700;line-height:18px;text-align:center;vertical-align:middle;';
+                link.appendChild(badge);
+            }
+            if (n > 0) { badge.style.display = 'inline-block'; badge.textContent = n; }
+            else { badge.style.display = 'none'; badge.textContent = ''; }
+        });
+    },
+
     // Badge "Sin conexión": visible mientras se navega con datos cacheados.
     setOfflineBadge: function(show) {
         let el = document.getElementById('offline-badge');

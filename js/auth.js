@@ -57,7 +57,9 @@ const LumenAuth = {
                 this.updateUI();
                 if (profile && typeof LumenUI !== 'undefined' && LumenUI.syncStreak) LumenUI.syncStreak();
                 if (this.isAdmin && typeof LumenData !== 'undefined' && LumenData.loadUsers) LumenData.loadUsers();
+                if (this.isAdmin && typeof LumenData !== 'undefined' && LumenData.loadBlogAdmin) LumenData.loadBlogAdmin();
                 if (this.isMember && typeof LumenData !== 'undefined' && LumenData.loadNotifications) LumenData.loadNotifications();
+                if (typeof LumenData !== 'undefined' && LumenData.subscribe) LumenData.subscribe();
                 if (this.isMember && typeof LumenData !== 'undefined' && LumenData.loadMyInscripciones) LumenData.loadMyInscripciones();
                 if (profile && profile.status === 'pending') {
                     if (!silent && typeof LumenUI !== 'undefined' && LumenUI.showToast) {
@@ -129,6 +131,7 @@ const LumenAuth = {
 
             adminLink.style.display = this.isAdmin ? 'block' : 'none';
             if(drawerAdminLink) drawerAdminLink.style.display = this.isAdmin ? 'block' : 'none';
+            if (typeof LumenUI !== 'undefined' && LumenUI.updateGestionBadge) LumenUI.updateGestionBadge();
 
             notifLink.style.display = isMember ? 'block' : 'none';
             if(drawerNotifLink) drawerNotifLink.style.display = isMember ? 'block' : 'none';
@@ -145,6 +148,7 @@ const LumenAuth = {
         } else {
             adminLink.style.display = 'none';
             if(drawerAdminLink) drawerAdminLink.style.display = 'none';
+            if (typeof LumenUI !== 'undefined' && LumenUI.updateGestionBadge) LumenUI.updateGestionBadge();
             notifLink.style.display = 'none';
             if(drawerNotifLink) drawerNotifLink.style.display = 'none';
             if(communityNotifLink) communityNotifLink.style.display = 'none';

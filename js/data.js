@@ -13,6 +13,7 @@ const LumenData = {
     _blogPromise: null,
     _usersPromise: null,
     _inscripcionesPromise: null,
+    _blogAdminPromise: null,
     init: function() {
         this.loadEventos();
         this.subscribe();
@@ -48,12 +49,26 @@ const LumenData = {
     },
     subscribe: function() {
         try {
-            // Solo eventos: las tablas protegidas (recursos, notificaciones,
-            // profiles) no deben abrir canales anónimos que devuelven 401.
-            supabase
-                .channel('lumen-realtime')
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'eventos' }, () => this.loadEventos(this._eventosFull))
-                .subscribe();
+            if (this._rtChannel) {
+                supabase.removeChannel(this._rtChannel).catch(() => {});
+                this._rtChannel = null;
+            }
+            // Solo eventos para anónimos: las tablas protegidas no deben abrir
+            // canales sin sesión que devuelven 401.
+            let ch = supabase.channel('lumen-realtime')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'eventos' }, () => this.loadEventos(this._eventosFull));
+            if (typeof LumenAuth !== 'undefined' && LumenAuth.currentUser) {
+                ch = ch.on('postgres_changes', { event: '*', schema: 'public', table: 'articulos' }, () => {
+                    if (typeof LumenAuth !== 'undefined' && LumenAuth.isAdmin) this.loadBlogAdmin(true);
+                    else this.loadBlog(true);
+                });
+            }
+            this._rtChannel = ch;
+            ch.subscribe((status) => {
+                if (status === 'SUBSCRIBED' && typeof LumenAuth !== 'undefined' && LumenAuth.isAdmin && typeof LumenData !== 'undefined' && LumenData.loadBlogAdmin) {
+                    // noop: ensures admin has live channel; data loaded elsewhere
+                }
+            });
         } catch (e) { console.error('[LUMEN] realtime', e); }
     },
     loadEventos: function(full) {
@@ -135,7 +150,10 @@ const LumenData = {
                 break;
             case 'articulos':
                 this.blogArticles = cached || [];
+                this.blogLoaded = true;
                 this._debouncedRender('blog');
+                this._debouncedRender('gestion');
+                if (typeof LumenUI !== 'undefined' && LumenUI.updateGestionBadge) LumenUI.updateGestionBadge();
                 break;
             case 'profiles':
                 this.users = {};
@@ -219,19 +237,48 @@ const LumenData = {
         this.notifTake += 20;
         return this.loadNotifications();
     },
-    loadBlog: function() {
+    loadBlog: function(force) {
+        if (force) this._fp.articulos = null;
         if (this._blogPromise) return this._blogPromise;
         this._blogPromise = supabase.from('articulos').select('*').order('timestamp', { ascending: false }).limit(50).then(({ data, error }) => {
             if (error) throw error;
             const fp = this._fingerprint('articulos', data);
-            if (fp === this._fp.articulos) return [];
+            if (fp === this._fp.articulos) return this.blogArticles || [];
             this._fp.articulos = fp;
             this.blogArticles = data || [];
+            this.blogLoaded = true;
             this._debouncedRender('blog');
+            this._debouncedRender('gestion');
             LumenStore.cachedSet('articulos', data || []);
+            if (typeof LumenUI !== 'undefined' && LumenUI.updateGestionBadge) LumenUI.updateGestionBadge();
             return data || [];
         }).catch(() => this._servirCaché('articulos')).finally(() => { this._blogPromise = null; });
         return this._blogPromise;
+    },
+    loadBlogAdmin: function(force) {
+        if (typeof LumenAuth === 'undefined' || !LumenAuth.isAdmin) return this.loadBlog(force);
+        if (force) this._fp.articulos = null;
+        if (this._blogAdminPromise) return this._blogAdminPromise;
+        const pendingQ = supabase.from('articulos').select('*').eq('status', 'pending').order('timestamp', { ascending: false });
+        const approvedQ = supabase.from('articulos').select('*').eq('status', 'approved').order('timestamp', { ascending: false }).limit(50);
+        this._blogAdminPromise = Promise.all([pendingQ, approvedQ]).then(([pRes, aRes]) => {
+            if (pRes.error) throw pRes.error;
+            if (aRes.error) throw aRes.error;
+            const pending = pRes.data || [];
+            const approved = aRes.data || [];
+            const data = pending.concat(approved);
+            const fp = this._fingerprint('articulos', data);
+            if (fp === this._fp.articulos) { this.blogLoaded = true; return this.blogArticles || []; }
+            this._fp.articulos = fp;
+            this.blogArticles = data;
+            this.blogLoaded = true;
+            this._debouncedRender('blog');
+            this._debouncedRender('gestion');
+            LumenStore.cachedSet('articulos', data);
+            if (typeof LumenUI !== 'undefined' && LumenUI.updateGestionBadge) LumenUI.updateGestionBadge();
+            return data;
+        }).catch(() => this._servirCaché('articulos')).finally(() => { this._blogAdminPromise = null; });
+        return this._blogAdminPromise;
     },
     // Inscripciones propias. La RLS de `inscripciones` ya permite SELECT/DELETE
     // del propio usuario; no se consulta ningún dato de otros miembros.

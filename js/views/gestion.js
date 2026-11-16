@@ -23,7 +23,7 @@ const GestionView = {
                     <button class="admin-tab ${currentGestionTab === 'asistencia' ? 'active' : ''}" onclick="GestionView.changeTab('asistencia')">Asistencia</button>
                     <button class="admin-tab ${currentGestionTab === 'comunicacion' ? 'active' : ''}" onclick="GestionView.changeTab('comunicacion')">Comunicación</button>
                     <button class="admin-tab ${currentGestionTab === 'cumpleanos' ? 'active' : ''}" onclick="GestionView.changeTab('cumpleanos')">Cumpleaños</button>
-                    <button class="admin-tab ${currentGestionTab === 'blog' ? 'active' : ''}" onclick="GestionView.changeTab('blog')">Blog</button>
+                    <button class="admin-tab ${currentGestionTab === 'blog' ? 'active' : ''}" onclick="GestionView.changeTab('blog')">Blog${this._blogPendingBadge()}</button>
                 </div>
                 <div id="gestion-content" class="reveal"></div>
                 </div>
@@ -32,6 +32,13 @@ const GestionView = {
     },
     init: function() {
         if (!LumenAuth.isAdmin) return;
+        if (currentGestionTab === 'blog') {
+            this.renderContent();
+            if (typeof LumenData !== 'undefined' && LumenData.loadBlogAdmin) LumenData.loadBlogAdmin();
+            const empty = (LumenData.users && Object.keys(LumenData.users).length === 0);
+            if (!LumenData.users || empty) LumenData.loadUsers();
+            return;
+        }
         const withUsers = () => {
             const empty = (LumenData.users && Object.keys(LumenData.users).length === 0);
             if (!LumenData.users || empty) { LumenData.loadUsers().then(() => this.renderContent()); } else { this.renderContent(); }
@@ -79,18 +86,35 @@ const GestionView = {
     },
 
     // --- BLOG GESTIÓN ---
+    _blogPendingCount: function() {
+        if (!Array.isArray(LumenData.blogArticles)) return 0;
+        return LumenData.blogArticles.filter(a => a.status === 'pending').length;
+    },
+    _blogPendingBadge: function() {
+        const n = this._blogPendingCount();
+        return n > 0 ? ` <span class="gestion-blog-badge" style="display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;margin-left:6px;border-radius:999px;background:var(--error,#d33);color:#fff;font-size:11px;font-weight:700;line-height:1;vertical-align:middle;">${n}</span>` : '';
+    },
     renderBlog: function() {
-        if (!LumenData.blogArticles) return `<div class="state-container"><div class="skeleton-card" style="height:300px; width:100%;"></div></div>`;
-        
-        const pending = LumenData.blogArticles.filter(a => a.status === 'pending');
-        const approved = LumenData.blogArticles.filter(a => a.status === 'approved');
+        if (!LumenData.blogLoaded) {
+            if (typeof LumenData !== 'undefined' && LumenData.loadBlogAdmin) {
+                LumenData.loadBlogAdmin().then(() => {
+                    if (currentGestionTab === 'blog') this.renderContent();
+                }).catch(() => {
+                    if (currentGestionTab === 'blog') this.renderContent();
+                });
+            }
+            return `<div class="state-container"><div class="skeleton-card" style="height:300px; width:100%;"></div></div>`;
+        }
+        const articles = Array.isArray(LumenData.blogArticles) ? LumenData.blogArticles : [];
+        const pending = articles.filter(a => a.status === 'pending');
+        const approved = articles.filter(a => a.status === 'approved');
 
-        let html = '<h3 class="v-mb15" >Artículos Pendientes</h3>';
+        let html = `<h3 class="v-mb15">Artículos Pendientes${pending.length ? ` <span style="font-size:13px;font-weight:600;color:var(--error,#d33);">(${pending.length})</span>` : ''}</h3>`;
         if (pending.length === 0) html += '<p>No hay artículos pendientes.</p>';
         
         pending.forEach(a => {
             html += `
-                <div class="attendance-card v-flex-col v-aifs v-mb15" >
+                <div class="attendance-card v-flex-col v-aifs v-mb15" id="blog-admin-${a.id}">
                     <h4>${LumenUI.escapeHTML(a.titulo)}</h4>
                     <p class="v-muted-xs v-mb10" >Por ${LumenUI.escapeHTML(a.author_name)}</p>
                     <p style="font-size: 14px; margin-bottom: 15px;">${LumenUI.escapeHTML((a.contenido || '').substring(0, 150))}...</p>
@@ -107,7 +131,7 @@ const GestionView = {
         
         approved.forEach(a => {
             html += `
-                <div class="attendance-card v-mb10" >
+                <div class="attendance-card v-mb10" id="blog-admin-${a.id}">
                     <div class="mini-event-info">
                         <h4>${LumenUI.escapeHTML(a.titulo)}</h4>
                         <p>Por ${LumenUI.escapeHTML(a.author_name)}</p>
@@ -123,7 +147,10 @@ const GestionView = {
         supabase.from('articulos').update({ status: 'approved' }).eq('id', id).then(({ error }) => {
             if (error) return LumenUI.showToast(LumenUI.getErrorMessage(error), 'error');
             LumenUI.showToast('Artículo aprobado y publicado', 'success');
-            LumenData.loadBlog();
+            const reload = (typeof LumenData.loadBlogAdmin === 'function') ? LumenData.loadBlogAdmin(true) : LumenData.loadBlog();
+            Promise.resolve(reload).then(() => {
+                if (currentGestionTab === 'blog') this.renderContent();
+            }).catch(() => { if (currentGestionTab === 'blog') this.renderContent(); });
             supabase.from('articulos').select('*').eq('id', id).single().then(({ data: a }) => {
                 if (a) {
                     fetch('https://formsubmit.co/ajax/juvemar08@gmail.com', {
@@ -141,7 +168,10 @@ const GestionView = {
                 supabase.from('articulos').delete().eq('id', id).then(({ error }) => {
                     if (error) return LumenUI.showToast(LumenUI.getErrorMessage(error), 'error');
                     LumenUI.showToast('Artículo eliminado', 'success');
-                    LumenData.loadBlog();
+                    const reload = (typeof LumenData.loadBlogAdmin === 'function') ? LumenData.loadBlogAdmin(true) : LumenData.loadBlog();
+                    Promise.resolve(reload).then(() => {
+                        if (currentGestionTab === 'blog') this.renderContent();
+                    }).catch(() => { if (currentGestionTab === 'blog') this.renderContent(); });
                 });
             }
         });

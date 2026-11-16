@@ -177,7 +177,7 @@ const BlogView = {
             if (error) { console.error(error); LumenUI.showToast('Error al enviar el artículo. Inténtalo de nuevo.', 'error'); return; }
             LumenUI.closeModal('admin-modal');
             LumenUI.showToast('Artículo enviado a revisión. Te notificaremos su aprobación, ¡gracias!', 'success');
-            LumenData.saveNotification(`Nuevo artículo de blog pendiente: ${title}`, false);
+            LumenData.saveNotification(`Nuevo artículo de blog pendiente: ${title}`, true);
             fetch('https://formsubmit.co/ajax/juvemar08@gmail.com', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },

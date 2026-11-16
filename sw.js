@@ -40,7 +40,8 @@
 // v67: header de marca minimalista, main-nav de escritorio y hoja de Comunidad
 // v68: safe areas (isla dinámica/notch) y tinte de barra de estado en el header
 // v69: respiro final contenido/footer y layout compacto
-const CACHE = "lumen-cache-v69";
+// v70: gestión carga y lista artículos pendientes; aviso in-app de blog solo para admins
+const CACHE = "lumen-cache-v70";
 
 // Endpoint de eco: la API confirma el recibo (diagnóstico de entrega).
 const PUSH_ENDPOINT = "https://lumenve.vercel.app/api/send-push";
